@@ -13,7 +13,7 @@
     "dev": "quasar dev",
     "build": "quasar build",
     "postinstall": "quasar prepare",
-    "dev:development": "ENVIRONMENT=development quasar dev",
+    "dev:development": "ENVIRONMENT=development quasar development",
     "build:development": "ENVIRONMENT=development quasar build",
     "generate:api": "node src/helpers/swagger.js"
   },
