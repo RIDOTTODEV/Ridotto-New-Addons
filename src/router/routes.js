@@ -411,6 +411,15 @@ const routes = [
         },
       },
       {
+        path: 'customer-information',
+        name: 'customerInformation',
+        component: () => import('src/pages/operations/CustomerInformation.vue'),
+        meta: {
+          requiredPermission: 'Addon.Operations.CustomerInformation',
+          requiresAuth: true,
+        },
+      },
+      {
         path: 'black-list-report',
         name: 'blackListReport',
         component: () => import('src/pages/operations/BlackListReport.vue'),

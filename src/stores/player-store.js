@@ -8,6 +8,8 @@ import {
   playerClassService,
   playerNoteService,
   playerFriendshipService,
+  countryService,
+  playerInfoService,
 } from 'src/api'
 import { LocalStorage } from 'quasar'
 import { useAuthStore } from 'src/stores/auth-store'
@@ -29,6 +31,7 @@ export const usePlayerStore = defineStore('playerStore', {
         label: 'Withdrawal',
       },
     ],
+    countries: [],
   }),
   getters: {
     getClassById: (state) => (id) => {
@@ -188,6 +191,25 @@ export const usePlayerStore = defineStore('playerStore', {
     async playerChipTransaction(params) {
       const { data } = await cashdeskTransactionService.cashdeskChipTransaction(params)
       return data
+    },
+    async fetchCountries() {
+      const { data } = await countryService.getAll()
+      this.countries = data.data
+    },
+    async fetchPlayerById(params) {
+      const { data } = await playerService.get(params)
+      return data
+    },
+    async fetchPlayerInformationDetail(params) {
+      const { data } = await playerInfoService.getPlayerInformationDetail(params)
+      return data
+    },
+    async fetchPlayerInformationMetaDetail(params) {
+      const { data } = await playerInfoService.getPlayerInformationMetaDetail(params)
+      return data
+    },
+    async updatePlayerMetaDetail(params) {
+      return await playerService.updatePlayerMetaDetail(params)
     },
   },
 })

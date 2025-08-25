@@ -263,6 +263,14 @@ export const useReportStore = defineStore('reportStore', {
       const { data } = await callReportService.getAll(params)
       return data
     },
+    async updateCallReport(params) {
+      const { data } = await callReportService.update(params)
+      return data
+    },
+    async createCallReport(params) {
+      const { data } = await callReportService.create(params)
+      return data
+    },
     async getPlayerWinLossAnalysisReport(params) {
       const authStore = useAuthStore()
       const payload = {

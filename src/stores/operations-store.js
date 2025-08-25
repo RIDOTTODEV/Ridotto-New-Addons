@@ -50,6 +50,18 @@ export const useOperationsStore = defineStore('operationsStore', {
       const { data } = await giftService.delete(params)
       return data
     },
+    async updatePlayerGift(params) {
+      const { data } = await playerGiftService.update(params)
+      return data
+    },
+    async createPlayerGift(params) {
+      const { data } = await playerGiftService.create(params)
+      return data
+    },
+    async deletePlayerGift(params) {
+      const { data } = await playerGiftService.delete(params)
+      return data
+    },
   },
 })
 
