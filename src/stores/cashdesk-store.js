@@ -8,7 +8,7 @@ import {
   cashdeskChipCountService,
 } from 'src/api'
 import { useAuthStore } from 'src/stores/auth-store'
-import { date } from 'quasar'
+import { date, LocalStorage } from 'quasar'
 export const useCashdeskStore = defineStore('cashdeskStore', {
   state: () => ({
     cashDeskSummary: {},
@@ -102,6 +102,7 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
     setCurrentCashDesk(cashDesk) {
       this.selectedCashDesk = cashDesk
       this.selectedCashDesk.IsMatchedGameDateId = false
+      LocalStorage.set('cashDeskId', cashDesk.id)
       // then call ather callbacks
     },
     async getGamingDateByCashdeskId(params) {

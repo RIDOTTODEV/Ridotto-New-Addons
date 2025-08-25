@@ -27,6 +27,7 @@ export const initialize = async () => {
     transactionCodeStore.fetchTransTypes(),
   ]).then(() => {
     let latestCashDeskId = LocalStorage.getItem('cashDeskId') || null
+    console.log('latestCashDeskId', latestCashDeskId)
     if (latestCashDeskId) {
       const cashDesk = cashdeskStore.getCashDeskById(latestCashDeskId)
       if (cashDesk) {
