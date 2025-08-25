@@ -1,0 +1,25 @@
+name: Cypress Tests
+
+on:
+  push:
+    tags:
+      - 'f*'
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Forticlient VPN
+        uses: horellana/openconnect@v1.0.1
+        with: 
+          VPN_USER: ${{ secrets.VPN_USERNAME }}
+          VPN_PWD: ${{ secrets.VPN_PASSWORD }}
+          VPN_HOST: ${{ secrets.VPN_URL }}
+          VPN_PORT: ${{ secrets.VPN_PORT }}
+      - name: VPN Connection Test
+        run: |
+          ping -c4 ${{ secrets.VPN_TEST_URL }}
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
