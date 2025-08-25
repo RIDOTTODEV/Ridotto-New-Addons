@@ -16,6 +16,10 @@ RUN ENVIRONMENT=$casino quasar build
 #production stage
 FROM node:lts-alpine as production-stage
 ARG casino
+
+# Install xsel and other necessary packages for clipboard operations
+RUN apk add --no-cache xsel xvfb-run
+
 RUN echo "dist/$casino"
 RUN echo "-----"
 RUN echo $casino
