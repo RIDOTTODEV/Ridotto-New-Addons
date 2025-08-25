@@ -1,0 +1,62 @@
+{
+  "name": "addon-new",
+  "version": "0.0.1",
+  "description": "A Quasar Project",
+  "productName": "Addon Project",
+  "author": "vepa <56221612+vepamirzayev@users.noreply.github.com>",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "eslint -c ./eslint.config.js \"./src*/**/*.{js,cjs,mjs,vue}\"",
+    "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build",
+    "postinstall": "quasar prepare",
+    "dev:development": "ENVIRONMENT=development quasar dev",
+    "generate:api": "node src/helpers/swagger.js"
+  },
+  "dependencies": {
+    "@microsoft/signalr": "^8.0.0",
+    "@primeuix/themes": "^1.2.3",
+    "@primevue/auto-import-resolver": "^4.3.7",
+    "@quasar/extras": "^1.16.4",
+    "@vueuse/core": "^13.7.0",
+    "axios": "^1.2.1",
+    "oidc-client": "^1.11.5",
+    "pinia": "^3.0.1",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.3.7",
+    "quasar": "^2.16.0",
+    "quasar-ui-q-draggable-table": "^1.0.3",
+    "swagger-js-codegen": "^1.13.0",
+    "tailwindcss-primeui": "^0.6.1",
+    "unplugin-vue-components": "^29.0.0",
+    "vue": "^3.4.18",
+    "vue-currency-input": "^3.2.1",
+    "vue-html2pdf": "^1.8.0",
+    "vue-i18n": "^11.0.0",
+    "vue-json-pretty": "^2.5.0",
+    "vue-oidc-client": "^1.0.0-alpha.5",
+    "vue-router": "^4.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.14.0",
+    "@intlify/unplugin-vue-i18n": "^4.0.0",
+    "@quasar/app-vite": "^2.1.0",
+    "@vue/eslint-config-prettier": "^10.1.0",
+    "autoprefixer": "^10.4.2",
+    "dotenv": "^17.2.1",
+    "eslint": "^9.14.0",
+    "eslint-plugin-vue": "^9.30.0",
+    "globals": "^15.12.0",
+    "postcss": "^8.4.14",
+    "prettier": "^3.3.3",
+    "vite-plugin-checker": "^0.9.0"
+  },
+  "engines": {
+    "node": "^28 || ^26 || ^24 || ^22 || ^20 || ^18",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}

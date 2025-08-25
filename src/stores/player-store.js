@@ -1,0 +1,197 @@
+import { defineStore, acceptHMRUpdate } from 'pinia'
+import {
+  searchService,
+  playerAccountService,
+  cashdeskTransactionService,
+  blacklistService,
+  playerService,
+  playerClassService,
+  playerNoteService,
+  playerFriendshipService,
+} from 'src/api'
+import { LocalStorage } from 'quasar'
+import { useAuthStore } from 'src/stores/auth-store'
+export const usePlayerStore = defineStore('playerStore', {
+  state: () => ({
+    lastSearchedPlayers: [],
+    selectedPlayer: null,
+    playerClasses: [],
+    playerDepositAndCredits: [],
+    accountTypes: [],
+    dateTimeFilterValues: {},
+    accountTransactionTypes: [
+      {
+        value: 'deposit',
+        label: 'Deposit',
+      },
+      {
+        value: 'withdrawal',
+        label: 'Withdrawal',
+      },
+    ],
+  }),
+  getters: {
+    getClassById: (state) => (id) => {
+      return state.playerClasses.find((c) => c.id === id)
+    },
+    getAccountTypesForPlayer: (state) => {
+      return state.accountTypes.filter((at) => at.name !== 'NonRestricted')
+    },
+    getSelectedPlayerId: (state) => {
+      return state.selectedPlayer?.player?.id
+    },
+  },
+  actions: {
+    async searchPlayer(needle) {
+      const { data } = await searchService.player({ input: needle })
+      return data
+    },
+    setLastSearchedPlayer(player) {
+      // first check if the player is already in the array and then check the length of the array it will max 10 players
+      if (this.lastSearchedPlayers.length >= 10) {
+        this.lastSearchedPlayers.pop()
+      }
+
+      const index = this.lastSearchedPlayers.findIndex((p) => p.id === player.id)
+      if (index !== -1) {
+        this.lastSearchedPlayers.splice(index, 1)
+      }
+      this.lastSearchedPlayers.unshift(player)
+      LocalStorage.set('lastSearchedPlayers', this.lastSearchedPlayers)
+    },
+    initLastSearchedPlayers() {
+      this.lastSearchedPlayers = LocalStorage.getItem('lastSearchedPlayers') || []
+    },
+    async fetchPlayerMetaDetail(params) {
+      const { data } = await playerAccountService.getPlayerMetaDetail(params)
+      this.selectedPlayer = data
+      await this.fetchDepositAndCredits(params.playerId)
+    },
+    async fetchDepositAndCredits(playerId = null) {
+      const authStore = useAuthStore()
+      const params = {
+        playerId: playerId || this.selectedPlayer.player.id,
+        defaultCurrencyId: authStore.getDefaultCurrencyId,
+      }
+      const { data } = await cashdeskTransactionService.getDepositsAndCredits(params)
+      this.playerDepositAndCredits = data
+    },
+    async updatePlayerDefaultCurrency(params) {
+      await playerService.updateDefaultCurrency(params)
+      this.fetchPlayerMetaDetail({ playerId: params.playerId })
+    },
+    async updatePlayerBlacklist(params) {
+      const { data } = await playerService.updateBlackList(params)
+      return data
+    },
+    async fetchPlayerBlackListHistory(params) {
+      const { data } = await blacklistService.getAll(params)
+      return data
+    },
+    async fetchPlayerClasses() {
+      const { data } = await playerClassService.getAll()
+      this.playerClasses = data.data
+    },
+    async updatePlayerClass(params) {
+      await playerService.updateUserClass(params)
+      this.fetchPlayerMetaDetail({ playerId: params.playerId })
+    },
+    async updatePlayerDiscount(params) {
+      await playerService.updateDiscount(params)
+      this.fetchPlayerMetaDetail({ playerId: params.playerId })
+    },
+    async fetchPlayerNotes(params) {
+      const { data } = await playerNoteService.getAll(params)
+      return data.data
+    },
+    async createPlayerNote(params) {
+      await playerNoteService.create(params)
+    },
+    async updatePlayerNote(params) {
+      await playerNoteService.update(params)
+    },
+    async deletePlayerNote(params) {
+      await playerNoteService.delete(params)
+    },
+    async fetchPlayerFriends(params) {
+      const { data } = await playerFriendshipService.getPlayerFriendship(params)
+      return data
+    },
+    async createPlayerFriend(params) {
+      await playerFriendshipService.create(params)
+    },
+    async deletePlayerFriend(params) {
+      await playerFriendshipService.delete(params)
+    },
+    async fetchPlayerAccounts(params) {
+      const { data } = await playerAccountService.getPlayerAccounts(params)
+      return data
+    },
+    async fetchAccountTypes() {
+      const { data } = await playerAccountService.getPlayerAccountTypes()
+      this.accountTypes = Object.keys(data).map((key) => {
+        return { id: key, name: data[key] }
+      })
+    },
+    async getPlayerAccountWithdrawalAllAmount(params) {
+      const { data } = await playerAccountService.getPlayerAccounts(params)
+      return (
+        data.accounts.reduce((acc, account) => {
+          if (account.accountId === params.accountId) {
+            return acc + account.amount
+          }
+          return acc
+        }, 0) || 0
+      )
+    },
+    async postCashdeskTransaction(params) {
+      const { data } = await playerAccountService.postCashdeskTransaction(params)
+      return data
+    },
+    async getPlayerLastTransaction(params) {
+      const { data } = await playerAccountService.getLastTransactions(params)
+      return data
+    },
+    async getPlayerLastCashdeskTransaction(params) {
+      const { data } = await playerAccountService.getLastCashTransactions(params)
+      return data
+    },
+    setDateTimeFilterValues(params) {
+      this.dateTimeFilterValues = params
+    },
+    async fetchPlayerAccountTransactions(payload) {
+      const authStore = useAuthStore()
+      const params = {
+        ...payload,
+        defaultCurrencyId: authStore.getDefaultCurrencyId,
+      }
+      const { data } = await playerAccountService.getAccountTransactions(params)
+      return data
+    },
+    async fetchPlayerLastCageTransactions(params) {
+      const { data } = await playerAccountService.getLastCashTransactions(params)
+      return data
+    },
+    async fetchPlayerLastCashlessTransactions(params) {
+      const { data } = await playerAccountService.getLastTransactions(params)
+      return data
+    },
+    async fetchPlayerLastChipTransactions(params) {
+      const authStore = useAuthStore()
+      const payload = {
+        ...params,
+        defaultCurrencyId: authStore.getDefaultCurrencyId,
+      }
+      const { data } = await cashdeskTransactionService.getAllChipTransactions(payload)
+      return data
+    },
+    async playerChipTransaction(params) {
+      const { data } = await cashdeskTransactionService.cashdeskChipTransaction(params)
+      return data
+    },
+  },
+})
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(usePlayerStore, import.meta.hot))
+}

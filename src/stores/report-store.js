@@ -1,0 +1,284 @@
+import { defineStore, acceptHMRUpdate } from 'pinia'
+import {
+  reportService,
+  inOutReportService,
+  playerLgReportService,
+  tableFloatService,
+  blacklistService,
+  callReportService,
+  playerService,
+} from 'src/api'
+import { useAuthStore } from 'src/stores/auth-store'
+import { priceAbsFormatted } from 'src/helpers/helpers'
+export const useReportStore = defineStore('reportStore', {
+  state: () => ({
+    balanceReport: {},
+  }),
+  getters: {
+    getOpeningTotal: (state) => {
+      const totalOfOpening = state.balanceReport?.cashFigures?.totalOpeningValue
+      const totalOfCumulative =
+        state.balanceReport?.cumulativeReportTransactionFigures?.totalOpeningValue
+      return priceAbsFormatted(totalOfOpening + totalOfCumulative)
+    },
+    getClosingTotal: (state) => {
+      const totalOfClosing = state.balanceReport?.cashFigures?.totalClosingValue
+      const totalOfCumulative =
+        state.balanceReport?.cumulativeReportTransactionFigures?.totalClosingValue
+      return priceAbsFormatted(totalOfClosing + totalOfCumulative)
+    },
+    getReceiptPaidTotal: (state) => {
+      const totalOfDailyTransactionReceived =
+        state.balanceReport?.dailyTransactionFigures?.totalReceived
+      const totalOfDailyTransactionPaid = state.balanceReport?.dailyTransactionFigures?.totalPaid
+      const totalOfInternalReceived =
+        state.balanceReport?.internalTransfers?.totalReceivedBySelectedCurrency
+      const totalOfInternalPaid =
+        state.balanceReport?.internalTransfers?.totalPaidBySelectedCurrency
+      return {
+        received: priceAbsFormatted(totalOfDailyTransactionReceived + totalOfInternalReceived),
+        paid: priceAbsFormatted(totalOfDailyTransactionPaid + totalOfInternalPaid),
+        originalReceived: totalOfDailyTransactionReceived + totalOfInternalReceived,
+        originalPaid: totalOfDailyTransactionPaid + totalOfInternalPaid,
+      }
+    },
+    getDiffTotal: (state) => {
+      const totalOfClosing = state.balanceReport?.cashFigures?.totalClosingValue
+      const totalOfCumulative =
+        state.balanceReport?.cumulativeReportTransactionFigures?.totalClosingValue
+      const totalOfClosingValue = totalOfClosing + totalOfCumulative
+      return priceAbsFormatted(totalOfClosingValue - state.getActuallyTotal.originTotal)
+    },
+    getActuallyTotal: (state) => {
+      const openingTotal =
+        state.balanceReport?.cashFigures?.totalOpeningValue +
+        state.balanceReport?.cumulativeReportTransactionFigures?.totalOpeningValue
+      const slotRevenue = state.balanceReport?.slotRevenues?.net
+      const dailyRateTotal = state.balanceReport?.dailyRateChangeReport?.totalDifference
+      const result =
+        openingTotal +
+        state.getReceiptPaidTotal.originalReceived -
+        state.getReceiptPaidTotal.originalPaid -
+        slotRevenue +
+        dailyRateTotal
+
+      return {
+        total: priceAbsFormatted(result),
+        originTotal: result,
+      }
+    },
+    getSlipTotal: (state) => {
+      const authStore = useAuthStore()
+      return (
+        authStore.getDefaultCurrencyName +
+        ' ' +
+        priceAbsFormatted(state.balanceReport?.slotRevenues?.net)
+      )
+    },
+    getDailyRateTotal: (state) => {
+      return priceAbsFormatted(state.balanceReport?.dailyRateChangeReport?.totalDifference)
+    },
+  },
+  actions: {
+    async getTableCounts(params) {
+      const searchParams = new URLSearchParams()
+      if (params.tableCountIds && Array.isArray(params.tableCountIds)) {
+        params.tableCountIds.forEach((id) => {
+          searchParams.append('TableCountIds', id)
+        })
+      }
+      Object.entries(params).forEach(([key, value]) => {
+        if (key !== 'tableCountIds') {
+          searchParams.append(key, value)
+        }
+      })
+      const { data } = await reportService.getTableCounts(searchParams)
+      return data
+    },
+    async getTableCountReport(params) {
+      const searchParams = new URLSearchParams()
+      if (params.tableIds && Array.isArray(params.tableIds)) {
+        params.tableIds.forEach((id) => {
+          searchParams.append('TableIds', id)
+        })
+      }
+      Object.entries(params).forEach(([key, value]) => {
+        if (key !== 'tableIds') {
+          searchParams.append(key, value)
+        }
+      })
+      const { data } = await reportService.getTableCountReport(searchParams)
+      return data
+    },
+
+    async getInOutReportNew(params) {
+      const authStore = useAuthStore()
+      const payload = {
+        ...params,
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+      }
+      const { data } = await inOutReportService.getInOutReportNew(payload)
+      return data
+    },
+    async getFilteredReport(params) {
+      const authStore = useAuthStore()
+      const payload = {
+        ...params,
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+      }
+      const { data } = await inOutReportService.getFilteredReport(payload)
+      return data
+    },
+    async getNetCashReport(params) {
+      const authStore = useAuthStore()
+      const payload = {
+        ...params,
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+      }
+      const { data } = await inOutReportService.getNetCashReport(payload)
+      return data
+    },
+    async getReportDetailInOut(params) {
+      const authStore = useAuthStore()
+      const payload = {
+        ...params,
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+      }
+      const { data } = await inOutReportService.getReportDetailInOut(payload)
+      return data
+    },
+    async getInOutPlayerDetail(params) {
+      const authStore = useAuthStore()
+      const payload = {
+        ...params,
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+      }
+      return await inOutReportService.getInOutPlayerDetail(payload)
+    },
+    async getPlayerResultReport(params) {
+      const { data } = await playerLgReportService.getPlayerResultReport(params)
+      return data
+    },
+    async getPlayerResultDetailReport(params) {
+      const { data } = await playerLgReportService.getPlayerResultDetailReport(params)
+      return data
+    },
+    async getTimeInOutReport(params) {
+      const { data } = await playerLgReportService.getTimeInOutReport(params)
+      return data
+    },
+    async getTimeInOutReportByPlayer(params) {
+      const { data } = await playerLgReportService.getTimeInOutReportByPlayer(params)
+
+      return data
+    },
+    async getTimeInOutReportByTable(params) {
+      const { data } = await playerLgReportService.getTimeInOutReportByTable(params)
+      return data
+    },
+    async getTableFloatsReport(params) {
+      const { data } = await tableFloatService.getAll(params)
+      return data
+    },
+    async getActiveFloorListReport() {
+      const authStore = useAuthStore()
+      const payload = {
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+      }
+      const { data } = await reportService.getActiveFloorListReport(payload)
+      return data
+    },
+    async getActiveFloorInfo() {
+      const authStore = useAuthStore()
+      const payload = {
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+      }
+      const { data } = await playerLgReportService.getActiveFloorInfoNew(payload)
+      return data
+    },
+    async getMasteryReport(params) {
+      const authStore = useAuthStore()
+      const payload = {
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+        ...params,
+      }
+      const { data } = await reportService.getMasterReport(payload)
+      return data
+    },
+    async getBalanceReport(params) {
+      const authStore = useAuthStore()
+      const payload = {
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+        ...params,
+      }
+      const { data } = await reportService.getBalanceReport(payload)
+      this.balanceReport = data
+      return data
+    },
+    async exportBalanceReport(params) {
+      const authStore = useAuthStore()
+      const payload = {
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+        ...params,
+      }
+      const { data } = await reportService.getBalanceReport(payload)
+      let extension = params.ExportFileType === 'Excel' ? 'xlsx' : 'pdf'
+      let fileName = `balance-report-${params.Date}.${extension}`
+      let blob = data
+      let link = document.createElement('a')
+      link.href = window.URL.createObjectURL(blob)
+      link.download = fileName
+      link.click()
+      return data
+    },
+    async exportMasterReport(params) {
+      const authStore = useAuthStore()
+      const payload = {
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+        ...params,
+      }
+      const { data } = await reportService.exportMasterReport(payload)
+      let extension = params.ExportFileType === 'Excel' ? 'xlsx' : 'pdf'
+      let fileName = `master-report-${params.Date}.${extension}`
+      let blob = data
+      let link = document.createElement('a')
+      link.href = window.URL.createObjectURL(blob)
+      link.download = fileName
+      link.click()
+      return data
+    },
+    async getBlackListReport(params) {
+      const { data } = await blacklistService.getAll(params)
+      return data
+    },
+    async getPlayerInfoAuditLogs(params) {
+      const { data } = await reportService.getPlayerInfoAuditLogs(params)
+      return data
+    },
+    async getPlayerLookupAuditLogs(params) {
+      const { data } = await reportService.getPlayerLookupAuditLogs(params)
+      return data
+    },
+    async getCallReport(params) {
+      const { data } = await callReportService.getAll(params)
+      return data
+    },
+    async getPlayerWinLossAnalysisReport(params) {
+      const authStore = useAuthStore()
+      const payload = {
+        ...params,
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+      }
+      const { data } = await reportService.getPlayerWinLossAnalysisReport(payload)
+      return data
+    },
+    async getPlayerTransactions(params) {
+      const { data } = await playerService.getPlayerTransactions(params)
+      return data
+    },
+  },
+})
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useReportStore, import.meta.hot))
+}

@@ -1,0 +1,168 @@
+import axios from 'axios'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const url = `http://192.168.80.10:5050/swagger/v1/swagger.json`
+const target = 'api'
+
+function lowerFirstLetter(string) {
+  return string.charAt(0).toLowerCase() + string.slice(1)
+}
+
+function pascalToRegular(string) {
+  return lowerFirstLetter(string)
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, (str) => str.toUpperCase())
+}
+
+function ensureDirectoryExists(dirPath) {
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true })
+  }
+}
+
+function cleanDirectory(dirPath) {
+  if (fs.existsSync(dirPath)) {
+    fs.readdirSync(dirPath).forEach((file) => {
+      const curPath = path.join(dirPath, file)
+      if (fs.lstatSync(curPath).isDirectory()) {
+        fs.rmSync(curPath, { recursive: true, force: true })
+      } else {
+        fs.unlinkSync(curPath)
+      }
+    })
+  } else {
+    ensureDirectoryExists(dirPath)
+  }
+}
+
+const main = async () => {
+  const apiDir = path.resolve(__dirname, '..', target)
+
+  cleanDirectory(apiDir)
+
+  const { data } = await axios.get(url)
+
+  const services = {}
+  Object.keys(data.paths).forEach((k) => {
+    const o = data.paths[k]
+    const rawName = k.replace('/api/', '').replace('services/app/', '')
+    const methodName = rawName.split('/')[1]
+    const serviceName = rawName.split('/')[0]
+    const method = Object.keys(o)[0]
+
+    if (!services[serviceName]) {
+      services[serviceName] = {}
+    }
+    if (!services[serviceName][methodName]) {
+      services[serviceName][methodName] = {}
+    }
+    services[serviceName][methodName] = {
+      method,
+      url: k,
+      parameters: Object.values(o)[0].parameters,
+    }
+  })
+
+  // Generate service files
+  Object.keys(services).forEach((k) => {
+    const o = services[k]
+    let content = `import { api } from 'src/boot/axios'
+
+
+export const ${lowerFirstLetter(k)}Service = {
+  name: '${k}',
+`
+    let i = 0
+    Object.keys(o).forEach((subK) => {
+      const subO = o[subK]
+      i++
+      content += `  /**
+   * ${pascalToRegular(subK)} ${pascalToRegular(k)}
+   *
+`
+      if (subO.parameters?.length > 0) {
+        subO.parameters.forEach((parO, parK) => {
+          if (parO.name !== 'input') {
+            if (parK === 0) {
+              content += `   * @param {object} [data]
+`
+            }
+            content += `   * @param {${parO.type === 'integer' ? 'integer|number' : parO.type}} ${parO.required ? `data.${lowerFirstLetter(parO.name)}` : `[data.${lowerFirstLetter(parO.name)}]`} - ${pascalToRegular(parO.name)}
+`
+          } else if (parO?.schema) {
+            if (parO.schema.type === 'array') {
+              const schemaPath = parO.schema.items['$ref']
+                .slice(2)
+                .replace('/', '.')
+                .replace('definitions.', '')
+              const schema = data.definitions[schemaPath]
+              content += `   * ${parO.schema.items['$ref']}
+   * @param {array} data[]
+`
+              if (schema.properties) {
+                Object.keys(schema.properties).forEach((propK) => {
+                  const propO = schema.properties[propK]
+                  content += `   * @param {${propO.type === 'integer' ? 'integer|number' : propO.type}} [data.${propK}] - ${pascalToRegular(propK)}
+`
+                })
+              }
+            }
+          }
+        })
+      } else {
+        content += `   * @param {object} [data]
+`
+      }
+      content += `   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  ${lowerFirstLetter(subK)}(data = {}, options = {}) {`
+      if (['get', 'delete'].includes(subO.method)) {
+        if (subO.method === 'get') {
+          if (subO.parameters?.findIndex((p) => p.name === 'MaxResultCount') > -1) {
+            content += `
+    if (!data.maxResultCount) {
+      data.maxResultCount = 999
+    }`
+          }
+          if (subO.parameters?.findIndex((p) => p.name === 'SkipCount') > -1) {
+            content += `
+    if (!data.skipCount) {
+      data.skipCount = 0
+    }`
+          }
+        }
+        content += `
+    return api.${subO.method}(${k === 'Pos' ? 'apiUrl + ' : ''}'${subO.url}', { params: data, ...options })`
+      } else {
+        content += `
+    return api.${subO.method}(${k === 'Pos' ? 'apiUrl + ' : ''}'${subO.url}', data, options)`
+      }
+      content += `
+  }${i < Object.values(o).length ? ',' : ''}
+`
+    })
+    content += `}
+`
+    fs.writeFileSync(path.resolve(apiDir, `${lowerFirstLetter(k)}.service.js`), content, 'utf-8')
+  })
+
+  // Generate index file
+  let indexContent = `// Auto-generated API services
+`
+  Object.keys(services).forEach((k) => {
+    indexContent += `export { ${lowerFirstLetter(k)}Service } from './${lowerFirstLetter(k)}.service.js'
+`
+  })
+
+  fs.writeFileSync(path.resolve(apiDir, 'index.js'), indexContent, 'utf-8')
+  console.log('API services generated successfully!')
+}
+
+main()
