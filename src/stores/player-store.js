@@ -180,12 +180,7 @@ export const usePlayerStore = defineStore('playerStore', {
       return data
     },
     async fetchPlayerLastChipTransactions(params) {
-      const authStore = useAuthStore()
-      const payload = {
-        ...params,
-        defaultCurrencyId: authStore.getDefaultCurrencyId,
-      }
-      const { data } = await cashdeskTransactionService.getAllChipTransactions(payload)
+      const { data } = await cashdeskTransactionService.getLastChipTransactions(params)
       return data
     },
     async playerChipTransaction(params) {

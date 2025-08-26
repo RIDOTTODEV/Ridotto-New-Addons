@@ -27,7 +27,6 @@ export const initialize = async () => {
     transactionCodeStore.fetchTransTypes(),
   ]).then(() => {
     let latestCashDeskId = LocalStorage.getItem('cashDeskId') || null
-    console.log('latestCashDeskId', latestCashDeskId)
     if (latestCashDeskId) {
       const cashDesk = cashdeskStore.getCashDeskById(latestCashDeskId)
       if (cashDesk) {
@@ -38,6 +37,11 @@ export const initialize = async () => {
       }
     } else {
       setTimeout(() => bus.emit('setNewCashDesk'), 300)
+    }
+
+    const defaultCurrencyId = LocalStorage.getItem('defaultCurrencyId')
+    if (defaultCurrencyId) {
+      currencyStore.setDefaultCurrency(defaultCurrencyId)
     }
   })
 }

@@ -16,7 +16,6 @@ export default defineBoot(async ({ app, store, router }) => {
   mainOidc.useRouter(router)
   const isAuthenticated = await mainOidc.isAuthenticated
   if (isAuthenticated) {
-    console.log('isAuthenticated', isAuthenticated)
     const user = await mainOidc.user
     await authStore.setCurrentUser(user)
     await initialize()

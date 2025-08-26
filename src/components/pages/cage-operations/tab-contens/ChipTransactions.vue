@@ -101,6 +101,7 @@
           :getDataFn="cashDeskStore.fetchCashdeskChipTransactions"
           :columns="columns"
           :slotNames="['body-cell-action']"
+          :useCol12="true"
         >
           <template v-slot:headerFilterSlots>
             <div class="col-12 flex row justify-start">

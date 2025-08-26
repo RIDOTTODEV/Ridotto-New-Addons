@@ -99,7 +99,7 @@ bankAccountStore.fetchBankAccounts()
             </div>
             <div class="col-6 q-pa-md">
               <q-select
-                :label="$t('bankId')"
+                :label="$t('bank')"
                 v-model="bankTransferTabFormValues.bankId"
                 outlined
                 dense

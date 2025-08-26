@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { debounce, date } from 'quasar'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
@@ -79,6 +79,10 @@ const dailyChipCountTableColumns = ref([
     visible: true,
   },
 ])
+
+onMounted(async () => {
+  await cashDeskStore.fetchCashdeskChipTransactionTotals(filterCageBalanceFields.value)
+})
 </script>
 
 <template>
@@ -190,7 +194,7 @@ const dailyChipCountTableColumns = ref([
           <q-card-section class="row q-pa-none">
             <div class="col-12 text-center right-separator">
               <div class="text-subtitle1">
-                {{ priceAbsFormatted(cashdeskChipTransactionTotals?.totalAmount) }}
+                {{ priceAbsFormatted(cashdeskChipTransactionTotals) }}
                 {{ getDefaultCurrencyName }}
               </div>
             </div>

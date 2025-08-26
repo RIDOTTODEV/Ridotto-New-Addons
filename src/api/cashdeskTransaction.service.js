@@ -228,6 +228,27 @@ export const cashdeskTransactionService = {
     return api.get('/api/CashdeskTransaction/GetAllChipTransactions', { params: data, ...options })
   },
   /**
+   * Get Last Chip Transactions Cashdesk Transaction
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.playerId] - Player Id
+   * @param {undefined} [data.sorting] - Sorting
+   * @param {undefined} [data.maxResultCount] - Max Result Count
+   * @param {undefined} [data.skipCount] - Skip Count
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getLastChipTransactions(data = {}, options = {}) {
+    if (!data.maxResultCount) {
+      data.maxResultCount = 999
+    }
+    if (!data.skipCount) {
+      data.skipCount = 0
+    }
+    return api.get('/api/CashdeskTransaction/GetLastChipTransactions', { params: data, ...options })
+  },
+  /**
    * Get Chip Transaction Detail Cashdesk Transaction
    *
    * @param {object} [data]

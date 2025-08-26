@@ -114,17 +114,7 @@
         text-color="black"
         @click="onClickPlayerCashTransaction"
       />
-      <q-btn
-        v-el-perms="'Addon.CashlessOperations.Transaction.ShowInOutTransactions'"
-        class="q-mr-sm q-card--bordered"
-        no-caps
-        size="13px"
-        :label="$t('inOutTransaction')"
-        icon="o_import_export"
-        unelevated
-        color="grey-2"
-        text-color="black"
-      />
+
       <q-btn
         class="q-mr-sm q-card--bordered"
         no-caps

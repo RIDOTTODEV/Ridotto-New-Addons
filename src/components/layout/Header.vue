@@ -15,7 +15,14 @@
             />
           </div>
           <div class="col-md-10 col-sm-8 col-xs-10">
-            <SearchPlayerInput class="super-small search-input" :placeholder="$t('search')" />
+            <SearchPlayerInput
+              class="super-small search-input"
+              :placeholder="$t('search')"
+              v-model="selectedUser"
+              @onSelectPlayer="onSelectPlayer"
+              @onClear="onClearPlayer"
+              optionLabel="value"
+            />
           </div>
         </div>
         <div class="col-md-9 col-sm-12 col-xs-12 text-right content-center">
@@ -160,7 +167,7 @@
                         option-value="id"
                         :option-label="(val) => val.symbol + ' ' + val.name"
                         label="Default Currency"
-                        @update:model-value="currencyStore.setDefaultCurrency"
+                        @update:model-value="authStore.setUserDefaultCurrency({ id: $event }, true)"
                         dense
                       />
                       <q-select
@@ -261,7 +268,6 @@
   </q-header>
 </template>
 <script setup>
-import SearchPlayerInput from 'src/components/atoms/SearchPlayerInput.vue'
 import { useHeader } from 'src/composables/layout/useHeader'
 import ExchangeCalculation from 'src/components/atoms/ExchangeCalculation.vue'
 const emit = defineEmits(['update:drawer', 'setNewCashDesk', 'triggerDraw'])
@@ -285,11 +291,14 @@ const {
   locales,
   onChangeLanguage,
   currencies,
-  currencyStore,
+  authStore,
   selectedCashDesk,
   defaultGamingDateInfo,
   router,
   bus,
+  selectedUser,
+  onSelectPlayer,
+  onClearPlayer,
 } = useHeader(props, emit)
 
 const localeChange = (locale) => {

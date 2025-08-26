@@ -239,6 +239,25 @@ const routes = [
     ],
   },
   {
+    path: '/guest-operations',
+    component: () => import('layouts/MainLayout.vue'),
+    meta: {
+      authName: mainOidc.authName,
+      requiresAuth: true,
+    },
+    children: [
+      {
+        path: 'hotel-guest-list',
+        name: 'hotelGuestList',
+        component: () => import('pages/guest-operations/HotelGuestList.vue'),
+        meta: {
+          requiredPermission: 'Addon.GuestOperations.HotelGuestList',
+          requiresAuth: true,
+        },
+      },
+    ],
+  },
+  {
     path: '/reports',
     component: () => import('layouts/MainLayout.vue'),
     meta: {

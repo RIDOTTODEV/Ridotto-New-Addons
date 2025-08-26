@@ -80,7 +80,7 @@ const loadLastChipTransactions = async () => {
     playerId: props.playerId,
     ...dateTimeFilterValues.value,
   })
-  lastChipTransactions.value = data.data || []
+  lastChipTransactions.value = data || []
 }
 defineExpose({
   reload: loadLastChipTransactions,

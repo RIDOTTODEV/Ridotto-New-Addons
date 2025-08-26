@@ -62,10 +62,6 @@ const correctionInfosReportTable = ref(null)
 
 const columns = ref([
   {
-    field: 'createdAt',
-    fieldType: 'date',
-  },
-  {
     field: 'changedAt',
     fieldType: 'date',
   },

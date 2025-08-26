@@ -130,7 +130,7 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
       return data
     },
     async createInOutTransferTransaction(params) {
-      const data = await cashdeskTransactionService.cashdeskChipInOutTransferTransaction(params)
+      const data = await cashdeskTransactionService.cashdeskInOutTransferTransaction(params)
       return data
     },
     async createCashDeskTransferTransaction(params) {
@@ -174,7 +174,7 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
         BalanceCurrencyId: authStore.getDefaultCurrencyId,
       }
       const { data } = await cashdeskTransactionService.getChipTransactionsTotal(payload)
-      this.cashdeskChipTransactionTotals = data
+      this.cashdeskChipTransactionTotals = data.totalAmount
       return data
     },
     async getCashdeskChipCountHistoryTotal(params) {
@@ -191,7 +191,7 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
         BalanceCurrencyId: authStore.getDefaultCurrencyId,
       }
       const { data } = await cashdeskTransactionService.getTransactionTotals(payload)
-      this.currentCashDeskTotals = data
+      this.currentCashDeskTotals = data.find((item) => item.CashdeskId === params.CashdeskId)
       return data
     },
     async fetchGetCountHistoriesTotal(params) {

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCurrencyStore } from 'src/stores/currency-store'
 import { useTransactionCodeStore } from 'src/stores/transaction-code-store'
@@ -113,6 +113,10 @@ const onFilterTransactionCodesByGroupType = (val, update) => {
     return
   }
 }
+
+onMounted(async () => {
+  await getExchangeTabRates()
+})
 </script>
 
 <template>

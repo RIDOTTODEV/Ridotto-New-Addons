@@ -86,7 +86,7 @@ const blackListReportTable = ref(null)
 
 const columns = ref([
   {
-    field: 'playerFullName',
+    field: 'fullName',
     label: 'Player Name',
   },
   {

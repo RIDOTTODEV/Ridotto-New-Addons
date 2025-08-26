@@ -3,6 +3,7 @@ import { api } from 'boot/axios'
 import { LocalStorage } from 'quasar'
 import { applicationSettingService, gamingDateService } from 'src/api'
 import { useCurrencyStore } from 'src/stores/currency-store'
+import { Loading } from 'quasar'
 export const useAuthStore = defineStore('authStore', {
   state: () => ({
     user: {},
@@ -122,7 +123,7 @@ export const useAuthStore = defineStore('authStore', {
       const PREFIX = 'Addon'
       this.userPermissions = permissions.filter((permission) => permission.startsWith(PREFIX))
     },
-    setUserDefaultCurrency(currency) {
+    setUserDefaultCurrency(currency, reloadPage = false) {
       if (!currency?.id) {
         return
       }
@@ -142,6 +143,15 @@ export const useAuthStore = defineStore('authStore', {
           })
         const currencyStore = useCurrencyStore()
         currencyStore.setDefaultCurrency(this.userPanelSettings.DefaultCurrencyId)
+        if (reloadPage) {
+          Loading.show({
+            message: 'Updating currency...',
+          })
+          setTimeout(() => {
+            Loading.hide()
+            window.location.reload()
+          }, 2000)
+        }
       }
 
       LocalStorage.set('systemDefaultCurrencyId', currency.id)

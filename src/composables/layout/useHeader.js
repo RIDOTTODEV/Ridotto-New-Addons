@@ -8,12 +8,13 @@ import mainOidc from 'src/helpers/oidc-lib'
 import { useAuthStore } from 'src/stores/auth-store'
 import { useCurrencyStore } from 'src/stores/currency-store'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
+import { usePlayerStore } from 'src/stores/player-store'
 
 export function useHeader(props, emit) {
   const bus = inject('bus')
   const $q = useQuasar()
   const router = useRouter()
-
+  const playerStore = usePlayerStore()
   const mainStore = useMainStore()
   const { darkMode, locales, selectedLocale } = storeToRefs(mainStore)
 
@@ -25,7 +26,7 @@ export function useHeader(props, emit) {
   const cashdeskStore = useCashdeskStore()
   const { selectedCashDesk } = storeToRefs(cashdeskStore)
   const drawer = ref(props.drawer)
-
+  const selectedUser = ref(null)
   const toggleDrawer = () => {
     drawer.value = !drawer.value
     emit('update:drawer', drawer.value)
@@ -34,14 +35,6 @@ export function useHeader(props, emit) {
   const onChangeLanguage = (changingLocale) => {
     locale.value = changingLocale
     mainStore.setLocale(changingLocale)
-
-    /*     if (changingLocale === 'tr') {
-      primeVue.config.locale.startsWith = 'Başlayan'
-      primeVue.config.locale.contains = 'İçeren'
-      primeVue.config.locale.notContains = 'İçermeyen'
-      primeVue.config.locale.endsWith = 'Biten'
-      primeVue.config.locale.equals = 'Eşit'
-    } */
   }
 
   const onLogout = () => {
@@ -58,12 +51,12 @@ export function useHeader(props, emit) {
   watch(
     () => router.currentRoute.value.path,
     () => {
-      /*   if (selectedUser.value) {
+      if (selectedUser.value) {
         // Clear the selectedUser after navigation
         setTimeout(() => {
-          selectedUser.value = null;
-        }, 200);
-      } */
+          selectedUser.value = null
+        }, 200)
+      }
     },
   )
 
@@ -77,6 +70,47 @@ export function useHeader(props, emit) {
     selectedSystemCurrency: defaultCurrencyId.value,
     selectedLocale: selectedLocale.value?.lang,
   })
+
+  const redirectToUserDetail = () => {
+    playerStore.setLastSearchedPlayer(selectedUser.value)
+    // if the url name is playerDetail, then redirect to the playerDetail page
+    const currentRoute = router.currentRoute.value.name
+
+    if (currentRoute === 'players') {
+      router.push({
+        name: 'playerDetail',
+        params: { playerId: selectedUser.value.id },
+      })
+    } else {
+      router.push({
+        name: 'customerInformation',
+        query: { playerId: selectedUser.value.id },
+      })
+    }
+  }
+  /*   watch(selectedUser, (val) => {
+    if (val === null) return;
+    redirectToUserDetail();
+  }); */
+  // Watch for route changes to clear the selected user and reset input
+  watch(
+    () => router.currentRoute.value.path,
+    () => {
+      if (selectedUser.value) {
+        // Clear the selectedUser after navigation
+        setTimeout(() => {
+          selectedUser.value = null
+        }, 200)
+      }
+    },
+  )
+  const onSelectPlayer = (player) => {
+    selectedUser.value = player
+    redirectToUserDetail()
+  }
+  const onClearPlayer = () => {
+    selectedUser.value = null
+  }
   return {
     mainOidc,
     onChangeLanguage,
@@ -97,5 +131,9 @@ export function useHeader(props, emit) {
     defaultGamingDateInfo,
     router,
     bus,
+    authStore,
+    selectedUser,
+    onSelectPlayer,
+    onClearPlayer,
   }
 }

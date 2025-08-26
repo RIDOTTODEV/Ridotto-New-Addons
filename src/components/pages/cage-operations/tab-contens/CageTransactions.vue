@@ -308,7 +308,7 @@
                     unelevated
                     no-caps
                     class="q-ml-sm"
-                    @click="chipTransactionTableRef.fetchData()"
+                    @click="cageTransactionsTable.fetchData()"
                   />
                 </div>
               </div>

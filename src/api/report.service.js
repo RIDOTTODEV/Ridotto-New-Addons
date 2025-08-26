@@ -1,5 +1,6 @@
 import { api } from 'src/boot/axios'
 
+
 export const reportService = {
   name: 'Report',
   /**
@@ -15,17 +16,7 @@ export const reportService = {
    * @param {string} [options.responseType] - Response Type
    */
   getMasterReport(data = {}, options = {}) {
-    return api.get('/api/Report/GetMasterReport', {
-      params: data,
-      ...options,
-    })
-  },
-  exportMasterReport(data = {}, options = {}) {
-    return api.get('/api/Report/GetMasterReport', {
-      params: data,
-      ...options,
-      responseType: 'blob',
-    })
+    return api.get('/api/Report/GetMasterReport', { params: data, ...options })
   },
   /**
    * Get Balance Report Report
@@ -39,11 +30,7 @@ export const reportService = {
    * @param {string} [options.responseType] - Response Type
    */
   getBalanceReport(data = {}, options = {}) {
-    return api.get('/api/Report/GetBalanceReport', {
-      params: data,
-      ...options,
-      responseType: 'blob',
-    })
+    return api.get('/api/Report/GetBalanceReport', { params: data, ...options })
   },
   /**
    * Get Table Count Report Report
@@ -111,7 +98,7 @@ export const reportService = {
    *
    * @param {object} [data]
    * @param {undefined} [data.playerId] - Player Id
-   * @param {undefined} [data.defaultCurrencyId] - Default Currency Id
+   * @param {undefined} [data.balanceCurrencyId] - Balance Currency Id
    * @param {undefined} [data.startDate] - Start Date
    * @param {undefined} [data.endDate] - End Date
    * @param {object} [options] - Axios Options
@@ -162,5 +149,5 @@ export const reportService = {
       data.skipCount = 0
     }
     return api.get('/api/Report/GetPlayerLookupAuditLogs', { params: data, ...options })
-  },
+  }
 }
