@@ -124,7 +124,7 @@ const updateDenomination = debounce(async (denomination) => {
                     @click="
                       resetDenomination({
                         ...item,
-                        cashdeskId: cashDeskId,
+                        cashdeskId: getSelectedCashDeskId,
                         currencyId: item.currencyId,
                       })
                     "
@@ -163,7 +163,7 @@ const updateDenomination = debounce(async (denomination) => {
                         @update:model-value="
                           updateDenomination({
                             ...denom,
-                            cashdeskId: cashDeskId,
+                            cashdeskId: getSelectedCashDeskId,
                             currencyId: item.currencyId,
                           })
                         "

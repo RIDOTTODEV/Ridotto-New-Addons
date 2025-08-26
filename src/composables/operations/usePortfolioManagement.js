@@ -42,7 +42,7 @@ export const usePortfolioManagement = () => {
   const onClickCreateGift = (initialValues = {}) => {
     $q.dialog({
       component: defineAsyncComponent(
-        () => import('src/components/pages/operations/PlayerGiftCreateModel.vue'),
+        () => import('src/components/pages/operations/PlayerGiftCreateModal.vue'),
       ),
       componentProps: {
         initialValues,

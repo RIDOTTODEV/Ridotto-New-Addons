@@ -191,7 +191,7 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
         BalanceCurrencyId: authStore.getDefaultCurrencyId,
       }
       const { data } = await cashdeskTransactionService.getTransactionTotals(payload)
-      this.currentCashDeskTotals = data.find((item) => item.CashdeskId === params.CashdeskId)
+      this.currentCashDeskTotals = data[0]
       return data
     },
     async fetchGetCountHistoriesTotal(params) {

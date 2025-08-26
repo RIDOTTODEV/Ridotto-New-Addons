@@ -174,7 +174,7 @@
                     }}</span>
                     <span v-else>-</span>
                   </td>
-                  <td class="text-center bg-orange-1">{{ item.createdBy }}</td>
+                  <td class="text-center bg-orange-1">{{ item.createdByName }}</td>
                 </tr>
               </tbody>
             </q-markup-table>

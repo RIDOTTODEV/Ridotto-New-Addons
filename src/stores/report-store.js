@@ -7,6 +7,7 @@ import {
   blacklistService,
   callReportService,
   playerService,
+  cashdeskTransactionService,
 } from 'src/api'
 import { useAuthStore } from 'src/stores/auth-store'
 import { priceAbsFormatted } from 'src/helpers/helpers'
@@ -282,6 +283,31 @@ export const useReportStore = defineStore('reportStore', {
     },
     async getPlayerTransactions(params) {
       const { data } = await playerService.getPlayerTransactions(params)
+      return data
+    },
+    async getLiveGameFloorResult(params) {
+      const { data } = await reportService.getLiveGameFloorResult(params)
+      const { data: fillCreditTransactions } = await this.getFillCreditTransactions(params)
+      const { data: gameResultReport } = await this.getGameResultReport(params)
+
+      return {
+        data,
+        fillCreditTransactions,
+        gameResultReport,
+      }
+    },
+    async getFillCreditTransactions(params) {
+      return await cashdeskTransactionService.getFillCreditTransactions(params)
+    },
+    async getGameResultReport(params) {
+      return await reportService.getGameResultReport(params)
+    },
+    async getMissingChipReport(params) {
+      const { data } = await playerLgReportService.getMissingChipReport(params)
+      return data
+    },
+    async getMissingChipDetailReport(params) {
+      const { data } = await playerLgReportService.getMissingChipReportDetail(params)
       return data
     },
   },

@@ -466,6 +466,15 @@ const routes = [
           requiresAuth: true,
         },
       },
+      {
+        path: 'player-gifts',
+        name: 'playerGifts',
+        component: () => import('src/pages/operations/PlayerGifts.vue'),
+        meta: {
+          requiredPermission: 'Addon.Operations.PlayerGifts',
+          requiresAuth: true,
+        },
+      },
     ],
   },
   {
@@ -482,6 +491,34 @@ const routes = [
         component: () => import('pages/inspector/InspectorPage.vue'),
         meta: {
           requiredPermission: 'Addon.Inspector',
+          requiresAuth: true,
+        },
+      },
+    ],
+  },
+  {
+    path: '/pit',
+    component: () => import('layouts/MainLayout.vue'),
+    meta: {
+      authName: mainOidc.authName,
+      requiresAuth: true,
+    },
+    children: [
+      {
+        path: 'live-game-floor-result-report',
+        name: 'liveGameFloorResultReport',
+        component: () => import('src/pages/pit/LiveGameFlootResultReport.vue'),
+        meta: {
+          requiredPermission: 'Addon.Pit.LiveGameFloorResultReport',
+          requiresAuth: true,
+        },
+      },
+      {
+        path: 'missing-chip-report',
+        name: 'missingChipReport',
+        component: () => import('src/pages/pit/MissingChipReport.vue'),
+        meta: {
+          requiredPermission: 'Addon.Pit.MissingChipReport',
           requiresAuth: true,
         },
       },
