@@ -149,6 +149,10 @@ export const useTableStore = defineStore('tableStore', {
     async tableCountEditCheck(params) {
       return await tableCountService.tableCountEditCheck(params)
     },
+    async getTableCountByTable(params) {
+      const { data } = await tableCountService.get(params)
+      return data
+    },
   },
 })
 

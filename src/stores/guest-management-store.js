@@ -193,6 +193,10 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
       const { data } = await hotelReservationService.createReservation(params)
       return data
     },
+    async getHotelPlayerList(params) {
+      const { data } = await hotelReservationService.getHotelPlayerList(params)
+      return data
+    },
   },
 })
 

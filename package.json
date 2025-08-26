@@ -30,6 +30,8 @@
     "primevue": "^4.3.7",
     "quasar": "^2.16.0",
     "quasar-ui-q-draggable-table": "^1.0.3",
+    "simple-keyboard": "^3.8.21",
+    "simple-keyboard-layouts": "^3.4.46",
     "swagger-js-codegen": "^1.13.0",
     "tailwindcss-primeui": "^0.6.1",
     "unplugin-vue-components": "^29.0.0",

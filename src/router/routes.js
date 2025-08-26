@@ -17,14 +17,6 @@ const routes = [
           requiresAuth: true,
         },
       },
-      {
-        path: 'inspector',
-        component: () => import('pages/inspector/IndexPage.vue'),
-        meta: {
-          requiredPermission: 'Addon.Inspector',
-          requiresAuth: true,
-        },
-      },
     ],
   },
   {
@@ -471,6 +463,25 @@ const routes = [
         component: () => import('src/pages/operations/PlayerLookupAuditLogsReport.vue'),
         meta: {
           requiredPermission: 'Addon.Operations.PlayerLookupAuditLogsReport',
+          requiresAuth: true,
+        },
+      },
+    ],
+  },
+  {
+    path: '/inspector',
+    component: () => import('layouts/InspectorLayout.vue'),
+    meta: {
+      authName: mainOidc.authName,
+      requiresAuth: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'inspector',
+        component: () => import('pages/inspector/InspectorPage.vue'),
+        meta: {
+          requiredPermission: 'Addon.Inspector',
           requiresAuth: true,
         },
       },

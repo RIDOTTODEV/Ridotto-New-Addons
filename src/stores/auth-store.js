@@ -56,6 +56,10 @@ export const useAuthStore = defineStore('authStore', {
       )
       return currency?.name || '-'
     },
+    defaultCurrency: (state) => {
+      const currencyStore = useCurrencyStore()
+      return currencyStore.currencies.find((c) => c.id === state.defaultCurrencyId)
+    },
     getUserTableColumns: (state) => (tableName, defaultColumns) => {
       if (!tableName) {
         return defaultColumns

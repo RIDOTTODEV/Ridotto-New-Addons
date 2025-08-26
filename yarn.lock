@@ -4569,6 +4569,16 @@ signal-exit@^4.0.1:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-4.1.0.tgz#952188c1cbd546070e2dd20d0f41c0ae0530cb04"
   integrity sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==
 
+simple-keyboard-layouts@^3.4.46:
+  version "3.4.126"
+  resolved "https://registry.yarnpkg.com/simple-keyboard-layouts/-/simple-keyboard-layouts-3.4.126.tgz#0f29a83ece0efead8dd8af632b35351f336720ca"
+  integrity sha512-ajK1QSuAL3cyoCF2RHy3z12FfNIB7NaBTiuPVDAsTidKnSSE1fqcdu5ZsiOxPpDNDJDdkM4STzaFyOOFnQrirg==
+
+simple-keyboard@^3.8.21:
+  version "3.8.81"
+  resolved "https://registry.yarnpkg.com/simple-keyboard/-/simple-keyboard-3.8.81.tgz#93c11a5fdd371874f1895f8c1417ee0dabb45cee"
+  integrity sha512-riuQl6lj+dl+zpVyvmF/K+yrhd0Uo4EU/EKI5ITugaSJwOcOYqUrJ4qErr63Zv7WulQmL4LyWBgL4R6JFT/N+w==
+
 source-map-js@^1.0.1, source-map-js@^1.0.2, source-map-js@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.2.1.tgz#1ce5650fddd87abc099eda37dcff024c2667ae46"

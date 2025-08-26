@@ -1,5 +1,5 @@
 // show the price in the correct format
-import { useQuasar } from 'quasar'
+import { useQuasar, Notify } from 'quasar'
 
 export const formatPrice = (price, currency = 'USD') => {
   return price
@@ -92,4 +92,81 @@ export const priceAbsFormatted = (totalAmount = null, currencyName = null) => {
   }
 
   return totalAmount < 0 ? '(' + formatPrice(amount) + ')' : symbol + ' ' + formatPrice(amount)
+}
+
+export function errorHandle(errorsObj) {
+  if (errorsObj.message === 'Network Error') {
+    Notify.create({
+      type: 'negative',
+      message: errorsObj.message,
+      timeout: 1000,
+      position: 'bottom-right',
+      progress: true,
+    })
+    return false
+  }
+
+  const statusCode = errorsObj.response.status
+
+  if (statusCode === 401) {
+    Notify.create({
+      type: 'negative',
+      message: '401 ' + errorsObj.response.data.title,
+      timeout: 10000,
+      position: 'bottom-right',
+      progress: true,
+    })
+
+    return false
+  }
+
+  if (statusCode === 400) {
+    console.log(errorsObj.response.data)
+    Notify.create({
+      type: 'negative',
+      message: '400 ' + errorsObj.response.data,
+      timeout: 10000,
+      position: 'bottom-right',
+      progress: true,
+    })
+
+    return false
+  }
+
+  let errors = errorsObj.response.data.payload
+
+  if (errors === undefined) {
+    Notify.create({
+      type: 'negative',
+      message: '500  Sistem Hatası',
+      timeout: 1000,
+      position: 'bottom-right',
+      progress: true,
+    })
+  }
+}
+
+export const fireNotify = (message, group = 'created', duration = 180000, type = 'positive') => {
+  Notify.create({
+    group: group,
+    position: 'bottom-right',
+    type: type,
+    //textColor: 'white',
+    message: message,
+    timeout: duration,
+    progress: true,
+    classes: '',
+    actions: [
+      {
+        icon: 'close',
+        // color: 'white',
+        handler: () => {
+          /* ... */
+        },
+      },
+    ],
+    attrs: {
+      role: 'alertdialog',
+    },
+  })
 }

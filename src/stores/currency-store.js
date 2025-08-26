@@ -296,7 +296,7 @@ export const useCurrencyStore = defineStore('currencyStore', {
       return data
     },
     async fetchLatestRatesBefore(params) {
-      const { data } = await exchangeRateService.getLatestRatesBefore(params)
+      const { data } = await exchangeRateService.getLatestRates(params)
       return data
     },
     async fetchConvertedAmount(fromCurrencyId, toCurrencyId, amount) {
