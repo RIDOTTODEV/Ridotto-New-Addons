@@ -56,6 +56,7 @@ export function useInspectorOrder() {
       }
     } else {
       categories.value = terminalMenu.value
+      categoryHistory.value.push(terminalMenu.value[0])
     }
   }
   const onClickCategory = (category) => {

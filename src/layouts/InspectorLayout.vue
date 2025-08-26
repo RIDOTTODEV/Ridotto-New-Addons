@@ -6,4 +6,12 @@
   </q-layout>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted } from 'vue'
+import { useInspectorOrderStore } from 'src/stores/inspector-order-store'
+const inspectorOrderStore = useInspectorOrderStore()
+
+onMounted(() => {
+  inspectorOrderStore.fetchPosSettings()
+})
+</script>
