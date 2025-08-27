@@ -123,7 +123,7 @@
                         "
                         class="q-ml-xs cursor-pointer"
                         v-el-perms="'Addon.CageOperations.GamingDateChangeUpdate'"
-                        @click="router.push({ name: 'tables' })"
+                        @click="router.push({ name: 'table-operations' })"
                       >
                         <q-icon name="o_change_circle" size="22px" />
                         <q-tooltip class="text-caption bg-blue-grey-8">
@@ -299,6 +299,7 @@ const {
   selectedUser,
   onSelectPlayer,
   onClearPlayer,
+  changeCashDeskGamingDate,
 } = useHeader(props, emit)
 
 const localeChange = (locale) => {

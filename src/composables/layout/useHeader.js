@@ -9,7 +9,7 @@ import { useAuthStore } from 'src/stores/auth-store'
 import { useCurrencyStore } from 'src/stores/currency-store'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { usePlayerStore } from 'src/stores/player-store'
-
+import { i18n } from 'src/boot/i18n'
 export function useHeader(props, emit) {
   const bus = inject('bus')
   const $q = useQuasar()
@@ -19,7 +19,8 @@ export function useHeader(props, emit) {
   const { darkMode, locales, selectedLocale } = storeToRefs(mainStore)
 
   const authStore = useAuthStore()
-  const { isAuthorityUser, getUserNameSurname, defaultGamingDateInfo } = storeToRefs(authStore)
+  const { isAuthorityUser, getUserNameSurname, defaultGamingDateInfo, getDefaultCurrencyId } =
+    storeToRefs(authStore)
   const { locale } = useI18n({ useScope: 'global' })
   const currencyStore = useCurrencyStore()
   const { defaultCurrencyId, currencies } = storeToRefs(currencyStore)
@@ -111,6 +112,58 @@ export function useHeader(props, emit) {
   const onClearPlayer = () => {
     selectedUser.value = null
   }
+
+  const changeCashDeskGamingDate = () => {
+    if (Math.abs(selectedCashDesk.value.currentCashDeskBalance) > 0.5) {
+      $q.notify({
+        position: 'bottom-right',
+        type: 'warning',
+        message: i18n.global.t('requiredCageBalance'),
+      })
+      return false
+    }
+    if (
+      Math.abs(selectedCashDesk.value.currentCashDeskBalance) <= 0.5 &&
+      selectedCashDesk.IsMatchedGameDateId === true
+    ) {
+      $q.notify({
+        position: 'bottom-right',
+        type: 'warning',
+        message: i18n.global.t('cageAlreadyChanged'),
+      })
+      return false
+    }
+    $q.dialog({
+      title: i18n.global.t('changeGamingDate'),
+      message: i18n.global.t('promiseGaminChange'),
+      persistent: true,
+      focus: 'cancel',
+      ok: {
+        flat: true,
+        color: 'negative',
+        label: i18n.global.t('yes'),
+        class: 'text-capitalize',
+      },
+      cancel: {
+        flat: true,
+        color: 'primary',
+        label: i18n.global.t('cancel'),
+        class: 'text-capitalize',
+      },
+    }).onOk(async () => {
+      await cashdeskStore.updateCashDeskGamingDate({
+        countBalanceCurrencyId: getDefaultCurrencyId.value,
+        cashdeskId: selectedCashDesk.value.id,
+      })
+      authStore.fetchDefaultGamingDateInfo()
+      cashdeskStore.getGamingDateByCashdeskId({
+        cashdeskId: selectedCashDesk.value.id,
+        /*         authStore.getDefaultGamingDateId,
+          date.formatDate(authStore.defaultGamingDateInfo.gmDate, 'DD.MM.YYYY'), */
+      })
+    })
+  }
+
   return {
     mainOidc,
     onChangeLanguage,
@@ -135,5 +188,6 @@ export function useHeader(props, emit) {
     selectedUser,
     onSelectPlayer,
     onClearPlayer,
+    changeCashDeskGamingDate,
   }
 }

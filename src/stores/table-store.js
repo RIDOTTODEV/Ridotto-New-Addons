@@ -146,8 +146,7 @@ export const useTableStore = defineStore('tableStore', {
       return data
     },
     async changeGamingDateTable(params) {
-      const { data } = await tableService.changeGamingDate(params)
-      return data
+      return await tableService.changeGamingDate(params)
     },
     async tableCountEditCheck(params) {
       return await tableCountService.tableCountEditCheck(params)
