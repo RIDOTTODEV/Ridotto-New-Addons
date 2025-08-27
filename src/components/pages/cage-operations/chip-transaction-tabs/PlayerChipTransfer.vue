@@ -1,10 +1,11 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { useTransactionCodeStore } from 'src/stores/transaction-code-store'
 import { useCurrencyStore } from 'src/stores/currency-store'
 import { storeToRefs } from 'pinia'
 import { useQuasar } from 'quasar'
+const bus = inject('bus')
 const $q = useQuasar()
 const cashDeskStore = useCashdeskStore()
 const { getSelectedCashDeskId, transactionTypes } = storeToRefs(cashDeskStore)
@@ -37,6 +38,7 @@ const onSubmitCashDeskPlayerChipTransferTabForm = async () => {
     })
     setTimeout(() => {
       emits('savedCageChipTransaction')
+      bus.emit('reloadCageBalance')
     }, 1000)
   } else {
     $q.notify({

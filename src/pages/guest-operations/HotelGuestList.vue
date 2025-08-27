@@ -825,16 +825,16 @@ const columns = ref([
             <q-btn
               :label="$t('create')"
               class="q-mr-sm"
-              color="grey-2"
-              text-color="dark"
+              color="blue-grey-8"
+              text-color="white"
               unelevated
               no-caps
               @click="onClickCreateHotelReservation"
             />
             <q-btn
               icon="o_settings"
-              color="grey-2"
-              text-color="dark"
+              color="blue-grey-8"
+              text-color="white"
               unelevated
               no-caps
               @click="openExpenseSettingsDialog"

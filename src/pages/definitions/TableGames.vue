@@ -8,8 +8,8 @@
         <q-btn
           unelevated
           dense
-          color="grey-2"
-          text-color="dark"
+          color="blue-grey-8"
+          text-color="white"
           no-caps
           size="13px"
           icon="add"
@@ -110,7 +110,8 @@
                 no-caps
                 unelevated
                 icon="save"
-                color="deep-purple"
+                color="blue-grey-8"
+                text-color="white"
                 size="13px"
                 :label="gameFormValues.id ? $t('update') : $t('save')"
                 class="col-12"

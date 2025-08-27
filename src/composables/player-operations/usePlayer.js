@@ -3,7 +3,7 @@ import { useCurrencyStore } from 'src/stores/currency-store'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { defineAsyncComponent, ref, watch } from 'vue'
+import { defineAsyncComponent, ref, watch, computed } from 'vue'
 import { useQuasar, date } from 'quasar'
 import { priceAbsFormatted } from 'src/helpers/helpers'
 
@@ -17,10 +17,12 @@ export function usePlayer() {
   const cashdeskStore = useCashdeskStore()
   const { selectedCashDesk } = storeToRefs(cashdeskStore)
   const playerBlackListHistory = ref([])
+  const playerId = computed(() => {
+    return router.currentRoute.value.params.playerId
+  })
   const initPlayer = async () => {
-    const playerId = router.currentRoute.value.params.playerId
-    if (playerId) {
-      await playerStore.fetchPlayerMetaDetail({ playerId })
+    if (playerId.value) {
+      await playerStore.fetchPlayerMetaDetail({ playerId: playerId.value })
     } else {
       router.push({ name: 'playerOperations' })
     }
@@ -129,8 +131,8 @@ export function usePlayer() {
       ...playerChipTransactionFormValues.value,
     })
     setTimeout(() => {
-      lastChipTransactionRef.value.refTable.reload()
-      lastCageTransactionRef.value.refTable.reload()
+      lastChipTransactionRef.value.reload()
+      lastCageTransactionRef.value.reload()
     }, 1000)
   }
   const initPlayerChipTransactionChips = (chips) => {
@@ -182,7 +184,7 @@ export function usePlayer() {
     initPlayerChipTransactionChips,
     lastCageTransactionRef,
     lastChipTransactionRef,
-
+    playerId,
     showInOutSelectedNameReport,
     inOutSelectedNameReportFilterParams,
     maximizedReport,

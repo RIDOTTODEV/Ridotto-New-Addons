@@ -19,12 +19,11 @@ export function usePlayerSearch() {
 
   const redirectToPlayerDetail = (player = null) => {
     if (player) {
-      selectedPlayer.value = player
+      selectedPlayer.value = { ...player }
     }
     playerStore.setLastSearchedPlayer(selectedPlayer.value)
 
     const currentRoute = router.currentRoute.value.name
-
     if (currentRoute === 'playerOperations') {
       router.push({
         name: 'playerDetail',

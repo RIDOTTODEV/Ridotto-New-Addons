@@ -71,6 +71,7 @@
                     dense
                     bg-color="white"
                     hide-bottom-space
+                    readonly
                   />
                 </div>
               </div>
@@ -83,6 +84,7 @@
                   dense
                   bg-color="white"
                   hide-bottom-space
+                  readonly
                 />
               </div>
               <div class="col text-center q-pa-xs">
@@ -95,6 +97,7 @@
                     dense
                     bg-color="white"
                     hide-bottom-space
+                    readonly
                   />
                 </div>
               </div>
@@ -113,6 +116,7 @@
                     dense
                     bg-color="orange-1"
                     hide-bottom-space
+                    readonly
                   />
                 </div>
               </div>
@@ -155,6 +159,7 @@
                     dense
                     bg-color="green-1"
                     hide-bottom-space
+                    readonly
                   />
                 </div>
               </div>
@@ -179,6 +184,7 @@
                     dense
                     bg-color="green-1"
                     hide-bottom-space
+                    readonly
                   />
                 </div>
               </div>
@@ -197,6 +203,7 @@
                     dense
                     bg-color="deep-purple-1"
                     hide-bottom-space
+                    readonly
                   />
                 </div>
               </div>
@@ -221,6 +228,7 @@
                     dense
                     bg-color="deep-purple-1"
                     hide-bottom-space
+                    readonly
                   />
                 </div>
               </div>
@@ -239,6 +247,7 @@
                     dense
                     bg-color="brown-1"
                     hide-bottom-space
+                    readonly
                   />
                 </div>
               </div>
@@ -281,6 +290,7 @@
                     dense
                     bg-color="orange-1"
                     hide-bottom-space
+                    readonly
                   />
                 </div>
               </div>
@@ -293,6 +303,7 @@
                   dense
                   bg-color="orange-1"
                   hide-bottom-space
+                  readonly
                 />
               </div>
               <div class="col text-center q-pa-xs">
@@ -305,6 +316,7 @@
                     dense
                     bg-color="orange-1"
                     hide-bottom-space
+                    readonly
                   />
                 </div>
               </div>
@@ -325,6 +337,7 @@
                     bg-color="red-5"
                     text-color="white"
                     hide-bottom-space
+                    readonly
                   />
                 </div>
               </div>
@@ -339,6 +352,7 @@
                   bg-color="red-5"
                   text-color="white"
                   hide-bottom-space
+                  readonly
                 />
               </div>
               <div class="col text-center q-pa-xs">
@@ -353,6 +367,7 @@
                     bg-color="red-5"
                     text-color="white"
                     hide-bottom-space
+                    readonly
                   />
                 </div>
               </div>
@@ -391,6 +406,7 @@
                   dense
                   bg-color="white"
                   hide-bottom-space
+                  readonly
                 />
               </div>
             </div>
@@ -412,6 +428,7 @@
                       dense
                       bg-color="white"
                       hide-bottom-space
+                      readonly
                     />
                   </div>
                   <div class="col-4 q-pa-xs">
@@ -424,6 +441,7 @@
                       dense
                       bg-color="white"
                       hide-bottom-space
+                      readonly
                     />
                   </div>
                   <div class="col-4 q-pa-xs">
@@ -436,6 +454,7 @@
                       dense
                       bg-color="white"
                       hide-bottom-space
+                      readonly
                     />
                   </div>
                   <div class="col-4 q-pa-xs">
@@ -448,6 +467,7 @@
                       dense
                       bg-color="white"
                       hide-bottom-space
+                      readonly
                     />
                   </div>
                   <div class="col-4 q-pa-xs">
@@ -460,6 +480,7 @@
                       dense
                       bg-color="white"
                       hide-bottom-space
+                      readonly
                     />
                   </div>
                   <div class="col-4 q-pa-xs">
@@ -472,6 +493,7 @@
                       dense
                       bg-color="white"
                       hide-bottom-space
+                      readonly
                     />
                   </div>
                 </div>

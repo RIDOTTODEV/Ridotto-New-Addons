@@ -73,6 +73,7 @@
         <PlayerFriends
           v-if="selectedPlayer"
           :player="selectedPlayer.player"
+          :player-id="playerId"
           :show-friends-permission="'Addon.Operations.CustomerInformation.ShowFriends'"
           :reload-friends-permission="'Addon.Operations.CustomerInformation.ReloadFriends'"
         />
@@ -80,7 +81,7 @@
       <div class="col-3 q-pa-sm">
         <PlayerNote
           v-if="selectedPlayer"
-          :player-id="selectedPlayer.player.id"
+          :player-id="playerId"
           :note-source="'General'"
           :show-note-permission="'Addon.CashlessOperations.MetaDetail.ShowNotes'"
           :create-note-permission="'Addon.CashlessOperations.MetaDetail.CreateNote'"
@@ -90,7 +91,7 @@
         />
         <PlayerNote
           v-if="selectedPlayer"
-          :player-id="selectedPlayer.player.id"
+          :player-id="playerId"
           :note-source="'PublicRelations'"
           :show-note-permission="'Addon.CashlessOperations.MetaDetail.ShowNotes'"
           :create-note-permission="'Addon.CashlessOperations.MetaDetail.CreateNote'"
@@ -181,6 +182,7 @@ const {
   showInOutSelectedNameReport,
   inOutSelectedNameReportFilterParams,
   maximizedReport,
+  playerId,
 } = usePlayer()
 </script>
 

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import { date } from 'quasar'
 import { formatPrice } from 'src/helpers/helpers'
 import { usePlayerStore } from 'src/stores/player-store'
@@ -62,11 +62,12 @@ const columns = ref([
     visible: true,
   },
 ])
+const bus = inject('bus')
 const props = defineProps({
   playerId: {
-    type: Number,
+    type: String,
     required: true,
-    default: () => 0,
+    default: () => '',
   },
 })
 onMounted(async () => {
@@ -89,6 +90,7 @@ const getDetailFormatter = (detail) => {
       return ''
   }
 }
+bus.on('reloadPlayerCashless', loadLastCashlessTransactions)
 </script>
 
 <template>

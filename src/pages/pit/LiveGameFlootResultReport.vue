@@ -26,7 +26,7 @@
     <q-card class="no-box-shadow bg-transparent">
       <q-card-section class="q-pa-none">
         <div class="text-subtitle1 q-mb-md">
-          {{ $t('getLiveGameFloorResult') }}
+          {{ $t('floorResults') }}
         </div>
       </q-card-section>
       <q-card-section class="q-pa-none">

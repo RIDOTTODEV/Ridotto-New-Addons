@@ -14,7 +14,7 @@ onMounted(async () => {
 
 <template>
   <q-page class="q-pa-sm">
-    <q-card class="no-box-shadow app-cart-grey">
+    <q-card class="no-box-shadow bg-transparent">
       <q-card-section class="q-pa-none row">
         <div class="col-4 q-pa-sm">
           <div class="text-subtitle2 text-negative">

@@ -283,9 +283,10 @@ const pagination = ref({
   page: 1,
   rowsPerPage: 10,
   totalCount: 0,
+  rowsNumber: 0,
 })
 const visibleColumnOptions = ref([])
-const visibleColumns = ref(visibleColumnOptions.value)
+const visibleColumns = ref([])
 const refTable = ref(null)
 const tableFilterInput = ref('')
 const fullScreen = ref(false)
@@ -333,7 +334,7 @@ watch(
   visibleColumnOptions,
   (newValue, oldValue) => {
     if (newValue !== oldValue) {
-      visibleColumns.value = newValue
+      visibleColumns.value = [...newValue]
     }
   },
   { deep: true },
@@ -358,15 +359,25 @@ const fetchData = async () => {
   removeSelectedRowClass()
   try {
     response.value = await props.getDataFn(getTableFilterParams())
-    tableRows.value = response.value[props.dataKey] || response.value || []
-    initPagination(response.value)
+    initResponseData(response.value)
   } catch (error) {
     console.error('Error fetching data:', error)
   } finally {
     tableLoading.value = false
   }
 }
-
+const initResponseData = (response) => {
+  let data = response[props.dataKey] || response || []
+  const isExistRowKey = data.some((item) => item[props.rowKey])
+  if (!isExistRowKey) {
+    // now set the rowKey of data index
+    data = data.map((item, index) => {
+      return { ...item, [props.rowKey]: index + 1 }
+    })
+  }
+  tableRows.value = data
+  initPagination(response)
+}
 const getTableFilterParams = () => {
   return {
     ...tableFilterParams.value,
@@ -386,6 +397,7 @@ const initPagination = (response = null) => {
   if (response) {
     pagination.value.totalPages = Math.ceil(response.totalCount / pagination.value.rowsPerPage)
     pagination.value.totalCount = response.totalCount
+    pagination.value.rowsNumber = response.totalCount
   } else {
     pagination.value = {
       ...pagination.value,

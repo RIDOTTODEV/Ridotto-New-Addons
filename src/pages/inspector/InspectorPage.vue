@@ -205,7 +205,7 @@ const {
         <div class="row q-pa-xs flex content-center items-center justify-start">
           <div class="col q-mt-sm flex justify-between no-wrap">
             <q-btn
-              color="grey-2"
+              color="grey-1"
               unelevated
               class="q-mr-sm q-card--bordered"
               text-color="dark"
@@ -260,7 +260,9 @@ const {
                       ? 'data:image/png;base64,' + props.row.playerImage
                       : '/assets/no-photo.png'
                   "
-                  width="50px"
+                  width="45px"
+                  class="q-ma-xs"
+                  style="border-radius: 5px"
                 />
               </q-td>
               <q-td

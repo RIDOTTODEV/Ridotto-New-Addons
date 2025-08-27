@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <q-card class="no-box-shadow app-cart-grey q-mb-md">
+    <q-card class="no-box-shadow bg-transparent q-mb-md">
       <q-card-section class="q-pa-none">
         <div class="row">
           <div class="col-md-8 col-sm-12 col-xs-12">
@@ -12,8 +12,8 @@
             <q-btn
               :label="$t('create')"
               class="q-mr-sm"
-              color="grey-2"
-              text-color="dark"
+              color="blue-grey-8"
+              text-color="white"
               unelevated
               no-caps
               @click="openCreateModal()"

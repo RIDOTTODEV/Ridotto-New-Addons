@@ -127,10 +127,15 @@ const props = defineProps({
     required: true,
     default: () => 'Addon.Operations.CustomerInformation.ReloadFriends',
   },
+  playerId: {
+    type: String,
+    required: true,
+    default: () => '',
+  },
 })
 const $q = useQuasar()
 const formValues = ref({
-  playerId: props.player.id,
+  playerId: props.playerId,
   playerName: props.player.value || props.player.name + ' ' + props.player.surname,
   friendId: '',
   friendName: '',
@@ -178,7 +183,7 @@ onMounted(async () => {
 
 const fetchFriends = async () => {
   friends.value = await playerStore.fetchPlayerFriends({
-    playerId: props.player.id,
+    playerId: props.playerId,
   })
 }
 </script>

@@ -117,13 +117,13 @@ export const useMainStore = defineStore('main', {
         permission: 'Addon.LiveGameReports',
         subMenus: [
           {
-            title: 'activeFloorListReport',
+            title: 'activeFloorList',
             icon: 'remove',
             routeName: 'activeFloorListReport',
             permission: 'Addon.InOutReport.GetActiveFloorListReport',
           },
           {
-            title: 'activeFloorInfoReport',
+            title: 'activeFloorInfo',
             icon: 'remove',
             routeName: 'activeFloorInfoReport',
             permission: 'Addon.InOutReport.ActiveFloorListReport',
@@ -147,7 +147,7 @@ export const useMainStore = defineStore('main', {
             permission: 'Addon.Operations.CallReport',
           },
           {
-            title: 'playerWinLossAnalysisReport',
+            title: 'playerWinLossAnalysis',
             icon: 'remove',
             routeName: 'playerWinLossAnalysisReport',
             permission: 'Addon.Operations.PlayerWinLossAnalysisReport',
@@ -161,7 +161,7 @@ export const useMainStore = defineStore('main', {
         permission: 'Addon.PitOperations',
         subMenus: [
           {
-            title: 'liveGameFloorResultReport',
+            title: 'floorResult',
             icon: 'remove',
             routeName: 'liveGameFloorResultReport',
             permission: 'Addon.PitOperations.LiveGameFloorResultReport',
@@ -181,31 +181,31 @@ export const useMainStore = defineStore('main', {
         permission: 'Addon.Reports',
         subMenus: [
           {
-            title: 'playerResultReport',
+            title: 'playerResult',
             icon: 'remove',
             routeName: 'playerResultReport',
             permission: 'Addon.LiveGameReports.GetPlayerResultReport',
           },
           {
-            title: 'timeInOutReport',
+            title: 'timeInOut',
             icon: 'remove',
             routeName: 'timeInOutReport',
             permission: 'Addon.InOutReport.GetTimeInOutReport',
           },
           {
-            title: 'timeInOutReportByPlayer',
+            title: 'timeInOutByPlayer',
             icon: 'remove',
             routeName: 'timeInOutReportByPlayer',
             permission: 'Addon.LiveGameReports.GetTimeInOutReportByPlayer',
           },
           {
-            title: 'timeInOutReportByTable',
+            title: 'timeInOutByTable',
             icon: 'remove',
             routeName: 'timeInOutReportByTable',
             permission: 'Addon.LiveGameReports.GetTimeInOutReportByTable',
           },
           {
-            title: 'tableFloatsReport',
+            title: 'tableFloats',
             icon: 'remove',
             routeName: 'tableFloatsReport',
             permission: 'Addon.Definitions.TableFloats.ShowList',
@@ -225,7 +225,7 @@ export const useMainStore = defineStore('main', {
             permission: 'Addon.InOutReport.GetInOutReportNew',
           },
           {
-            title: 'inOutSelectedNameReport',
+            title: 'inOutSelectedName',
             icon: 'remove',
             routeName: 'inOutSelectedNameReport',
             permission: 'Addon.InOutReport.GetInOutSelectedNameReport',

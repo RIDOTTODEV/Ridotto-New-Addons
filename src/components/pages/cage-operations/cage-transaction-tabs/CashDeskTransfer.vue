@@ -1,11 +1,11 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCurrencyStore } from 'src/stores/currency-store'
 import { useTransactionCodeStore } from 'src/stores/transaction-code-store'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { useQuasar } from 'quasar'
-
+const bus = inject('bus')
 const currencyStore = useCurrencyStore()
 const { currencies } = storeToRefs(currencyStore)
 const transactionCodeStore = useTransactionCodeStore()
@@ -21,7 +21,7 @@ const cashDeskTransferTabFormValues = ref({
   amount: null,
   note: null,
 })
-
+const emits = defineEmits(['savedCageTransaction', 'cancel'])
 const onSubmitCashDeskTransferTabForm = async () => {
   const response = await cashdeskStore.createCashDeskTransferTransaction(
     cashDeskTransferTabFormValues.value,
@@ -33,6 +33,7 @@ const onSubmitCashDeskTransferTabForm = async () => {
     })
     setTimeout(() => {
       emits('savedCageTransaction')
+      bus.emit('reloadCageBalance')
     }, 1000)
   } else {
     $q.notify({
@@ -41,8 +42,6 @@ const onSubmitCashDeskTransferTabForm = async () => {
     })
   }
 }
-
-const emits = defineEmits(['savedCageTransaction', 'cancel'])
 </script>
 
 <template>

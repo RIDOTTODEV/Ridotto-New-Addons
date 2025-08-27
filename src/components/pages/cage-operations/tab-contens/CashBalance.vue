@@ -3,9 +3,10 @@ import { formatPrice, priceAbsFormatted } from 'src/helpers/helpers'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { useAuthStore } from 'src/stores/auth-store'
 import { storeToRefs } from 'pinia'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import { date, Dialog, debounce } from 'quasar'
 import { i18n } from 'src/boot/i18n'
+const bus = inject('bus')
 const cashdeskStore = useCashdeskStore()
 const { getSelectedCashDeskId, currentCashDeskTotals, currentCashDeskCountDenominations } =
   storeToRefs(cashdeskStore)
@@ -16,10 +17,12 @@ const filterCageBalanceFields = ref({
 })
 
 onMounted(async () => {
+  await getTotals()
+})
+const getTotals = async () => {
   await cashdeskStore.getCashdeskTotals(filterCageBalanceFields.value)
   await cashdeskStore.fetchCashdeskCountDenominations(filterCageBalanceFields.value)
-})
-
+}
 const cageBalanceColumns = ref([
   {
     name: 'gamingDate',
@@ -94,6 +97,7 @@ const resetDenomination = (denomination) => {
 const updateDenomination = debounce(async (denomination) => {
   denomination.quantity = denomination.quantity ? +denomination.quantity : 0
   await cashdeskStore.updateCashDeskCountDenominations(denomination)
+  bus.emit('reloadCageBalance')
 }, 300)
 </script>
 

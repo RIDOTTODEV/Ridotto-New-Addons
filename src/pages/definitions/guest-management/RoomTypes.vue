@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <q-card class="no-box-shadow app-cart-grey q-mb-md">
+    <q-card class="no-box-shadow bg-transparent q-mb-md">
       <q-card-section class="q-pa-none row justify-between">
         <div class="text-h6">
           {{ $t('roomTypes') }}
@@ -8,8 +8,8 @@
         <q-btn
           unelevated
           dense
-          color="grey-2"
-          text-color="dark"
+          color="blue-grey-8"
+          text-color="white"
           no-caps
           size="13px"
           icon="add"
@@ -131,7 +131,8 @@
                 no-caps
                 unelevated
                 icon="save"
-                color="deep-purple"
+                color="blue-grey-8"
+                text-color="white"
                 size="13px"
                 :label="roomTypeFormValues.id ? $t('update') : $t('save')"
                 class="col-12"

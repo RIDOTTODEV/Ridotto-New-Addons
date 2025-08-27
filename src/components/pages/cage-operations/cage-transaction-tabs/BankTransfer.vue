@@ -1,12 +1,13 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCurrencyStore } from 'src/stores/currency-store'
 import { useTransactionCodeStore } from 'src/stores/transaction-code-store'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { useBankAccountStore } from 'src/stores/bank-account-store'
 import { priceAbsFormatted } from 'src/helpers/helpers'
-
+const bus = inject('bus')
+const emits = defineEmits(['savedCageTransaction', 'cancel'])
 import { useQuasar } from 'quasar'
 const $q = useQuasar()
 const currencyStore = useCurrencyStore()
@@ -15,7 +16,7 @@ const transactionCodeStore = useTransactionCodeStore()
 const { getTransactionCodesByGroups } = storeToRefs(transactionCodeStore)
 const cashdeskStore = useCashdeskStore()
 const { transactionTypes, getSelectedCashDeskId } = storeToRefs(cashdeskStore)
-const emits = defineEmits(['savedCageTransaction', 'cancel'])
+
 const bankAccountStore = useBankAccountStore()
 const { getBankAccountsByCurrencyId } = storeToRefs(bankAccountStore)
 const bankTransferTabFormValues = ref({
@@ -39,6 +40,7 @@ const onSubmitBankTransferTabForm = async () => {
       message: 'Transaction created successfully',
       type: 'positive',
     })
+    bus.emit('reloadCageBalance')
   }
 }
 

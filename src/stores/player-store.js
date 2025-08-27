@@ -67,7 +67,7 @@ export const usePlayerStore = defineStore('playerStore', {
     },
     async fetchPlayerMetaDetail(params) {
       const { data } = await playerAccountService.getPlayerMetaDetail(params)
-      this.selectedPlayer = data
+      this.selectedPlayer = { ...data }
       await this.fetchDepositAndCredits(params.playerId)
     },
     async fetchDepositAndCredits(playerId = null) {

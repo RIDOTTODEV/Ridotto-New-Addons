@@ -56,12 +56,7 @@
             class="q-card no-box-shadow q-pa-none"
           >
             <in-out-transfer
-              @savedCageTransaction="
-                () => {
-                  createNewTransaction = false
-                  cageTransactionsTable.fetchData()
-                }
-              "
+              @savedCageTransaction="onSavedCageTransaction"
               @cancel="createNewTransaction = false"
             />
           </q-tab-panel>
@@ -71,12 +66,7 @@
             class="q-card no-box-shadow q-pa-none"
           >
             <cash-desk-transfer
-              @savedCageTransaction="
-                () => {
-                  createNewTransaction = false
-                  cageTransactionsTable.fetchData()
-                }
-              "
+              @savedCageTransaction="onSavedCageTransaction"
               @cancel="createNewTransaction = false"
             />
           </q-tab-panel>
@@ -86,12 +76,7 @@
             class="q-card q-pa-none no-box-shadow"
           >
             <exchange-transfer
-              @savedCageTransaction="
-                () => {
-                  createNewTransaction = false
-                  cageTransactionsTable.fetchData()
-                }
-              "
+              @savedCageTransaction="onSavedCageTransaction"
               @cancel="createNewTransaction = false"
             />
           </q-tab-panel>
@@ -101,12 +86,7 @@
             class="q-card no-box-shadow q-pa-none"
           >
             <others-transfer
-              @savedCageTransaction="
-                () => {
-                  createNewTransaction = false
-                  cageTransactionsTable.fetchData()
-                }
-              "
+              @savedCageTransaction="onSavedCageTransaction"
               @cancel="createNewTransaction = false"
             />
           </q-tab-panel>
@@ -116,12 +96,7 @@
             class="q-card q-pa-none no-box-shadow"
           >
             <bank-transfer
-              @savedCageTransaction="
-                () => {
-                  createNewTransaction = false
-                  cageTransactionsTable.fetchData()
-                }
-              "
+              @savedCageTransaction="onSavedCageTransaction"
               @cancel="createNewTransaction = false"
             />
           </q-tab-panel>
@@ -431,5 +406,9 @@ const filterFields = ref({
 onMounted(() => {
   currentCageTransactionTab.value = LocalStorage.getItem('cageTransactionTab') || 'inOutTransfer'
 })
+
+const onSavedCageTransaction = () => {
+  createNewTransaction.value = false
+}
 </script>
 <style lang="scss" scoped></style>

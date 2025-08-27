@@ -153,15 +153,15 @@
     </div>
     <div class="col-7 q-pa-xs">
       <LastChipTransaction
-        :player-id="selectedPlayer.player.id"
+        :player-id="playerId"
         v-if="selectedPlayer"
         class="q-mb-md"
-        :ref="lastChipTransactionRef"
+        ref="lastChipTransactionRef"
       />
       <LastCageTransaction
-        :player-id="selectedPlayer.player.id"
+        :player-id="playerId"
         v-if="selectedPlayer"
-        :ref="lastCageTransactionRef"
+        ref="lastCageTransactionRef"
       />
     </div>
   </div>
@@ -182,6 +182,7 @@ const {
   initPlayerChipTransactionChips,
   lastChipTransactionRef,
   lastCageTransactionRef,
+  playerId,
 } = usePlayer()
 const { getTransactionCodesByTransType } = useTransactionCode()
 const { getCurrenciesByIds } = useCurrencies()

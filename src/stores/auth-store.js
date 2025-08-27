@@ -95,7 +95,11 @@ export const useAuthStore = defineStore('authStore', {
       if (Object.keys(state.userPanelSettings).length === 0) {
         return defaultColumns.map((column) => column.name)
       }
+      if (!state.userPanelSettings.tableColumns[tableName]) {
+        return defaultColumns.map((column) => column.name)
+      }
       const userColumns = state.userPanelSettings.tableColumns[tableName]?.columns
+
       if (userColumns) {
         return userColumns.filter((column) => column.visible).map((column) => column.name)
       }
@@ -104,6 +108,12 @@ export const useAuthStore = defineStore('authStore', {
     getTableRowsPerPage:
       (state) =>
       (tableName, defaultRowsPerPage = 10) => {
+        if (Object.keys(state.userPanelSettings).length === 0) {
+          return defaultRowsPerPage
+        }
+        if (!state.userPanelSettings.tableColumns[tableName]) {
+          return defaultRowsPerPage
+        }
         const tableSettings = state.userPanelSettings.tableColumns[tableName]
         return tableSettings?.rowsPerPage || defaultRowsPerPage
       },

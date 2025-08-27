@@ -235,7 +235,7 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
       return data
     },
     async setCashdeskBalance() {
-      Promise.all([this.setCashdeskCashBalance(), this.setCashdeskChipBalance()])
+      await Promise.all([this.setCashdeskCashBalance(), this.setCashdeskChipBalance()])
     },
     async fetchCashdeskTransactionTypes() {
       const { data } = await cashdeskTransactionService.getCashdeskTransactionTypes()

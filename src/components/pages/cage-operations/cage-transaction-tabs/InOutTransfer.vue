@@ -1,10 +1,12 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCurrencyStore } from 'src/stores/currency-store'
 import { useTransactionCodeStore } from 'src/stores/transaction-code-store'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { useQuasar } from 'quasar'
+const bus = inject('bus')
+const emits = defineEmits(['savedCageTransaction', 'cancel'])
 const currencyStore = useCurrencyStore()
 const { currencies } = storeToRefs(currencyStore)
 const transactionCodeStore = useTransactionCodeStore()
@@ -27,9 +29,8 @@ const onSubmitInOutTabForm = async () => {
       message: 'Transaction created successfully',
       type: 'positive',
     })
-    setTimeout(() => {
-      emits('savedCageTransaction')
-    }, 1000)
+    bus.emit('reloadCageBalance')
+    emits('savedCageTransaction')
   } else {
     $q.notify({
       message: 'Transaction creation failed',
@@ -37,7 +38,6 @@ const onSubmitInOutTabForm = async () => {
     })
   }
 }
-const emits = defineEmits(['savedCageTransaction', 'cancel'])
 </script>
 
 <template>

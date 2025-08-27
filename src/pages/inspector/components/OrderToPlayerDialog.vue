@@ -257,7 +257,7 @@
             </q-card>
           </div>
           <div class="col-3 q-pa-sm">
-            <q-card flat square class="bg-transparent" v-if="categoryHistory.length > 0">
+            <q-card flat square class="bg-transparent">
               <q-card-section class="q-pa-none" style="height: calc(100vh - 180px)">
                 <div class="post-category">
                   <div class="pos__categories__inner">

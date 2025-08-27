@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 import { formatPrice } from 'src/helpers/helpers'
 import { usePlayerStore } from 'src/stores/player-store'
 import { storeToRefs } from 'pinia'
+
 const playerStore = usePlayerStore()
 const { dateTimeFilterValues } = storeToRefs(playerStore)
 const lastChipTransactions = ref([])
@@ -67,9 +68,9 @@ const columns = ref([
 const router = useRouter()
 const props = defineProps({
   playerId: {
-    type: Number,
+    type: String,
     required: true,
-    default: () => 0,
+    default: () => '',
   },
 })
 onMounted(async () => {
@@ -82,10 +83,10 @@ const loadLastChipTransactions = async () => {
   })
   lastChipTransactions.value = data || []
 }
+
 defineExpose({
   reload: loadLastChipTransactions,
 })
-const refTable = ref(null)
 </script>
 
 <template>
@@ -99,7 +100,6 @@ const refTable = ref(null)
     data-cy="playerLastCashTransactionsTable"
     separator="cell"
     bordered
-    ref="refTable"
   >
     <template v-slot:top>
       <div class="row full-width">

@@ -2,6 +2,7 @@ import { useOperationsStore } from 'src/stores/operations-store'
 import { ref, inject, defineAsyncComponent } from 'vue'
 import { date, useQuasar } from 'quasar'
 import { i18n } from 'boot/i18n'
+import { api } from 'boot/axios'
 export const usePortfolioManagement = () => {
   const bus = inject('bus')
   const operationStore = useOperationsStore()
@@ -30,10 +31,24 @@ export const usePortfolioManagement = () => {
   }
 
   const handlePortfolioManagementExportExcel = async () => {
-    operationStore.getPlayerPortfolio({
-      ...portfolioManagementFilter.value,
-      exportFileType: 'Excel',
-    })
+    await api
+      .get('/api/Export/GetPlayerPortfolio', {
+        params: {
+          ...portfolioManagementFilter.value,
+          exportFileType: 'Excel',
+        },
+        responseType: 'blob',
+      })
+      .then((res) => {
+        let extension = portfolioManagementFilter.value.exportFileType === 'Excel' ? 'xlsx' : 'pdf'
+        let fileName = `portfolio-management-${portfolioManagementFilter.value.date}.${extension}`
+        let blob = res.data
+        let link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = fileName
+        link.click()
+        return true
+      })
   }
   const onHandleDateChange = (val) => {
     portfolioManagementFilter.value.date = date.formatDate(val, 'YYYY-MM-DD')

@@ -104,7 +104,6 @@ export function useCashdesk() {
     Loading.hide()
   }
   const deleteForm = (props) => {
-    Loading.show()
     Dialog.create({
       title: i18n.global.t('delete'),
       message: i18n.global.t('deleteMessage', { name: i18n.global.t('title') }),
@@ -124,6 +123,7 @@ export function useCashdesk() {
         class: 'text-capitalize',
       },
     }).onOk(async () => {
+      Loading.show()
       await cashdeskStore.deleteCashDesk(props.id)
       Loading.hide()
     })

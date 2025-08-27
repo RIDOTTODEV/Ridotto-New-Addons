@@ -76,7 +76,7 @@ const chipStockChipsDetailDialogData = ref(null)
 </script>
 
 <template>
-  <q-card class="app-cart-grey">
+  <q-card class="bg-transparent">
     <q-card-section>
       <div class="row">
         <div class="col-6">
@@ -87,8 +87,8 @@ const chipStockChipsDetailDialogData = ref(null)
         <div class="col-6 text-right flex content-center justify-end">
           <q-btn
             size="13px"
-            color="grey-2"
-            text-color="dark"
+            color="blue-grey-8"
+            text-color="white"
             :label="$t('create')"
             icon="add"
             unelevated
@@ -99,7 +99,7 @@ const chipStockChipsDetailDialogData = ref(null)
       </div>
     </q-card-section>
   </q-card>
-  <q-card class="q-mb-sm app-cart-grey" flat>
+  <q-card class="q-mb-sm bg-transparent" flat>
     <q-card-section class="q-pl-md q-pr-md q-pt-none q-pb-none">
       <Information
         class="full-width"

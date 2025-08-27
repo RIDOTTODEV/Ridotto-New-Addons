@@ -1,6 +1,6 @@
 <script setup>
 import { useDialogPluginComponent, format } from 'quasar'
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { usePlayerStore } from 'src/stores/player-store'
 import { useCurrencyStore } from 'src/stores/currency-store'
@@ -11,7 +11,7 @@ const cashDeskStore = useCashdeskStore()
 const playerStore = usePlayerStore()
 const currencyStore = useCurrencyStore()
 const transactionCodeStore = useTransactionCodeStore()
-
+const bus = inject('bus')
 const { currencies } = storeToRefs(currencyStore)
 const { accountTypes } = playerStore
 const { selectedCashDesk } = storeToRefs(cashDeskStore)
@@ -19,9 +19,9 @@ const { getTransactionCodesByTransType } = storeToRefs(transactionCodeStore)
 
 const props = defineProps({
   playerId: {
-    type: Number,
-    required: false,
-    default: null,
+    type: String,
+    required: true,
+    default: () => '',
   },
   transactionType: {
     type: String,
@@ -69,6 +69,7 @@ if (props.transactionType === 'Withdrawal') {
 const onsubmit = async () => {
   await playerStore.postCashdeskTransaction({ ...formValues.value }).then((res) => {
     if (res) {
+      bus.emit('reloadPlayerCashless')
       onDialogOK()
     }
   })

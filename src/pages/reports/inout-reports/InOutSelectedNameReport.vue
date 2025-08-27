@@ -1017,7 +1017,7 @@ const columns = ref([
     classes: 'bg-cyan-1',
     format: (val) => formatPrice(val),
   },
-  {
+  /*   {
     name: 'creditCardIn',
     align: 'center',
     label: 'Credit Card In',
@@ -1038,7 +1038,7 @@ const columns = ref([
     visible: true,
     classes: 'bg-brown-1',
     format: (val) => formatPrice(val),
-  },
+  }, */
   {
     name: 'slotPlayTime',
     align: 'center',

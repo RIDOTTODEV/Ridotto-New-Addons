@@ -4,7 +4,8 @@ import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { useAuthStore } from 'src/stores/auth-store'
 import { useCurrencyStore } from 'src/stores/currency-store'
 import { storeToRefs } from 'pinia'
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, computed, ref, inject } from 'vue'
+const bus = inject('bus')
 const cashdeskStore = useCashdeskStore()
 const { currentCashDeskBalance, currentCashDeskChipBalance } = storeToRefs(cashdeskStore)
 const authStore = useAuthStore()
@@ -15,8 +16,12 @@ const { currencies } = storeToRefs(currencyStore)
 onMounted(() => {
   cashdeskStore.setCashdeskBalance()
 })
+bus.on('reloadCageBalance', () => {
+  console.log('reloadCageBalance')
+  cashdeskStore.setCashdeskBalance()
+})
 const total = computed(() => {
-  return priceAbsFormatted(currentCashDeskBalance.value + currentCashDeskChipBalance.value)
+  return currentCashDeskBalance.value + currentCashDeskChipBalance.value
 })
 
 const showTotal = ref(false)
@@ -183,7 +188,7 @@ const onChangeCurrency = (currencyId) => {
                   : 'background-color: #dc3545!important'
               "
             >
-              <span data-cy="cageTotal">{{ total }}</span>
+              <span data-cy="cageTotal">{{ priceAbsFormatted(total) }}</span>
               <span
                 class="cursor-pointer q-ml-sm"
                 v-if="currencies.length"

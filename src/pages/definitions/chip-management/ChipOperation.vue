@@ -13,8 +13,8 @@ import ChipTransferTabContent from 'src/components/pages/definitions/chip-manage
       dense
       class="text-dark"
       active-color="white"
-      indicator-color="blue-grey-7"
-      active-bg-color="blue-grey-7"
+      indicator-color="blue-grey-8"
+      active-bg-color="blue-grey-8"
       align="left"
       narrow-indicator
       no-caps
@@ -35,14 +35,14 @@ import ChipTransferTabContent from 'src/components/pages/definitions/chip-manage
       <q-tab-panel
         v-el-perms="'Addon.ChipOperations.Tab.ShowChipStock'"
         name="chipStock"
-        class="q-card no-box-shadow q-pa-none"
+        class="q-card no-box-shadow q-pa-none bg-transparent"
       >
         <chip-stock-tab-content />
       </q-tab-panel>
       <q-tab-panel
         v-el-perms="'Addon.ChipOperations.Tab.ShowChipTransfer'"
         name="chipTransfer"
-        class="q-card no-box-shadow q-pa-none"
+        class="q-card no-box-shadow q-pa-none bg-transparent"
       >
         <chip-transfer-tab-content />
       </q-tab-panel>

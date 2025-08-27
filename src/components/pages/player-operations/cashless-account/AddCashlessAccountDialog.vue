@@ -1,6 +1,6 @@
 <script setup>
 import { useDialogPluginComponent } from 'quasar'
-import { ref, watch } from 'vue'
+import { ref, watch, inject } from 'vue'
 
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { usePlayerStore } from 'src/stores/player-store'
@@ -12,7 +12,7 @@ const cashDeskStore = useCashdeskStore()
 const playerStore = usePlayerStore()
 const currencyStore = useCurrencyStore()
 const transactionCodeStore = useTransactionCodeStore()
-
+const bus = inject('bus')
 const { currencies } = storeToRefs(currencyStore)
 const { getAccountTypesForPlayer } = playerStore
 const { selectedCashDesk } = storeToRefs(cashDeskStore)
@@ -46,6 +46,7 @@ const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginC
 const onsubmit = async () => {
   await playerStore.postCashdeskTransaction({ ...formValues.value }).then((res) => {
     if (res) {
+      bus.emit('reloadPlayerCashless')
       onDialogOK()
     }
   })

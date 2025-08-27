@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCurrencyStore } from 'src/stores/currency-store'
 import { useTransactionCodeStore } from 'src/stores/transaction-code-store'
@@ -8,7 +8,8 @@ import { useQuasar } from 'quasar'
 const currencyStore = useCurrencyStore()
 const { getCurrenciesWithFlags, getCurrencyById } = storeToRefs(currencyStore)
 const transactionCodeStore = useTransactionCodeStore()
-
+const bus = inject('bus')
+const emits = defineEmits(['savedCageTransaction', 'cancel'])
 const cashdeskStore = useCashdeskStore()
 const { getSelectedCashDeskId } = storeToRefs(cashdeskStore)
 
@@ -61,6 +62,7 @@ const onSubmitExchangeTabForm = async () => {
     })
     setTimeout(() => {
       emits('savedCageTransaction')
+      bus.emit('reloadCageBalance')
     }, 1000)
   } else {
     $q.notify({
@@ -69,7 +71,7 @@ const onSubmitExchangeTabForm = async () => {
     })
   }
 }
-const emits = defineEmits(['savedCageTransaction', 'cancel'])
+
 const setExchangeConvertedAmount = async () => {
   exchangeFormValues.value.receivedAmount = null
   if (

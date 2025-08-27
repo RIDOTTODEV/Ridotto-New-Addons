@@ -30,9 +30,10 @@ export function useInspectorOrder() {
     playerName: currentPlayer.value?.playerName,
     externalId: currentPlayer.value?.playerId,
     externalUserId: currentPlayer.value?.playerId,
-    orderedByFullName: user.value?.details?.name || '',
+    orderedByFullName: user.value?.profile?.name || '',
     orderSource: 2,
     TerminalName: terminal.value?.name,
+    orderbyfullname: null,
   })
   const playerOrders = ref([])
   const selectedOrderItem = ref({
@@ -45,7 +46,7 @@ export function useInspectorOrder() {
   const fetchFavoriteProduct = ref(false)
 
   const initializeMenu = () => {
-    if (terminalMenu.value.length === 1) {
+    /*    if (terminalMenu.value.length === 1) {
       categoryHistory.value.push(terminalMenu.value[0])
       if (terminalMenu.value[0].categories.length === 1) {
         categoryHistory.value.push(terminalMenu.value[0].categories[0])
@@ -57,6 +58,33 @@ export function useInspectorOrder() {
     } else {
       categories.value = terminalMenu.value
       categoryHistory.value.push(terminalMenu.value[0])
+    } */
+
+    if (terminalMenu.value.length === 1) {
+      categoryHistory.value.push(terminalMenu.value[0])
+      if (terminalMenu.value[0].categories.length === 1) {
+        categoryHistory.value.push(terminalMenu.value[0].categories[0])
+        categories.value =
+          terminalMenu.value[0].categories[0].categories?.sort((a, b) =>
+            a.categoryName.localeCompare(b.categoryName),
+          ) ||
+          terminalMenu.value[0].categories[0].subCategories?.sort((a, b) =>
+            a.categoryName.localeCompare(b.categoryName),
+          ) ||
+          []
+        products.value =
+          terminalMenu.value[0].categories[0].products?.sort((a, b) =>
+            a.productName.localeCompare(b.productName),
+          ) || []
+      } else {
+        categories.value =
+          terminalMenu.value[0].categories?.sort((a, b) =>
+            a.categoryName.localeCompare(b.categoryName),
+          ) || []
+      }
+    } else {
+      categories.value =
+        terminalMenu.value?.sort((a, b) => a.menuName.localeCompare(b.menuName)) || []
     }
   }
   const onClickCategory = (category) => {
