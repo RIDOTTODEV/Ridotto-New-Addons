@@ -127,6 +127,9 @@ export const useTableStore = defineStore('tableStore', {
     async setTableFloat(params) {
       return await tableFloatService.setTableFloat(params)
     },
+    async updateChipCount(data) {
+      return await tableCountService.chipCountSave(data)
+    },
     async getExpectedTableFloat(params) {
       const searchParams = new URLSearchParams()
       if (params.tableIds && Array.isArray(params.tableIds)) {

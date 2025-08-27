@@ -391,17 +391,12 @@ const getTableFilterParams = () => {
 }
 const initColumns = async () => {
   const columns = generateColumns(props.columns)
-
   const userColumns = getUserTableColumns.value(props.tableName, columns)
-  console.log(userColumns)
-  tableColumns.value = columns
+  tableColumns.value = userColumns
   visibleColumnOptions.value = getUserTableVisibleColumns.value(props.tableName, columns)
+  console.log(visibleColumnOptions.value)
+  console.log(tableColumns.value)
 
-  if (visibleColumns.value.length === 0) {
-    visibleColumns.value = [...visibleColumnOptions.value]
-    console.log(visibleColumns.value)
-    console.log(tableColumns.value)
-  }
   //console.log(visibleColumnOptions.value)
   /*   const isRequiredRowKeyExist = visibleColumnOptions.value.some(
     (item) => item.name === props.rowKey,
