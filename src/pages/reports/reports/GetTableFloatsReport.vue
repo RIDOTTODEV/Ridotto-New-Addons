@@ -5,7 +5,7 @@
       :getDataFn="reportStore.getTableFloatsReport"
       :filterValues="filterValues"
       ref="inOutReportTable"
-      tableName="inOutReportByTableColumns"
+      tableName="tableFloatsReportColumns"
       :filterParams="filterValues"
       :slot-names="['body-cell-tableFloatDenoms']"
     >

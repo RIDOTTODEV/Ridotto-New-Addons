@@ -1,4 +1,5 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
+import { api } from 'src/boot/axios'
 import {
   searchService,
   playerAccountService,
@@ -205,6 +206,21 @@ export const usePlayerStore = defineStore('playerStore', {
     },
     async updatePlayerMetaDetail(params) {
       return await playerService.updatePlayerMetaDetail(params)
+    },
+    async playerPostCashDeskCashTransaction(data) {
+      return await api
+        .post(`/api/${data.methodName}`, data)
+        .then(() => {
+          this.fetchPlayerMetaDetail({ playerId: data.playerId })
+          this.fetchPlayerAccounts({
+            PlayerId: data.playerId,
+          })
+          this.getPlayerLastCashdeskTransaction({ playerId: data.playerId })
+          return true
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
   },
 })
