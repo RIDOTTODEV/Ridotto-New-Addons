@@ -62,6 +62,11 @@ const inOutReportTable = ref(null)
 
 const columns = ref([
   {
+    field: 'id',
+    label: 'Id',
+    required: true,
+  },
+  {
     field: 'playerName',
     label: 'Player Name',
   },

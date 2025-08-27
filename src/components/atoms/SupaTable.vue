@@ -8,7 +8,6 @@
     :rows="tableRows"
     :columns="tableColumns"
     :row-key="rowKey"
-    :visible-columns="visibleColumns"
     dense
     separator="cell"
     :rows-per-page-options="[0]"
@@ -18,6 +17,7 @@
     :filter="tableFilterInput"
     :pagination="pagination"
     @row-click="onRowClick"
+    :visible-columns="visibleColumns"
   >
     <template v-slot:top="">
       <div class="flex row full-width q-pa-sm">
@@ -66,6 +66,7 @@
                   'text-primary': visibleColumns.includes(column.name),
                 }"
                 @click="onSelectVisibleColumn(column.name)"
+                :disable="column.required"
               >
                 <q-item-section class="text-capitalize text-caption">
                   {{ column.label }}
@@ -190,9 +191,10 @@
 </template>
 
 <script setup>
+import ShowJsonDetailDialog from './ShowJsonDetailDialog.vue'
 import { ref, watch, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import ShowJsonDetailDialog from './ShowJsonDetailDialog.vue'
+
 import { useQuasar } from 'quasar'
 import { generateColumns } from '../../helpers/table'
 
@@ -312,7 +314,7 @@ const onDropColumn = (from, to) => {
   }
 }
 
-watch(
+/* watch(
   visibleColumns,
   () => {
     const visibleColumnsMap = visibleColumns.value?.reduce((acc, curr, index) => {
@@ -338,7 +340,7 @@ watch(
     }
   },
   { deep: true },
-)
+) */
 
 watch(
   () => props.filterParams,
@@ -389,9 +391,25 @@ const getTableFilterParams = () => {
 }
 const initColumns = async () => {
   const columns = generateColumns(props.columns)
+
   const userColumns = getUserTableColumns.value(props.tableName, columns)
-  tableColumns.value = userColumns
+  console.log(userColumns)
+  tableColumns.value = columns
   visibleColumnOptions.value = getUserTableVisibleColumns.value(props.tableName, columns)
+
+  if (visibleColumns.value.length === 0) {
+    visibleColumns.value = [...visibleColumnOptions.value]
+    console.log(visibleColumns.value)
+    console.log(tableColumns.value)
+  }
+  //console.log(visibleColumnOptions.value)
+  /*   const isRequiredRowKeyExist = visibleColumnOptions.value.some(
+    (item) => item.name === props.rowKey,
+  )
+  const columnRequiredRowKey = columns.find((item) => item.required === true)
+  if (!isRequiredRowKeyExist) {
+    visibleColumnOptions.value.unshift(columnRequiredRowKey.name)
+  } */
 }
 const initPagination = (response = null) => {
   if (response) {
