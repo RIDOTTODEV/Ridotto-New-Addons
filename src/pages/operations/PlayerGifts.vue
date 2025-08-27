@@ -71,7 +71,7 @@
                 />
                 <q-btn
                   type="button"
-                  :label="$t('base.filter')"
+                  :label="$t('filter')"
                   icon="tune"
                   color="grey-2"
                   text-color="dark"

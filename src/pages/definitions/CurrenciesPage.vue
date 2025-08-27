@@ -99,7 +99,7 @@
                     v-model="rate.rate"
                     :currency="'USD'"
                     :custom-rules="[
-                      (val) => (val && val.toString().length > 0) || $t('base.requiredField'),
+                      (val) => (val && val.toString().length > 0) || $t('requiredField'),
                     ]"
                     :precision="6"
                     :clearable="false"
@@ -199,7 +199,7 @@
                         </div>
                         <div class="col-2 q-pl-sm q-pr-sm q-pb-sm">
                           <div class="text-subtitle2">
-                            {{ $t('base.transactionType') }}
+                            {{ $t('transactionType') }}
                           </div>
                           <q-select
                             outlined

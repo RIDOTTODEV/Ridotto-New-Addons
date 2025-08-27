@@ -176,7 +176,7 @@ const columns = ref([
     format: (val) => date.formatDate(val, 'DD.MM.YYYY HH:mm:ss'),
     visible: true,
   },
-  // {name: 'detail', align: 'center', locale: 'base.detail', field: 'id', sortable: false, visible: true},
+  // {name: 'detail', align: 'center', locale: 'detail', field: 'id', sortable: false, visible: true},
 ])
 const filterFields = ref({
   ...props.getChipHistoryDetailFilterFields,

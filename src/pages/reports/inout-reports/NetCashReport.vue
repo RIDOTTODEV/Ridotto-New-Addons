@@ -5,7 +5,7 @@
       :getDataFn="reportStore.getNetCashReport"
       :filterValues="filterValues"
       ref="inOutReportTable"
-      tableName="inOutReportColumns"
+      tableName="netCashReportColumns"
       :filterParams="filterValues"
       :slotNames="['body-cell-playerName']"
     >

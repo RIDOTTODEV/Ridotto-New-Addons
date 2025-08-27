@@ -74,23 +74,11 @@ export const useInspectorOrderStore = defineStore('inspectorOrderStore', {
       return await posApi
         .post('/api/Order/Create', order)
         .then(() => {
-          fireNotify(
-            i18n.global.t('base.orderCreated'),
-            'created',
-            'bottom-right',
-            1500,
-            'positive',
-          )
+          fireNotify(i18n.global.t('orderCreated'), 'created', 'bottom-right', 1500, 'positive')
           return true
         })
         .catch(() => {
-          fireNotify(
-            i18n.global.t('base.orderNotCreated'),
-            'created',
-            'bottom-right',
-            1500,
-            'negative',
-          )
+          fireNotify(i18n.global.t('orderNotCreated'), 'created', 'bottom-right', 1500, 'negative')
           return false
         })
     },
@@ -100,7 +88,7 @@ export const useInspectorOrderStore = defineStore('inspectorOrderStore', {
     async cancelOrderDetail(params) {
       return await posApi.post('/api/Order/UpdateOrderDetailStatus', params).then((res) => {
         fireNotify(
-          i18n.global.t('base.orderItemCancelled'),
+          i18n.global.t('orderItemCancelled'),
           'cancelled',
           'bottom-right',
           1500,

@@ -2,7 +2,7 @@
   <q-dialog ref="dialogRef" @hide="onDialogHide" persistent>
     <q-card class="q-dialog-plugin" style="min-width: 500px !important">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">{{ $t('base.areYouSure') }}</div>
+        <div class="text-h6">{{ $t('areYouSure') }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>

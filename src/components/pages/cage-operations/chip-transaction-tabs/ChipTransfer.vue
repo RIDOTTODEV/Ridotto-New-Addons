@@ -162,11 +162,11 @@ const emits = defineEmits(['savedCageChipTransaction', 'cancel'])
     <q-card :style="`height: ${getWindowHeight()}px!important;`">
       <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
         <div class="text-subtitle2">
-          {{ $t('base.detail') }}
+          {{ $t('detail') }}
         </div>
         <q-space />
         <q-btn dense flat icon="close" v-close-popup>
-          <q-tooltip class="text-subtitle1 bg-blue-grey-8">{{ $t('base.close') }}</q-tooltip>
+          <q-tooltip class="text-subtitle1 bg-blue-grey-8">{{ $t('close') }}</q-tooltip>
         </q-btn>
       </q-bar>
       <q-card-section class="q-pa-none">

@@ -5,7 +5,7 @@
       :getDataFn="reportStore.getTimeInOutReportByPlayer"
       :filterValues="filterValues"
       ref="inOutReportTable"
-      tableName="inOutReportColumns"
+      tableName="timeInOutByPlayerReportColumns"
       :filterParams="filterValues"
       :slotNames="['body-cell-playerFullName', 'body-cell-actions']"
       dataKey="playerLgResults"
@@ -109,7 +109,7 @@
             :getDataFn="reportStore.getTimeInOutReport"
             :filterParams="dailyReportDetailParams"
             ref="inOutReportTable"
-            tableName="inOutReportColumns"
+            tableName="timeInOutByPlayerReportDetailColumns"
             dataKey="playerLgResult"
           >
             <template v-slot:headerFilterSlots>

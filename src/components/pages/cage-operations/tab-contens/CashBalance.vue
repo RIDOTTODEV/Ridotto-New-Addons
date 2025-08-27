@@ -1,5 +1,5 @@
 <script setup>
-import { formatPrice, priceAbsFormatted } from 'src/helpers/helpers'
+import { formatPrice, fireNotify, priceAbsFormatted } from 'src/helpers/helpers'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { useAuthStore } from 'src/stores/auth-store'
 import { storeToRefs } from 'pinia'
@@ -96,8 +96,13 @@ const resetDenomination = (denomination) => {
 
 const updateDenomination = debounce(async (denomination) => {
   denomination.quantity = denomination.quantity ? +denomination.quantity : 0
-  await cashdeskStore.updateCashDeskCountDenominations(denomination)
-  bus.emit('reloadCageBalance')
+  const response = await cashdeskStore.updateCashDeskCountDenominations(denomination)
+  if (response.status === 200) {
+    await bus.emit('reloadCageBalance')
+  } else {
+    fireNotify(response.message, 'error')
+  }
+  await getTotals()
 }, 300)
 </script>
 
@@ -118,7 +123,7 @@ const updateDenomination = debounce(async (denomination) => {
                 </div>
                 <div class="col-10 text-right flex justify-end content-center items-center">
                   <div class="text-subtitle2 q-mr-sm">
-                    {{ item.totalAmount.toFixed(2) }}
+                    {{ priceAbsFormatted(item.totalAmount) }}
                   </div>
                   <q-icon
                     name="o_delete_forever"

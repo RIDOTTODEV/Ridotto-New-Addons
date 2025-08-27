@@ -233,7 +233,7 @@
                         v-model="props.row.name"
                         :placeholder="$t('name')"
                         :rules="[
-                          (val) => (val && val.toString().length > 0) || $t('base.requiredField'),
+                          (val) => (val && val.toString().length > 0) || $t('requiredField'),
                         ]"
                         square
                         class="super-small"

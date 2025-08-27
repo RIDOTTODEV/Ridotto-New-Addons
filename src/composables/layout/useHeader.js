@@ -158,8 +158,6 @@ export function useHeader(props, emit) {
       authStore.fetchDefaultGamingDateInfo()
       cashdeskStore.getGamingDateByCashdeskId({
         cashdeskId: selectedCashDesk.value.id,
-        /*         authStore.getDefaultGamingDateId,
-          date.formatDate(authStore.defaultGamingDateInfo.gmDate, 'DD.MM.YYYY'), */
       })
     })
   }

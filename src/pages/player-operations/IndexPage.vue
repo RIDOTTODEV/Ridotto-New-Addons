@@ -39,7 +39,7 @@
                     <template v-slot:no-option>
                       <q-item v-if="searchPlayerLoading">
                         <q-item-section class="text-grey">
-                          {{ $t('base.notFound') }}
+                          {{ $t('notFound') }}
                         </q-item-section>
                       </q-item>
                     </template>

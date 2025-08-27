@@ -78,7 +78,7 @@
                 dense
                 v-model="formValues.name"
                 class="col-12 super-small"
-                :rules="[(val) => (val && val.toString().length > 0) || $t('base.requiredField')]"
+                :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
                 clearable
               />
             </div>
@@ -90,7 +90,7 @@
                 class="col-12 super-small"
                 outlined
                 dense
-                :rules="[(val) => (val && val.toString().length > 0) || $t('base.requiredField')]"
+                :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
                 clearable
               />
             </div>

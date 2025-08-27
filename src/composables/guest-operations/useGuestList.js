@@ -72,7 +72,7 @@ export function useGuestList() {
     if (!players || players.length === 0) {
       $q.notify({
         type: "warning",
-        message: i18n.global.t("base.notFound"),
+        message: i18n.global.t("notFound"),
         position: "top",
       });
       return;
@@ -106,7 +106,7 @@ export function useGuestList() {
         ) {
           $q.notify({
             type: "warning",
-            message: i18n.global.t("base.playerAlreadyAdded"),
+            message: i18n.global.t("playerAlreadyAdded"),
             position: "top",
           });
         } else {
@@ -214,8 +214,8 @@ export function useGuestList() {
   const onClickRemoveHotelGuestReservation = async (props) => {
     await $q
       .dialog({
-        title: i18n.global.t("base.delete"),
-        message: i18n.global.t("base.deleteMessage", {
+        title: i18n.global.t("delete"),
+        message: i18n.global.t("deleteMessage", {
           name: props.playerFullName,
         }),
         persistent: true,
@@ -223,13 +223,13 @@ export function useGuestList() {
         ok: {
           flat: true,
           color: "negative",
-          label: i18n.global.t("base.delete"),
+          label: i18n.global.t("delete"),
           class: "text-capitalize",
         },
         cancel: {
           flat: true,
           color: "primary",
-          label: i18n.global.t("base.cancel"),
+          label: i18n.global.t("cancel"),
           class: "text-capitalize",
         },
         transitionShow: "slide-up",
@@ -330,20 +330,20 @@ export function useGuestList() {
   const onClickRemoveRoomType = async (props) => {
     await $q
       .dialog({
-        title: i18n.global.t("base.delete"),
-        message: i18n.global.t("base.deleteMessage", { name: props.name }),
+        title: i18n.global.t("delete"),
+        message: i18n.global.t("deleteMessage", { name: props.name }),
         persistent: true,
         focus: "cancel",
         ok: {
           flat: true,
           color: "negative",
-          label: i18n.global.t("base.delete"),
+          label: i18n.global.t("delete"),
           class: "text-capitalize",
         },
         cancel: {
           flat: true,
           color: "primary",
-          label: i18n.global.t("base.cancel"),
+          label: i18n.global.t("cancel"),
           class: "text-capitalize",
         },
         transitionShow: "slide-up",
@@ -399,20 +399,20 @@ export function useGuestList() {
   const onClickRemoveVisitorCategory = async (props) => {
     await $q
       .dialog({
-        title: i18n.global.t("base.delete"),
-        message: i18n.global.t("base.deleteMessage", { name: props.name }),
+        title: i18n.global.t("delete"),
+        message: i18n.global.t("deleteMessage", { name: props.name }),
         persistent: true,
         focus: "cancel",
         ok: {
           flat: true,
           color: "negative",
-          label: i18n.global.t("base.delete"),
+          label: i18n.global.t("delete"),
           class: "text-capitalize",
         },
         cancel: {
           flat: true,
           color: "primary",
-          label: i18n.global.t("base.cancel"),
+          label: i18n.global.t("cancel"),
           class: "text-capitalize",
         },
         transitionShow: "slide-up",
@@ -490,8 +490,8 @@ export function useGuestList() {
   const onClickRemovePendingReservation = async (props) => {
     await $q
       .dialog({
-        title: i18n.global.t("base.delete"),
-        message: i18n.global.t("base.deleteMessage", {
+        title: i18n.global.t("delete"),
+        message: i18n.global.t("deleteMessage", {
           name: props.playerName,
         }),
         persistent: true,
@@ -499,13 +499,13 @@ export function useGuestList() {
         ok: {
           flat: true,
           color: "negative",
-          label: i18n.global.t("base.delete"),
+          label: i18n.global.t("delete"),
           class: "text-capitalize",
         },
         cancel: {
           flat: true,
           color: "primary",
-          label: i18n.global.t("base.cancel"),
+              label: i18n.global.t("cancel"),
           class: "text-capitalize",
         },
         transitionShow: "slide-up",
@@ -579,14 +579,14 @@ export function useGuestList() {
   const onClickRemoveExpenseParameter = async (props) => {
     await $q
       .dialog({
-        title: i18n.global.t("base.delete"),
-        message: i18n.global.t("base.deleteMessage", { name: props.name }),
+        title: i18n.global.t("delete"),
+        message: i18n.global.t("deleteMessage", { name: props.name }),
         persistent: true,
         focus: "cancel",
         ok: {
           flat: true,
           color: "negative",
-          label: i18n.global.t("base.delete"),
+          label: i18n.global.t("delete"),
         },
       })
       .onOk(async () => {

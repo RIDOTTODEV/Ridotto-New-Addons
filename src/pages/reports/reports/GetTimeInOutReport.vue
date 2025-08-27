@@ -5,7 +5,7 @@
       :getDataFn="reportStore.getTimeInOutReport"
       :filterValues="filterValues"
       ref="inOutReportTable"
-      tableName="inOutReportColumns"
+      tableName="timeInOutReportColumns"
       :filterParams="filterValues"
       :slotNames="['body-cell-playerName']"
     >

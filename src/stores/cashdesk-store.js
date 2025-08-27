@@ -208,11 +208,13 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
       return data
     },
     async updateCashDeskCountDenominations(params) {
-      const { data } = await cashdeskCountService.update(params)
-      return data
+      return await cashdeskCountService.update(params)
     },
 
     async setCashdeskChipBalance(params) {
+      if (!this.selectedCashDesk.isChipAccepted) {
+        return
+      }
       const authStore = useAuthStore()
       let payload = {
         ...params,

@@ -72,7 +72,7 @@
                         color="lime"
                         floating
                       >
-                        {{ $t(`base.${item.badge}`) }}
+                        {{ $t(`${item.badge}`) }}
                       </q-badge>
 
                       <q-item-section>
@@ -128,7 +128,7 @@
                                 color="lime"
                                 floating
                               >
-                                {{ $t(`base.${subItem.badge}`) }}
+                                {{ $t(`${subItem.badge}`) }}
                               </q-badge>
                               <q-item-section class=" ">
                                 <div

@@ -98,7 +98,7 @@
                 lazy-rules
                 class="super-small"
                 hide-bottom-space
-                :rules="[(val) => (val && val.toString().length > 0) || $t('base.requiredField')]"
+                :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
               />
             </div>
             <div class="col-6 q-pa-xs">
@@ -118,7 +118,7 @@
                 :options="floatSets"
                 :label="$t('floatSet')"
                 hide-bottom-space
-                :rules="[(val) => (val && val.toString().length > 0) || $t('base.requiredField')]"
+                :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
                 option-value="id"
                 option-label="name"
               />
@@ -629,7 +629,7 @@ const onChangeFilterBulkAction = () => {
 const onSubmitBulkUpdateTableGame = async () => {
   if (bulkUpdateTableFormValues.value.tableIds.length === 0) {
     $q.notify({
-      message: i18n.global.t('base.pleaseSelectTable'),
+      message: i18n.global.t('pleaseSelectTable'),
       color: 'negative',
       position: 'bottom-right',
     })

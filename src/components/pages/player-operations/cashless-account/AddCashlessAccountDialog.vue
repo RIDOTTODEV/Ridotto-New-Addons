@@ -207,7 +207,7 @@ const onClearTransactionCode = () => {
                 :rules="[
                   (val) =>
                     (val && val.toString().length > 0) ||
-                    $t('base.requiredField'),
+                    $t('requiredField'),
                 ]"
                 :placeholder="
                   formValues.transType ||

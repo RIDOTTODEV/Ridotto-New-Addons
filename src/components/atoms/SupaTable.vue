@@ -7,7 +7,8 @@
     bordered
     :rows="tableRows"
     :columns="tableColumns"
-    :row-key="rowKey"
+    :visible-columns="visibleColumns"
+    row-key="id"
     dense
     separator="cell"
     :rows-per-page-options="[0]"
@@ -17,7 +18,6 @@
     :filter="tableFilterInput"
     :pagination="pagination"
     @row-click="onRowClick"
-    :visible-columns="visibleColumns"
   >
     <template v-slot:top="">
       <div class="flex row full-width q-pa-sm">
@@ -287,7 +287,7 @@ const pagination = ref({
   totalCount: 0,
   rowsNumber: 0,
 })
-const visibleColumnOptions = ref([])
+const visibleColumnOptions = ref(['id'])
 const visibleColumns = ref([])
 const refTable = ref(null)
 const tableFilterInput = ref('')
@@ -331,16 +331,16 @@ const onDropColumn = (from, to) => {
   {
     immediate: true,
   },
-)
+) */
 watch(
   visibleColumnOptions,
-  (newValue, oldValue) => {
-    if (newValue !== oldValue) {
+  (newValue) => {
+    if (newValue) {
       visibleColumns.value = [...newValue]
     }
   },
-  { deep: true },
-) */
+  { immediate: true },
+)
 
 watch(
   () => props.filterParams,
@@ -394,17 +394,6 @@ const initColumns = async () => {
   const userColumns = getUserTableColumns.value(props.tableName, columns)
   tableColumns.value = userColumns
   visibleColumnOptions.value = getUserTableVisibleColumns.value(props.tableName, columns)
-  console.log(visibleColumnOptions.value)
-  console.log(tableColumns.value)
-
-  //console.log(visibleColumnOptions.value)
-  /*   const isRequiredRowKeyExist = visibleColumnOptions.value.some(
-    (item) => item.name === props.rowKey,
-  )
-  const columnRequiredRowKey = columns.find((item) => item.required === true)
-  if (!isRequiredRowKeyExist) {
-    visibleColumnOptions.value.unshift(columnRequiredRowKey.name)
-  } */
 }
 const initPagination = (response = null) => {
   if (response) {

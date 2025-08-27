@@ -5,10 +5,11 @@
       <router-view />
     </q-page-container>
     <Sidebar :drawer="drawer" />
+    <SetCashDesk />
   </q-layout>
 </template>
 
 <script setup>
 import { useLayout } from 'src/composables/layout/useLayout'
-const { drawer } = useLayout()
+const { drawer, SetCashDesk } = useLayout()
 </script>

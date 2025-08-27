@@ -5,7 +5,7 @@
       :getDataFn="reportStore.getPlayerResultReport"
       :filterValues="filterValues"
       ref="inOutReportTable"
-      tableName="inOutReportColumns"
+      tableName="playerResultReportColumns"
       :filterParams="filterValues"
       :slotNames="['body-cell-playerFullName', 'body-cell-chipDetails', 'body-cell-actions']"
       dataKey="playerLgResults"

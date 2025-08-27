@@ -107,7 +107,7 @@ export const useInspectorStore = defineStore('inspectorStore', {
         .post('/api/PlayerLg/PlayerChipInOut', data)
         .then(() => {
           fireNotify(
-            i18n.global.t('base.createdSuccessfully', {
+            i18n.global.t('createdSuccessfully', {
               name: data?.chipTransactionType,
             }),
             'created',
@@ -124,7 +124,7 @@ export const useInspectorStore = defineStore('inspectorStore', {
         .post('/api/PlayerLg/PlayerMarkerInOut', data)
         .then(() => {
           fireNotify(
-            i18n.global.t('base.createdSuccessfully', { name: 'Marker In' }),
+            i18n.global.t('createdSuccessfully', { name: 'Marker In' }),
             'created',
             3000,
             'positive',
@@ -139,7 +139,7 @@ export const useInspectorStore = defineStore('inspectorStore', {
         .post('/api/PlayerLg/PlayerCashIn', data)
         .then(() => {
           fireNotify(
-            i18n.global.t('base.createdSuccessfully', { name: 'Cash In' }),
+            i18n.global.t('createdSuccessfully', { name: 'Cash In' }),
             'created',
             3000,
             'positive',
@@ -190,12 +190,7 @@ export const useInspectorStore = defineStore('inspectorStore', {
       return await api
         .post('/api/PlayerLg/PlayerPauseOrResume', data)
         .then(() => {
-          fireNotify(
-            i18n.global.t('base.playerPauseOrResumeSuccessfully'),
-            'updated',
-            3000,
-            'positive',
-          )
+          fireNotify(i18n.global.t('playerPauseOrResumeSuccessfully'), 'updated', 3000, 'positive')
           return true
         })
         .catch((err) => {
@@ -207,7 +202,7 @@ export const useInspectorStore = defineStore('inspectorStore', {
         .post('/api/PlayerLg/UpdatePlayerAvgBet', data)
         .then(() => {
           fireNotify(
-            i18n.global.t('base.updatedSuccessfully', {
+            i18n.global.t('updatedSuccessfully', {
               name: 'Player Avg Bet',
             }),
             'updated',

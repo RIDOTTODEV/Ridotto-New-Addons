@@ -68,7 +68,7 @@
               option-label="name"
               map-options
               emit-value
-              :rules="[(val) => !!val || $t('base.requiredField')]"
+              :rules="[(val) => !!val || $t('requiredField')]"
               clearable
               class="super-small"
               popup-content-class="height-400"
@@ -87,7 +87,7 @@
               option-label="name"
               map-options
               emit-value
-              :rules="[(val) => !!val || $t('base.requiredField')]"
+              :rules="[(val) => !!val || $t('requiredField')]"
               clearable
               class="super-small"
               popup-content-class="height-400"
@@ -175,7 +175,7 @@
                     v-model="props.row.min"
                     :currency="'USD'"
                     :custom-rules="[
-                      () => props.row.min > 0 || $t('base.requiredField'),
+                      () => props.row.min > 0 || $t('requiredField'),
                       () => {
                         const prevRow = props.rowIndex - 1
                         if (prevRow >= 0) {
@@ -202,7 +202,7 @@
                     v-model="props.row.max"
                     :currency="'USD'"
                     :custom-rules="[
-                      () => props.row.max > 0 || $t('base.requiredField'),
+                      () => props.row.max > 0 || $t('requiredField'),
                       () =>
                         (parseInt(props.row.max) > parseInt(props.row.min) &&
                           !props.row.infinite) ||

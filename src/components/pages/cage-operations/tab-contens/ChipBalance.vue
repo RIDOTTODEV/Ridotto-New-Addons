@@ -18,6 +18,7 @@ const {
   currentCashDeskChipCountDenominations,
   getSelectedCashDeskId,
   cashdeskChipTransactionTotals,
+  selectedCashDesk,
 } = storeToRefs(cashDeskStore)
 
 const chipStore = useChipManagementStore()
@@ -26,6 +27,9 @@ chipStore.fetchChips()
 cashDeskStore.fetchCashDeskChipCountDenominations()
 
 const updateChipDenomination = debounce(async (denomination) => {
+  if (!selectedCashDesk.value.isChipAccepted) {
+    return
+  }
   denomination.quantity = denomination.quantity ? +denomination.quantity : 0
   await cashDeskStore.updateCashDeskChipCountDenominations({
     ...denomination,
@@ -141,6 +145,7 @@ onMounted(async () => {
                   "
                   :autofocus="index === 0"
                   input-class="text-center"
+                  :disable="!selectedCashDesk.isChipAccepted"
                 >
                   <template v-slot:control="{ id, modelValue, emitValue }">
                     <input
@@ -151,6 +156,7 @@ onMounted(async () => {
                       @change="(e) => emitValue(e.target.value)"
                       pattern="[0-9]+([\.,][0-9]+)?"
                       v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
+                      :disabled="!selectedCashDesk.isChipAccepted"
                     />
                   </template>
                 </q-field>

@@ -109,7 +109,7 @@ const onClearTransactionCode = () => {
           :label="formValues.accountType"
         />
         <q-btn dense flat icon="close" v-close-popup>
-          <q-tooltip class="text-subtitle1 bg-primary">{{ $t('base.close') }}</q-tooltip>
+          <q-tooltip class="text-subtitle1 bg-primary">{{ $t('close') }}</q-tooltip>
         </q-btn>
       </q-bar>
       <q-card-section>
@@ -171,7 +171,7 @@ const onClearTransactionCode = () => {
                 :rules="[
                   (val) =>
                     (val && val.toString().length > 0) ||
-                    $t('base.requiredField'),
+                    $t('requiredField'),
                 ]"
                 :placeholder="
                   formValues.transType ||
@@ -193,9 +193,9 @@ const onClearTransactionCode = () => {
                           (val &&
                             val.toString().length > 0 &&
                             parseFloat(val) <= parseFloat(allWithdrawalAmount)) ||
-                          $t('base.requiredField'),
+                          $t('requiredField'),
                       ]
-                    : [(val) => (val && val.toString().length > 0) || $t('base.requiredField')]
+                    : [(val) => (val && val.toString().length > 0) || $t('requiredField')]
                 "
                 :placeholder="$t('amount') + '...'"
                 clearable

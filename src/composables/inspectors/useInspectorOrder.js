@@ -275,7 +275,7 @@ export function useInspectorOrder() {
   }
   const completeOrder = async () => {
     $q.loading.show({
-      message: i18n.global.t('base.loading'),
+      message: i18n.global.t('loading'),
     })
 
     await inspectorOrderStore.createOrder({ ...order.value }).finally(() => $q.loading.hide())

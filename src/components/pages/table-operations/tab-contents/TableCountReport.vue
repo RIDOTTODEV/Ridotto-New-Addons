@@ -970,7 +970,7 @@ const downloadPdf = (index) => {
         </div>
         <div class="row q-mt-md justify-end">
           <q-btn
-            :label="$t('base.downloadPdf')"
+            :label="$t('downloadPdf')"
             color="green-9"
             unelevated
             no-caps
