@@ -14,11 +14,13 @@
     clearable
     emit-value
     map-options
+    lazy-rules
+    reactive-rules
   />
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, onMounted } from 'vue'
 const props = defineProps({
   options: {
     type: Array,
@@ -63,4 +65,7 @@ const filter = async (val, update) => {
   })
 }
 const model = defineModel()
+onMounted(() => {
+  tempOptions.value = [...props.options]
+})
 </script>
