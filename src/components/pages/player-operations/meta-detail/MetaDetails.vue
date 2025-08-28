@@ -17,7 +17,7 @@
         >
           <div class="row full-width">
             <div class="text-caption col-12 flex justify-center content-center items-center">
-              {{ account.transactionCodeName }}
+              {{ account.transType }}
               {{ priceAbsFormatted(account.balance) }}
             </div>
           </div>
