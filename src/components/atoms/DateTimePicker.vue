@@ -56,132 +56,114 @@ const filterFields = ref({
   dates: [
     {
       label: i18n.global.t('today'),
-      StartDate: date.formatDate(new Date(), 'YYYY-MM-DDT00:00:00+0000'),
-      EndDate: date.formatDate(new Date(), 'YYYY-MM-DDT23:59:59+0000'),
+      StartDate: date.formatDate(new Date(), 'YYYY-MM-DD') + 'T00:00:00.000Z',
+      EndDate: date.formatDate(new Date(), 'YYYY-MM-DD') + 'T23:59:59.999Z',
       QueryType: 'byGamingDate',
     },
     {
       label: i18n.global.t('yesterday'),
-      StartDate: date.formatDate(
-        date.subtractFromDate(new Date(), { days: 1 }),
-        'YYYY-MM-DDT00:00:00+0000',
-      ),
-      EndDate: date.formatDate(
-        date.subtractFromDate(new Date(), { days: 1 }),
-        'YYYY-MM-DDT23:59:59+0000',
-      ),
+      StartDate:
+        date.formatDate(date.subtractFromDate(new Date(), { days: 1 }), 'YYYY-MM-DD') +
+        'T00:00:00.000Z',
+      EndDate:
+        date.formatDate(date.subtractFromDate(new Date(), { days: 1 }), 'YYYY-MM-DD') +
+        'T23:59:59.999Z',
       QueryType: 'byGamingDate',
     },
     {
       label: i18n.global.t('thisWeek'),
-      StartDate: date.formatDate(getMonday(new Date()), 'YYYY-MM-DDT00:00:00+0000'),
-      EndDate: date.formatDate(new Date(), 'YYYY-MM-DDT23:59:59+0000'),
+      StartDate: date.formatDate(getMonday(new Date()), 'YYYY-MM-DD') + 'T00:00:00.000Z',
+      EndDate: date.formatDate(new Date(), 'YYYY-MM-DD') + 'T23:59:59.999Z',
       QueryType: 'byGamingDate',
     },
     {
       label: i18n.global.t('thisMonth'),
-      StartDate: date.formatDate(getThisMonth(), 'YYYY-MM-DDT00:00:00+0000'),
-      EndDate: date.formatDate(new Date(), 'YYYY-MM-DDT23:59:59+0000'),
+      StartDate: date.formatDate(getThisMonth(), 'YYYY-MM-DD') + 'T00:00:00.000Z',
+      EndDate: date.formatDate(new Date(), 'YYYY-MM-DD') + 'T23:59:59.999Z',
       QueryType: 'byGamingDate',
     },
     {
       label: i18n.global.t('thisYear'),
-      StartDate: date.formatDate(new Date().getFullYear() + '-01-01', 'YYYY-MM-DDT00:00:00+0000'),
-      EndDate: date.formatDate(new Date().getFullYear() + '-12-31', 'YYYY-MM-DDT23:59:59+0000'),
+      StartDate:
+        date.formatDate(new Date().getFullYear() + '-01-01', 'YYYY-MM-DD') + 'T00:00:00.000Z',
+      EndDate:
+        date.formatDate(new Date().getFullYear() + '-12-31', 'YYYY-MM-DD') + 'T23:59:59.999Z',
       QueryType: 'byGamingDate',
     },
   ],
   times: [
     {
       label: i18n.global.t('last15Minutes'),
-      StartDate: date.formatDate(
-        date.subtractFromDate(new Date(), { minutes: 15 }),
-        'YYYY-MM-DD HH:mm:ss',
-      ),
-      EndDate: date.formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+      StartDate: new Date(date.subtractFromDate(new Date(), { minutes: 15 })).toISOString(),
+      EndDate: new Date().toISOString(),
       QueryType: 'byTime',
     },
     {
       label: i18n.global.t('last30Minutes'),
-      StartDate: date.formatDate(
-        date.subtractFromDate(new Date(), { minutes: 30 }),
-        'YYYY-MM-DD HH:mm:ss',
-      ),
-      EndDate: date.formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+      StartDate: new Date(date.subtractFromDate(new Date(), { minutes: 30 })).toISOString(),
+      EndDate: new Date().toISOString(),
       QueryType: 'byTime',
     },
     {
       label: i18n.global.t('last1Hour'),
-      StartDate: date.formatDate(
-        date.subtractFromDate(new Date(), { hours: 1 }),
-        'YYYY-MM-DD HH:mm:ss',
-      ),
-      EndDate: date.formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+      StartDate: new Date(date.subtractFromDate(new Date(), { hours: 1 })).toISOString(),
+      EndDate: new Date().toISOString(),
       QueryType: 'byTime',
     },
     {
       label: i18n.global.t('last24Hours'),
-      StartDate: date.formatDate(
-        date.subtractFromDate(new Date(), { hours: 24 }),
-        'YYYY-MM-DD HH:mm:ss',
-      ),
-      EndDate: date.formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+      StartDate: new Date(date.subtractFromDate(new Date(), { hours: 24 })).toISOString(),
+      EndDate: new Date().toISOString(),
       QueryType: 'byTime',
     },
     {
       label: i18n.global.t('last7Days'),
-      StartDate: date.formatDate(
-        date.subtractFromDate(new Date(), { days: 6 }),
-        'YYYY-MM-DDT00:00:00+0000',
-      ),
-      EndDate: date.formatDate(new Date(), 'YYYY-MM-DDT00:00:00+0000'),
+      StartDate:
+        date.formatDate(date.subtractFromDate(new Date(), { days: 7 }), 'YYYY-MM-DD') +
+        'T00:00:00.000Z',
+      EndDate: date.formatDate(new Date(), 'YYYY-MM-DD') + 'T23:59:59.999Z',
       QueryType: 'byGamingDate',
     },
   ],
   months: [
     {
       label: i18n.global.t('last1Month'),
-      StartDate: date.formatDate(
-        date.subtractFromDate(new Date(), { months: 1 }),
-        'YYYY-MM-DDT00:00:00+0000',
-      ),
-      EndDate: date.formatDate(new Date(), 'YYYY-MM-DDT00:00:00+0000'),
+      StartDate:
+        date.formatDate(date.subtractFromDate(new Date(), { months: 1 }), 'YYYY-MM-DD') +
+        'T00:00:00.000Z',
+      EndDate: date.formatDate(new Date(), 'YYYY-MM-DD') + 'T23:59:59.999Z',
       QueryType: 'byGamingDate',
     },
     {
       label: i18n.global.t('last2Months'),
-      StartDate: date.formatDate(
-        date.subtractFromDate(new Date(), { months: 2 }),
-        'YYYY-MM-DDT00:00:00+0000',
-      ),
-      EndDate: date.formatDate(new Date(), 'YYYY-MM-DDT00:00:00+0000'),
+      StartDate:
+        date.formatDate(date.subtractFromDate(new Date(), { months: 2 }), 'YYYY-MM-DD') +
+        'T00:00:00.000Z',
+      EndDate: date.formatDate(new Date(), 'YYYY-MM-DD') + 'T23:59:59.999Z',
       QueryType: 'byGamingDate',
     },
     {
       label: i18n.global.t('last3Months'),
-      StartDate: date.formatDate(
-        date.subtractFromDate(new Date(), { months: 3 }),
-        'YYYY-MM-DDT00:00:00+0000',
-      ),
-      EndDate: date.formatDate(new Date(), 'YYYY-MM-DDT00:00:00+0000'),
+      StartDate:
+        date.formatDate(date.subtractFromDate(new Date(), { months: 3 }), 'YYYY-MM-DD') +
+        'T00:00:00.000Z',
+      EndDate: date.formatDate(new Date(), 'YYYY-MM-DD') + 'T23:59:59.999Z',
       QueryType: 'byGamingDate',
     },
     {
       label: i18n.global.t('last6Months'),
-      StartDate: date.formatDate(
-        date.subtractFromDate(new Date(), { months: 6 }),
-        'YYYY-MM-DDT00:00:00+0000',
-      ),
-      EndDate: date.formatDate(new Date(), 'YYYY-MM-DDT00:00:00+0000'),
+      StartDate:
+        date.formatDate(date.subtractFromDate(new Date(), { months: 6 }), 'YYYY-MM-DD') +
+        'T00:00:00.000Z',
+      EndDate: date.formatDate(new Date(), 'YYYY-MM-DD') + 'T23:59:59.999Z',
       QueryType: 'byGamingDate',
     },
     {
       label: i18n.global.t('last1Year'),
-      StartDate: date.formatDate(
-        date.subtractFromDate(new Date(), { years: 1 }),
-        'YYYY-MM-DDT00:00:00+0000',
-      ),
-      EndDate: date.formatDate(new Date(), 'YYYY-MM-DDT00:00:00+0000'),
+      StartDate:
+        date.formatDate(date.subtractFromDate(new Date(), { years: 1 }), 'YYYY-MM-DD') +
+        'T00:00:00.000Z',
+      EndDate: date.formatDate(new Date(), 'YYYY-MM-DD') + 'T23:59:59.999Z',
       QueryType: 'byGamingDate',
     },
   ],
@@ -233,11 +215,11 @@ const onSelectCustomDate = (dateParam, queryType, label, dateFormat) => {
       selectedDate.value.label = `${date.formatDate(param[0], dateFormat)} - ${date.formatDate(param[1], dateFormat)}`
     } else {
       selectedDate.value.StartDate = param[0]
-        ? date.formatDate(param[0], 'YYYY-MM-DDTHH:mm:ss') + '.000Z'
-        : date.formatDate(new Date(), 'YYYY-MM-DDTHH:mm:ss') + '.000Z'
+        ? new Date(param[0]).toISOString()
+        : new Date().toISOString()
       selectedDate.value.EndDate = param[1]
-        ? date.formatDate(param[1], 'YYYY-MM-DDTHH:mm:ss') + '.000Z'
-        : date.formatDate(new Date(), 'YYYY-MM-DDTHH:mm:ss') + '.000Z'
+        ? new Date(param[1]).toISOString()
+        : new Date().toISOString()
       selectedDate.value.label =
         date.formatDate(selectedDate.value.StartDate, 'DD.MM.YYYY HH:mm') +
         ' - ' +
