@@ -220,18 +220,29 @@ const onSelectDate = (param) => {
 }
 const onSelectCustomDate = (dateParam, queryType, label, dateFormat) => {
   let param = JSON.parse(JSON.stringify(dateParam))
+
   if (param !== null) {
-    selectedDate.value.StartDate = param[0]
-      ? date.formatDate(param[0], dateFormat)
-      : date.formatDate(new Date(), dateFormat)
-    selectedDate.value.EndDate = param[1]
-      ? date.formatDate(param[1], dateFormat)
-      : date.formatDate(new Date(), dateFormat)
     selectedDate.value.QueryType = queryType
-    selectedDate.value.label =
-      date.formatDate(selectedDate.value.StartDate, 'DD.MM.YYYY HH:mm') +
-      ' - ' +
-      date.formatDate(selectedDate.value.EndDate, 'DD.MM.YYYY HH:mm')
+    if (queryType === 'byGamingDate') {
+      selectedDate.value.StartDate = param[0]
+        ? date.formatDate(param[0], dateFormat) + 'T00:00:00.000Z'
+        : date.formatDate(new Date(), dateFormat) + 'T00:00:00.000Z'
+      selectedDate.value.EndDate = param[1]
+        ? date.formatDate(param[1], dateFormat) + 'T23:59:59.999Z'
+        : date.formatDate(new Date(), dateFormat) + 'T23:59:59.999Z'
+      selectedDate.value.label = `${date.formatDate(param[0], dateFormat)} - ${date.formatDate(param[1], dateFormat)}`
+    } else {
+      selectedDate.value.StartDate = param[0]
+        ? date.formatDate(param[0], 'YYYY-MM-DDTHH:mm:ss') + '.000Z'
+        : date.formatDate(new Date(), 'YYYY-MM-DDTHH:mm:ss') + '.000Z'
+      selectedDate.value.EndDate = param[1]
+        ? date.formatDate(param[1], 'YYYY-MM-DDTHH:mm:ss') + '.000Z'
+        : date.formatDate(new Date(), 'YYYY-MM-DDTHH:mm:ss') + '.000Z'
+      selectedDate.value.label =
+        date.formatDate(selectedDate.value.StartDate, 'DD.MM.YYYY HH:mm') +
+        ' - ' +
+        date.formatDate(selectedDate.value.EndDate, 'DD.MM.YYYY HH:mm')
+    }
   } else {
     selectedDate.value.StartDate = date.formatDate(new Date(), dateFormat)
     selectedDate.value.EndDate = date.formatDate(new Date(), dateFormat)
@@ -252,6 +263,22 @@ const onSelectCustomDate = (dateParam, queryType, label, dateFormat) => {
   }
   bus.emit('selectedDateFilter', selectedDateParams, false)
   dropDownMenu.value = false
+
+  /*   console.log(dateParam, queryType, label, dateFormat)
+
+  let param = JSON.parse(JSON.stringify(dateParam))
+  if (queryType === 'byGamingDate') {
+    selectedDate.value.StartDate = date.formatDate(param[0], dateFormat) + 'T00:00:00.000Z'
+    selectedDate.value.EndDate = date.formatDate(param[1], dateFormat) + 'T00:00:00.000Z'
+    selectedDate.value.QueryType = queryType
+    selectedDate.value.label = `${date.formatDate(param[0], dateFormat)} - ${date.formatDate(param[1], dateFormat)}`
+  } else {
+    selectedDate.value.StartDate = dateParam[0]
+    selectedDate.value.EndDate = dateParam[1]
+    selectedDate.value.QueryType = queryType
+    selectedDate.value.label = label
+  }
+  dropDownMenu.value = false */
 }
 
 // Watch for modelValue changes from parent
@@ -410,7 +437,7 @@ onMounted(() => {
                   $event,
                   'byGamingDate',
                   filterFields.custom.customGamingDateTime.label,
-                  'YYYY-MM-DDT00:00:00+0000',
+                  'YYYY-MM-DD',
                 )
               "
             />
@@ -425,7 +452,7 @@ onMounted(() => {
                   null,
                   'byGamingDate',
                   filterFields.custom.customGamingDateTime.label,
-                  'YYYY-MM-DDT00:00:00+0000',
+                  'YYYY-MM-DD',
                 )
               "
             />
