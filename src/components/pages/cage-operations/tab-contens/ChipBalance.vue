@@ -93,6 +93,18 @@ onMounted(async () => {
 
 <template>
   <div class="row">
+    <div class="col-12 q-card--bordered row q-pa-sm" v-if="!selectedCashDesk.isChipAccepted">
+      <Information
+        :content="`<div class='text-left'>
+                  <div class='text-subtitle2  '>
+                 Chip Balance Update
+                  </div>
+                  <div class='text-subtitle2'>
+               Chip balance update is not allowed for this cashdesk.
+                  </div>
+                  </div>`"
+      />
+    </div>
     <div class="col-12 q-card--bordered row q-pa-sm">
       <div
         class="col-md-3 q-pa-xs col-sm-12 col-xs-12"

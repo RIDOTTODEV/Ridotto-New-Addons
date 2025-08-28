@@ -182,7 +182,7 @@ export function usePlayer() {
         message: `Müşteri ${selectedPlayer.value?.player?.isActive ? 'aktif' : 'pasif'} durumundadır. Bu işlemi ${selectedPlayer.value?.player?.isActive ? 'deaktiv' : 'aktiv'} etmek istediğinize emin misiniz?`,
       },
     }).onOk(async () => {
-      await playerStore.setPlayerActiveStatus({
+      await playerStore.updatePlayerStatusFlags({
         playerId: selectedPlayer.value?.player?.id,
         isActive: !selectedPlayer.value?.player?.isActive,
       })
@@ -201,10 +201,10 @@ export function usePlayer() {
         message: `Müşteri ${selectedPlayer.value?.player?.discountStatus ? 'discount' : 'noDiscount'} durumundadır. Bu işlemi ${selectedPlayer.value?.player?.discountStatus ? 'deaktiv' : 'aktiv'} etmek istediğinize emin misiniz?`,
       },
     }).onOk(async () => {
-      /*       await playerStore.setPlayerActiveStatus({
+      await playerStore.updatePlayerStatusFlags({
         playerId: selectedPlayer.value?.player?.id,
-        discountStatus: !selectedPlayer.value?.player?.discountStatus,
-      }) */
+        isDiscountStatus: !selectedPlayer.value?.player?.discountStatus,
+      })
       await playerStore.fetchPlayerMetaDetail({ playerId: selectedPlayer.value?.player?.id })
     })
   }

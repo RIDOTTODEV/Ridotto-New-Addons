@@ -431,7 +431,7 @@ onMounted(() => {
             />
           </q-card-section>
           <q-card-section class="row q-pt-none" v-if="showInput === 'customDateTime'">
-            <!--             <el-date-picker
+            <el-date-picker
               popper-class="datatable-datepicker"
               size="default"
               v-model="filterFields.custom.customDateTime.value"
@@ -447,7 +447,7 @@ onMounted(() => {
                   'YYYY-MM-DD HH:mm:ss',
                 )
               "
-            /> -->
+            />
             <q-btn
               icon="close"
               flat
