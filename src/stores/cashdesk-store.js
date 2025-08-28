@@ -8,7 +8,8 @@ import {
   cashdeskChipCountService,
 } from 'src/api'
 import { useAuthStore } from 'src/stores/auth-store'
-import { date, LocalStorage } from 'quasar'
+import { date, LocalStorage, Loading, QSpinnerGears } from 'quasar'
+
 export const useCashdeskStore = defineStore('cashdeskStore', {
   state: () => ({
     cashDeskSummary: {},
@@ -99,21 +100,31 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
       this.cashdesks = data
       return data
     },
-    setCurrentCashDesk(cashDesk) {
+    setCurrentCashDesk(cashDesk, reloadPage = false) {
       this.selectedCashDesk = cashDesk
-      this.selectedCashDesk.IsMatchedGameDateId = false
       LocalStorage.set('cashDeskId', cashDesk.id)
-      // then call ather callbacks
+      if (reloadPage) {
+        Loading.show({
+          message: 'Cashdesk is being loaded...',
+          delay: 0,
+          spinnerSize: 140,
+          spinnerColor: 'white',
+          spinner: QSpinnerGears,
+          messageColor: 'white',
+          backgroundColor: 'primary',
+          messageClass: 'text-h6',
+        })
+        setTimeout(() => {
+          Loading.hide()
+          window.location.reload()
+        }, 2000)
+      }
     },
+
     async getGamingDateByCashdeskId(params) {
-      const authStore = useAuthStore()
       const { data } = await cashdeskService.getGamingDateByCashdeskId(params)
       if (data) {
-        if (authStore.getDefaultGamingDateId !== data) {
-          this.selectedCashDesk.IsMatchedGameDateId = false
-        } else {
-          this.selectedCashDesk.IsMatchedGameDateId = true
-        }
+        this.selectedCashDesk.gamingDateId = data
       }
       return data
     },

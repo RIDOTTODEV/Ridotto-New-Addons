@@ -219,6 +219,9 @@ export const useAuthStore = defineStore('authStore', {
           }
         })
         .sort((a, b) => a.order - b.order)
+      if (!this.userPanelSettings.tableColumns) {
+        this.userPanelSettings.tableColumns = {}
+      }
       if (!this.userPanelSettings.tableColumns[tableName]) {
         this.userPanelSettings.tableColumns[tableName] = {}
       }

@@ -25,6 +25,10 @@ export const useTransactionCode = () => {
       sortable: true,
     },
     {
+      field: 'transType',
+      sortable: true,
+    },
+    {
       field: 'isDaily',
       fieldType: 'boolean',
     },
@@ -41,6 +45,10 @@ export const useTransactionCode = () => {
     },
     {
       field: 'toBeCollected',
+      fieldType: 'boolean',
+    },
+    {
+      field: 'dueDateRequired',
       fieldType: 'boolean',
     },
     {

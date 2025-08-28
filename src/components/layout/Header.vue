@@ -92,6 +92,9 @@
                           $t('changeGamingDate')
                         }}</span>
                       </div>
+                      <q-tooltip class="text-caption bg-blue-grey-8">
+                        {{ $t('Güncel oyun tarihindeki kasaların sayısı') }}
+                      </q-tooltip>
                     </div>
 
                     <div
@@ -130,6 +133,9 @@
                           {{ $t('changeGamingDate') }}
                         </q-tooltip>
                       </div>
+                      <q-tooltip class="text-caption bg-blue-grey-8">
+                        {{ $t('Güncel oyun tarihindeki masaların sayısı') }}
+                      </q-tooltip>
                     </div>
                   </div>
                 </template>

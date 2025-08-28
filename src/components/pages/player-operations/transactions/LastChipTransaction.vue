@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { date } from 'quasar'
-import { useRouter } from 'vue-router'
+/* import { useRouter } from 'vue-router' */
 import { formatPrice } from 'src/helpers/helpers'
 import { usePlayerStore } from 'src/stores/player-store'
 import { storeToRefs } from 'pinia'
@@ -65,12 +65,12 @@ const columns = ref([
     visible: true,
   },
 ])
-const router = useRouter()
+/* const router = useRouter() */
 const props = defineProps({
   playerId: {
-    type: String,
+    type: Number,
     required: true,
-    default: () => '',
+    default: () => null,
   },
 })
 onMounted(async () => {
@@ -109,7 +109,7 @@ defineExpose({
           </div>
         </div>
         <div class="col-4 text-right">
-          <q-btn
+          <!--  <q-btn
             v-el-perms="'Addon.CashlessOperations.Transaction.ViewMoreLastChipTransactions'"
             color="blue-grey-8"
             :label="$t('viewMore')"
@@ -122,7 +122,7 @@ defineExpose({
                 query: { playerId: playerId },
               })
             "
-          />
+          /> -->
           <q-icon
             v-el-perms="'Addon.CashlessOperations.Transaction.ReloadLastCageTransactions'"
             @click="loadLastChipTransactions"

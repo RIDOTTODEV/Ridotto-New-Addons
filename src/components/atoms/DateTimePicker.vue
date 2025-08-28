@@ -396,7 +396,7 @@ onMounted(() => {
             </div>
           </q-card-section>
           <q-card-section class="row q-pt-none" v-if="showInput === 'customGamingDateTime'">
-            <!--           <el-date-picker
+            <el-date-picker
               clearable
               popper-class="datatable-datepicker"
               size="default"
@@ -413,7 +413,8 @@ onMounted(() => {
                   'YYYY-MM-DDT00:00:00+0000',
                 )
               "
-            /> -->
+            />
+
             <q-btn
               icon="close"
               flat
@@ -481,6 +482,9 @@ onMounted(() => {
 }
 
 .datatable-datepicker {
+  z-index: 6001 !important;
+}
+.p-datepicker-panel {
   z-index: 6001 !important;
 }
 </style>

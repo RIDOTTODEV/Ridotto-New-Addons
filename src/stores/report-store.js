@@ -11,6 +11,7 @@ import {
 } from 'src/api'
 import { useAuthStore } from 'src/stores/auth-store'
 import { priceAbsFormatted } from 'src/helpers/helpers'
+import { api } from 'src/boot/axios'
 export const useReportStore = defineStore('reportStore', {
   state: () => ({
     balanceReport: {},
@@ -222,7 +223,10 @@ export const useReportStore = defineStore('reportStore', {
         balanceCurrencyId: authStore.getDefaultCurrencyId,
         ...params,
       }
-      const { data } = await reportService.getBalanceReport(payload)
+      const { data } = await api.get('/api/Report/GetBalanceReport', {
+        params: payload,
+        responseType: 'blob',
+      })
       let extension = params.ExportFileType === 'Excel' ? 'xlsx' : 'pdf'
       let fileName = `balance-report-${params.Date}.${extension}`
       let blob = data
@@ -238,7 +242,12 @@ export const useReportStore = defineStore('reportStore', {
         balanceCurrencyId: authStore.getDefaultCurrencyId,
         ...params,
       }
-      const { data } = await reportService.exportMasterReport(payload)
+
+      /*  const { data } = await reportService.exportMasterReport(payload) */
+      const { data } = await api.get('/api/Report/GetMasterReport', {
+        params: payload,
+        responseType: 'blob',
+      })
       let extension = params.ExportFileType === 'Excel' ? 'xlsx' : 'pdf'
       let fileName = `master-report-${params.Date}.${extension}`
       let blob = data

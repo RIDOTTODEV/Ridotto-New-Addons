@@ -19,9 +19,9 @@ const { getTransactionCodesByTransType } = storeToRefs(transactionCodeStore)
 
 const props = defineProps({
   playerId: {
-    type: String,
+    type: Number,
     required: true,
-    default: () => '',
+    default: () => null,
   },
   transactionType: {
     type: String,

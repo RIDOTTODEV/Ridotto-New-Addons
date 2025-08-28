@@ -40,7 +40,7 @@ export const useTransactionCodeStore = defineStore('transactionCodeStore', {
   actions: {
     async fetchTransactionCodes(params = {}) {
       const { data } = await transactionCodeService.getAll(params)
-      this.transactionCodes = data.data
+      this.transactionCodes = data.data.sort((a, b) => a.name.localeCompare(b.name))
       return data
     },
     async createTransactionCode(data) {

@@ -65,9 +65,9 @@ const columns = ref([
 const bus = inject('bus')
 const props = defineProps({
   playerId: {
-    type: String,
+    type: Number,
     required: true,
-    default: () => '',
+    default: () => null,
   },
 })
 onMounted(async () => {

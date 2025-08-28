@@ -6,17 +6,25 @@
     transition-hide="slide-down"
   >
     <q-card class="q-dialog-plugin" square>
-      <q-card-section class="app-cart-grey q-pa-xs">
+      <q-card-section class="app-cart-grey q-pa-xs flex justify-between">
         <div class="text-subtitle1 text-bold q-pl-sm">
-          {{ $t('confirm') }} <span class="text-negative">*</span>
+          {{ $t('confirm') }}
+          <span class="text-negative">*</span>
         </div>
+
+        <span
+          class="bg-warning flex content-center items-center text-capitalize q-pl-xs q-pr-xs text-subtitle2 q-ml-sm q-mr-sm"
+          >{{ actionTitle }}
+        </span>
       </q-card-section>
       <q-card-section class="">
         <div class="row q-mt-md">
-          <div class="text-subtitle2">
-            {{ $t('Oyuncuyu masadan kaldırıyorsunuz emin misiniz?') }}
+          <div class="text-subtitle1 col-12 text-bold flex content-end items-center">
+            {{ playerName }}
           </div>
-          <div class="text-subtitle2">{{ $t('Avg Bet: ') }} {{ avgBet }}</div>
+          <div class="text-subtitle2 col-12">
+            {{ message }}
+          </div>
         </div>
       </q-card-section>
       <q-card-actions align="right">
@@ -45,10 +53,17 @@
 import { useDialogPluginComponent } from 'quasar'
 
 defineProps({
-  avgBet: {
+  playerName: {
+    type: String,
     required: true,
-    type: Number,
-    default: () => 0,
+  },
+  message: {
+    type: String,
+    required: true,
+  },
+  actionTitle: {
+    type: String,
+    required: true,
   },
 })
 
@@ -57,6 +72,6 @@ defineEmits([...useDialogPluginComponent.emits])
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
 
 function onOKClick() {
-  onDialogOK(true)
+  onDialogOK()
 }
 </script>

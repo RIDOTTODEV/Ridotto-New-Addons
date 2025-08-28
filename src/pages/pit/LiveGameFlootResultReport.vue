@@ -1,18 +1,26 @@
 <template>
   <q-page class="q-pa-md">
+    <div class="text-subtitle1">
+      {{ $t('filter') }}
+    </div>
     <q-card class="no-box-shadow q-mb-md">
       <q-card-section class="q-pa-none">
         <div class="col flex row justify-start">
-          <div class="q-pa-xs flex items-end">
-            <DatePicker v-model="liveGameFloorResultReportFilterFields.Date" />
-
+          <div class="q-pa-xs flex items-end content-center q-gutter-x-sm">
+            <el-date-picker
+              v-model="liveGameFloorResultReportFilterFields.Date"
+              type="date"
+              placeholder="Date"
+              :size="'default'"
+              value-format="YYYY-MM-DD"
+            />
             <q-btn
               type="button"
               :label="$t('filter')"
               icon="tune"
               color="grey-2"
               text-color="dark"
-              size="13px"
+              size="12px"
               unelevated
               no-caps
               @click="getLiveGameFloorResult()"

@@ -13,9 +13,9 @@ const props = defineProps({
     default: () => ({}),
   },
   playerId: {
-    type: String,
+    type: Number,
     required: false,
-    default: null,
+    default: () => null,
   },
 })
 

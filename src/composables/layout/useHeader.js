@@ -25,7 +25,8 @@ export function useHeader(props, emit) {
   const currencyStore = useCurrencyStore()
   const { defaultCurrencyId, currencies } = storeToRefs(currencyStore)
   const cashdeskStore = useCashdeskStore()
-  const { selectedCashDesk } = storeToRefs(cashdeskStore)
+  const { selectedCashDesk, currentCashDeskBalance, currentCashDeskChipBalance } =
+    storeToRefs(cashdeskStore)
   const drawer = ref(props.drawer)
   const selectedUser = ref(null)
   const toggleDrawer = () => {
@@ -114,25 +115,25 @@ export function useHeader(props, emit) {
   }
 
   const changeCashDeskGamingDate = () => {
-    if (Math.abs(selectedCashDesk.value.currentCashDeskBalance) > 0.5) {
-      $q.notify({
-        position: 'bottom-right',
-        type: 'warning',
-        message: i18n.global.t('requiredCageBalance'),
-      })
-      return false
-    }
     if (
-      Math.abs(selectedCashDesk.value.currentCashDeskBalance) <= 0.5 &&
-      selectedCashDesk.IsMatchedGameDateId === true
+      defaultGamingDateInfo.value?.allLiveTableCount !== defaultGamingDateInfo.value?.liveTableCount
     ) {
       $q.notify({
         position: 'bottom-right',
         type: 'warning',
-        message: i18n.global.t('cageAlreadyChanged'),
+        message: i18n.global.t('Lütfen önce masaların oyun tarihini güncelleyiniz.'),
       })
       return false
     }
+    if (Math.abs(currentCashDeskBalance) > 0.5 || Math.abs(currentCashDeskChipBalance) > 0.5) {
+      $q.notify({
+        position: 'bottom-right',
+        type: 'warning',
+        message: i18n.global.t('Lütfen önce kasa CASH balansını ve CHIP balansını sıfırlayınız.'),
+      })
+      return false
+    }
+
     $q.dialog({
       title: i18n.global.t('changeGamingDate'),
       message: i18n.global.t('promiseGaminChange'),

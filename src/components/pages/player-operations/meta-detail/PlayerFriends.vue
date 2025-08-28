@@ -128,9 +128,9 @@ const props = defineProps({
     default: () => 'Addon.Operations.CustomerInformation.ReloadFriends',
   },
   playerId: {
-    type: String,
+    type: Number,
     required: true,
-    default: () => '',
+    default: () => null,
   },
 })
 const $q = useQuasar()

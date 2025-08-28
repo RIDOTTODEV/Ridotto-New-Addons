@@ -268,7 +268,7 @@ const updateDenomination = debounce(async (denomination) => {
                   unelevated
                   no-caps
                   @click="props.reload"
-                  class="q-ml-sm"
+                  class="q-ml-sm no-wrap"
                 />
               </div>
             </template>

@@ -280,12 +280,13 @@ const tableColumns = ref([])
 const tableRows = ref([])
 const tableLoading = ref(false)
 const pagination = ref({
+  totalPages: 1,
   sortBy: null,
   descending: false,
   page: 1,
   rowsPerPage: 10,
   totalCount: 0,
-  rowsNumber: 0,
+  //rowsNumber: 0,
 })
 const visibleColumnOptions = ref(['id'])
 const visibleColumns = ref([])
@@ -314,7 +315,7 @@ const onDropColumn = (from, to) => {
   }
 }
 
-/* watch(
+watch(
   visibleColumns,
   () => {
     const visibleColumnsMap = visibleColumns.value?.reduce((acc, curr, index) => {
@@ -331,7 +332,7 @@ const onDropColumn = (from, to) => {
   {
     immediate: true,
   },
-) */
+)
 watch(
   visibleColumnOptions,
   (newValue) => {
@@ -399,7 +400,7 @@ const initPagination = (response = null) => {
   if (response) {
     pagination.value.totalPages = Math.ceil(response.totalCount / pagination.value.rowsPerPage)
     pagination.value.totalCount = response.totalCount
-    pagination.value.rowsNumber = response.totalCount
+    //pagination.value.rowsNumber = response.totalCount
   } else {
     pagination.value = {
       ...pagination.value,

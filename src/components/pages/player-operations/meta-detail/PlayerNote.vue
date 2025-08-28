@@ -159,9 +159,9 @@ const props = defineProps({
     default: () => 'General',
   },
   playerId: {
-    type: String,
+    type: Number,
     required: true,
-    default: () => '',
+    default: () => null,
   },
   minHeight: {
     type: Number,

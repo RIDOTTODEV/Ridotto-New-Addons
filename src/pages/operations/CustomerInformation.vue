@@ -599,6 +599,7 @@
                     <PlayerFriends
                       v-if="selectedPlayer"
                       :player="selectedPlayer"
+                      :player-id="selectedPlayer.id"
                       :show-friends-permission="'Addon.Operations.CustomerInformation.ShowFriends'"
                       :reload-friends-permission="'Addon.Operations.CustomerInformation.ReloadFriends'"
                     />

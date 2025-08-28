@@ -25,6 +25,7 @@
     "@vueuse/core": "^13.7.0",
     "axios": "^1.2.1",
     "oidc-client": "^1.11.5",
+    "element-plus": "^2.8.1",
     "pinia": "^3.0.1",
     "primeicons": "^7.0.0",
     "primevue": "^4.3.7",

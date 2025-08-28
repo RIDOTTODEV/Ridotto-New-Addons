@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { defineAsyncComponent, ref, watch, computed } from 'vue'
 import { useQuasar, date } from 'quasar'
-import { priceAbsFormatted } from 'src/helpers/helpers'
+import { fireNotify, priceAbsFormatted } from 'src/helpers/helpers'
 
 export function usePlayer() {
   const playerStore = usePlayerStore()
@@ -18,7 +18,7 @@ export function usePlayer() {
   const { selectedCashDesk } = storeToRefs(cashdeskStore)
   const playerBlackListHistory = ref([])
   const playerId = computed(() => {
-    return router.currentRoute.value.params.playerId
+    return +router.currentRoute.value.params.playerId || null
   })
   const initPlayer = async () => {
     if (playerId.value) {
@@ -133,6 +133,16 @@ export function usePlayer() {
     setTimeout(() => {
       lastChipTransactionRef.value.reload()
       lastCageTransactionRef.value.reload()
+      playerChipTransactionFormValues.value = {
+        ...playerChipTransactionFormValues.value,
+        transType: null,
+        amount: null,
+        transactionCodeId: null,
+        note: null,
+        inOut: false,
+        chips: [],
+      }
+      fireNotify('Chip transaction created successfully', 'created', 3000, 'positive')
     }, 1000)
   }
   const initPlayerChipTransactionChips = (chips) => {
@@ -158,6 +168,45 @@ export function usePlayer() {
       playerFullName:
         selectedPlayer.value?.player?.name + ' ' + selectedPlayer.value?.player?.surname,
     }
+  }
+
+  const onChangeActiveStatus = () => {
+    $q.dialog({
+      component: defineAsyncComponent(
+        () => import('src/components/pages/player-operations/meta-detail/ActiveStatusDialog.vue'),
+      ),
+      componentProps: {
+        playerName:
+          selectedPlayer.value?.player?.name + ' ' + selectedPlayer.value?.player?.surname,
+        actionTitle: 'Müşteri Statü Değiştirme',
+        message: `Müşteri ${selectedPlayer.value?.player?.isActive ? 'aktif' : 'pasif'} durumundadır. Bu işlemi ${selectedPlayer.value?.player?.isActive ? 'deaktiv' : 'aktiv'} etmek istediğinize emin misiniz?`,
+      },
+    }).onOk(async () => {
+      await playerStore.setPlayerActiveStatus({
+        playerId: selectedPlayer.value?.player?.id,
+        isActive: !selectedPlayer.value?.player?.isActive,
+      })
+      await playerStore.fetchPlayerMetaDetail({ playerId: selectedPlayer.value?.player?.id })
+    })
+  }
+  const onChangeDiscountStatus = () => {
+    $q.dialog({
+      component: defineAsyncComponent(
+        () => import('src/components/pages/player-operations/meta-detail/ActiveStatusDialog.vue'),
+      ),
+      componentProps: {
+        playerName:
+          selectedPlayer.value?.player?.name + ' ' + selectedPlayer.value?.player?.surname,
+        actionTitle: 'Müşteri Discount Durum Değiştirme',
+        message: `Müşteri ${selectedPlayer.value?.player?.discountStatus ? 'discount' : 'noDiscount'} durumundadır. Bu işlemi ${selectedPlayer.value?.player?.discountStatus ? 'deaktiv' : 'aktiv'} etmek istediğinize emin misiniz?`,
+      },
+    }).onOk(async () => {
+      /*       await playerStore.setPlayerActiveStatus({
+        playerId: selectedPlayer.value?.player?.id,
+        discountStatus: !selectedPlayer.value?.player?.discountStatus,
+      }) */
+      await playerStore.fetchPlayerMetaDetail({ playerId: selectedPlayer.value?.player?.id })
+    })
   }
   return {
     playerStore,
@@ -188,5 +237,7 @@ export function usePlayer() {
     showInOutSelectedNameReport,
     inOutSelectedNameReportFilterParams,
     maximizedReport,
+    onChangeActiveStatus,
+    onChangeDiscountStatus,
   }
 }

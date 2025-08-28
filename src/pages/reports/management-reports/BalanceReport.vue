@@ -30,7 +30,7 @@ const { cashdesks } = storeToRefs(cashdeskStore)
 
 const currencyStore = useCurrencyStore()
 
-import { formatPrice, priceAbsFormatted } from 'src/helpers/helpers'
+import { priceAbsFormatted } from 'src/helpers/helpers'
 import { i18n } from 'src/boot/i18n'
 
 const onSubmitFilter = async () => {
@@ -74,7 +74,7 @@ const transactionLogsTableColumn = ref([
     field: 'amount',
     sortable: false,
     visible: true,
-    format: (val) => formatPrice(val),
+    format: (val) => priceAbsFormatted(val),
   },
   {
     name: 'received',
@@ -83,7 +83,7 @@ const transactionLogsTableColumn = ref([
     field: 'received',
     sortable: false,
     visible: true,
-    format: (val) => formatPrice(val),
+    format: (val) => priceAbsFormatted(val),
   },
   {
     name: 'paid',
@@ -92,7 +92,7 @@ const transactionLogsTableColumn = ref([
     field: 'paid',
     sortable: false,
     visible: true,
-    format: (val) => formatPrice(val),
+    format: (val) => priceAbsFormatted(val),
   },
   {
     name: 'userName',
@@ -171,11 +171,13 @@ onMounted(async () => {
                   :label="'Select ' + $t('cashDesk')"
                   style="min-width: 150px"
                 />
-                <DatePicker
+
+                <el-date-picker
                   v-model="formValues.date"
                   type="date"
-                  placeholder="Select date and time"
-                  size="default"
+                  placeholder="Date"
+                  :size="'default'"
+                  value-format="YYYY-MM-DD"
                 />
                 <q-btn
                   type="submit"
@@ -261,7 +263,7 @@ onMounted(async () => {
                     v-if="expansionItemHeaders.showCashFiguresHeader"
                   >
                     Movement:
-                    {{ formatPrice(balanceReport?.cashFigures?.totalMovementValue) }}
+                    {{ priceAbsFormatted(balanceReport?.cashFigures?.totalMovementValue) }}
                   </span>
                 </div>
               </div>
@@ -301,29 +303,29 @@ onMounted(async () => {
                   <td class="text-center">{{ item?.currencyName }}</td>
 
                   <td class="text-center borderLeft">
-                    {{ formatPrice(item?.opening) }}
+                    {{ priceAbsFormatted(item?.opening) }}
                     {{ currencyStore.getCurrencyById(item?.currencyId).symbol }}
                   </td>
                   <td class="text-center">
-                    {{ formatPrice(item?.selectedCurrencyOpeningValue) }}
+                    {{ priceAbsFormatted(item?.selectedCurrencyOpeningValue) }}
                     {{ currencyStore.getCurrencyById(getDefaultCurrencyId).symbol }}
                   </td>
 
                   <td class="text-center borderLeft">
-                    {{ formatPrice(item?.closing) }}
+                    {{ priceAbsFormatted(item?.closing) }}
                     {{ currencyStore.getCurrencyById(item?.currencyId).symbol }}
                   </td>
                   <td class="text-center">
-                    {{ formatPrice(item?.selectedCurrencyClosingValue) }}
+                    {{ priceAbsFormatted(item?.selectedCurrencyClosingValue) }}
                     {{ currencyStore.getCurrencyById(getDefaultCurrencyId).symbol }}
                   </td>
 
                   <td class="text-center borderLeft">
-                    {{ formatPrice(item?.movement) }}
+                    {{ priceAbsFormatted(item?.movement) }}
                     {{ currencyStore.getCurrencyById(item?.currencyId).symbol }}
                   </td>
                   <td class="text-center">
-                    {{ formatPrice(item?.selectedCurrencyMovementValue) }}
+                    {{ priceAbsFormatted(item?.selectedCurrencyMovementValue) }}
                     {{ currencyStore.getCurrencyById(getDefaultCurrencyId).symbol }}
                   </td>
                 </tr>
@@ -334,19 +336,19 @@ onMounted(async () => {
                   <td class="text-center text-bold borderTop"></td>
                   <td class="text-center text-bold borderTop">
                     <div class="text-subtitle2 text-bold">
-                      {{ formatPrice(balanceReport?.cashFigures?.totalOpeningValue) }}
+                      {{ priceAbsFormatted(balanceReport?.cashFigures?.totalOpeningValue) }}
                     </div>
                   </td>
                   <td class="text-center text-bold borderTop"></td>
                   <td class="text-center text-bold borderTop">
                     <div class="text-subtitle2 text-bold">
-                      {{ formatPrice(balanceReport?.cashFigures?.totalClosingValue) }}
+                      {{ priceAbsFormatted(balanceReport?.cashFigures?.totalClosingValue) }}
                     </div>
                   </td>
                   <td class="text-center text-bold borderTop"></td>
                   <td class="text-center text-bold borderTop">
                     <div class="text-subtitle text-bold2">
-                      {{ formatPrice(balanceReport?.cashFigures?.totalMovementValue) }}
+                      {{ priceAbsFormatted(balanceReport?.cashFigures?.totalMovementValue) }}
                     </div>
                   </td>
                 </tr>
@@ -722,11 +724,11 @@ onMounted(async () => {
                   :key="index"
                 >
                   <td class="text-center">Cash Values</td>
-                  <td class="text-center">{{ formatPrice(0) }}</td>
-                  <td class="text-center">{{ formatPrice(0) }}</td>
-                  <td class="text-center">{{ formatPrice(0) }}</td>
-                  <td class="text-center">{{ formatPrice(0) }}</td>
-                  <td class="text-center">{{ formatPrice(0) }}</td>
+                  <td class="text-center">{{ priceAbsFormatted(0) }}</td>
+                  <td class="text-center">{{ priceAbsFormatted(0) }}</td>
+                  <td class="text-center">{{ priceAbsFormatted(0) }}</td>
+                  <td class="text-center">{{ priceAbsFormatted(0) }}</td>
+                  <td class="text-center">{{ priceAbsFormatted(0) }}</td>
                 </tr>
                 <tr>
                   <td></td>
@@ -1179,7 +1181,7 @@ onMounted(async () => {
                     v-if="expansionItemHeaders.showChipFiguresHeader"
                   >
                     Movement:
-                    {{ formatPrice(balanceReport?.chipFigures?.totalMovementValue) }}
+                    {{ priceAbsFormatted(balanceReport?.chipFigures?.totalMovementValue) }}
                   </span>
                 </div>
               </div>
@@ -1219,29 +1221,29 @@ onMounted(async () => {
                   <td class="text-center">{{ item?.currencyName }} / {{ item.chipName }}</td>
 
                   <td class="text-center borderLeft">
-                    {{ formatPrice(item?.opening) }}
+                    {{ priceAbsFormatted(item?.opening) }}
                     {{ currencyStore.getCurrencyById(item?.currencyId).symbol }}
                   </td>
                   <td class="text-center">
-                    {{ formatPrice(item?.selectedCurrencyOpeningValue) }}
+                    {{ priceAbsFormatted(item?.selectedCurrencyOpeningValue) }}
                     {{ currencyStore.getCurrencyById(getDefaultCurrencyId).symbol }}
                   </td>
 
                   <td class="text-center borderLeft">
-                    {{ formatPrice(item?.closing) }}
+                    {{ priceAbsFormatted(item?.closing) }}
                     {{ currencyStore.getCurrencyById(item?.currencyId).symbol }}
                   </td>
                   <td class="text-center">
-                    {{ formatPrice(item?.selectedCurrencyClosingValue) }}
+                    {{ priceAbsFormatted(item?.selectedCurrencyClosingValue) }}
                     {{ currencyStore.getCurrencyById(getDefaultCurrencyId).symbol }}
                   </td>
 
                   <td class="text-center borderLeft">
-                    {{ formatPrice(item?.movement) }}
+                    {{ priceAbsFormatted(item?.movement) }}
                     {{ currencyStore.getCurrencyById(item?.currencyId).symbol }}
                   </td>
                   <td class="text-center">
-                    {{ formatPrice(item?.selectedCurrencyMovementValue) }}
+                    {{ priceAbsFormatted(item?.selectedCurrencyMovementValue) }}
                     {{ currencyStore.getCurrencyById(getDefaultCurrencyId).symbol }}
                   </td>
                 </tr>
@@ -1252,19 +1254,19 @@ onMounted(async () => {
                   <td class="text-center text-bold borderTop"></td>
                   <td class="text-center text-bold borderTop">
                     <div class="text-subtitle2 text-bold">
-                      {{ formatPrice(balanceReport?.chipFigures?.totalOpeningValue) }}
+                      {{ priceAbsFormatted(balanceReport?.chipFigures?.totalOpeningValue) }}
                     </div>
                   </td>
                   <td class="text-center text-bold borderTop"></td>
                   <td class="text-center text-bold borderTop">
                     <div class="text-subtitle2 text-bold">
-                      {{ formatPrice(balanceReport?.chipFigures?.totalClosingValue) }}
+                      {{ priceAbsFormatted(balanceReport?.chipFigures?.totalClosingValue) }}
                     </div>
                   </td>
                   <td class="text-center text-bold borderTop"></td>
                   <td class="text-center text-bold borderTop">
                     <div class="text-subtitle text-bold2">
-                      {{ formatPrice(balanceReport?.chipFigures?.totalMovementValue) }}
+                      {{ priceAbsFormatted(balanceReport?.chipFigures?.totalMovementValue) }}
                     </div>
                   </td>
                 </tr>

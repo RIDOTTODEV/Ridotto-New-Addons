@@ -104,8 +104,18 @@
           :useCol12="true"
         >
           <template v-slot:headerFilterSlots>
-            <div class="col-12 flex row justify-start">
+            <div class="col-12 flex row justify-start q-py-xs">
               <div class="row full-width flex justify-start">
+                <div class="col-2 q-pa-xs">
+                  <q-select-box
+                    v-model="filterFields.CashdeskId"
+                    :options="cashdesks"
+                    option-value="id"
+                    option-label="name"
+                    :label="$t('cashdesk')"
+                    :fetchFn="cashDeskStore.fetchCashdesks"
+                  />
+                </div>
                 <div class="col-2 q-pa-xs">
                   <q-select-box
                     v-model="filterFields.CashdeskTransactionType"
@@ -363,6 +373,7 @@ const {
   cageTransactionTypes,
   cashdeskTransactionTypes,
   transTypes,
+  cashdesks,
 } = storeToRefs(cashDeskStore)
 const createNewTransaction = ref(false)
 const chipTransactionTableRef = ref(null)

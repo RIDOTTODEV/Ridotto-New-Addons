@@ -46,6 +46,9 @@
                 unelevated
                 @click="setCurrentCashDesk(cashDesk)"
                 :data-cy="i === 0 ? 'MainCashDesk' : 'CashDesk' + i"
+                :class="
+                  currentCashDesk && currentCashDesk.id === cashDesk.id ? 'current-cash-desk' : ''
+                "
               >
                 <template v-slot:default>
                   <div class="text-h6">
@@ -92,10 +95,10 @@ bus.on('setNewCashDesk', () => {
 })
 const setCurrentCashDesk = (cashDesk) => {
   currentCashDesk.value = cashDesk
-  cashdeskStore.setCurrentCashDesk(cashDesk)
+  cashdeskStore.setCurrentCashDesk(cashDesk, true)
 
   Loading.show({
-    message: 'Loading',
+    message: 'Cashdesk is being loaded...',
     delay: 0,
     spinnerSize: 140,
     spinnerColor: 'white',
@@ -124,4 +127,8 @@ const setCurrentCashDesk = (cashDesk) => {
   }, 1000)
 }
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.current-cash-desk {
+  border: 3px solid #b7ca0a;
+}
+</style>

@@ -73,15 +73,29 @@
                 />
               </div>
             </div>
-            <div class="row">
-              <div class="col-12 q-pa-xs">
-                <DatePicker
-                  v-model="portfolioManagementFilter.date"
-                  :disabled="!portfolioManagementFilter.findBySpecialDay"
-                  @dateSelect="onHandleDateChange"
-                  dateFormat="dd-mm-yy"
-                />
-              </div>
+            <div class="col-12">
+              <!--         <el-date-picker
+                v-model="portfolioManagementFilter.date"
+                :disabled="!portfolioManagementFilter.findBySpecialDay"
+                type="date"
+                placeholder="Date"
+                :size="'default'"
+                value-format="YYYY-MM-DD"
+                class="no-wrap"
+                @change="onHandleDateChange"
+              /> -->
+
+              <el-date-picker
+                v-model="portfolioManagementFilter.date"
+                type="date"
+                :placeholder="$t('base.pickDate')"
+                size="default"
+                format="DD.MM.YYYY"
+                date-format="MMM DD, YYYY"
+                style="width: 100%"
+                :disabled="!portfolioManagementFilter.findBySpecialDay"
+                @change="onHandleDateChange"
+              />
             </div>
           </fieldset>
 

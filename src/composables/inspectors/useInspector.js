@@ -470,7 +470,7 @@ export function useInspector() {
     })
     await inspectorStore.fetchSitPlayers()
   }
-  const onClickDefineAverageBet = async () => {
+  const onClickDefineAverageBet = async (autoTimeOut = false) => {
     if (!validateCurrentTable() || currentPlayer.value === null) return
     dialogs.value.defineAverageBet = $q
       .dialog({
@@ -488,6 +488,9 @@ export function useInspector() {
             avgBet: payload.avgBet,
             tableId: currentTable.value.id,
           })
+          if (autoTimeOut) {
+            await timeOutPlayerFn()
+          }
           await inspectorStore.fetchSitPlayers()
           resetPlayer()
         }
@@ -524,7 +527,7 @@ export function useInspector() {
           },
         })
         .onOk(async () => {
-          await onClickDefineAverageBet()
+          await onClickDefineAverageBet(true)
         })
     } else {
       await timeOutPlayerFn()

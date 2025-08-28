@@ -25,15 +25,16 @@
 
         <div class="">
           <q-chip
-            v-if="selectedPlayer.player.isActive"
-            color="green-8"
+            :color="selectedPlayer.player.isActive ? 'green-8' : 'red-8'"
             text-color="white"
             size="11px"
             no-caps
             square
-            :label="$t('isActive')"
+            :label="$t(selectedPlayer.player.isActive ? 'isActive' : 'isNotActive')"
             class="full-width"
-            icon="fa fa-check"
+            :icon="selectedPlayer.player.isActive ? 'fa fa-check' : 'fa fa-times'"
+            clickable
+            @click="onChangeActiveStatus"
           />
           <q-chip
             :color="selectedPlayer.player.discountStatus ? 'green-8' : 'red-8'"
@@ -41,20 +42,14 @@
             size="11px"
             no-caps
             square
-            :label="
-              selectedPlayer.player.discountStatus
-                ? $t('discount') +
-                  ' ' +
-                  (parseInt(selectedPlayer?.player?.discount) > 0
-                    ? parseInt(selectedPlayer?.player?.discount) + '%'
-                    : '')
-                : $t('noDiscount')
-            "
+            :label="$t(selectedPlayer.player.discountStatus ? 'discount' : 'noDiscount')"
             class="full-width"
             :class="{
               'blink-warning': !selectedPlayer.player.discountStatus,
             }"
             :icon="selectedPlayer.player.discountStatus ? 'fa fa-check' : 'fa fa-times'"
+            clickable
+            @click="onChangeDiscountStatus"
           />
           <q-chip
             v-if="selectedPlayer.player.isSit"
@@ -129,7 +124,7 @@
       />
       <date-time-picker
         v-el-perms="'Addon.CashlessOperations.Transaction.Filter'"
-        class="q-mr-sm"
+        class="q-mr-sm q-card--bordered"
         @selected-date="playerStore.setDateTimeFilterValues"
       />
     </q-card-section>
@@ -183,6 +178,8 @@ const {
   inOutSelectedNameReportFilterParams,
   maximizedReport,
   playerId,
+  onChangeActiveStatus,
+  onChangeDiscountStatus,
 } = usePlayer()
 </script>
 

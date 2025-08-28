@@ -76,7 +76,6 @@ const handleInputFocusOut = () => {
 <template>
   <q-select
     dense
-    autofocus
     :placeholder="placeholder"
     outlined
     :use-input="!input"

@@ -7,9 +7,9 @@
           @update:model-value="(val) => onChangeTab(val)"
           dense
           class="text-dark"
-          active-color="dark"
+          active-color="white"
           indicator-color="blue-grey-8"
-          active-bg-color="grey-2"
+          active-bg-color="blue-grey-8"
           align="left"
           narrow-indicator
           no-caps
@@ -24,19 +24,22 @@
             :name="tab.name"
             :label="$t(tab.label)"
             :icon="tab.icon"
-            :class="index === 0 ? 'q-card--bordered bg-white' : 'q-card--bordered q-ml-sm bg-white'"
+            class="app-cart-grey q-card--bordered"
+            :class="index === 0 ? '' : 'q-ml-sm'"
           />
         </q-tabs>
         <q-btn
           v-el-perms="'Addon.CashlessOperations.Transaction.CreateCashlessAccount'"
-          class="q-ml-sm q-mr-sm"
+          class="q-ml-sm q-mr-sm q-card--bordered"
           no-caps
           size="13px"
           :label="$t('addCashlessAccount')"
           icon="add"
           unelevated
-          color="blue-grey-8"
+          color="grey-3"
+          text-color="black"
           @click="createNewCashlessAccount"
+          v-show="currentCashlessTab === 'cashless'"
         />
       </div>
     </div>

@@ -222,6 +222,9 @@ export const usePlayerStore = defineStore('playerStore', {
           console.log(err)
         })
     },
+    async setPlayerActiveStatus(params) {
+      return await playerService.setPlayerActive(params)
+    },
   },
 })
 
