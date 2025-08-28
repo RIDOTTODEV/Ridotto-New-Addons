@@ -75,7 +75,7 @@ import { posApi } from 'src/boot/axios'
 
 const filterValues = ref({
   playerId: null,
-  OrderTagId: '1',
+  OrderTagId: '7',
   CreatedByName: null,
 })
 const onSelectPlayer = (val) => {
@@ -95,21 +95,26 @@ const cigaretteReportTable = ref(null)
 
 const columns = ref([
   {
-    field: 'createdAt',
+    field: 'createAt',
     fieldType: 'date',
-  },
-  {
-    field: 'playerId',
+    label: 'Date',
   },
   {
     field: 'playerName',
     label: 'Player Name',
   },
   {
+    field: 'productName',
+    label: 'Product Name',
+  },
+  {
     field: 'quantity',
   },
   {
-    field: 'createdBy',
+    field: 'createdByName',
+  },
+  {
+    field: 'playerId',
   },
 ])
 const getCigaretteReport = async () => {

@@ -24,16 +24,14 @@ export function useInspectorOrder() {
     tableId: currentTable.value?.id,
     tableName: currentTable.value?.name,
     terminalId: terminal.value?.id,
-    isGift: false,
-    isLovePoint: false,
-    tenantId: 1,
     playerName: currentPlayer.value?.playerName,
     externalId: currentPlayer.value?.playerId,
     externalUserId: currentPlayer.value?.playerId,
     orderedByFullName: user.value?.profile?.name || '',
-    orderSource: 2,
+    createdByName: user.value?.profile?.name || '',
+    source: 2,
     TerminalName: terminal.value?.name,
-    orderbyfullname: null,
+    playerId: currentPlayer.value?.playerId,
   })
   const playerOrders = ref([])
   const selectedOrderItem = ref({

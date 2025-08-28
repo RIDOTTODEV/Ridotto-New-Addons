@@ -117,9 +117,14 @@ const {
                   : 'row bg-white q-card--bordered'
               "
             >
-              <div class="text-caption col-12 q-ml-sm text-bold">
-                {{ chip[0]?.chipType }}
-                <span class="text-negative">*</span>
+              <div class="col bg-white text-left q-card--bordered">
+                <div class="text-caption text-bold q-ml-sm">
+                  {{ chip[0]?.chipType }}
+                  <span class="text-negative">*</span>
+                </div>
+                <div class="bg-dark text-caption text-white text-left text-bold full-width">
+                  <span class="q-ml-sm">Qty</span>
+                </div>
               </div>
               <div
                 class="col bg-white text-center q-card--bordered"
@@ -439,7 +444,9 @@ const {
                   <div class="col-4 flex content-center items-center">
                     <div class="text-subtitle2">
                       <span
-                        v-for="chip in props.row?.chips?.filter((chip) => chip.type === 'Plaque')"
+                        v-for="chip in props.row?.chips?.filter(
+                          (chip) => chip.type === 'Chip' && chip.chipCode !== ' ',
+                        )"
                         :key="chip.chipCode"
                         class="q-ml-sm"
                       >
@@ -616,10 +623,9 @@ const {
         <q-tabs
           v-model="currentTab"
           dense
-          class="text-grey"
-          active-color="blue-grey-8"
+          active-color="white"
           indicator-color="blue-grey-8"
-          active-bg-color="white"
+          active-bg-color="blue-grey-8"
           align="justify"
           narrow-indicator
           no-caps
@@ -630,29 +636,39 @@ const {
           <q-tab
             name="currentPlayerChipHistory"
             class="q-card--bordered"
+            :class="
+              currentTab === 'currentPlayerChipHistory'
+                ? 'q-mr-sm'
+                : ' bg-grey-1 text-dark q-card--bordered'
+            "
             :label="$t('chipHistory')"
             icon="o_casino"
             v-el-perms="'Addon.Inspector.Player.ChipHistory'"
           />
           <q-tab
             name="currentPlayerCashHistory"
-            class="q-card--bordered q-ml-sm"
+            class="q-card--bordered"
+            :class="
+              currentTab === 'currentPlayerCashHistory'
+                ? 'q-ml-sm'
+                : ' bg-grey-1 text-dark q-card--bordered'
+            "
             :label="$t('cashHistory')"
             icon="o_payments"
             v-el-perms="'Addon.Inspector.Player.CashHistory'"
           />
         </q-tabs>
-        <q-tab-panels v-model="currentTab" animated>
+        <q-tab-panels v-model="currentTab" animated class="q-mt-xs">
           <q-tab-panel name="currentPlayerChipHistory" class="q-pa-none">
             <Information
-              class="full-width q-mt-sm"
+              class="full-width"
               content="Seçilen oyuncunun masada chip in ve chip out işlemleri gösterir."
             />
             <current-player-chip-history v-el-perms="'Addon.Inspector.Player.ChipHistory'" />
           </q-tab-panel>
           <q-tab-panel name="currentPlayerCashHistory" class="q-pa-none">
             <Information
-              class="full-width q-mt-sm"
+              class="full-width"
               content="Seçilen oyuncunun masada cash drop bilgisini verir."
             />
             <current-player-cash-history v-el-perms="'Addon.Inspector.Player.CashHistory'" />

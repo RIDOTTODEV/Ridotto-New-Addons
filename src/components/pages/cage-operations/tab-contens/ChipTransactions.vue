@@ -16,7 +16,18 @@
             unelevated
             no-caps
             @click="createNewTransaction = !createNewTransaction"
-          />
+            :disable="!selectedCashDesk?.value?.isChipAccepted"
+          >
+            <q-tooltip
+              class="text-subtitle2 bg-grey-1 text-dark"
+              v-if="!selectedCashDesk?.value?.isChipAccepted"
+            >
+              <Information
+                content="Chip kabul edilmediği için işlem yapamazsınız."
+                class="text-subtitle2 bg-grey-1 text-dark"
+              />
+            </q-tooltip>
+          </q-btn>
         </div>
       </div>
     </q-card-section>
@@ -366,6 +377,7 @@ import FillCredit from '../chip-transaction-tabs/FillCredit.vue'
 import TableFloatFill from '../chip-transaction-tabs/TableFloatFill.vue'
 import { formatPrice } from 'src/helpers/helpers'
 import { LocalStorage } from 'quasar'
+import Information from 'src/components/ui/Information.vue'
 const cashDeskStore = useCashdeskStore()
 const {
   getSelectedCashDeskId,

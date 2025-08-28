@@ -33,9 +33,9 @@ export const useAuthStore = defineStore('authStore', {
     },
     getUserNameSurname: (state) => {
       return {
-        fullName: state.user.details?.name,
-        email: state.user.details?.emailAddress,
-        shortName: state.user.details?.name,
+        fullName: state.user.profile?.name,
+        email: state.user.profile?.emailAddress,
+        shortName: state.user.profile?.name,
       }
     },
     getDefaultCurrencyId() {
