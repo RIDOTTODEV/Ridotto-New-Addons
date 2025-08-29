@@ -66,11 +66,36 @@
                       :key="index"
                       @update:model-value="onCheckedTableCount()"
                       color="blue-grey-8"
-                      :disable="item.gamingDateId === getDefaultGamingDateId"
+                      :disable="
+                        item.gamingDateId === getDefaultGamingDateId || item?.isAnyoneSit === true
+                      "
                     />
                   </td>
-                  <td class="text-center">{{ item?.tableName }}</td>
-                  <td class="text-center">{{ item?.gamingDate }}</td>
+                  <td class="text-center">
+                    {{ item?.tableName }}
+
+                    <div class="col-12" v-if="item?.isAnyoneSit">
+                      <div class="flex justify-center content-center items-center">
+                        <q-icon
+                          name="fa-solid fa-users"
+                          size="12px"
+                          color="negative"
+                          class="q-mr-sm animateIcon"
+                        >
+                          <q-tooltip class="bg-blue-grey-8 text-white text-subtitle2">{{
+                            $t('hasPlayers')
+                          }}</q-tooltip>
+                        </q-icon>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="row">
+                      <div class="col-12">
+                        {{ item?.gamingDate }}
+                      </div>
+                    </div>
+                  </td>
                   <td class="text-center">{{ item?.floatSetName }}</td>
                   <td class="text-center">
                     {{
@@ -531,7 +556,11 @@ const selectAllTableCounts = ref(false)
 const onSelectAllTableCounts = (value) => {
   if (value) {
     selectedTableCountIds.value = tableStore.tableCounts
-      .filter((tableCount) => tableCount.gamingDateId !== getDefaultGamingDateId.value)
+      .filter(
+        (tableCount) =>
+          tableCount.gamingDateId !== getDefaultGamingDateId.value &&
+          tableCount.isAnyoneSit === false,
+      )
       .map((tableCount) => tableCount.id)
   } else {
     selectedTableCountIds.value = []
@@ -769,4 +798,16 @@ const onEditSavedCount = () => {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.animateIcon {
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+</style>

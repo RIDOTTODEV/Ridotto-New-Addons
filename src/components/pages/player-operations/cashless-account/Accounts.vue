@@ -30,8 +30,9 @@ onMounted(async () => {
 })
 
 const fetchPlayerCashlessAccounts = async () => {
-  const res = await playerStore.fetchPlayerAccounts({ playerId: props.playerId })
-  accounts.value = res.accounts
+  const response = await playerStore.getAccountsWithTotals({ playerId: props.playerId })
+  accounts.value = response.data
+
   loading.value = false
 }
 bus.on('reloadPlayerCashless', fetchPlayerCashlessAccounts)

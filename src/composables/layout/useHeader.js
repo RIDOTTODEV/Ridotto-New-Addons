@@ -23,7 +23,7 @@ export function useHeader(props, emit) {
     storeToRefs(authStore)
   const { locale } = useI18n({ useScope: 'global' })
   const currencyStore = useCurrencyStore()
-  const { defaultCurrencyId, currencies } = storeToRefs(currencyStore)
+  const { currencies } = storeToRefs(currencyStore)
   const cashdeskStore = useCashdeskStore()
   const { selectedCashDesk, currentCashDeskBalance, currentCashDeskChipBalance } =
     storeToRefs(cashdeskStore)
@@ -69,7 +69,7 @@ export function useHeader(props, emit) {
   const userSettings = ref({
     darkMode: $q.dark.isActive,
     fullScreen: $q.fullscreen.isActive,
-    selectedSystemCurrency: defaultCurrencyId.value,
+    selectedSystemCurrency: getDefaultCurrencyId.value,
     selectedLocale: selectedLocale.value?.lang,
   })
 

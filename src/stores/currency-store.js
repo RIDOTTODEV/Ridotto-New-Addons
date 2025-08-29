@@ -6,10 +6,11 @@ import {
   cashdeskTransactionService,
 } from 'src/api'
 import { LocalStorage } from 'quasar'
+import { useAuthStore } from './auth-store'
 export const useCurrencyStore = defineStore('currencyStore', {
   state: () => ({
     currencies: [],
-    defaultCurrencyId: 2,
+
     currencyExchangeUpdateBulkFormat: {
       rates: [],
       rateDifferences: [],
@@ -243,7 +244,8 @@ export const useCurrencyStore = defineStore('currencyStore', {
           flag: flag ? flag.flag : '',
         }
       })
-      return mapped.find((currency) => currency.id === state.defaultCurrencyId) || {}
+      const authStore = useAuthStore()
+      return mapped.find((currency) => currency.id === authStore.getDefaultCurrencyId) || {}
     },
     getBulkExchangeRateDifferences: (state) => {
       function groupByCashdeskId(array) {
@@ -308,7 +310,6 @@ export const useCurrencyStore = defineStore('currencyStore', {
       return data
     },
     async setDefaultCurrency(id) {
-      this.defaultCurrencyId = id
       LocalStorage.set('defaultCurrencyId', id)
     },
     async fetchCurrencyRatesById(fromCurrencyId, toCurrencyId) {
@@ -358,6 +359,8 @@ export const useCurrencyStore = defineStore('currencyStore', {
     },
     setCurrencyExchangeBulkRateDifferences(data) {
       // const systemSettingStore = useSystemSettingStore();
+      const authStore = useAuthStore()
+
       this.currencyExchangeUpdateBulkFormat.pureRates = data.map((rate) => {
         return {
           ...rate,
@@ -366,7 +369,7 @@ export const useCurrencyStore = defineStore('currencyStore', {
           afterRateEffectAmountInBalanceCurrency: rate.currentBalanceInDefaultCurrency,
           previousRate: rate.oldRate,
           nextRate: rate.newRate,
-          balanceCurrencyId: this.defaultCurrencyId,
+          balanceCurrencyId: authStore.getDefaultCurrencyId,
           cageBalanceCurrencyId: rate.currencyId,
           cageBalance: rate.cageBalance,
         }

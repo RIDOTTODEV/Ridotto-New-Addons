@@ -19,9 +19,9 @@ export const initialize = async () => {
   const cashdeskStore = useCashdeskStore()
   const transactionCodeStore = useTransactionCodeStore()
   await Promise.all([
-    currencyStore.fetchCurrencies(),
     authStore.getUserPanelSettings(),
     authStore.fetchDefaultGamingDateInfo(),
+    currencyStore.fetchCurrencies(),
     cashdeskStore.getCashdesks(),
     transactionCodeStore.fetchTransactionCodes(),
     transactionCodeStore.fetchTransTypes(),

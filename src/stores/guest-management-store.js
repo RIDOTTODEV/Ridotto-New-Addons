@@ -182,8 +182,7 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
       return data
     },
     async deleteHotelReservation(params) {
-      const { data } = await hotelReservationService.deleteReservation(params)
-      return data
+      return await hotelReservationService.deleteReservation(params)
     },
     async updateHotelReservation(params) {
       const { data } = await hotelReservationService.updateReservation(params)

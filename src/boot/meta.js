@@ -5,7 +5,7 @@ import { i18n } from 'boot/i18n'
 export default defineBoot(async ({ router }) => {
   const updateMeta = (routeName) => {
     const title = 'Ridotto'
-    const template = routeName ? `${title} - ${i18n.global.t(`menus.${routeName}`)}` : title
+    const template = routeName ? `${title} - ${i18n.global.t(`${routeName}`)}` : title
 
     // Update document title directly
     document.title = template

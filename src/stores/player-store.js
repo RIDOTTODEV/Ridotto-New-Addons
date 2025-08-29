@@ -127,9 +127,12 @@ export const usePlayerStore = defineStore('playerStore', {
     async deletePlayerFriend(params) {
       await playerFriendshipService.delete(params)
     },
-    async fetchPlayerAccounts(params) {
-      const { data } = await playerAccountService.getPlayerAccounts(params)
-      return data
+    async getAccountsWithTotals(params) {
+      const payload = {
+        ...params,
+        ...this.dateTimeFilterValues,
+      }
+      return await playerAccountService.getAccountsWithTotals(payload)
     },
     async fetchAccountTypes() {
       const { data } = await playerAccountService.getPlayerAccountTypes()

@@ -68,7 +68,7 @@ const onClickAccountHistory = (account) => {
               class="q-ml-md text-subtitle2 flex no-wrap content-center items-center"
               :data-cy="'AccountBalance-' + account.accountId"
             >
-              {{ formatPrice(account.amount) }}
+              {{ formatPrice(account.accountBalance) }}
               <q-badge
                 v-if="currencyStore.currencies.length > 0"
                 color="lime"
