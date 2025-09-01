@@ -1073,7 +1073,7 @@ onMounted(() => {
   // set check in to today
   setCheckInAndCheckOutDates()
 })
-onUpdated(() => {
+onUpdated(async () => {
   if (props.formValues) {
     hotelGuestFormValues.value = {
       ...hotelGuestFormValues.value,
@@ -1083,6 +1083,7 @@ onUpdated(() => {
         isBusiness: props.formValues.isBusiness === true ? 1 : 0,
       },
     }
+    await fetchReservationExpenses(hotelGuestFormValues.value.id)
   }
 })
 const setCheckInAndCheckOutDates = () => {
