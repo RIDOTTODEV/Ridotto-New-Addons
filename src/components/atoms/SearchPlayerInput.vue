@@ -78,7 +78,7 @@ const handleInputFocusOut = () => {
     dense
     :placeholder="placeholder"
     outlined
-    :use-input="!input"
+    :use-input="!displayedValue"
     clearable
     v-model="input"
     :model-value="initialDisplayedValue"
@@ -123,7 +123,7 @@ const handleInputFocusOut = () => {
         </q-item-section>
         <q-item-section>
           <q-item-label>{{ scope.opt[optionLabel] }}</q-item-label>
-          <q-item-label caption>{{ $t('player.id') }}: {{ scope.opt.id }}</q-item-label>
+          <q-item-label caption>{{ $t('playerId') }}: {{ scope.opt.id }}</q-item-label>
         </q-item-section>
       </q-item>
     </template>

@@ -127,16 +127,13 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
       return data
     },
     async addHotelReservationExpense(params) {
-      const { data } = await hotelReservationService.addHotelReservationExpense(params)
-      return data
+      return await hotelReservationService.addHotelReservationExpense(params)
     },
     async addHotelReservationPlayer(params) {
-      const { data } = await hotelReservationService.addHotelReservationPlayer(params)
-      return data
+      return await hotelReservationService.addHotelReservationPlayer(params)
     },
     async deleteHotelReservationPlayer(params) {
-      const { data } = await hotelReservationService.deleteHotelReservationPlayer(params)
-      return data
+      return await hotelReservationService.deleteHotelReservationPlayer(params)
     },
     async fetchVisitorCategories(params) {
       const { data } = await playerCategoryService.getAll(params)
@@ -168,8 +165,7 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
       return data
     },
     async removeHotelReservationExpense(params) {
-      const { data } = await hotelReservationService.removeHotelReservationExpense(params)
-      return data
+      return await hotelReservationService.removeHotelReservationExpense(params)
     },
     async fetchHotelReservations(params) {
       const authStore = useAuthStore()
@@ -185,12 +181,10 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
       return await hotelReservationService.deleteReservation(params)
     },
     async updateHotelReservation(params) {
-      const { data } = await hotelReservationService.updateReservation(params)
-      return data
+      return await hotelReservationService.updateReservation(params)
     },
     async createHotelReservation(params) {
-      const { data } = await hotelReservationService.createReservation(params)
-      return data
+      return await hotelReservationService.createReservation(params)
     },
     async getHotelPlayerList(params) {
       const { data } = await hotelReservationService.getHotelPlayerList(params)

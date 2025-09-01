@@ -1,7 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useGuestManagementStore } from 'src/stores/guest-management-store'
-import CreateHotelGuest from 'src/components/pages/guest-operations/CreateHotelGuest.vue'
+import CreateHotelGuest from 'src/components/pages/guest-operations/HotelGuestForm.vue'
+import { formatPrice } from 'src/helpers/helpers'
 const guestManagementStore = useGuestManagementStore()
 
 onMounted(() => {
@@ -29,28 +30,45 @@ const onDeleteHotelGuest = async (params) => {
 
 const hotelGuestListTableRef = ref(null)
 const showHotelGuestForm = ref(false)
-const hotelGuestFormParams = ref({})
+const hotelGuestFormParams = ref(null)
 const onClickShowHotelGuestForm = (params) => {
+  hotelGuestFormParams.value = { ...params }
   showHotelGuestForm.value = true
-  hotelGuestFormParams.value = params
 }
 const columns = ref([
   {
     field: 'id',
-    label: 'ID',
+    label: 'Id',
+    parseIndex: 0,
   },
   {
-    field: 'guestName',
-  },
-  {
-    field: 'roomMateName',
+    field: 'createdAt',
+    fieldType: 'date',
+    parseIndex: 1,
   },
   {
     field: 'playerCategoryName',
     label: 'Category',
   },
   {
-    field: 'roomNo',
+    field: 'players',
+    label: 'Guest',
+    name: 'guest',
+  },
+  {
+    field: 'players',
+    label: 'Room Mate',
+    name: 'roomMate',
+  },
+  {
+    field: 'status',
+    fieldType: 'boolean',
+  },
+  {
+    field: 'expenseDirection',
+  },
+  {
+    field: 'expenses',
   },
   {
     field: 'checkIn',
@@ -61,13 +79,30 @@ const columns = ref([
     fieldType: 'date',
   },
   {
-    field: 'roomType',
-  },
-  {
     field: 'dayCount',
   },
   {
+    field: 'roomType',
+  },
+  {
+    field: 'roomNo',
+  },
+  {
+    field: 'roomPrice',
+    fieldType: 'price',
+  },
+  {
+    field: 'boardType',
+  },
+  {
+    field: 'expenseUse',
+    fieldType: 'boolean',
+  },
+  {
     field: 'flight',
+  },
+  {
+    field: 'ticketType',
   },
   {
     field: 'from',
@@ -76,12 +111,54 @@ const columns = ref([
     field: 'to',
   },
   {
+    field: 'to2',
+  },
+  {
+    field: 'pnr',
+  },
+  {
+    field: 'pnr2',
+  },
+  {
+    field: 'flightTicketPrice',
+    fieldType: 'price',
+  },
+  {
+    field: 'isBusiness',
+    fieldType: 'boolean',
+  },
+  {
     field: 'note',
+  },
+  {
+    field: 'remark',
+  },
+  {
+    field: 'phone',
+  },
+  {
+    field: 'minibar',
+  },
+  {
+    field: 'spa',
+  },
+  {
+    field: 'isDeleted',
+    fieldType: 'boolean',
   },
 
   {
+    field: 'createdByName',
+  },
+  {
+    field: 'updatedAt',
+    fieldType: 'date',
+  },
+  {
+    field: 'updatedByName',
+  },
+  {
     field: 'Action',
-    label: 'Action',
   },
 ])
 const hotelGuestListFilterParams = ref({})
@@ -89,6 +166,10 @@ const hotelGuestListFilterParams = ref({})
 const toggleHideColumns = ref(true)
 const onHideColumns = () => {
   toggleHideColumns.value = !toggleHideColumns.value
+}
+const onClose = async () => {
+  showHotelGuestForm.value = !showHotelGuestForm.value
+  hotelGuestListTableRef.value.fetchData()
 }
 </script>
 
@@ -143,7 +224,7 @@ const onHideColumns = () => {
         </q-btn>
       </q-bar>
       <q-card-section class="q-pa-sm">
-        <CreateHotelGuest />
+        <CreateHotelGuest @close="onClose" :formValues="hotelGuestFormParams" />
       </q-card-section>
     </q-card>
     <q-card v-show="!showHotelGuestForm" class="no-box-shadow">
@@ -158,6 +239,7 @@ const onHideColumns = () => {
             'body-cell-guest',
             'body-cell-playerCategoryName',
             'body-cell-Action',
+            'body-cell-expenses',
           ]"
           ref="hotelGuestListTableRef"
         >
@@ -199,17 +281,24 @@ const onHideColumns = () => {
           </template>
           <template v-slot:body-cell-guest="{ props }">
             <q-td key="guest" align="center">
-              {{ props.row.players?.find((player) => player.roomOwner)?.playerFullName }}
+              <div v-if="props.row.players?.length">
+                <div
+                  v-for="(player, index) in props.row.players.filter((p) => p.roomOwner)"
+                  :key="player.playerId"
+                >
+                  <span>{{ index + 1 }}.{{ player.playerFullName }}</span>
+                </div>
+              </div>
             </q-td>
           </template>
           <template v-slot:body-cell-roomMate="{ props }">
             <q-td key="roomMate" align="center">
               <div v-if="props.row.players?.length">
                 <div
-                  v-for="player in props.row.players.filter((p) => !p.roomOwner)"
+                  v-for="(player, index) in props.row.players.filter((p) => !p.roomOwner)"
                   :key="player.playerId"
                 >
-                  {{ player.playerFullName }}
+                  <span>{{ index + 1 }}.{{ player.playerFullName }}</span>
                 </div>
               </div>
             </q-td>
@@ -257,6 +346,42 @@ const onHideColumns = () => {
                 />
               </div>
             </div>
+          </template>
+          <template v-slot:body-cell-expenses="{ props }">
+            <q-td key="expenses" align="center">
+              <q-btn
+                icon="o_info"
+                size="12px"
+                color="grey-2"
+                text-color="dark"
+                no-caps
+                unelevated
+                flat
+              >
+                <q-tooltip class="q-card bg-white">
+                  <q-markup-table spellcheck="cell" dense square bordered>
+                    <thead>
+                      <tr>
+                        <th class="text-center bg-grey-2">Expense</th>
+                        <th class="text-center bg-grey-2">Quantity</th>
+                        <th class="text-center bg-grey-2">Value</th>
+                        <th class="text-center bg-grey-2">Amount</th>
+                        <th class="text-center bg-grey-2">Is Deleted</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="expense in props.row.expenses" :key="expense.id">
+                        <td class="text-center">{{ expense.expenseTypeName }}</td>
+                        <td class="text-center">{{ expense.quantity }}</td>
+                        <td class="text-center">{{ formatPrice(expense.value) }}</td>
+                        <td class="text-center">{{ formatPrice(expense.amount) }}</td>
+                        <td class="text-center">{{ expense.isDeleted ? 'Yes' : 'No' }}</td>
+                      </tr>
+                    </tbody>
+                  </q-markup-table>
+                </q-tooltip>
+              </q-btn>
+            </q-td>
           </template>
         </SupaTable>
       </q-card-section>

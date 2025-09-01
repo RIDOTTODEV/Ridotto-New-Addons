@@ -392,6 +392,7 @@ const getTableFilterParams = () => {
 }
 const initColumns = async () => {
   const columns = generateColumns(props.columns)
+
   const userColumns = getUserTableColumns.value(props.tableName, columns)
   tableColumns.value = userColumns
   visibleColumnOptions.value = getUserTableVisibleColumns.value(props.tableName, columns)
