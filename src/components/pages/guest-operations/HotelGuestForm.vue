@@ -68,31 +68,29 @@
             </div>
             <div
               class="col-12 q-mt-sm"
-              v-if="
-                hotelGuestFormValues.players.filter((p) => !p.roomOwner)?.length >= 1 &&
-                hotelGuestFormValues.players[0].playerId !== null
-              "
+              v-if="hotelGuestFormValues.players.filter((p) => !p.roomOwner)?.length >= 1"
             >
               <q-list bordered separator>
-                <q-item
+                <div
                   v-for="player in hotelGuestFormValues.players.filter((p) => !p.roomOwner)"
                   :key="player.playerId"
-                  class="q-py-sm q-px-sm bg-white"
                 >
-                  <q-item-section>
-                    {{ player.playerFullName }}
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-btn
-                      flat
-                      dense
-                      round
-                      color="negative"
-                      icon="o_delete_forever"
-                      @click="deleteRoomMate(player)"
-                    />
-                  </q-item-section>
-                </q-item>
+                  <q-item v-if="player.playerId" class="q-py-sm q-px-sm bg-white">
+                    <q-item-section>
+                      {{ player.playerFullName }}
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-btn
+                        flat
+                        dense
+                        round
+                        color="negative"
+                        icon="o_delete_forever"
+                        @click="deleteRoomMate(player)"
+                      />
+                    </q-item-section>
+                  </q-item>
+                </div>
               </q-list>
             </div>
           </div>
@@ -120,6 +118,29 @@
             />
           </div>
         </fieldset>
+
+        <fieldset name="Status" class="q-mt-sm">
+          <legend class="flex content-center items-center text-subtitle2 text-grey-9">
+            <q-icon name="o_done" size="xs" color="grey-9" class="q-mr-sm" />
+            {{ $t('status') }}
+          </legend>
+          <div class="row">
+            <div class="col-12 q-pa-sm">
+              <q-select
+                v-model="hotelGuestFormValues.status"
+                :options="statuses"
+                :rules="[(val) => !!val]"
+                map-options
+                emit-value
+                option-label="label"
+                option-value="value"
+                outlined
+                dense
+                bg-color="white"
+              />
+            </div>
+          </div>
+        </fieldset>
       </div>
       <div class="col-5 q-pa-sm">
         <fieldset name="ReservationDetails" class="reservation-details-fieldset">
@@ -145,7 +166,7 @@
           <div
             class="row"
             :class="{
-              'disabled-fieldset': hotelGuestFormValues.id || !isEditingReservationDetails,
+              'disabled-fieldset': !isEditingReservationDetails && hotelGuestFormValues.id,
             }"
           >
             <div class="col-6 q-pa-sm q-gutter-sm">
@@ -610,84 +631,89 @@
               </div>
             </div>
           </div>
-
-          <div class="row" v-for="(expense, index) in hotelGuestFormValues.expenses" :key="index">
-            <div class="row q-pa-sm">
-              <div class="bg-grey-1 q-card--bordered q-pa-xs">
-                <div class="col-12">
-                  <div class="text-subtitle2 text-negative" v-if="expense.expenseTypeName">
-                    {{ expense.expenseTypeName }} <span>*</span>
-                  </div>
-                  <div class="text-subtitle2" v-if="expense.playerName">
-                    {{ expense.playerName }}
-                  </div>
-                </div>
-                <div class="row q-gutter-x-sm">
-                  <div class="col">
-                    <div class="text-subtitle2 text-grey-8 flex content-center items-center">
-                      {{ $t('quantity') }}
+          <q-scroll-area style="height: 500px; width: 100%">
+            <div class="row" v-for="(expense, index) in hotelGuestFormValues.expenses" :key="index">
+              <div class="row q-pa-sm">
+                <div class="bg-grey-1 q-card--bordered q-pa-xs">
+                  <div class="row">
+                    <div class="col-6 text-subtitle2 text-negative" v-if="expense.expenseTypeName">
+                      {{ expense.expenseTypeName }} <span>*</span>
                     </div>
-                    <q-currency-input
-                      v-model="expense.quantity"
-                      currency="USD"
-                      :debounce="1000"
-                      dense
-                      outlined
-                      class="text-center super-small"
-                      disable
-                      bg-color="white"
-                    />
-                  </div>
-                  <div class="col">
-                    <div class="text-subtitle2 text-grey-8 flex content-center items-center">
-                      {{ $t('unitPrice') }}
-                    </div>
-                    <q-currency-input
-                      v-model="expense.value"
-                      currency="USD"
-                      :debounce="1000"
-                      dense
-                      outlined
-                      class="text-center super-small"
-                      disable
-                      bg-color="white"
-                    />
-                  </div>
-                  <div class="col">
-                    <div class="text-subtitle2 text-grey-8 flex content-center items-center">
-                      {{ $t('total') }}
-                    </div>
-                    <q-currency-input
-                      v-model="expense.amount"
-                      currency="USD"
-                      :debounce="1000"
-                      dense
-                      outlined
-                      class="text-weight-bold text-center super-small"
-                      disable
-                      bg-color="white"
-                    />
-                  </div>
-                  <div class="col-1 flex content-end items-end">
-                    <q-btn
-                      dense
-                      color="negative"
-                      icon="delete_forever"
-                      size="14px"
-                      outline
-                      unelevated
-                      bg-color="white"
-                      @click="onDeleteExpense(expense, index)"
+                    <div
+                      class="col-6 text-right text-subtitle2 text-grey-8 flex content-center items-center justify-end"
+                      v-if="expense.playerName"
                     >
-                      <q-tooltip class="bg-blue-grey-8 text-subtitle2">{{
-                        $t('delete')
-                      }}</q-tooltip>
-                    </q-btn>
+                      <q-icon name="o_person" size="16px" color="grey-8" />
+                      {{ expense.playerName }}
+                    </div>
+                  </div>
+                  <div class="row q-gutter-x-sm">
+                    <div class="col">
+                      <div class="text-subtitle2 text-grey-8 flex content-center items-center">
+                        {{ $t('quantity') }}
+                      </div>
+                      <q-currency-input
+                        v-model="expense.quantity"
+                        currency="USD"
+                        :debounce="1000"
+                        dense
+                        outlined
+                        class="text-center super-small"
+                        disable
+                        bg-color="white"
+                      />
+                    </div>
+                    <div class="col">
+                      <div class="text-subtitle2 text-grey-8 flex content-center items-center">
+                        {{ $t('unitPrice') }}
+                      </div>
+                      <q-currency-input
+                        v-model="expense.value"
+                        currency="USD"
+                        :debounce="1000"
+                        dense
+                        outlined
+                        class="text-center super-small"
+                        disable
+                        bg-color="white"
+                      />
+                    </div>
+                    <div class="col">
+                      <div class="text-subtitle2 text-grey-8 flex content-center items-center">
+                        {{ $t('total') }}
+                      </div>
+                      <q-currency-input
+                        v-model="expense.amount"
+                        currency="USD"
+                        :debounce="1000"
+                        dense
+                        outlined
+                        class="text-weight-bold text-center super-small"
+                        disable
+                        bg-color="white"
+                      />
+                    </div>
+                    <div class="col-1 flex content-end items-end">
+                      <q-btn
+                        dense
+                        color="negative"
+                        icon="delete_forever"
+                        size="14px"
+                        outline
+                        unelevated
+                        bg-color="white"
+                        @click="onDeleteExpense(expense, index)"
+                      >
+                        <q-tooltip class="bg-blue-grey-8 text-subtitle2">{{
+                          $t('delete')
+                        }}</q-tooltip>
+                      </q-btn>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </q-scroll-area>
           <div v-if="hotelGuestFormValues.expenses?.length">
             <div class="q-mt-sm q-pa-sm rounded-borders">
               <div class="text-right">
@@ -714,7 +740,7 @@
           type="button"
           flat
           no-caps
-          @click="handleCloseModal"
+          @click="emits('close')"
         />
         <q-btn
           unelevated
@@ -732,7 +758,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUpdated, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useGuestManagementStore } from 'src/stores/guest-management-store'
 import { date, useQuasar } from 'quasar'
@@ -742,13 +768,28 @@ const props = defineProps({
   formValues: {
     type: Object,
     required: false,
-    default: () => {},
+    default: () => null,
   },
 })
+
 const guestManagementStore = useGuestManagementStore()
 const { flightTicketTypes, boardTypes, roomTypes, visitorCategories, expenseParameters } =
   storeToRefs(guestManagementStore)
 const $q = useQuasar()
+const statuses = ref([
+  {
+    value: 1,
+    label: 'Pending',
+  },
+  {
+    value: 2,
+    label: 'Approved',
+  },
+  {
+    value: 3,
+    label: 'Rejected',
+  },
+])
 const hotelGuestFormValues = ref({
   players: [
     {
@@ -760,7 +801,7 @@ const hotelGuestFormValues = ref({
       roomOwner: false,
     },
   ],
-  status: 'Pending',
+  status: 1,
   hotelFlightInfo: {
     checkIn: '',
     checkOut: '',
@@ -808,24 +849,105 @@ const onSubmit = async () => {
       emits('close')
     }
   } else {
-    console.log(data)
+    const updateData = {
+      hotelReservationId: data.id,
+      status: data.status || 'Pending',
+      note: data.note || '',
+      remark: data.remark || '',
+      phone: data.phone || false,
+      minibar: data.minibar || false,
+      spa: data.spa || false,
+      fb: data.fb || false,
+    }
+    const response = await guestManagementStore.updateHotelReservation(updateData)
+    if (response) {
+      $q.notify({
+        message: 'Rezervasyon başarıyla güncellendi',
+        color: 'positive',
+      })
+    }
+    emits('close')
   }
 }
 
-const onSelectGuest = (player) => {
+const onSelectGuest = async (player) => {
+  if (hotelGuestFormValues.value.id && player) {
+    if (
+      !hotelGuestFormValues.value.players[0]?.playerCategoryId ||
+      !hotelGuestFormValues.value.players[0]?.playerCategoryName
+    ) {
+      $q.notify({
+        message: 'Müşteri kategorisi seçilmedi',
+        type: 'negative',
+        position: 'bottom-right',
+      })
+      return
+    }
+    const addGuestPlayerResponse = await guestManagementStore.addHotelReservationPlayer({
+      hotelReservationId: hotelGuestFormValues.value.id,
+      playerId: player.id,
+      playerFullName: player.value,
+      playerCategoryId: hotelGuestFormValues.value.players[0].playerCategoryId,
+      playerCategoryName: hotelGuestFormValues.value.players[0].playerCategoryName,
+      roomOwner: true,
+    })
+    if (addGuestPlayerResponse.status === 200) {
+      $q.notify({
+        message: 'Müşteri başarıyla eklendi',
+        type: 'positive',
+        position: 'bottom-right',
+      })
+    } else {
+      $q.notify({
+        message: 'Müşteri eklenirken bir hata oluştu',
+        type: 'negative',
+        position: 'bottom-right',
+      })
+    }
+  }
   if (player) {
     hotelGuestFormValues.value.players[0].playerId = player.id
     hotelGuestFormValues.value.players[0].playerFullName = player.value
     hotelGuestFormValues.value.players[0].roomOwner = true
-  } else {
+  }
+  /*   else {
     hotelGuestFormValues.value.players[0].playerId = null
     hotelGuestFormValues.value.players[0].playerFullName = ''
     hotelGuestFormValues.value.players[0].roomOwner = false
-  }
+  } */
 }
 
-const onClearGuest = () => {
+const onClearGuest = async () => {
+  if (hotelGuestFormValues.value.id) {
+    $q.dialog({
+      title: 'Misafir değiştirme',
+      message: 'Misafiri değiştirmek istediğinize emin misiniz?',
+      color: 'negative',
+      ok: {
+        flat: true,
+        color: 'negative',
+        label: 'Evet',
+        noCaps: true,
+      },
+    }).onOk(async () => {
+      const response = await guestManagementStore.deleteHotelReservationPlayer({
+        hotelReservationId: hotelGuestFormValues.value.id,
+        playerId: hotelGuestFormValues.value.players[0].playerId,
+      })
+      if (response.status === 200) {
+        $q.notify({
+          message: 'Misafir başarıyla değiştirildi',
+          type: 'positive',
+          position: 'bottom-right',
+        })
+      }
+      hotelGuestFormValues.value.players[0].playerId = null
+      hotelGuestFormValues.value.players[0].playerFullName = ''
+    })
+    return
+  }
   hotelGuestFormValues.value.players[0].playerId = null
+  hotelGuestFormValues.value.players[0].playerFullName = ''
 }
 
 const onSelectVisitorCategory = (args) => {
@@ -961,6 +1083,7 @@ const updateReservationDetails = () => {
 }
 
 const selectedExpenseParameter = ref(null)
+
 const newExpenseEntry = ref({
   quantity: 1,
   value: 0,
@@ -1042,6 +1165,7 @@ const fetchReservationExpenses = async (hotelReservationId) => {
     }))
   }
 }
+
 const onDeleteExpense = async (expense, index) => {
   if (hotelGuestFormValues.value.id) {
     if (expense.id) {
@@ -1067,25 +1191,100 @@ const calculateGrandTotal = () => {
   return total.toFixed(2)
 }
 
-const handleCloseModal = () => {}
+// watch the props.formValues
+watch(
+  () => props.formValues,
+  async () => {
+    setFormValues()
+  },
+)
 
-onMounted(() => {
-  // set check in to today
-  setCheckInAndCheckOutDates()
-})
-onUpdated(async () => {
-  if (props.formValues) {
+const setFormValues = async () => {
+  if (!props.formValues || !props.formValues.id) {
     hotelGuestFormValues.value = {
-      ...hotelGuestFormValues.value,
-      ...props.formValues,
+      players: [
+        {
+          hotelReservationId: 0,
+          playerId: null,
+          playerFullName: '',
+          playerCategoryId: null,
+          playerCategoryName: null,
+          roomOwner: false,
+        },
+      ],
+      status: 1,
       hotelFlightInfo: {
-        ...props.formValues,
-        isBusiness: props.formValues.isBusiness === true ? 1 : 0,
+        checkIn: '',
+        checkOut: '',
+        dayCount: 1,
+        roomTypeId: null,
+        roomType: '',
+        roomNo: null,
+        boardType: 'BB',
+        roomPrice: 0,
+        roomTotalPrice: 0,
+        expenseUse: true,
+        flight: '',
+        ticketType: 'Casino',
+        from: '',
+        to: '',
+        to2: '',
+        pnr: '',
+        pnr2: '',
+        flightTicketPrice: 0,
+        isBusiness: 0,
       },
+      note: '',
+      remark: '',
+      phone: true,
+      minibar: true,
+      spa: true,
+      fb: true,
+      expenses: [],
     }
-    await fetchReservationExpenses(hotelGuestFormValues.value.id)
+    return
   }
-})
+  if (props.formValues.isCopy) {
+    hotelGuestFormValues.value = {
+      ...props.formValues,
+    }
+    return
+  }
+
+  let category = null
+  const ownerPlayer = props.formValues.players.find((item) => item.roomOwner === true)
+  if (!ownerPlayer) {
+    const somePlayerCategoryId = props.formValues.players.find(
+      (item) => item.roomOwner === false,
+    )?.playerCategoryId
+    category = { ...visitorCategories.value.find((item) => item.id === somePlayerCategoryId) }
+  }
+  const players = ownerPlayer
+    ? [...props.formValues.players].sort((a) => {
+        return a.roomOwner ? -1 : 1
+      })
+    : [
+        {
+          playerId: null,
+          playerFullName: '',
+          roomOwner: false,
+          playerCategoryId: category?.id || null,
+          playerCategoryName: category?.name || null,
+        },
+        ...props.formValues.players,
+      ]
+  hotelGuestFormValues.value = {
+    ...hotelGuestFormValues.value,
+    ...props.formValues,
+    players: players,
+    hotelFlightInfo: {
+      ...props.formValues,
+      isBusiness: props.formValues.isBusiness === true ? 1 : 0,
+    },
+  }
+  await fetchReservationExpenses(props.formValues.id)
+}
+
 const setCheckInAndCheckOutDates = () => {
   let checkInDate = new Date()
   checkInDate.setHours(14, 0, 0, 0)
@@ -1095,6 +1294,9 @@ const setCheckInAndCheckOutDates = () => {
   checkOutDate.setHours(12, 0, 0, 0)
   hotelGuestFormValues.value.hotelFlightInfo.checkOut = checkOutDate
 }
+
+setCheckInAndCheckOutDates()
+
 const onSelectCheckInAndCheckOut = () => {
   const dateDiff = date.getDateDiff(
     hotelGuestFormValues.value.hotelFlightInfo.checkOut,
@@ -1104,6 +1306,7 @@ const onSelectCheckInAndCheckOut = () => {
 
   onChangeRoomType()
 }
+
 const onChangeRoomType = () => {
   if (!hotelGuestFormValues.value.hotelFlightInfo.roomTypeId) return
   const roomType = roomTypes.value.find(
@@ -1133,6 +1336,7 @@ watch(
     onChangeRoomPrice()
   },
 )
+
 watch(
   () => hotelGuestFormValues.value.hotelFlightInfo.roomTotalPrice,
   () => {

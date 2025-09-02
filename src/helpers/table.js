@@ -46,5 +46,6 @@ export const generateColumns = (columnConfigs) => {
     sort: config.sort,
     visible: config.visible || true,
     parseIndex: config.parseIndex || 0,
+    defaultVisible: config.defaultVisible || false,
   }))
 }

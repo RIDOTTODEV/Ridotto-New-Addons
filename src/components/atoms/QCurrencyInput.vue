@@ -48,9 +48,9 @@
 </template>
 
 <script setup>
-import { useCurrencyInput } from "vue-currency-input";
+import { useCurrencyInput } from 'vue-currency-input'
 
-import { watch, ref } from "vue";
+import { watch, ref } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -67,7 +67,7 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: "",
+    default: '',
   },
   autofocus: {
     type: Boolean,
@@ -88,7 +88,7 @@ const props = defineProps({
   },
   hint: {
     type: String,
-    default: "",
+    default: '',
     required: false,
   },
   disable: {
@@ -98,7 +98,7 @@ const props = defineProps({
   },
   prepend: {
     type: String,
-    default: "",
+    default: '',
     required: false,
   },
   readonly: {
@@ -132,7 +132,7 @@ const props = defineProps({
       return {
         func: null,
         params: null,
-      };
+      }
     },
     required: false,
   },
@@ -146,74 +146,78 @@ const props = defineProps({
     default: false,
     required: false,
   },
-});
+  usePrecision: {
+    type: Boolean,
+    default: () => false,
+    required: false,
+  },
+})
 
-const { inputRef, formattedValue, numberValue, setValue, setOptions } =
-  useCurrencyInput({
-    currency: props.currency,
-    hideCurrencySymbolOnFocus: true,
-    currencyDisplay: "hidden",
-    /*precision: {
-    min: 0,
-    max: props.precision
-  },*/
-    hideGroupingSeparatorOnFocus: true,
-    hideNegligibleDecimalDigitsOnFocus: true,
-    autoDecimalDigits: false,
-    useGrouping: true,
-    accountingSign: false,
-  });
+const { inputRef, formattedValue, numberValue, setValue, setOptions } = useCurrencyInput({
+  currency: props.currency,
+  hideCurrencySymbolOnFocus: true,
+  currencyDisplay: 'hidden',
+
+  precision: props.usePrecision
+    ? {
+        min: 0,
+        max: props.precision,
+      }
+    : {},
+  hideGroupingSeparatorOnFocus: true,
+  hideNegligibleDecimalDigitsOnFocus: true,
+  autoDecimalDigits: false,
+  useGrouping: true,
+  accountingSign: false,
+})
 
 watch(
   () => props.modelValue,
   (value) => {
-    setValue(value);
-  }
-);
+    setValue(value)
+  },
+)
 
 watch(
   () => props.currency,
   (currency) => {
-    setOptions({ currency });
-  }
-);
+    setOptions({ currency })
+  },
+)
 watch(
   () => formattedValue.value,
   () => {
     if (props.showOriginalValue === true) {
-      if (
-        Number.isInteger(numberValue.value) &&
-        Number(numberValue.value) === 1
-      ) {
-        formattedValue.value = numberValue.value;
+      if (Number.isInteger(numberValue.value) && Number(numberValue.value) === 1) {
+        formattedValue.value = numberValue.value
       }
     }
-  }
-);
+  },
+)
 const onChangeContent = (params) => {
   if (props.setValue.func !== null) {
     props.setValue.func({
       ...props.setValue.params,
       value: parseFloat(params),
-    });
+    })
   }
-};
+}
 
-const isCopied = ref(false);
+const isCopied = ref(false)
 const onHandleCopyValue = async () => {
-  if (!numberValue.value) return;
+  if (!numberValue.value) return
   await navigator.clipboard.writeText(numberValue.value).then(
     () => {
-      isCopied.value = true;
+      isCopied.value = true
       setTimeout(() => {
-        isCopied.value = false;
-      }, 1000);
+        isCopied.value = false
+      }, 1000)
     },
     (err) => {
-      console.error("Async: Could not copy text: ", err);
-    }
-  );
-};
+      console.error('Async: Could not copy text: ', err)
+    },
+  )
+}
 </script>
 
 <style lang="scss">

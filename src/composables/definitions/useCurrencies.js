@@ -44,6 +44,7 @@ export function useCurrencies() {
     {
       field: 'exchangeRates',
       label: 'TRY',
+      name: 'TRY',
       fieldType: 'custom',
       customFormat: (value) => {
         let item = value.find((item) => item.toCurrencyId === 1)
@@ -53,6 +54,7 @@ export function useCurrencies() {
     {
       field: 'exchangeRates',
       label: 'EUR',
+      name: 'EUR',
       fieldType: 'custom',
       customFormat: (value) => {
         let item = value.find((item) => item.toCurrencyId === 2)
@@ -62,6 +64,7 @@ export function useCurrencies() {
     {
       field: 'exchangeRates',
       label: 'USD',
+      name: 'USD',
       fieldType: 'custom',
       customFormat: (value) => {
         let item = value.find((item) => item.toCurrencyId === 3)
@@ -71,6 +74,7 @@ export function useCurrencies() {
     {
       field: 'exchangeRates',
       label: 'GBP',
+      name: 'GBP',
       fieldType: 'custom',
       customFormat: (value) => {
         let item = value.find((item) => item.toCurrencyId === 4)

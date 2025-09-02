@@ -108,7 +108,9 @@ export const useAuthStore = defineStore('authStore', {
       const userColumns = state.userPanelSettings.tableColumns[tableName]?.columns
 
       if (userColumns) {
-        return userColumns.filter((column) => column.visible).map((column) => column.name)
+        return userColumns
+          .filter((column) => column.visible || column.defaultVisible)
+          .map((column) => column.name)
       }
       return defaultColumns.map((column) => column.name)
     },

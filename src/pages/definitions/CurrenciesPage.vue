@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <q-card class="no-box-shadow app-cart-grey q-mb-md">
+    <q-card class="no-box-shadow bg-transparent q-mb-md">
       <q-card-section class="q-pa-none row justify-between">
         <div class="text-h6">
           {{ $t('currencies') }}
@@ -57,11 +57,9 @@
     </SupaTable>
     <q-card
       class="no-box-shadow q-mt-md"
-      square
       v-el-perms="'Addon.Definitions.Currency.CreateRateEffect'"
     >
-      <q-card-section> </q-card-section>
-      <q-card-section>
+      <q-card-section class="q-pa-none">
         <q-stepper
           v-model="bulkExchangeRateStep"
           ref="stepper"
@@ -69,6 +67,7 @@
           animated
           class="no-box-shadow rateStepper"
           bordered
+          dense
         >
           <q-step :name="1" title="Exchange Rates" icon="done" :done="bulkExchangeRateStep > 1">
             <q-markup-table square class="no-box-shadow" bordered separator="cell">
@@ -101,7 +100,7 @@
                     :custom-rules="[
                       (val) => (val && val.toString().length > 0) || $t('requiredField'),
                     ]"
-                    :precision="6"
+                    :precision="4"
                     :clearable="false"
                     :key="rateIndex"
                     :set-value="{
@@ -109,6 +108,7 @@
                       params: rate,
                     }"
                     :show-original-value="true"
+                    :usePrecision="true"
                   />
                 </td>
               </tr>
@@ -366,6 +366,7 @@
                 color="primary"
                 label="Save & Continue"
                 icon-right="arrow_forward"
+                no-caps
               />
             </q-stepper-navigation>
           </template>
@@ -514,7 +515,8 @@
                 :custom-rules="[() => exchangeRateFormValues.rate > 0 || $t('requiredField')]"
                 :placeholder="$t('discounts.minRange') + '...'"
                 :autofocus="true"
-                :precision="3"
+                :precision="4"
+                :usePrecision="true"
                 hint="#00.000"
               />
             </div>

@@ -32,7 +32,7 @@
           no-caps
           color="negative"
           unelevated
-          :label="$t('cancel')"
+          :label="$t('no')"
           icon="far fa-times-circle"
           @click="onDialogCancel"
         />
@@ -40,7 +40,7 @@
           no-caps
           color="positive"
           unelevated
-          :label="$t('accept')"
+          :label="$t('yes')"
           icon="far fa-check-circle"
           @click="onOKClick"
         />

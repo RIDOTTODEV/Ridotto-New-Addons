@@ -179,7 +179,7 @@ export function usePlayer() {
         playerName:
           selectedPlayer.value?.player?.name + ' ' + selectedPlayer.value?.player?.surname,
         actionTitle: 'Müşteri Statü Değiştirme',
-        message: `Müşteri ${selectedPlayer.value?.player?.isActive ? 'aktif' : 'pasif'} durumundadır. Bu işlemi ${selectedPlayer.value?.player?.isActive ? 'deaktiv' : 'aktiv'} etmek istediğinize emin misiniz?`,
+        message: `Müşteri ${selectedPlayer.value?.player?.isActive ? 'aktif' : 'pasif'} durumundadır. Bu işlemi ${selectedPlayer.value?.player?.isActive ? 'pasif' : 'aktif'} etmek istediğinize emin misiniz?`,
       },
     }).onOk(async () => {
       await playerStore.updatePlayerStatusFlags({
@@ -198,7 +198,10 @@ export function usePlayer() {
         playerName:
           selectedPlayer.value?.player?.name + ' ' + selectedPlayer.value?.player?.surname,
         actionTitle: 'Müşteri Discount Durum Değiştirme',
-        message: `Müşteri ${selectedPlayer.value?.player?.discountStatus ? 'discount' : 'noDiscount'} durumundadır. Bu işlemi ${selectedPlayer.value?.player?.discountStatus ? 'deaktiv' : 'aktiv'} etmek istediğinize emin misiniz?`,
+        message:
+          selectedPlayer.value?.player?.discountStatus === 'noDiscount'
+            ? `Bu müşteri discount alamaz. Discount alabilir yapmak istiyormusunuz?`
+            : `Bu müşteri discount alabilir. Discount almamasını istiyormusunuz?`,
       },
     }).onOk(async () => {
       await playerStore.updatePlayerStatusFlags({

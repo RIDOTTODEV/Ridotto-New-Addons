@@ -392,7 +392,6 @@ const getTableFilterParams = () => {
 }
 const initColumns = async () => {
   const columns = generateColumns(props.columns)
-
   const userColumns = getUserTableColumns.value(props.tableName, columns)
   tableColumns.value = userColumns
   visibleColumnOptions.value = getUserTableVisibleColumns.value(props.tableName, columns)
@@ -519,6 +518,18 @@ const removeSelectedRowClass = () => {
   })
   selectedRow.value = null
 }
+
+const toggleShowHideColumns = async (columnNames, isVisible = true) => {
+  columnNames.forEach((columnName) => {
+    const column = tableColumns.value.find((column) => column.name === columnName)
+    column.visible = isVisible
+    if (column.visible) {
+      visibleColumns.value.push(columnName)
+    } else {
+      visibleColumns.value = visibleColumns.value.filter((column) => column !== columnName)
+    }
+  })
+}
 // Expose public methods and properties
 defineExpose({
   fetchData,
@@ -532,6 +543,7 @@ defineExpose({
   selectedRow,
   selectedRowIndex,
   requestServerInteraction: fetchData,
+  toggleShowHideColumns,
 })
 </script>
 <style lang="scss">

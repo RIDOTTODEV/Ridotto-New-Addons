@@ -87,8 +87,11 @@ const dailyChipCountTableColumns = ref([
 ])
 
 onMounted(async () => {
-  await cashDeskStore.fetchCashdeskChipTransactionTotals(filterCageBalanceFields.value)
+  await getTotals()
 })
+const getTotals = async () => {
+  await cashDeskStore.fetchCashdeskChipTransactionTotals(filterCageBalanceFields.value)
+}
 </script>
 
 <template>

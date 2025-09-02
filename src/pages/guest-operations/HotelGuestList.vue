@@ -1,10 +1,12 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useQuasar } from 'quasar'
 import { useGuestManagementStore } from 'src/stores/guest-management-store'
 import CreateHotelGuest from 'src/components/pages/guest-operations/HotelGuestForm.vue'
+import ExpenseSettingsDialog from 'src/components/pages/guest-operations/ExpenseSettingsDialog.vue'
 import { formatPrice } from 'src/helpers/helpers'
 const guestManagementStore = useGuestManagementStore()
-
+const $q = useQuasar()
 onMounted(() => {
   guestManagementStore.fetchVisitorCategories()
   guestManagementStore.fetchFlightTicketTypes()
@@ -13,25 +15,112 @@ onMounted(() => {
   guestManagementStore.fetchExpenseParameters()
 })
 
-const onCliclOpenExpenseSettingsDialog = () => {
-  console.log('open expense settings dialog')
+const onCliclOpenExpenseSettingsDialog = async () => {
+  $q.loading.show({
+    message: 'Yükleniyor...',
+  })
+  const response = await guestManagementStore.getHotelExpenseSettings()
+  $q.loading.hide()
+
+  const expenseSettings = JSON.parse(response.data.value) || {
+    HotelExpenseTypeId: null,
+    FlightExpenseTypeId: null,
+    FlightReturnTicketExpenseTypeId: null,
+  }
+
+  $q.dialog({
+    component: ExpenseSettingsDialog,
+    componentProps: {
+      settings: expenseSettings,
+      expenseParameters: guestManagementStore.expenseParameters,
+      actionFn: guestManagementStore.updateHotelExpenseSettings,
+    },
+  })
 }
 
-const onCopyHotelGuest = (params) => {
-  console.log('copy hotel guest', params)
-}
-
-const onDeleteHotelGuest = async (params) => {
-  const response = await guestManagementStore.deleteHotelReservation(params.id)
-  if (response.status === 200) {
-    hotelGuestListTableRef.value.fetchData()
+const onCopyHotelGuest = (row) => {
+  showHotelGuestForm.value = {
+    hotelFlightInfo: {
+      //expenseDirection: 1,
+      checkIn: row.checkIn,
+      checkOut: row.checkOut,
+      dayCount: row.dayCount,
+      roomTypeId: row.roomTypeId,
+      roomType: row.roomType,
+      roomNo: row.roomNo,
+      boardType: row.boardType || 'BB',
+      roomPrice: row.roomPrice,
+      roomTotalPrice: row.dayCount * row.roomPrice,
+      expenseUse: row.expenseUse || true,
+      flight: row.flight,
+      ticketType: row.ticketType || 'Casino',
+      from: row.from,
+      to: row.to,
+      to2: row.to2,
+      pnr: row.pnr,
+      pnr2: row.pnr2,
+      flightTicketPrice: row.flightTicketPrice,
+      isBusiness: row.isBusiness === true ? 1 : 0,
+    },
+    note: row.note,
+    remark: row.remark,
+    phone: row.phone !== false,
+    minibar: row.minibar !== false,
+    spa: row.spa !== false,
+    fb: row.fb !== false,
+    expenses: [],
+    players: [],
+    status: 'Pending',
+    isCopy: true,
   }
 }
 
+const onDeleteHotelGuest = async (params) => {
+  $q.dialog({
+    title: 'Misafir kaydı sil',
+    message: 'Misafir kaydını silmek istediğinize emin misiniz?',
+    color: 'negative',
+    ok: {
+      flat: true,
+      color: 'negative',
+      label: 'Evet',
+      noCaps: true,
+    },
+    cancel: {
+      flat: true,
+      color: 'primary',
+      label: 'Hayır',
+      noCaps: true,
+      focus: true,
+    },
+    persistent: true,
+  }).onOk(async () => {
+    const response = await guestManagementStore.deleteHotelReservation({
+      hotelReservationId: params.id,
+    })
+    if (response.status === 200) {
+      hotelGuestListTableRef.value.fetchData()
+      $q.notify({
+        message: 'Misafir kaydı başarıyla silindi',
+        type: 'positive',
+        position: 'top-right',
+      })
+    } else {
+      $q.notify({
+        message: 'Misafir kaydı silinirken bir hata oluştu',
+        type: 'warning',
+        position: 'top-right',
+      })
+    }
+  })
+}
+
+const creatingHotelGuest = ref(false)
 const hotelGuestListTableRef = ref(null)
 const showHotelGuestForm = ref(false)
 const hotelGuestFormParams = ref(null)
 const onClickShowHotelGuestForm = (params) => {
+  creatingHotelGuest.value = true
   hotelGuestFormParams.value = { ...params }
   showHotelGuestForm.value = true
 }
@@ -158,6 +247,16 @@ const columns = ref([
     field: 'updatedByName',
   },
   {
+    field: 'expenses',
+    name: 'totalExpense',
+    label: 'Total Expense',
+    fieldType: 'custom',
+    customFormat: (value) => {
+      return formatPrice(value.reduce((sum, expense) => sum + parseFloat(expense.amount || 0), 0))
+    },
+    defaultVisible: true,
+  },
+  {
     field: 'Action',
   },
 ])
@@ -166,8 +265,11 @@ const hotelGuestListFilterParams = ref({})
 const toggleHideColumns = ref(true)
 const onHideColumns = () => {
   toggleHideColumns.value = !toggleHideColumns.value
+  hotelGuestListTableRef.value.toggleShowHideColumns(['totalExpense'], toggleHideColumns.value)
 }
 const onClose = async () => {
+  hotelGuestFormParams.value = null
+  creatingHotelGuest.value = false
   showHotelGuestForm.value = !showHotelGuestForm.value
   hotelGuestListTableRef.value.fetchData()
 }
@@ -191,6 +293,7 @@ const onClose = async () => {
               text-color="white"
               unelevated
               no-caps
+              :disable="creatingHotelGuest"
               @click="onClickShowHotelGuestForm"
             />
             <q-btn
@@ -200,8 +303,11 @@ const onClose = async () => {
               unelevated
               no-caps
               @click="onCliclOpenExpenseSettingsDialog"
+              class="q-card--bordered"
             >
-              <q-tooltip>{{ $t('expenseSettings') }}</q-tooltip>
+              <q-tooltip class="text-subtitle2 bg-blue-grey-8">{{
+                $t('expenseSettings')
+              }}</q-tooltip>
             </q-btn>
           </div>
         </div>
@@ -219,7 +325,7 @@ const onClose = async () => {
           {{ $t('createHotelGuest') }}
         </div>
         <q-space />
-        <q-btn dense flat icon="close" v-close-popup @click="showHotelGuestForm = false">
+        <q-btn dense flat icon="close" v-close-popup @click="onClose">
           <q-tooltip class="text-subtitle1 bg-blue-grey-8">{{ $t('close') }} </q-tooltip>
         </q-btn>
       </q-bar>
@@ -363,8 +469,6 @@ const onClose = async () => {
                     <thead>
                       <tr>
                         <th class="text-center bg-grey-2">Expense</th>
-                        <th class="text-center bg-grey-2">Quantity</th>
-                        <th class="text-center bg-grey-2">Value</th>
                         <th class="text-center bg-grey-2">Amount</th>
                         <th class="text-center bg-grey-2">Is Deleted</th>
                       </tr>
@@ -372,8 +476,6 @@ const onClose = async () => {
                     <tbody>
                       <tr v-for="expense in props.row.expenses" :key="expense.id">
                         <td class="text-center">{{ expense.expenseTypeName }}</td>
-                        <td class="text-center">{{ expense.quantity }}</td>
-                        <td class="text-center">{{ formatPrice(expense.value) }}</td>
                         <td class="text-center">{{ formatPrice(expense.amount) }}</td>
                         <td class="text-center">{{ expense.isDeleted ? 'Yes' : 'No' }}</td>
                       </tr>

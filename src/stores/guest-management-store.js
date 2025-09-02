@@ -6,6 +6,7 @@ import {
   expenseParameterService,
   expenseService,
   hotelReservationService,
+  applicationSettingService,
 } from 'src/api'
 import { useAuthStore } from './auth-store'
 export const useGuestManagementStore = defineStore('guestManagementStore', {
@@ -189,6 +190,17 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
     async getHotelPlayerList(params) {
       const { data } = await hotelReservationService.getHotelPlayerList(params)
       return data
+    },
+    async getHotelExpenseSettings() {
+      return await applicationSettingService.getSettings({
+        name: 'HotelExpenseSettings',
+      })
+    },
+    async updateHotelExpenseSettings(params) {
+      return await applicationSettingService.setSettings({
+        name: 'HotelExpenseSettings',
+        value: JSON.stringify(params),
+      })
     },
   },
 })

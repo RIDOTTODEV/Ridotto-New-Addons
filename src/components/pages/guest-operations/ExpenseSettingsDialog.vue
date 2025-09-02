@@ -34,7 +34,7 @@
               {{ $t('hotelExpenseType') }}
             </div>
             <q-select
-              v-model="localSettings.hotelExpenseTypeId"
+              v-model="localSettings.HotelExpenseTypeId"
               :options="expenseParameters"
               outlined
               dense
@@ -54,7 +54,7 @@
               {{ $t('flightExpenseType') }}
             </div>
             <q-select
-              v-model="localSettings.flightExpenseTypeId"
+              v-model="localSettings.FlightExpenseTypeId"
               :options="expenseParameters"
               outlined
               dense
@@ -74,7 +74,7 @@
               {{ $t('flightReturnTicketExpenseType') }}
             </div>
             <q-select
-              v-model="localSettings.flightReturnTicketExpenseTypeId"
+              v-model="localSettings.FlightReturnTicketExpenseTypeId"
               :options="expenseParameters"
               outlined
               dense
@@ -155,8 +155,8 @@ function onOKClick() {
 
 const onSubmit = async () => {
   // Update the original settings before submitting
-  Object.assign(props.settings, localSettings.value)
-  const response = await props.actionFn()
+
+  const response = await props.actionFn({ ...localSettings.value })
   if (response) {
     onOKClick()
   }
