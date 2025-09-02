@@ -54,14 +54,14 @@ export function useInspector() {
   } = storeToRefs(inspectorStore)
 
   const currencyStore = useCurrencyStore()
-  const { getCurrenciesWithFlags, getDefaultCurrency, defaultCurrencyId } =
-    storeToRefs(currencyStore)
+  const { getCurrenciesWithFlags, getDefaultCurrency } = storeToRefs(currencyStore)
 
   const chipStore = useChipManagementStore()
   const { getChipsGridFormatted } = storeToRefs(chipStore)
 
   const authStore = useAuthStore()
-  const { getUserNameSurname, getDefaultGamingDateId } = storeToRefs(authStore)
+  const { getUserNameSurname, getDefaultGamingDateId, getDefaultCurrencyId } =
+    storeToRefs(authStore)
 
   const guestStore = useGuestManagementStore()
   const currentInspector = computed(() => {
@@ -370,7 +370,7 @@ export function useInspector() {
           currencies: getCurrenciesWithFlags.value.filter((currency) =>
             currentTable.value.acceptedCurrencies.map((ac) => ac.currencyId).includes(currency.id),
           ),
-          defaultCurrencyId: defaultCurrencyId.value,
+          defaultCurrencyId: getDefaultCurrencyId.value,
           player: currentPlayer.value,
           plaques: getChipsGridFormatted.value.filter((chip) => chip.type === 'Plaque'),
         },
