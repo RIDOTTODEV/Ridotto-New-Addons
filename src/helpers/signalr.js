@@ -13,7 +13,7 @@ class SignalRService {
         transport: signalR.HttpTransportType.WebSockets,
       })
       .build()
-    const reconnect = () => {
+    /*     const reconnect = () => {
       setTimeout(() => {
         console.log(`${hubName} bağlantısı kopmuş, yeniden bağlanmaya çalışılıyor...`)
 
@@ -22,14 +22,17 @@ class SignalRService {
           reconnect()
         })
       }, 5000)
-    }
-    connection.onclose(() => (tryReconnect ? reconnect() : null))
+    } */
+    console.log('tryReconnect', tryReconnect)
+    //  connection.onclose(() => (tryReconnect ? reconnect() : null))
     connection
       .start()
       .then(() => {
         console.log(`${hubName} bağlantısı başarılı!`)
       })
-      .catch(reconnect)
+      .catch
+      //reconnect
+      ()
     this.connections[hubName] = connection
     return connection
   }
