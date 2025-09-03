@@ -145,12 +145,14 @@
             <q-markup-table dense separator="cell" bordered flat class="full-height">
               <thead>
                 <tr>
+                  <th class="text-center">Type</th>
                   <th class="text-center">Denom</th>
                   <th class="text-center">Qty</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(denom, index) in playerLgInfo.chipInPocketDetails" :key="index">
+                  <td class="text-center">{{ denom.chipType }}</td>
                   <td class="text-center">{{ denom.chipDenom }}</td>
                   <td class="text-center">{{ denom.quantity }}</td>
                 </tr>
