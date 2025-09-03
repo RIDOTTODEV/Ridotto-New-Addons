@@ -2,8 +2,8 @@
   <q-card square flat class="bg-transparent">
     <q-card-section class="q-pl-sm q-pr-sm q-pt-sm q-pb-none">
       <div class="row full-height flex justify-between">
-        <div class="content-center full-height">
-          <div class="full-width">
+        <div class="content-center full-height col-12">
+          <div class="full-width flex justify-between col-12 items-center">
             <q-tabs
               v-model="currentTableOperationTab"
               @update:model-value="onChangeTab"
@@ -31,6 +31,20 @@
                 "
               />
             </q-tabs>
+            <q-btn
+              v-el-perms="'Addon.TableOperations.Tab.TableCountStableSettings'"
+              icon="o_settings"
+              color="blue-grey-8"
+              text-color="white"
+              unelevated
+              no-caps
+              @click="onClickOpenTableSettingsDialog"
+              class="q-card--bordered"
+            >
+              <q-tooltip class="text-subtitle2 bg-blue-grey-8">{{
+                $t('tableCountStableSettings')
+              }}</q-tooltip>
+            </q-btn>
           </div>
         </div>
       </div>
@@ -66,11 +80,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, defineAsyncComponent } from 'vue'
 import Tables from './tab-contents/Tables.vue'
 import TableCount from './tab-contents/TableCount.vue'
 import TableCountReport from './tab-contents/TableCountReport.vue'
-import { LocalStorage } from 'quasar'
+import { LocalStorage, useQuasar } from 'quasar'
+const $q = useQuasar()
 const tableOperationTabs = ref([
   {
     label: 'tables',
@@ -96,6 +111,14 @@ const currentTableOperationTab = ref(LocalStorage.getItem('tableOperationTab') |
 
 const onChangeTab = (tab) => {
   LocalStorage.set('tableOperationTab', tab)
+}
+
+const onClickOpenTableSettingsDialog = () => {
+  $q.dialog({
+    component: defineAsyncComponent(
+      () => import('src/components/pages/table-operations/dialogs/TableCountStableSettings.vue'),
+    ),
+  })
 }
 </script>
 

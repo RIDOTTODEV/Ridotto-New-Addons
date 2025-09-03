@@ -958,15 +958,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useDialogPluginComponent } from 'quasar'
+import { ref, onMounted, defineAsyncComponent } from 'vue'
+import { useDialogPluginComponent, useQuasar } from 'quasar'
 import html2pdf from 'html2pdf.js'
 import { formatPrice } from 'src/helpers/helpers'
 import { useTableStore } from 'src/stores/table-store'
 import { useReportStore } from 'src/stores/report-store'
 const tableStore = useTableStore()
 const reportStore = useReportStore()
-
+const $q = useQuasar()
 const props = defineProps({
   tableCountIds: {
     type: Array,
@@ -1008,27 +1008,35 @@ const downloadPdf = () => {
 }
 
 const onSave = async () => {
-  const tableCount = tableCounts.value[step.value - 1]
-  const params = {
-    tableId: tableCount.tableId,
-    gamingDateId: tableCount.gamingDateId,
-    floatSetId: tableCount.floatSetId,
-  }
-  const result = await tableStore.changeGamingDateTable([params])
-  if (result.status === 200) {
-    tableCounts.value = tableCounts.value.filter(
-      (tableCount) => tableCount.tableId !== params.tableId,
-    )
-    if (tableCounts.value.length > 0) {
-      if (step.value === tableCounts.value.length) {
-        stepper.value.previous()
-      } else {
-        step.value = 1
-      }
-    } else {
-      onDialogOK()
+  $q.dialog({
+    component: defineAsyncComponent(() => import('src/components/ui/Confirm.vue')),
+    componentProps: {
+      confirmTitle: 'Eminsiniz mi?',
+      confirmMessage: 'Bu işlemi yapmak istediğinize emin misiniz?',
+    },
+  }).onOk(async () => {
+    const tableCount = tableCounts.value[step.value - 1]
+    const params = {
+      tableId: tableCount.tableId,
+      gamingDateId: tableCount.gamingDateId,
+      floatSetId: tableCount.floatSetId,
     }
-  }
+    const result = await tableStore.changeGamingDateTable([params])
+    if (result.status === 200) {
+      tableCounts.value = tableCounts.value.filter(
+        (tableCount) => tableCount.tableId !== params.tableId,
+      )
+      if (tableCounts.value.length > 0) {
+        if (step.value === tableCounts.value.length) {
+          stepper.value.previous()
+        } else {
+          step.value = 1
+        }
+      } else {
+        onDialogOK()
+      }
+    }
+  })
 }
 </script>
 <style lang="scss">

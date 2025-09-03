@@ -22,6 +22,7 @@ import ChipGrid from 'src/components/atoms/ChipGrid.vue'
 import ChipDetailTable from 'src/components/atoms/ChipDetailTable.vue'
 import QSelectBox from 'src/components/atoms/QSelectBox.vue'
 import SearchPlayerInput from 'src/components/atoms/SearchPlayerInput.vue'
+import Confirm from 'src/components/ui/Confirm.vue'
 // this boot file will register component and the directive and other global properties
 export default defineBoot(async ({ app, router }) => {
   // directives
@@ -39,6 +40,7 @@ export default defineBoot(async ({ app, router }) => {
   app.component('ChipDetailTable', ChipDetailTable)
   app.component('QSelectBox', QSelectBox)
   app.component('SearchPlayerInput', SearchPlayerInput)
+  app.component('Confirm', Confirm)
   // global properties
   app.config.globalProperties.$playerPhotoUrl = process.env.PLAYER_PHOTO_URL
   app.config.globalProperties.$getWindowHeight = getWindowHeight()

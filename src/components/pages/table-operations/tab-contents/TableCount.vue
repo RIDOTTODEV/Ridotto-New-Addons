@@ -6,13 +6,13 @@
       />
     </div>
     <q-card-section class="q-pa-none">
-      <div class="row flex justify-between">
-        <div class="col flex no-wrap q-pa-xs">
+      <div class="row">
+        <div class="col q-pa-xs">
           <fieldset class="row">
             <legend align="center" class="text-subtitle2">
               {{ $t('tableCounts') }}
             </legend>
-            <q-markup-table dense separator="cell" square class="no-box-shadow">
+            <q-markup-table dense separator="cell" square class="no-box-shadow full-width">
               <thead>
                 <tr>
                   <th class="text-center app-cart-grey" style="padding: 0 !important">
@@ -181,10 +181,7 @@
             </q-markup-table>
           </fieldset>
         </div>
-        <div
-          class="col flex no-wrap q-pa-xs justify-center content-center"
-          v-if="selectedTableCount?.formattedTableFloats"
-        >
+        <div class="col-5 q-pa-xs" v-if="selectedTableCount?.formattedTableFloats">
           <fieldset class="row">
             <legend class="text-subtitle2" align="center">Table Float Sets</legend>
             <div
@@ -814,7 +811,7 @@ const onEditSavedCount = () => {
     ),
   }).onOk(async (payload) => {
     if (payload === true) {
-      tableStore.fetchTableCounts()
+      await tableStore.fetchTableCounts()
     }
   })
 }

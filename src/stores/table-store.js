@@ -6,6 +6,7 @@ import {
   tableService,
   tableFloatService,
   tableCountService,
+  applicationSettingService,
 } from 'src/api'
 
 export const useTableStore = defineStore('tableStore', {
@@ -157,6 +158,17 @@ export const useTableStore = defineStore('tableStore', {
     },
     async tableCountChipSaveEditCheck(params) {
       return await tableCountService.tableCountChipSaveEditCheck(params)
+    },
+    async updateTableCountFormStableSettings(params) {
+      return await applicationSettingService.setSettings({
+        name: 'TableCountFormStableSettings',
+        value: JSON.stringify(params),
+      })
+    },
+    async getTableCountFormStableSettings() {
+      return await applicationSettingService.getSettings({
+        name: 'TableCountFormStableSettings',
+      })
     },
   },
 })

@@ -437,24 +437,11 @@ const {
                           paddingTop: '6px',
                           paddingBottom: '8px',
                           paddingLeft: '10px',
-                          marginBottom: '10px!important',
+                          //marginBottom: '10px!important',
                         }
                   "
                 >
-                  <div class="col-4 flex content-center items-center">
-                    <div class="text-subtitle2">
-                      <span
-                        v-for="chip in props.row?.chips?.filter(
-                          (chip) => chip.type === 'Chip' && chip.chipCode !== ' ',
-                        )"
-                        :key="chip.chipCode"
-                        class="q-ml-sm"
-                      >
-                        {{ chip.chipCode }}=({{ chip.quantity }})
-                      </span>
-                    </div>
-                  </div>
-                  <div class="col flex justify-end no-wrap">
+                  <div class="col-12 flex justify-end no-wrap">
                     <q-btn
                       color="grey-2"
                       unelevated
@@ -595,6 +582,44 @@ const {
                       <q-img src="inspectors/icons8-info.svg" width="25px" class="q-mr-xs" />
                       <div>Info</div>
                     </q-btn>
+                  </div>
+                </div>
+              </q-td>
+            </q-tr>
+            <q-tr :props="props">
+              <q-td colspan="100%" style="padding: 0 !important">
+                <div
+                  :class="
+                    currentPlayer?.playerId === props.row.playerId
+                      ? 'inspectorTableRow row full-width inpectorTable'
+                      : 'row full-width inpectorTable'
+                  "
+                  :style="
+                    props.rowIndex === tableSitPlayers.length - 1
+                      ? {
+                          paddingTop: '2px',
+                          paddingBottom: '2px',
+                          paddingLeft: '10px',
+                          marginBottom: '0!important',
+                        }
+                      : {
+                          paddingTop: '2px',
+                          paddingBottom: '2px',
+                          paddingLeft: '10px',
+                          marginBottom: '10px!important',
+                        }
+                  "
+                >
+                  <div class="col-12 flex content-center items-center">
+                    <div class="text-caption">
+                      <span
+                        v-for="chip in props.row?.chips.filter((chip) => chip.chipCode !== ' ')"
+                        :key="chip.chipCode"
+                        class="q-ml-sm"
+                      >
+                        {{ chip.chipCode }}=({{ chip.quantity }})
+                      </span>
+                    </div>
                   </div>
                 </div>
               </q-td>

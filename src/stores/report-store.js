@@ -193,7 +193,7 @@ export const useReportStore = defineStore('reportStore', {
     async getActiveFloorInfo() {
       const authStore = useAuthStore()
       const payload = {
-        balanceCurrencyId: authStore.getDefaultCurrencyId,
+        defaultCurrencyId: authStore.getDefaultCurrencyId,
       }
       const { data } = await playerLgReportService.getActiveFloorInfoNew(payload)
       return data
