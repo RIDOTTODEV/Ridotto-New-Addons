@@ -117,7 +117,10 @@ export function usePlayer() {
     transactionType: 'Withdrawal',
     note: null,
     inOut: false,
+    ccPos: null,
+    ccSlipId: null,
   })
+  const showCcPosAndCcSlipId = ref(false)
   const onSubmitPlayerChipTransaction = async () => {
     playerChipTransactionFormValues.value.playerId = selectedPlayer.value?.player?.id
     const chipsTotal = playerChipTransactionFormValues.value.chips.reduce(
@@ -249,5 +252,6 @@ export function usePlayer() {
     maximizedReport,
     onChangeActiveStatus,
     onChangeDiscountStatus,
+    showCcPosAndCcSlipId,
   }
 }

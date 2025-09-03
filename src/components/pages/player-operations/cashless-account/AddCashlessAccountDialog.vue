@@ -39,6 +39,8 @@ const formValues = ref({
   transType: null,
   transactionCodeId: null,
   inOut: false,
+  ccPos: null,
+  ccSlipId: null,
 })
 defineEmits([...useDialogPluginComponent.emits])
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
@@ -77,10 +79,19 @@ const onChangeTransactionCode = (val) => {
     .value()
     .find((item) => item.id === formValues.value.transactionCodeId)
   formValues.value.inOut = transactionCode.defaultIsInOut || false
+  if (transactionCode.transType === 'CreditCard') {
+    showCcPosAndCcSlipId.value = true
+  } else {
+    showCcPosAndCcSlipId.value = false
+  }
 }
 const onClearTransactionCode = () => {
   formValues.value.inOut = false
+  formValues.value.ccPos = null
+  formValues.value.ccSlipId = null
+  showCcPosAndCcSlipId.value = false
 }
+const showCcPosAndCcSlipId = ref(false)
 </script>
 <template>
   <q-dialog ref="dialogRef" @hide="onDialogHide" backdrop-filter="brightness(40%)">
@@ -160,6 +171,30 @@ const onClearTransactionCode = () => {
                 :hide-bottom-space="true"
                 :precision="2"
                 data-cy="amount"
+              />
+            </div>
+            <div class="col-6 q-pa-xs" v-if="showCcPosAndCcSlipId">
+              <q-input
+                :label="$t('ccPos')"
+                v-model="formValues.ccPos"
+                outlined
+                dense
+                clearable
+                class="super-small"
+                data-cy="ccPos"
+                bg-color="white"
+              />
+            </div>
+            <div class="col-6 q-pa-xs" v-if="showCcPosAndCcSlipId">
+              <q-input
+                :label="$t('ccSlipId')"
+                v-model="formValues.ccSlipId"
+                outlined
+                dense
+                clearable
+                class="super-small"
+                data-cy="ccSlipId"
+                bg-color="white"
               />
             </div>
             <div class="col-6 q-pa-xs">

@@ -69,6 +69,8 @@ const playerId = computed(() => {
   return selectedPlayer.value.player.id
 })
 const formValues = ref({
+  ccPos: null,
+  ccSlipId: null,
   transactionCodeId: null,
   inOut: true,
   authorizedBy: null,
@@ -100,7 +102,7 @@ const onsubmit = async () => {
 const showAuthorizedByInput = ref(false)
 const showDueDateInput = ref(false)
 const showTransactionBanks = ref(false)
-
+const showCcPosAndCcSlipId = ref(false)
 watch(
   () => formValues.value.transactionCodeId,
   (val) => {
@@ -110,13 +112,20 @@ watch(
         formValues.value.inOut = transactionCode.defaultIsInOut
         showAuthorizedByInput.value = transactionCode.authorizeByRequired
         showDueDateInput.value = transactionCode.dueDateRequired
-
+        if (transactionCode.transType === 'CreditCard') {
+          showCcPosAndCcSlipId.value = true
+        } else {
+          showCcPosAndCcSlipId.value = false
+        }
         // reset form values
         formValues.value.authorizedBy = null
         formValues.value.dueDate = null
       }
     } else {
       formValues.value.inOut = true
+      formValues.value.ccPos = null
+      formValues.value.ccSlipId = null
+      showCcPosAndCcSlipId.value = false
     }
   },
   { deep: true },
@@ -292,17 +301,7 @@ watch(
                 behavior="menu"
               />
             </div>
-            <div class="col-3 q-pa-xs text-left">
-              <q-checkbox
-                v-model="formValues.inOut"
-                color="deep-purple"
-                :label="
-                  formValues.inOut ? $t('inOut') + '-' + $t('yes') : $t('inOut') + '-' + $t('no')
-                "
-                class="super-small"
-                data-cy="inOut"
-              />
-            </div>
+
             <div class="col-4 q-pa-xs">
               <q-currency-input
                 :label="$t('amount')"
@@ -314,6 +313,17 @@ watch(
                 :hide-bottom-space="true"
                 :precision="2"
                 data-cy="amount"
+              />
+            </div>
+            <div class="col-3 q-pa-xs text-left">
+              <q-checkbox
+                v-model="formValues.inOut"
+                color="deep-purple"
+                :label="
+                  formValues.inOut ? $t('inOut') + '-' + $t('yes') : $t('inOut') + '-' + $t('no')
+                "
+                class="super-small"
+                data-cy="inOut"
               />
             </div>
             <div class="col-4 q-pa-xs" v-if="showTransactionBanks">
@@ -335,7 +345,7 @@ watch(
                 behavior="menu"
               />
             </div>
-            <div class="col-5 q-pa-xs">
+            <div class="col-4 q-pa-xs">
               <q-input
                 :label="$t('note')"
                 type="text"
@@ -349,8 +359,30 @@ watch(
                 data-cy="note"
               />
             </div>
+            <div class="col-4 q-pa-xs" v-if="showCcPosAndCcSlipId">
+              <q-input
+                :label="$t('ccPos')"
+                v-model="formValues.ccPos"
+                outlined
+                dense
+                clearable
+                class="super-small"
+                data-cy="ccPos"
+              />
+            </div>
+            <div class="col-4 q-pa-xs" v-if="showCcPosAndCcSlipId">
+              <q-input
+                :label="$t('ccSlipId')"
+                v-model="formValues.ccSlipId"
+                outlined
+                dense
+                clearable
+                class="super-small"
+                data-cy="ccSlipId"
+              />
+            </div>
 
-            <div class="col-12 q-pa-sm" v-if="showAuthorizedByInput">
+            <div class="col-4 q-pa-xs" v-if="showAuthorizedByInput">
               <q-input
                 :label="$t('authorizedBy')"
                 type="text"
@@ -365,7 +397,7 @@ watch(
                 data-cy="authorizedBy"
               />
             </div>
-            <div class="col-12 q-pa-sm" v-if="showDueDateInput">
+            <div class="col-4 q-pa-xs" v-if="showDueDateInput">
               <q-input
                 :label="$t('dueDateTime')"
                 class="super-small"

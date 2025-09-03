@@ -125,6 +125,30 @@
                   bg-color="white"
                 />
               </div>
+              <div class="q-pa-sm col-6" v-if="showCcPosAndCcSlipId">
+                <q-input
+                  :label="$t('ccPos')"
+                  v-model="playerChipTransactionFormValues.ccPos"
+                  outlined
+                  dense
+                  clearable
+                  class="super-small"
+                  data-cy="ccPos"
+                  bg-color="white"
+                />
+              </div>
+              <div class="q-pa-sm col-6" v-if="showCcPosAndCcSlipId">
+                <q-input
+                  :label="$t('ccSlipId')"
+                  v-model="playerChipTransactionFormValues.ccSlipId"
+                  outlined
+                  dense
+                  clearable
+                  class="super-small"
+                  data-cy="ccSlipId"
+                  bg-color="white"
+                />
+              </div>
               <div class="q-pa-sm col-12">
                 <chip-grid
                   v-model="playerChipTransactionFormValues.chips"
@@ -183,17 +207,26 @@ const {
   lastChipTransactionRef,
   lastCageTransactionRef,
   playerId,
+  showCcPosAndCcSlipId,
 } = usePlayer()
 const { getTransactionCodesByTransType } = useTransactionCode()
 const { getCurrenciesByIds } = useCurrencies()
 
 const onChangePlayerChipTransactionTransactionCode = () => {
   if (!playerChipTransactionFormValues.value.transactionCodeId) {
+    showCcPosAndCcSlipId.value = false
+    playerChipTransactionFormValues.value.ccPos = null
+    playerChipTransactionFormValues.value.ccSlipId = null
     return
   }
   const transactionCode = getTransactionCodesByTransType
     .value()
     .find((item) => item.id === playerChipTransactionFormValues.value.transactionCodeId)
+  if (transactionCode.transType === 'CreditCard') {
+    showCcPosAndCcSlipId.value = true
+  } else {
+    showCcPosAndCcSlipId.value = false
+  }
   playerChipTransactionFormValues.value.inOut = transactionCode?.defaultIsInOut || false
 }
 </script>
