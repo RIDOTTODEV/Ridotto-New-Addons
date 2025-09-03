@@ -148,12 +148,15 @@ export const useTableStore = defineStore('tableStore', {
     async changeGamingDateTable(params) {
       return await tableService.changeGamingDate(params)
     },
-    async tableCountEditCheck(params) {
-      return await tableCountService.tableCountEditCheck(params)
+    async tableCountPlaqueAndCashEditCheck(params) {
+      return await tableCountService.tableCountPlaqueAndCashEditCheck(params)
     },
     async getTableCountByTable(params) {
       const { data } = await tableCountService.get(params)
       return data
+    },
+    async tableCountChipSaveEditCheck(params) {
+      return await tableCountService.tableCountChipSaveEditCheck(params)
     },
   },
 })

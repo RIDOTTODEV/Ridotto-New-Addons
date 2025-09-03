@@ -265,6 +265,16 @@ const columns = ref([
     fieldType: 'price',
   },
   {
+    field: 'realCashIn',
+    label: 'R.Cash In',
+    fieldType: 'price',
+  },
+  {
+    field: 'realCashOut',
+    label: 'R.Cash Out',
+    fieldType: 'price',
+  },
+  {
     field: 'slotIn',
     label: 'Slot In',
     fieldType: 'price',

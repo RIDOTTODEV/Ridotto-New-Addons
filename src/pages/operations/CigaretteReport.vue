@@ -75,7 +75,7 @@ import { posApi } from 'src/boot/axios'
 
 const filterValues = ref({
   playerId: null,
-  OrderTagId: '7',
+  TagIds: [7],
   CreatedByName: null,
 })
 const onSelectPlayer = (val) => {
@@ -118,8 +118,19 @@ const columns = ref([
   },
 ])
 const getCigaretteReport = async () => {
-  const { data } = await posApi.get('/api/Report/GetCigaretteOrders', {
-    params: filterValues.value,
+  const searchParams = new URLSearchParams()
+  if (filterValues.value.TagIds && Array.isArray(filterValues.value.TagIds)) {
+    filterValues.value.TagIds.forEach((id) => {
+      searchParams.append('TagIds', id)
+    })
+  }
+  Object.entries(filterValues.value).forEach(([key, value]) => {
+    if (key !== 'TagIds' && value !== null && value !== undefined && value !== '') {
+      searchParams.append(key, value)
+    }
+  })
+  const { data } = await posApi.get('/api/Report/GetOrdersByTag', {
+    params: searchParams,
   })
   return data
 }

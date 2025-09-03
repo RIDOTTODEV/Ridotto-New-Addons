@@ -52,14 +52,25 @@ export const tableCountService = {
     return api.post('/api/TableCount/ChipCountSave', data, options)
   },
   /**
-   * Table Count Edit Check Table Count
+   * Table Count Plaque And Cash Edit Check Table Count
    *
    * @param {object} [data]
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type
    */
-  tableCountEditCheck(data = {}, options = {}) {
-    return api.post('/api/TableCount/TableCountEditCheck', data, options)
+  tableCountPlaqueAndCashEditCheck(data = {}, options = {}) {
+    return api.post('/api/TableCount/TableCountPlaqueAndCashEditCheck', data, options)
+  },
+  /**
+   * Table Count Chip Save Edit Check Table Count
+   *
+   * @param {object} [data]
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  tableCountChipSaveEditCheck(data = {}, options = {}) {
+    return api.post('/api/TableCount/TableCountChipSaveEditCheck', data, options)
   }
 }

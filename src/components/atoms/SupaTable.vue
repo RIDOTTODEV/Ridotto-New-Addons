@@ -557,7 +557,7 @@ defineExpose({
 
 .supa-table tbody tr td,
 .supa-table tbody tr td div {
-  font-size: 12px !important;
+  // font-size: 12px !important;
 }
 .q-table--dense .q-table tbody td {
   padding: 1px 3px !important;

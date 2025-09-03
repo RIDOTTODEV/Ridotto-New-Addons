@@ -10,7 +10,7 @@
     <q-card style="min-width: 400px">
       <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
         <div class="text-subtitle2">
-          {{ $t('confirmPassword') }}
+          {{ $t('confirmTableCountReset') }}
         </div>
         <q-space />
         <q-btn dense flat icon="close" v-close-popup>
@@ -18,26 +18,7 @@
         </q-btn>
       </q-bar>
       <q-card-section class="q-pa-sm flex justify-center">
-        <q-form @submit="onSubmit" class="row" v-if="!isSuccess">
-          <div class="col-12">
-            <q-input
-              outlined
-              dense
-              class="super-input"
-              v-model="values.cashierPassword"
-              :label="$t('cashierPassword')"
-              :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
-              :type="isPwd ? 'password' : 'text'"
-            >
-              <template v-slot:append>
-                <q-icon
-                  :name="isPwd ? 'o_visibility' : 'o_visibility_off'"
-                  @click="isPwd = !isPwd"
-                  class="cursor-pointer"
-                />
-              </template>
-            </q-input>
-          </div>
+        <q-form @submit="onSubmit" class="row full-width" v-if="!isSuccess">
           <div class="col-12">
             <q-input
               outlined
@@ -83,23 +64,29 @@ import { useTableStore } from 'src/stores/table-store'
 import SuccessNotify from 'src/components/ui/SuccessNotify.vue'
 import { useDialogPluginComponent, Notify } from 'quasar'
 import { ref } from 'vue'
-
+const props = defineProps({
+  tableCountId: {
+    type: Number,
+    required: true,
+    default: () => 0,
+  },
+})
 const tableStore = useTableStore()
 defineEmits([...useDialogPluginComponent.emits])
 
 const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
 
 const values = ref({
-  cashierPassword: '12345',
+  tableCountId: props.tableCountId,
   pitbossPassword: '54321',
 })
-const isPwd = ref(true)
+
 const isPitbossPwd = ref(true)
 
 const isSuccess = ref(false)
 const onSubmit = async () => {
-  const result = await tableStore.tableCountPlaqueAndCashEditCheck(values.value)
-  if (result.data === true) {
+  const result = await tableStore.tableCountChipSaveEditCheck(values.value)
+  if (result.status === 200) {
     isSuccess.value = true
     setTimeout(() => {
       isSuccess.value = false

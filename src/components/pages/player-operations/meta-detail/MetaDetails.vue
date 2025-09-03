@@ -72,6 +72,13 @@
           :show-friends-permission="'Addon.Operations.CustomerInformation.ShowFriends'"
           :reload-friends-permission="'Addon.Operations.CustomerInformation.ReloadFriends'"
         />
+        <PlayerLinkedPlayers
+          v-if="selectedPlayer"
+          :player="selectedPlayer.player"
+          :player-id="playerId"
+          :show-linked-players-permission="'Addon.Operations.CustomerInformation.ShowLinkedPlayers'"
+          :reload-linked-players-permission="'Addon.Operations.CustomerInformation.ReloadLinkedPlayers'"
+        />
       </div>
       <div class="col-3 q-pa-sm">
         <PlayerNote
@@ -168,6 +175,7 @@ import PlayerProfile from 'src/components/pages/player-operations/meta-detail/Pl
 import { usePlayer } from 'src/composables/player-operations/usePlayer'
 import PlayerNote from 'src/components/pages/player-operations/meta-detail/PlayerNote.vue'
 import PlayerFriends from 'src/components/pages/player-operations/meta-detail/PlayerFriends.vue'
+import PlayerLinkedPlayers from 'src/components/pages/player-operations/meta-detail/LinkedPlayers.vue'
 import InOutSelectedNameReport from 'src/pages/reports/inout-reports/InOutSelectedNameReport.vue'
 const {
   selectedPlayer,

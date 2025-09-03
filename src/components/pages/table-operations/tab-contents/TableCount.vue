@@ -43,13 +43,15 @@
                   <th class="text-center app-cart-grey">
                     <div class="text-subtitle2">Result</div>
                   </th>
+                  <th class="text-center app-cart-grey">
+                    <div class="text-subtitle2">Table Count</div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr
                   v-for="(item, index) in tableStore.tableCounts"
                   :key="index"
-                  class="cursor-pointer"
                   :class="[
                     item.id === selectedTableCount?.id
                       ? 'bg-red-2'
@@ -57,7 +59,6 @@
                         ? 'bg-green-1'
                         : '',
                   ]"
-                  @click="onSelectTableCount(item)"
                 >
                   <td class="text-center">
                     <q-checkbox
@@ -71,16 +72,15 @@
                       "
                     />
                   </td>
-                  <td class="text-center">
-                    {{ item?.tableName }}
-
-                    <div class="col-12" v-if="item?.isAnyoneSit">
-                      <div class="flex justify-center content-center items-center">
+                  <td class="text-center cursor-pointer" @click="onSelectTableCount(item)">
+                    <div class="flex justify-center content-center items-center">
+                      {{ item?.tableName }}
+                      <div class="" v-if="item?.isAnyoneSit">
                         <q-icon
                           name="fa-solid fa-users"
                           size="12px"
                           color="negative"
-                          class="q-mr-sm animateIcon"
+                          class="q-mr-sm q-ml-sm animateIcon"
                         >
                           <q-tooltip class="bg-blue-grey-8 text-white text-subtitle2">{{
                             $t('hasPlayers')
@@ -120,6 +120,28 @@
                           : item?.result,
                       )
                     }}
+                  </td>
+                  <td
+                    class="text-center"
+                    @click="
+                      () => {
+                        if (item?.isChipSave) {
+                          onClickTableCountChipSaveEditCheck(item)
+                        }
+                      }
+                    "
+                  >
+                    <div class="flex justify-center content-center items-center cursor-pointer">
+                      <span v-if="item?.isChipSave">
+                        <q-icon name="check_circle" size="20px" color="positive" class="q-mr-sm" />
+                      </span>
+                      <span v-else>
+                        <q-icon name="cancel" size="20px" color="negative" class="q-mr-sm" />
+                      </span>
+                      <div class="text-caption">
+                        {{ item?.isChipSave ? 'Saved' : 'Not Saved' }}
+                      </div>
+                    </div>
                   </td>
                 </tr>
                 <tr>
@@ -792,7 +814,21 @@ const onEditSavedCount = () => {
     ),
   }).onOk(async (payload) => {
     if (payload === true) {
-      selectedTableCount.value.isSave = false
+      tableStore.fetchTableCounts()
+    }
+  })
+}
+const onClickTableCountChipSaveEditCheck = (tableCount) => {
+  $q.dialog({
+    componentProps: {
+      tableCountId: tableCount.id,
+    },
+    component: defineAsyncComponent(
+      () => import('src/components/pages/table-operations/dialogs/ConfirmTableCountReset.vue'),
+    ),
+  }).onOk(async (payload) => {
+    if (payload === true) {
+      tableStore.fetchTableCounts()
     }
   })
 }

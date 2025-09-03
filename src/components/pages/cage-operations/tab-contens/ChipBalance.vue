@@ -7,7 +7,6 @@ import { useChipManagementStore } from 'src/stores/chip-management-store'
 import { useAuthStore } from 'src/stores/auth-store'
 
 import { priceAbsFormatted, formatPrice } from 'src/helpers/helpers'
-import SupaTable from 'src/components/atoms/SupaTable.vue'
 
 const bus = inject('bus')
 const authStore = useAuthStore()

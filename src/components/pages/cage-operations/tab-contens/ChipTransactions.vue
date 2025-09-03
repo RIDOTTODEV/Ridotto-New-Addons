@@ -16,11 +16,11 @@
             unelevated
             no-caps
             @click="createNewTransaction = !createNewTransaction"
-            :disable="!selectedCashDesk?.value?.isChipAccepted"
+            :disable="!selectedCashDesk?.value?.isChipAccepted === false"
           >
             <q-tooltip
               class="text-subtitle2 bg-grey-1 text-dark"
-              v-if="!selectedCashDesk?.value?.isChipAccepted"
+              v-if="!selectedCashDesk?.value?.isChipAccepted === false"
             >
               <Information
                 content="Chip kabul edilmediği için işlem yapamazsınız."

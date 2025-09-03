@@ -23,7 +23,8 @@
       :getDataFn="cashdeskStore.fetchCashdesks"
       :rowsPerPage="10"
       tableName="definitionCashdesks"
-      :slotNames="['body-cell-actions']"
+      :slotNames="['body-cell-actions', 'body-cell-isMain']"
+      ref="cashdeskTableRef"
     >
       <template v-slot:body-cell-actions="{ props }">
         <q-td key="Action" align="center">
@@ -52,6 +53,18 @@
             v-el-perms="'Addon.Definitions.Cashdesk.Delete'"
             data-cy="deleteData"
           />
+        </q-td>
+      </template>
+      <template v-slot:body-cell-isMain="{ props }">
+        <q-td key="isMain" align="center">
+          <div>
+            <q-toggle
+              v-model="props.row.isMain"
+              color="positive"
+              dense
+              @update:model-value="updateIsMain(props.row)"
+            />
+          </div>
         </q-td>
       </template>
     </SupaTable>
@@ -130,5 +143,7 @@ const {
   onSubmitForm,
   editForm,
   deleteForm,
+  updateIsMain,
+  cashdeskTableRef,
 } = useCashdesk()
 </script>

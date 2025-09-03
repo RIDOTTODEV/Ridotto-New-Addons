@@ -26,8 +26,8 @@
   </transition>
 </template>
 <script setup>
-import { ref, inject } from "vue";
-const bus = inject("bus");
+import { ref, inject } from 'vue'
+const bus = inject('bus')
 
 const props = defineProps({
   message: {
@@ -38,48 +38,54 @@ const props = defineProps({
     type: String,
     required: false,
   },
-});
-const message = ref(props.message);
-const type = ref(props.type);
+  showDirect: {
+    type: Boolean,
+    required: false,
+    default: () => false,
+  },
+})
+
+const message = ref(props.message)
+const type = ref(props.type)
 const alertTypes = {
   success: {
-    icon: "o_check_circle",
-    color: "bg-positive",
-    textColor: "text-positive",
-    iconColor: "positive",
+    icon: 'o_check_circle',
+    color: 'bg-positive',
+    textColor: 'text-positive',
+    iconColor: 'positive',
   },
   error: {
-    icon: "o_report",
-    color: "bg-negative",
-    textColor: "text-negative",
-    iconColor: "negative",
+    icon: 'o_report',
+    color: 'bg-negative',
+    textColor: 'text-negative',
+    iconColor: 'negative',
   },
   warning: {
-    icon: "o_warning",
-    color: "bg-warning",
-    textColor: "text-warning",
-    iconColor: "warning",
+    icon: 'o_warning',
+    color: 'bg-warning',
+    textColor: 'text-warning',
+    iconColor: 'warning',
   },
   info: {
-    icon: "o_info",
-    color: "bg-info",
-    textColor: "text-info",
-    iconColor: "info",
+    icon: 'o_info',
+    color: 'bg-info',
+    textColor: 'text-info',
+    iconColor: 'info',
   },
-};
-const alertType = ref(alertTypes[type.value]);
-const show = ref(false);
+}
+const alertType = ref(alertTypes[type.value])
+const show = ref(props.showDirect)
 const close = () => {
-  show.value = false;
-};
-bus.on("showAlert", (alert) => {
+  show.value = false
+}
+bus.on('showAlert', (alert) => {
   if (alert.message) {
-    show.value = true;
-    message.value = alert.message;
-    type.value = alert.type;
-    alertType.value = alertTypes[type.value];
+    show.value = true
+    message.value = alert.message
+    type.value = alert.type
+    alertType.value = alertTypes[type.value]
   }
-});
+})
 </script>
 <style scoped>
 .bg-positive {

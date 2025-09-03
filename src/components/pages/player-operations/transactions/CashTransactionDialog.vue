@@ -1,13 +1,14 @@
 <script setup>
-import { useDialogPluginComponent } from 'quasar'
-import { ref, watch, computed } from 'vue'
+import { useDialogPluginComponent, useQuasar } from 'quasar'
+import { ref, watch, computed, inject } from 'vue'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { usePlayerStore } from 'src/stores/player-store'
 import { useCurrencyStore } from 'src/stores/currency-store'
 import { useTransactionCodeStore } from 'src/stores/transaction-code-store'
 import { useBankAccountStore } from 'src/stores/bank-account-store'
 import { storeToRefs } from 'pinia'
-
+const bus = inject('bus')
+const $q = useQuasar()
 const cashDeskStore = useCashdeskStore()
 const playerStore = usePlayerStore()
 const currencyStore = useCurrencyStore()
@@ -85,6 +86,13 @@ const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginC
 const onsubmit = async () => {
   await playerStore.playerPostCashDeskCashTransaction({ ...formValues.value }).then((res) => {
     if (res) {
+      $q.notify({
+        message: 'Transaction created successfully',
+        type: 'positive',
+        position: 'bottom-right',
+        icon: 'fa fa-check-circle',
+      })
+      bus.emit('reloadPlayerCashless')
       onDialogOK()
     }
   })

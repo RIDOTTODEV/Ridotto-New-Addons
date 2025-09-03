@@ -18,9 +18,49 @@
         <div
           class="text-subtitle1 q-mb-xs cursor-pointer flex justify-between content-end items-end no-wrap"
         >
-          <span @click="redirectToRidottoPlayerDetail" class="text-capitalize">
+          <span class="text-capitalize">
             {{ selectedPlayer.player.name }}
             {{ selectedPlayer.player.surname }}
+            <q-menu>
+              <q-list style="min-width: 100px" dense square>
+                <q-item
+                  clickable
+                  v-close-popup
+                  dense
+                  class="q-pa-none bg-blue-grey-2 q-card--bordered"
+                >
+                  <div class="flex justify-center content-center items-center">
+                    <q-icon name="o_person" class="q-mr-xs" />
+                    {{ $t('profileDetails') }}
+                  </div>
+                </q-item>
+                <q-item
+                  clickable
+                  v-close-popup
+                  @click="redirectToCustomerInformation"
+                  dense
+                  class="q-pa-none"
+                >
+                  <div class="flex justify-between content-center items-center">
+                    {{ $t('customerInformation') }}
+                    <q-icon name="arrow_forward" class="q-ml-sm" />
+                  </div>
+                </q-item>
+                <q-separator />
+                <q-item
+                  clickable
+                  v-close-popup
+                  @click="redirectToRidottoPlayerDetail"
+                  dense
+                  class="q-pa-none"
+                >
+                  <div class="flex justify-between content-center items-center">
+                    {{ $t('ridottoPlayerDetail') }}
+                    <q-icon name="arrow_forward" class="q-ml-sm" />
+                  </div>
+                </q-item>
+              </q-list>
+            </q-menu>
           </span>
 
           <span class="text-subtitle1 q-ml-lg comment-caption flex content-end items-center"
@@ -347,6 +387,7 @@ const {
   selectedPlayer,
   playerStore,
   redirectToRidottoPlayerDetail,
+  redirectToCustomerInformation,
   copyPlayerId,
   currencies,
   getCurrencyById,

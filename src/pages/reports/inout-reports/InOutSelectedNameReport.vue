@@ -180,6 +180,12 @@
                 <div v-else-if="col.name === 'cashOut'">
                   {{ priceAbsFormatted(response.totalCashOut) }}
                 </div>
+                <div v-else-if="col.name === 'realCashIn'">
+                  {{ priceAbsFormatted(response.totalRealCashIn) }}
+                </div>
+                <div v-else-if="col.name === 'realCashOut'">
+                  {{ priceAbsFormatted(response.totalRealCashOut) }}
+                </div>
                 <div v-else-if="col.name === 'slotIn'">
                   {{ priceAbsFormatted(response.totalSlotIn) }}
                 </div>
@@ -993,6 +999,28 @@ const columns = ref([
     sortable: false,
     visible: true,
     classes: 'bg-brown-1',
+    format: (val) => formatPrice(val),
+  },
+  {
+    name: 'realCashIn',
+    align: 'center',
+    label: 'Real.Cash In',
+    shortLocale: 'R.CASH.In',
+    field: 'realCashIn',
+    sortable: false,
+    visible: true,
+    classes: 'bg-green-1',
+    format: (val) => formatPrice(val),
+  },
+  {
+    name: 'realCashOut',
+    align: 'center',
+    label: 'Real Cash Out',
+    shortLocale: 'R.CASH.Out',
+    field: 'realCashOut',
+    sortable: false,
+    visible: true,
+    classes: 'bg-green-1',
     format: (val) => formatPrice(val),
   },
   {

@@ -1,12 +1,13 @@
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { storeToRefs } from 'pinia'
 import { ref, onMounted } from 'vue'
-import { Dialog, Loading } from 'quasar'
+import { Dialog, Loading, useQuasar } from 'quasar'
 import { i18n } from 'src/boot/i18n'
 
 export function useCashdesk() {
   const cashdeskStore = useCashdeskStore()
   const { cashdesks } = storeToRefs(cashdeskStore)
+  const $q = useQuasar()
   const columns = ref([
     {
       name: 'id',
@@ -38,6 +39,10 @@ export function useCashdesk() {
       fieldType: 'boolean',
     },
     {
+      field: 'isMain',
+      fieldType: 'boolean',
+    },
+    {
       field: 'createdAt',
       fieldType: 'date',
     },
@@ -59,6 +64,7 @@ export function useCashdesk() {
       field: 'actions',
     },
   ])
+  const cashdeskTableRef = ref(null)
   const dialog = ref(false)
   const formValues = ref({
     id: null,
@@ -131,6 +137,23 @@ export function useCashdesk() {
   onMounted(async () => {
     await cashdeskStore.fetchCashdesks()
   })
+  const updateIsMain = async (props) => {
+    const response = await cashdeskStore.updateCashDeskIsMain({
+      cashdeskId: props.id,
+    })
+    if (response.status === 200) {
+      $q.notify({
+        message: 'Cashdesk is set as main cashdesk',
+        type: 'positive',
+      })
+    } else {
+      $q.notify({
+        message: 'Cashdesk is not set as main cashdesk',
+        type: 'negative',
+      })
+    }
+    cashdeskTableRef.value.requestServerInteraction()
+  }
   return {
     cashdeskStore,
     cashdesks,
@@ -141,5 +164,7 @@ export function useCashdesk() {
     onSubmitForm,
     editForm,
     deleteForm,
+    updateIsMain,
+    cashdeskTableRef,
   }
 }

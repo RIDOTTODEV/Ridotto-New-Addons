@@ -11,9 +11,11 @@ import {
   playerFriendshipService,
   countryService,
   playerInfoService,
+  playerLinkService,
 } from 'src/api'
 import { LocalStorage } from 'quasar'
 import { useAuthStore } from 'src/stores/auth-store'
+import { errorHandle } from 'src/helpers/helpers'
 export const usePlayerStore = defineStore('playerStore', {
   state: () => ({
     lastSearchedPlayers: [],
@@ -212,20 +214,24 @@ export const usePlayerStore = defineStore('playerStore', {
     },
     async playerPostCashDeskCashTransaction(data) {
       return await api
-        .post(`/api/${data.methodName}`, data)
+        .post(`/api${data.methodName}`, data)
         .then(() => {
-          this.fetchPlayerMetaDetail({ playerId: data.playerId })
-          this.fetchPlayerAccounts({
-            PlayerId: data.playerId,
-          })
-          this.getPlayerLastCashdeskTransaction({ playerId: data.playerId })
           return true
         })
         .catch((err) => {
-          console.log(err)
+          errorHandle(err)
         })
     },
-
+    async fetchPlayerLinkedPlayers(params) {
+      const { data } = await playerLinkService.getLinkedPlayersByPlayer(params)
+      return data
+    },
+    async createPlayerLinkedPlayer(params) {
+      await playerLinkService.add(params)
+    },
+    async deletePlayerLinkedPlayer(params) {
+      await playerLinkService.delete(params)
+    },
     async updatePlayerStatusFlags(params) {
       return await playerService.updatePlayerStatusFlags(params)
     },

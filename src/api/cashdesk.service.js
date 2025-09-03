@@ -63,6 +63,17 @@ export const cashdeskService = {
     return api.post('/api/Cashdesk/UpdateCountActive', data, options)
   },
   /**
+   * Set As Main Cashdesk Cashdesk
+   *
+   * @param {object} [data]
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  setAsMainCashdesk(data = {}, options = {}) {
+    return api.post('/api/Cashdesk/SetAsMainCashdesk', data, options)
+  },
+  /**
    * Cashdesk Change Gaming Date Cashdesk
    *
    * @param {object} [data]

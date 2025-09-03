@@ -4,6 +4,17 @@ import { api } from 'src/boot/axios'
 export const gamingDateService = {
   name: 'GamingDate',
   /**
+   * Create Gaming Date
+   *
+   * @param {object} [data]
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  create(data = {}, options = {}) {
+    return api.post('/api/GamingDate/Create', data, options)
+  },
+  /**
    * Set Gd Auto Switch Status Gaming Date
    *
    * @param {object} [data]
@@ -187,17 +198,6 @@ export const gamingDateService = {
       data.skipCount = 0
     }
     return api.get('/api/GamingDate/GetAll', { params: data, ...options })
-  },
-  /**
-   * Create Gaming Date
-   *
-   * @param {object} [data]
-   * @param {object} [options] - Axios Options
-   * @param {object} [options.headers] - Request Headers
-   * @param {string} [options.responseType] - Response Type
-   */
-  create(data = {}, options = {}) {
-    return api.post('/api/GamingDate/Create', data, options)
   },
   /**
    * Update Gaming Date

@@ -33,6 +33,12 @@ export function usePlayer() {
     const url = `${baseUrl}/players/${selectedPlayer.value.player.id}/summary`
     window.open(url, '_blank')
   }
+  const redirectToCustomerInformation = () => {
+    router.push({
+      name: 'customerInformation',
+      query: { playerId: selectedPlayer.value.player.id },
+    })
+  }
   const copyPlayerId = () => {
     navigator.clipboard.writeText(selectedPlayer.value.player.id)
     $q.notify({
@@ -217,6 +223,7 @@ export function usePlayer() {
     router,
     initPlayer,
     redirectToRidottoPlayerDetail,
+    redirectToCustomerInformation,
     copyPlayerId,
     currencies,
     getCurrencyById,

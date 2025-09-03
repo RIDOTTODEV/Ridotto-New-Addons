@@ -64,6 +64,9 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
       const response = await widgetReportService.getCashdeskWidgetReport(params)
       this.cashDeskSummary = response.data
     },
+    async updateCashDeskIsMain(params) {
+      return await cashdeskService.setAsMainCashdesk(params)
+    },
     async fetchCashdesks(params) {
       const { data } = await cashdeskService.getAll(params)
       this.cashdesks = data.data

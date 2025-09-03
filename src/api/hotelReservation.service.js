@@ -210,5 +210,16 @@ export const hotelReservationService = {
    */
   getHotelPlayer(data = {}, options = {}) {
     return api.get('/api/HotelReservation/GetHotelPlayer', { params: data, ...options })
+  },
+  /**
+   * Get Reservation Status Hotel Reservation
+   *
+   * @param {object} [data]
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getReservationStatus(data = {}, options = {}) {
+    return api.get('/api/HotelReservation/GetReservationStatus', { params: data, ...options })
   }
 }

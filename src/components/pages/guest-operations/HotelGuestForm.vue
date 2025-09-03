@@ -758,7 +758,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useGuestManagementStore } from 'src/stores/guest-management-store'
 import { date, useQuasar } from 'quasar'
@@ -776,20 +776,12 @@ const guestManagementStore = useGuestManagementStore()
 const { flightTicketTypes, boardTypes, roomTypes, visitorCategories, expenseParameters } =
   storeToRefs(guestManagementStore)
 const $q = useQuasar()
-const statuses = ref([
-  {
-    value: 1,
-    label: 'Pending',
-  },
-  {
-    value: 2,
-    label: 'Approved',
-  },
-  {
-    value: 3,
-    label: 'Rejected',
-  },
-])
+const statuses = ref([])
+onMounted(async () => {
+  await guestManagementStore.getHotelReservationStatuses().then((res) => {
+    statuses.value = res
+  })
+})
 const hotelGuestFormValues = ref({
   players: [
     {
@@ -801,7 +793,7 @@ const hotelGuestFormValues = ref({
       roomOwner: false,
     },
   ],
-  status: 1,
+  status: 'Pending',
   hotelFlightInfo: {
     checkIn: '',
     checkOut: '',
@@ -1212,7 +1204,7 @@ const setFormValues = async () => {
           roomOwner: false,
         },
       ],
-      status: 1,
+      status: 'Pending',
       hotelFlightInfo: {
         checkIn: '',
         checkOut: '',

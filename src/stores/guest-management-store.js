@@ -202,6 +202,17 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
         value: JSON.stringify(params),
       })
     },
+    async getHotelReservationStatuses() {
+      const { data } = await hotelReservationService.getReservationStatus()
+      return data
+        ? Object.keys(data).map((key) => {
+            return {
+              label: data[key],
+              value: data[key],
+            }
+          })
+        : []
+    },
   },
 })
 

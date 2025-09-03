@@ -1,5 +1,6 @@
 import { api } from 'src/boot/axios'
 
+
 export const exchangeRateService = {
   name: 'ExchangeRate',
   /**
@@ -109,5 +110,5 @@ export const exchangeRateService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/ExchangeRate/Delete', { params: data, ...options })
-  },
+  }
 }

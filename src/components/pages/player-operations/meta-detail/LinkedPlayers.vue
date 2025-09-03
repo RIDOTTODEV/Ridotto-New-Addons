@@ -1,14 +1,14 @@
 <template>
-  <q-card class="no-box-shadow" v-el-perms="showFriendsPermission">
-    <div class="row app-cart-grey flex justify-between">
+  <q-card class="no-box-shadow" v-el-perms="showLinkedPlayersPermission">
+    <div class="row bg-orange-2 flex justify-between">
       <div class="text-subtitle2">
         <q-icon
-          name="fas fa-users"
-          size="14px"
+          name="assignment_ind"
+          size="17px"
           class="cursor-pointer q-ml-sm my-icon"
           color="blue-grey-8"
         />
-        | {{ $t('friendsList') }}
+        | {{ $t('linkedPlayersList') }}
       </div>
       <div>
         <q-icon
@@ -27,21 +27,21 @@
             <div class="row q-pa-sm" style="max-width: 430px">
               <div class="col-12 q-mb-sm text-center">
                 <div class="text-subtitle2">
-                  {{ $t('addFriend') }}
+                  {{ $t('addLinkedPlayer') }}
                 </div>
               </div>
               <div class="col-12 flex justify-center">
                 <search-player-input
-                  v-model="formValues.friendId"
+                  v-model="formValues.linkedPlayerId"
                   :optionLabel="'value'"
-                  :displayedValue="formValues.friendName"
+                  :displayedValue="formValues.linkedPlayerFullName"
                   @onSelectPlayer="
                     (args) => {
-                      formValues.friendId = args?.id
-                      formValues.friendName = args?.value
+                      formValues.linkedPlayerId = args?.id
+                      formValues.linkedPlayerFullName = args?.value
                     }
                   "
-                  :label="$t('addFriend')"
+                  :label="$t('addLinkedPlayer')"
                   class="super-small"
                 />
                 <q-btn
@@ -49,11 +49,11 @@
                   size="13px"
                   class="q-ml-sm"
                   :label="$t('save')"
-                  @click="onSaveFriend()"
+                  @click="onSaveLinkedPlayer()"
                   color="primary"
                   unelevated
                   no-caps
-                  :disable="!formValues.friendId"
+                  :disable="!formValues.linkedPlayerId"
                 />
                 <q-btn
                   autofocus
@@ -72,7 +72,7 @@
         </q-icon>
         <q-icon
           name="cached"
-          v-el-perms="reloadFriendsPermission"
+          v-el-perms="reloadLinkedPlayersPermission"
           size="18px"
           class="cursor-pointer q-mr-sm my-icon"
           color="blue-grey-8"
@@ -84,11 +84,11 @@
       <q-list data-cy="playerNotesList">
         <q-scroll-area
           :style="{
-            height: friends.length > 0 ? minHeight + 'px' : 'auto',
+            height: linkedPlayers.length > 0 ? minHeight + 'px' : 'auto',
           }"
         >
           <q-item
-            v-for="(friend, index) in friends"
+            v-for="(friend, index) in linkedPlayers"
             :key="index"
             class="q-pa-none friend-item"
             dense
@@ -96,14 +96,14 @@
             <q-item-section class="flex justify-start">
               <q-item-label
                 class="flex justify-start comment-caption content-center items-center text-caption"
-                >{{ index + 1 }} . {{ friend.friendName }}
+                >{{ index + 1 }} . {{ friend.playerFullName }}
                 <div class="edit-comment q-ml-md">
                   <q-icon
                     name="far fa-trash-alt"
                     size="13px"
                     class="cursor-pointer"
                     color="negative"
-                    @click="onDeleteFriend(friend)"
+                    @click="onDeleteLinkedPlayer(friend)"
                   />
                 </div>
               </q-item-label>
@@ -120,6 +120,10 @@ import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import { i18n } from 'src/boot/i18n'
 import { usePlayerStore } from 'src/stores/player-store'
+import { useAuthStore } from 'src/stores/auth-store'
+import { storeToRefs } from 'pinia'
+const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
 const playerStore = usePlayerStore()
 import SearchPlayerInput from 'src/components/atoms/SearchPlayerInput.vue'
 const props = defineProps({
@@ -128,15 +132,15 @@ const props = defineProps({
     required: true,
     default: () => {},
   },
-  showFriendsPermission: {
+  showLinkedPlayersPermission: {
     type: String,
     required: true,
-    default: () => 'Addon.Operations.CustomerInformation.ShowFriends',
+    default: () => 'Addon.Operations.CustomerInformation.ShowLinkedPlayers',
   },
-  reloadFriendsPermission: {
+  reloadLinkedPlayersPermission: {
     type: String,
     required: true,
-    default: () => 'Addon.Operations.CustomerInformation.ReloadFriends',
+    default: () => 'Addon.Operations.CustomerInformation.ReloadLinkedPlayers',
   },
   playerId: {
     type: Number,
@@ -151,23 +155,24 @@ const props = defineProps({
 })
 const $q = useQuasar()
 const formValues = ref({
+  createdByName: user.value.profile.name,
   playerId: props.playerId,
-  playerName: props.player.value || props.player.name + ' ' + props.player.surname,
-  friendId: '',
-  friendName: '',
+  playerFullName: props.player.value || props.player.name + ' ' + props.player.surname,
+  linkedPlayerId: '',
+  linkedPlayerFullName: '',
 })
-const friends = ref([])
+const linkedPlayers = ref([])
 const popup = ref(null)
-const onSaveFriend = async () => {
-  await playerStore.createPlayerFriend(formValues.value).then(async () => {
-    await fetchFriends()
+const onSaveLinkedPlayer = async () => {
+  await playerStore.createPlayerLinkedPlayer(formValues.value).then(async () => {
+    await fetchLinkedPlayers()
   })
   popup.value.hide()
 }
-const onDeleteFriend = async (friend) => {
+const onDeleteLinkedPlayer = async (friend) => {
   $q.dialog({
-    title: i18n.global.t('deleteFriend'),
-    message: i18n.global.t('onDeleteFriendMessage'),
+    title: i18n.global.t('deleteLinkedPlayer'),
+    message: i18n.global.t('onDeleteLinkedPlayerMessage'),
     persistent: true,
     focus: 'cancel',
     ok: {
@@ -185,20 +190,22 @@ const onDeleteFriend = async (friend) => {
     transitionShow: 'slide-up',
     transitionHide: 'slide-down',
   }).onOk(async () => {
-    await playerStore.deletePlayerFriend(friend)
-    await fetchFriends()
+    await playerStore.deletePlayerLinkedPlayer({
+      id: friend.id,
+    })
+    await fetchLinkedPlayers()
   })
 }
 const onReloadFriends = async () => {
-  await fetchFriends()
+  await fetchLinkedPlayers()
 }
 
 onMounted(async () => {
-  await fetchFriends()
+  await fetchLinkedPlayers()
 })
 
-const fetchFriends = async () => {
-  friends.value = await playerStore.fetchPlayerFriends({
+const fetchLinkedPlayers = async () => {
+  linkedPlayers.value = await playerStore.fetchPlayerLinkedPlayers({
     playerId: props.playerId,
   })
 }

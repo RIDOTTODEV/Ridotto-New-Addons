@@ -167,7 +167,6 @@ export const playerLgService = {
    *
    * @param {object} [data]
    * @param {undefined} [data.tableId] - Table Id
-   * @param {undefined} [data.gamingDateId] - Gaming Date Id
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type

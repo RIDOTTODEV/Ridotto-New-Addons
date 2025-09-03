@@ -26,7 +26,7 @@
         <div class="row">
           <div class="col-6">
             <div class="row" v-for="(denom, index) in tableFloatDenoms" :key="index">
-              <div class="col-12 q-pa-xs">
+              <div class="col-12 q-pa-xs" :class="{ 'opacity-50': isSavedTableCount }">
                 <q-input
                   type="number"
                   dense
@@ -42,6 +42,7 @@
                     }
                   "
                   @update:model-value="onInput"
+                  :disable="isSavedTableCount"
                 >
                   <template v-slot:append>
                     <div
@@ -54,6 +55,13 @@
                   </template>
                 </q-input>
               </div>
+            </div>
+            <div class="row q-mt-md" v-if="isSavedTableCount">
+              <Alert
+                :message="'Bu masa zaten chip sayım işlemi kaydedilmiştir.'"
+                type="error"
+                :showDirect="true"
+              />
             </div>
             <div class="row absolute-bottom">
               <div class="col-12 q-pa-xs flex justify-start">
@@ -68,23 +76,33 @@
           </div>
           <div class="col-6">
             <div class="row">
-              <div class="col-3 flex justify-center items-center">
+              <div
+                class="col-3 flex justify-center items-center"
+                :class="{ 'opacity-50': isSavedTableCount }"
+              >
                 <q-img
                   src="/inspectors/up-arrow-up.svg"
                   class="cursor-pointer"
                   v-ripple
                   @click="onClickUpArrow"
+                  :disable="isSavedTableCount"
                 />
                 <q-img
                   src="/inspectors/up-arrow-down.svg"
                   class="cursor-pointer"
                   v-ripple
                   @click="onClickDownArrow"
+                  :disable="isSavedTableCount"
                 />
               </div>
               <div class="col-9">
                 <div class="row">
-                  <div class="col-4 q-pa-xs" v-for="(number, index) in numbers" :key="index">
+                  <div
+                    class="col-4 q-pa-xs"
+                    :class="{ 'opacity-50': isSavedTableCount }"
+                    v-for="(number, index) in numbers"
+                    :key="index"
+                  >
                     <q-btn
                       :label="number"
                       :key="index"
@@ -95,6 +113,7 @@
                       style="width: 58px"
                       outline
                       @click="onClickNumber(number)"
+                      :disable="isSavedTableCount"
                     />
                   </div>
                   <div class="col-4 q-pa-xs">
@@ -107,6 +126,7 @@
                       style="width: 58px"
                       outline
                       @click="onClickRevokeDenom"
+                      :disable="isSavedTableCount"
                     >
                       <q-img src="/inspectors/icons8-back-50.png" style="width: 40px" />
                     </q-btn>
@@ -121,6 +141,7 @@
                       style="width: 58px"
                       outline
                       @click="onClickCleanDenoms"
+                      :disable="isSavedTableCount"
                     >
                       <q-img src="/inspectors/icons8-clean-48.png" style="width: 40px" />
                     </q-btn>
@@ -147,6 +168,7 @@
                       :label="$t('save')"
                       icon="far fa-check-circle"
                       @click="onOKClick"
+                      :disable="isSavedTableCount"
                     />
                   </div>
                 </div>
@@ -165,7 +187,7 @@ import { useTableStore } from 'src/stores/table-store'
 const numbers = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0]
 import { useDialogPluginComponent } from 'quasar'
 import { priceAbsFormatted } from 'src/helpers/helpers'
-
+import Alert from 'src/components/ui/Alert.vue'
 const tableStore = useTableStore()
 const props = defineProps({
   table: {
@@ -179,6 +201,7 @@ const props = defineProps({
 })
 const tableFloatDenoms = ref([])
 const SelectedTableFloatDenom = ref()
+const isSavedTableCount = ref(false)
 defineEmits([...useDialogPluginComponent.emits])
 
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
@@ -202,7 +225,7 @@ onMounted(async () => {
     gamingDateId: props.table.gamingDateId,
     floatSetId: props.table.floatSetId,
   })
-
+  isSavedTableCount.value = tableCount.isChipSave
   tableFloatDenoms.value = tableCount.chipInfo
     .filter((chip) => chip.chipType === 'Chip')
     .sort((a, b) => a.chipDenom - b.chipDenom)
@@ -267,5 +290,8 @@ const onInput = (e) => {
   margin-right: -5px;
   min-width: 100px;
   border-left: 1px solid #dddddd;
+}
+.opacity-50 {
+  opacity: 0.5;
 }
 </style>
