@@ -10,7 +10,7 @@ export function usePlayerSearch() {
   const { lastSearchedPlayers } = storeToRefs(playerStore)
   const { cashDeskSummary } = storeToRefs(cashdeskStore)
 
-  const signalR = inject('signalR')
+  const signalR = inject('cardDeskConnection')
   const router = useRouter()
 
   const searchedPlayerOptions = ref([])
