@@ -596,6 +596,29 @@
                     </div>
                   </div>
                   <div class="q-card--bordered q-pa-xs">
+                    <PlayerAttechments
+                      v-if="selectedPlayer"
+                      :player="selectedPlayer"
+                      :player-id="selectedPlayer.id"
+                      :show-player-attechments-permission="'Addon.Operations.CustomerInformation.ShowPlayerAttechments'"
+                      :reload-player-attechments-permission="'Addon.Operations.CustomerInformation.ReloadPlayerAttechments'"
+                    />
+                    <div v-else>
+                      <div class="text-blue text-bold text-caption">
+                        {{ $t('playerAttechmentsList') }}
+                      </div>
+                      <div
+                        class="bg-grey-1 q-pa-md q-radius-md"
+                        style="min-height: 80px; position: relative"
+                      >
+                        <div class="text-grey text-center q-pa-md">
+                          <q-icon name="o_people" size="24px" class="q-mb-sm" />
+                          <div>No player attechments found for this player</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="q-card--bordered q-pa-xs">
                     <PlayerFriends
                       v-if="selectedPlayer"
                       :player="selectedPlayer"
@@ -614,6 +637,29 @@
                         <div class="text-grey text-center q-pa-md">
                           <q-icon name="o_people" size="24px" class="q-mb-sm" />
                           <div>No friends found for this player</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="q-card--bordered q-pa-xs">
+                    <PlayerLinkedPlayers
+                      v-if="selectedPlayer"
+                      :player="selectedPlayer"
+                      :player-id="selectedPlayer.id"
+                      :show-linked-players-permission="'Addon.Operations.CustomerInformation.ShowLinkedPlayers'"
+                      :reload-linked-players-permission="'Addon.Operations.CustomerInformation.ReloadLinkedPlayers'"
+                    />
+                    <div v-else>
+                      <div class="text-blue text-bold text-caption">
+                        {{ $t('linkedPlayersList') }}
+                      </div>
+                      <div
+                        class="bg-grey-1 q-pa-md q-radius-md"
+                        style="min-height: 80px; position: relative"
+                      >
+                        <div class="text-grey text-center q-pa-md">
+                          <q-icon name="o_people" size="24px" class="q-mb-sm" />
+                          <div>No linked players found for this player</div>
                         </div>
                       </div>
                     </div>
@@ -764,7 +810,8 @@ import TaskModal from 'src/components/pages/operations/TaskModal.vue'
 import PlayerGiftModal from 'src/components/pages/operations/PlayerGiftModal.vue'
 import PlayerNote from 'src/components/pages/player-operations/meta-detail/PlayerNote.vue'
 import PlayerFriends from 'src/components/pages/player-operations/meta-detail/PlayerFriends.vue'
-
+import PlayerLinkedPlayers from 'src/components/pages/player-operations/meta-detail/LinkedPlayers.vue'
+import PlayerAttechments from 'src/components/pages/player-operations/meta-detail/PlayerAttechments.vue'
 const router = useRouter()
 const $q = useQuasar()
 const playerData = ref({
@@ -1239,11 +1286,11 @@ const showVisitDetails = async () => {
   try {
     onSelectPlayer(selectedPlayer.value)
     const authStore = useAuthStore()
-    const tableData = await playerStore.fetchPlayerInformationDetail(
-      selectedPlayer.value.id,
-      currentVisit.value,
-      authStore.getDefaultCurrencyId,
-    )
+    const tableData = await playerStore.fetchPlayerInformationDetail({
+      playerId: selectedPlayer.value.id,
+      day: currentVisit.value,
+      defaultCurrencyId: authStore.getDefaultCurrencyId,
+    })
     if (tableData) {
       updateTableData(tableData)
     }

@@ -12,6 +12,7 @@ import {
   countryService,
   playerInfoService,
   playerLinkService,
+  playerAttachmentService,
 } from 'src/api'
 import { LocalStorage } from 'quasar'
 import { useAuthStore } from 'src/stores/auth-store'
@@ -234,6 +235,16 @@ export const usePlayerStore = defineStore('playerStore', {
     },
     async updatePlayerStatusFlags(params) {
       return await playerService.updatePlayerStatusFlags(params)
+    },
+    async createPlayerAttechment(params) {
+      await playerAttachmentService.add(params)
+    },
+    async deletePlayerAttechment(params) {
+      await playerAttachmentService.delete(params)
+    },
+    async fetchPlayerAttechments(params) {
+      const { data } = await playerAttachmentService.getAllByPlayer(params)
+      return data
     },
   },
 })

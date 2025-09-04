@@ -16,6 +16,18 @@ export const playerAttachmentService = {
     return api.get('/api/PlayerAttachment/GetAllByPlayer', { params: data, ...options })
   },
   /**
+   * Download File Player Attachment
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.id] - Id
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  downloadFile(data = {}, options = {}) {
+    return api.get('/api/PlayerAttachment/DownloadFile', { params: data, ...options })
+  },
+  /**
    * Add Player Attachment
    *
    * @param {object} [data]
