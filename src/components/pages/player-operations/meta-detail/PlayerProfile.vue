@@ -28,12 +28,9 @@
           </span>
 
           <span
-            class="text-subtitle1 q-ml-lg comment-caption flex content-end items-center cursor-pointer open-link"
-            @click="redirectToRidottoPlayerDetail"
+            class="text-subtitle1 q-ml-lg comment-caption flex content-end items-center cursor-pointer"
             >#{{ selectedPlayer.player.id }}
-            <q-tooltip class="bg-grey-3 q-card--bordered text-dark text-caption">
-              {{ $t('ridottoPlayerDetail') }}
-            </q-tooltip>
+
             <div class="edit-comment">
               <q-icon
                 name="o_content_copy"
@@ -43,6 +40,19 @@
               />
             </div>
           </span>
+        </div>
+        <div class="col-12">
+          <q-chip
+            color="grey-2"
+            size="8px"
+            square
+            text-color="black"
+            icon="fa fa-external-link-alt"
+            clickable
+            @click="redirectToRidottoPlayerDetail"
+          >
+            {{ $t('ridottoPlayerDetail') }}
+          </q-chip>
         </div>
         <div class="col-12">
           <div class="text-body2 flex justify-between content-end items-center comment-caption">

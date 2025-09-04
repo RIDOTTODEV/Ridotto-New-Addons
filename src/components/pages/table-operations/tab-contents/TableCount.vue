@@ -44,7 +44,7 @@
                     <div class="text-subtitle2">Result</div>
                   </th>
                   <th class="text-center app-cart-grey">
-                    <div class="text-subtitle2">Table Count</div>
+                    <div class="text-subtitle2">Count</div>
                   </th>
                 </tr>
               </thead>
@@ -326,7 +326,7 @@
                       <thead>
                         <tr>
                           <th class="grey-card text-center">Denom</th>
-                          <th class="grey-card text-center">Amount</th>
+                          <th class="grey-card text-center">Count</th>
                           <th class="grey-card text-center">Expected</th>
                         </tr>
                       </thead>
@@ -417,7 +417,7 @@
                       <thead>
                         <tr>
                           <th class="grey-card text-center">Denom</th>
-                          <th class="grey-card text-right">Amount</th>
+                          <th class="grey-card text-right">Count</th>
                           <th class="grey-card text-right">Expected</th>
                         </tr>
                       </thead>
@@ -729,6 +729,15 @@ const selectedCountTableResult = computed(() => {
 })
 
 const onClickSetTableFloat = () => {
+  if (selectedCashDesk.value?.isMain !== true) {
+    Notify.create({
+      message: 'Main cashdesk is not allowed to set table float',
+      type: 'negative',
+      icon: 'o_error',
+      position: 'bottom-right',
+    })
+    return
+  }
   const tableIds = tableStore.tableCounts
     .filter((count) => selectedTableCountIds.value.includes(count.id))
     .map((count) => count.tableId)
@@ -752,6 +761,15 @@ const onClickSetTableFloat = () => {
 }
 
 const onClickUpdateTableGamingDate = async () => {
+  if (selectedCashDesk.value?.isMain !== true) {
+    Notify.create({
+      message: 'Main cashdesk is not allowed to update table gaming date',
+      type: 'negative',
+      icon: 'o_error',
+      position: 'bottom-right',
+    })
+    return
+  }
   $q.dialog({
     component: defineAsyncComponent(
       () => import('src/components/pages/table-operations/dialogs/ChangeTableGamingDate.vue'),
@@ -792,6 +810,9 @@ const onClickUpdateTableCounts = async (table) => {
     cashDeskId: selectedCashDesk.value?.id,
     defaultCurrencyId: getDefaultCurrencyId.value,
   }
+  $q.loading.show({
+    message: 'Updating table counts...',
+  })
   const result = await tableStore.updateTableCounts(data)
   if (result.status === 200) {
     Notify.create({
@@ -802,6 +823,7 @@ const onClickUpdateTableCounts = async (table) => {
     })
     await tableStore.fetchTableCounts()
   }
+  $q.loading.hide()
 }
 
 const onEditSavedCount = () => {

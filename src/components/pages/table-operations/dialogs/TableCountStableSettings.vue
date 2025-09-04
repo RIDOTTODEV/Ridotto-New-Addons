@@ -33,7 +33,6 @@
               dense
               option-label="name"
               option-value="id"
-              :rules="[(val) => !!val || $t('requiredField')]"
             />
           </div>
 

@@ -100,9 +100,7 @@
               <q-toggle
                 v-model="formValues.isChipAccepted"
                 :label="
-                  formValues.isChipAccepted
-                    ? $t('isChipAccepted') + '-' + $t('yes')
-                    : $t('isChipAccepted') + '-' + $t('no')
+                  formValues.isChipAccepted ? $t('Chip not accepted') : $t('Chip not accepted')
                 "
                 color="positive"
                 dense

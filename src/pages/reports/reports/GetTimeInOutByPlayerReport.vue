@@ -3,7 +3,6 @@
     <SupaTable
       :columns="columns"
       :getDataFn="reportStore.getTimeInOutReportByPlayer"
-      :filterValues="filterValues"
       ref="inOutReportTable"
       tableName="timeInOutByPlayerReportColumns"
       :filterParams="filterValues"
@@ -124,10 +123,11 @@
                   />
                   <date-time-picker
                     class="q-ml-sm"
+                    :setDate="filterValues"
                     @selected-date="
                       (val) => {
-                        filterValues = {
-                          ...filterValues,
+                        dailyReportDetailParams = {
+                          ...dailyReportDetailParams,
                           ...val,
                         }
                       }
@@ -272,7 +272,6 @@ const selectedPlayer = ref(null)
 const showDailyReportDetail = async (row) => {
   selectedPlayer.value = row
   dailyReportDetailParams.value = {
-    ...filterValues.value,
     PlayerId: row.playerId,
   }
 

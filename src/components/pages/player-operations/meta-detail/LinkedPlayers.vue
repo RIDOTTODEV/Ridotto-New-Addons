@@ -8,7 +8,7 @@
           class="cursor-pointer q-ml-sm my-icon"
           color="blue-grey-8"
         />
-        | {{ $t('linkedPlayersList') }}
+        | {{ $t('linkedPlayers') }}
       </div>
       <div>
         <q-icon
@@ -27,7 +27,7 @@
             <div class="row q-pa-sm" style="max-width: 430px">
               <div class="col-12 q-mb-sm text-center">
                 <div class="text-subtitle2">
-                  {{ $t('addLinkedPlayer') }}
+                  {{ $t('linkOldPlayer') }}
                 </div>
               </div>
               <div class="col-12 flex justify-center">
@@ -41,7 +41,7 @@
                       formValues.linkedPlayerFullName = args?.value
                     }
                   "
-                  :label="$t('addLinkedPlayer')"
+                  :label="$t('linkOldPlayer')"
                   class="super-small"
                 />
                 <q-btn
@@ -61,7 +61,7 @@
                   flat
                   dense
                   color="negative"
-                  :label="$t('cancel')"
+                  :label="$t('close')"
                   v-close-popup
                   class="q-ml-sm"
                   icon="close"
@@ -96,7 +96,12 @@
             <q-item-section class="flex justify-start">
               <q-item-label
                 class="flex justify-start comment-caption content-center items-center text-caption"
-                >{{ index + 1 }} . <span class="text-capitalize">{{ friend.playerFullName }}</span>
+                >{{ index + 1 }} .
+                <span
+                  class="text-capitalize open-link"
+                  @click="redirectToCustomerInformation(friend.playerId)"
+                  >{{ friend.linkedPlayerFullName }}</span
+                >
                 <q-icon
                   name="arrow_forward"
                   size="15px"
@@ -106,7 +111,7 @@
                 <span
                   class="text-capitalize cursor-pointer open-link"
                   @click="redirectToCustomerInformation(friend.linkedPlayerId)"
-                  >{{ friend.linkedPlayerFullName }}</span
+                  >{{ friend.playerFullName }}</span
                 >
                 <div class="edit-comment q-ml-md">
                   <q-icon
@@ -184,7 +189,7 @@ const onSaveLinkedPlayer = async () => {
 }
 const onDeleteLinkedPlayer = async (friend) => {
   $q.dialog({
-    title: i18n.global.t('deleteLinkedPlayer'),
+    title: i18n.global.t('unlinkOldPlayer'),
     message: i18n.global.t('onDeleteLinkedPlayerMessage'),
     persistent: true,
     focus: 'cancel',

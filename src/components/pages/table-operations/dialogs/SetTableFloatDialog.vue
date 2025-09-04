@@ -156,10 +156,9 @@
 <script setup>
 import { useTableStore } from 'src/stores/table-store'
 import { useTransactionCodeStore } from 'src/stores/transaction-code-store'
-
-import { useDialogPluginComponent, useQuasar } from 'quasar'
+import { useDialogPluginComponent } from 'quasar'
 import { storeToRefs } from 'pinia'
-import { ref, onMounted, defineAsyncComponent } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Notify } from 'quasar'
 const props = defineProps({
   formValues: {
@@ -171,52 +170,43 @@ const tableStore = useTableStore()
 const transactionCodeStore = useTransactionCodeStore()
 const { getTransactionCodesByGroups } = storeToRefs(transactionCodeStore)
 defineEmits([...useDialogPluginComponent.emits])
-const $q = useQuasar()
 const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
 
 const values = ref({
   ...props.formValues,
 })
 const onSubmit = async () => {
-  $q.dialog({
-    component: defineAsyncComponent(() => import('src/components/ui/Confirm.vue')),
-    componentProps: {
-      confirmTitle: 'Eminsiniz mi?',
-      confirmMessage: 'Bu işlemi yapmak istediğinize emin misiniz?',
-    },
-  }).onOk(async () => {
-    const tableId = floatSets.value[step.value - 1].tableId
-    let payload = {
-      tableIds: [tableId],
-      transactionCodeId: values.value.transactionCodeId,
-      note: values.value.note,
+  const tableId = floatSets.value[step.value - 1].tableId
+  let payload = {
+    tableIds: [tableId],
+    transactionCodeId: values.value.transactionCodeId,
+    note: values.value.note,
+    cashdeskId: props.formValues.cashdeskId,
+  }
+  const result = await tableStore.setTableFloat(payload)
+  if (result.status === 200) {
+    values.value = {
+      //transactionCodeId: null,
+      note: '',
       cashdeskId: props.formValues.cashdeskId,
     }
-    const result = await tableStore.setTableFloat(payload)
-    if (result.status === 200) {
-      values.value = {
-        transactionCodeId: null,
-        note: '',
-        cashdeskId: props.formValues.cashdeskId,
-      }
-      floatSets.value = floatSets.value.filter((floatSet) => floatSet.tableId !== tableId)
-      Notify.create({
-        message: 'Table float set successfully',
-        type: 'positive',
-        icon: 'o_check_circle',
-        position: 'bottom-right',
-      })
-      if (floatSets.value.length > 0) {
-        if (step.value === floatSets.value.length) {
-          stepper.value.previous()
-        } else {
-          step.value = 1
-        }
+    floatSets.value = floatSets.value.filter((floatSet) => floatSet.tableId !== tableId)
+    Notify.create({
+      message: 'Table float set successfully',
+      type: 'positive',
+      icon: 'o_check_circle',
+      position: 'bottom-right',
+    })
+    if (floatSets.value.length > 0) {
+      if (step.value === floatSets.value.length) {
+        stepper.value.previous()
       } else {
-        onDialogOK()
+        step.value = 1
       }
+    } else {
+      onDialogOK()
     }
-  })
+  }
 }
 
 const step = ref(1)

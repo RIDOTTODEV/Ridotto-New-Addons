@@ -30,6 +30,11 @@ const props = defineProps({
     required: false,
     default: () => null,
   },
+  setDate: {
+    type: Object,
+    required: false,
+    default: () => null,
+  },
   disabled: {
     type: Boolean,
     required: false,
@@ -300,6 +305,9 @@ onMounted(() => {
       onSelectDate(selectedDate)
       return
     }
+  }
+  if (props.setDate) {
+    onSelectDate(props.setDate)
   }
 })
 </script>
