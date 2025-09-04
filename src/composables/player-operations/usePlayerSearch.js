@@ -1,4 +1,9 @@
-import { inject, ref, watch, onMounted } from 'vue'
+import {
+  /*   inject, */
+  ref,
+  watch,
+  onMounted,
+} from 'vue'
 import { storeToRefs } from 'pinia'
 import { usePlayerStore } from 'src/stores/player-store'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
@@ -10,7 +15,7 @@ export function usePlayerSearch() {
   const { lastSearchedPlayers } = storeToRefs(playerStore)
   const { cashDeskSummary } = storeToRefs(cashdeskStore)
 
-  const signalR = inject('cardDeskConnection')
+  /* const signalR = inject('cardDeskConnection') */
   const router = useRouter()
 
   const searchedPlayerOptions = ref([])
@@ -63,7 +68,7 @@ export function usePlayerSearch() {
   }
 
   // listen to the hub for player search
-  signalR.on('CardInserted', async (payload) => {
+  /*   signalR.on('CardInserted', async (payload) => {
     if (router.currentRoute.value.name === 'players') {
       const needle = payload?.assistId
       const player = await playerStore.searchPlayer(needle)
@@ -76,7 +81,7 @@ export function usePlayerSearch() {
         })
       }
     }
-  })
+  }) */
 
   watch(selectedPlayer, (val) => {
     if (val === null) return

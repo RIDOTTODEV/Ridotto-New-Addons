@@ -20,7 +20,7 @@ export default defineConfig((ctx) => {
       'axios',
       'event-bus',
       'meta',
-      'signalr',
+      /*  'signalr', */
       'registration',
       'element-plus',
     ],
