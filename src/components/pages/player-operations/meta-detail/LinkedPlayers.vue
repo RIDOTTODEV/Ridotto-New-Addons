@@ -96,7 +96,18 @@
             <q-item-section class="flex justify-start">
               <q-item-label
                 class="flex justify-start comment-caption content-center items-center text-caption"
-                >{{ index + 1 }} . {{ friend.playerFullName }}
+                >{{ index + 1 }} . <span class="text-capitalize">{{ friend.playerFullName }}</span>
+                <q-icon
+                  name="arrow_forward"
+                  size="15px"
+                  class="cursor-pointer q-ml-sm q-mr-sm"
+                  color="blue-grey-8"
+                />
+                <span
+                  class="text-capitalize cursor-pointer open-link"
+                  @click="redirectToCustomerInformation(friend.linkedPlayerId)"
+                  >{{ friend.linkedPlayerFullName }}</span
+                >
                 <div class="edit-comment q-ml-md">
                   <q-icon
                     name="far fa-trash-alt"
@@ -117,6 +128,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { i18n } from 'src/boot/i18n'
 import { usePlayerStore } from 'src/stores/player-store'
@@ -126,6 +138,7 @@ const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
 const playerStore = usePlayerStore()
 import SearchPlayerInput from 'src/components/atoms/SearchPlayerInput.vue'
+const router = useRouter()
 const props = defineProps({
   player: {
     type: Object,
@@ -209,9 +222,21 @@ const fetchLinkedPlayers = async () => {
     playerId: props.playerId,
   })
 }
+const redirectToCustomerInformation = (playerId) => {
+  const routerData = router.resolve({
+    name: 'customerInformation',
+    query: { playerId: playerId },
+  })
+  window.open(routerData.href, '_blank')
+}
 </script>
 <style lang="scss">
 .friend-item {
   min-height: 25px !important;
+}
+.open-link {
+  &:hover {
+    text-decoration: underline;
+  }
 }
 </style>
