@@ -286,7 +286,7 @@ const pagination = ref({
   page: 1,
   rowsPerPage: 10,
   totalCount: 0,
-  //rowsNumber: 0,
+  rowsNumber: 0,
 })
 const visibleColumnOptions = ref(['id'])
 const visibleColumns = ref([])

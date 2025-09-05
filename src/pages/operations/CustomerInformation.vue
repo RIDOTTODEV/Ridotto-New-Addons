@@ -2,13 +2,10 @@
   <q-page class="q-pa-xs">
     <div class="q-pa-md">
       <div class="row no-wrap">
-        <!-- SOL SÜTUN: Oyuncu Bilgisi + Tablolar + Oda Bilgisi -->
         <div class="col-12 col-md-8" style="display: flex; flex-direction: column">
-          <!-- Oyuncu Bilgisi Kartı -->
           <q-card flat bordered>
             <q-card-section class="">
               <div class="row flex justify-center">
-                <!-- Photo Section -->
                 <div class="col q-pa-xs text-center" v-if="selectedPlayer">
                   <q-img
                     class="cursor-pointer rounded-borders player-photo"
@@ -20,7 +17,6 @@
                   />
                 </div>
 
-                <!-- Name and Surname Section -->
                 <div class="col-4 q-pr-xs" :class="{ 'col-7': !selectedPlayer }">
                   <div class="fit row wrap justify-start items-start content-around">
                     <div class="col-12">
@@ -502,12 +498,10 @@
             </q-card-section>
           </q-card>
         </div>
-        <!-- SAĞ SÜTUN: Additional Information -->
         <div class="col-12 col-md-4 q-ml-md">
           <div style="margin-right: 16px">
             <q-card flat bordered>
               <q-card-section class="q-pa-md">
-                <!-- Add your additional information content here -->
                 <div class="q-gutter-sm">
                   <div class="q-card--bordered q-pa-xs">
                     <div class="row items-center justify-between q-mb-xs">
@@ -1120,6 +1114,7 @@ const onSelectPlayer = async (player) => {
     try {
       const playerDetails = await playerStore.fetchPlayerById({ playerId: player.id })
       if (playerDetails) {
+        searchPlayer.value.value = playerDetails.name + ' ' + playerDetails.surname
         playerFullData.value = { ...playerDetails }
         playerData.value = {
           isActive: playerDetails.isActive || false,

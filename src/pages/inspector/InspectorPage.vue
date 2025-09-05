@@ -10,13 +10,12 @@ const {
   tableSitPlayers,
   playersTableColumns,
   inspectorTables,
-  defaultCurrency,
   currentTable,
   upFunctionCards,
   currentTab,
   date,
   currentPlayer,
-  getDefaultCurrency,
+  currentTableCurrency,
   digitalClock,
   onClickSelectTable,
   onClickPlayerTimePauseOrResume,
@@ -68,25 +67,6 @@ const {
           <div class="col-5">
             <div class="flex content-end items-end justify-end">
               <exchange-rates v-el-perms="'Addon.Inspector.Action.ExchangeRates'" />
-
-              <q-btn
-                color="grey-2"
-                unelevated
-                class="q-mr-sm q-card--bordered"
-                text-color="dark"
-                no-wrap
-                no-caps
-              >
-                <q-img
-                  :src="getDefaultCurrency?.flag"
-                  width="25px"
-                  class="q-mr-xs"
-                  :img-style="{ borderRadius: '3px' }"
-                />
-
-                <div>{{ getDefaultCurrency?.name }}</div>
-              </q-btn>
-
               <q-btn
                 color="grey-2"
                 unelevated
@@ -146,42 +126,72 @@ const {
               :key="index"
               text-color="grey-5"
               @click="onClickSelectTable(table)"
-              style="width: 140px !important"
+              style="width: 150px !important"
               outline
+              padding="5px"
               :class="
                 currentTable?.id === table.id
                   ? 'heartbeat bg-green-1 col q-ma-xs'
-                  : '  bg-white col q-ma-xs '
+                  : '  bg-white col q-ma-xs'
               "
             >
               <template v-slot:default>
                 <div class="row text-blue-grey-8">
                   <div class="row col-12">
-                    <div class="col-12">
+                    <!--  <div class="col-12">
                       <q-icon name="task_alt" size="2em" color="positive" />
-                    </div>
+                    </div> -->
                     <div class="col-12 flex justify-center">
                       <div class="text-subtitle2 text-bold">
                         {{ table.name }}
-                      </div>
-                      <div class="text-subtitle2 text-bold q-ml-sm">
-                        {{ defaultCurrency?.name }}
+                        <q-tooltip :delay="2000" class="app-cart-grey text-dark text-subtitle2">{{
+                          $t('tableName')
+                        }}</q-tooltip>
                       </div>
                     </div>
                     <div class="col-12 flex justify-center">
-                      <div class="text-subtitle2 text-bold q-ml-sm text-negative">
+                      <div class="text-caption text-bold q-ml-sm text-negative">
                         {{ table?.gameName }}
+                        <q-tooltip :delay="2000" class="app-cart-grey text-dark text-subtitle2">{{
+                          $t('tableGameName')
+                        }}</q-tooltip>
                       </div>
                     </div>
                     <div class="col-12">
-                      <div class="text-subtitle2 text-bold">
+                      <div class="text-caption text-bold">
                         {{ table?.floatSetName }}
+                        <q-tooltip :delay="2000" class="app-cart-grey text-dark text-subtitle2">{{
+                          $t('tableFloatSet')
+                        }}</q-tooltip>
                       </div>
                     </div>
+                    <div class="col-12">
+                      <q-chip square dense class="text-caption" icon="calendar_month">
+                        {{ table?.gamingDateName }}
+                        <q-tooltip class="app-cart-grey text-dark text-subtitle2">{{
+                          $t('tableGamingDate')
+                        }}</q-tooltip>
+                      </q-chip>
+                    </div>
                   </div>
-                  <q-badge align="top" floating class="q-mr-sm q-mt-sm" color="blue-grey-8">{{
-                    table?.gamingDateName
-                  }}</q-badge>
+
+                  <div
+                    class="absolute-top-left text-caption currencyBackground text-white rounded-borders q-mt-xs q-ml-xs"
+                  >
+                    <span class="q-pl-xs q-pr-xs"> {{ currentTableCurrency?.name }}</span>
+                    <q-tooltip class="app-cart-grey text-dark text-subtitle2">{{
+                      $t('tableChipCurrency')
+                    }}</q-tooltip>
+                  </div>
+                  <div
+                    v-if="table?.isAnyoneSit"
+                    class="absolute-top-right text-caption bg-negative text-white rounded-borders q-mt-xs q-mr-xs"
+                  >
+                    <span class="q-pl-xs q-pr-xs"> <q-icon name="group" size="15px" /></span>
+                    <q-tooltip class="app-cart-grey text-dark text-subtitle2">{{
+                      $t('hasPlayers')
+                    }}</q-tooltip>
+                  </div>
                 </div>
               </template>
             </q-btn>
@@ -829,5 +839,8 @@ const {
 }
 .avgBet {
   width: 20px;
+}
+.currencyBackground {
+  background-color: rgb(244 71 35) !important;
 }
 </style>

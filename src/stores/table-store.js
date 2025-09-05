@@ -20,6 +20,9 @@ export const useTableStore = defineStore('tableStore', {
     getTableById: (state) => (tableId) => {
       return state.tables.find((table) => +table.id === +tableId)
     },
+    getTableCountByTableId: (state) => (tableId) => {
+      return state.tableCounts.find((tableCount) => +tableCount.tableId === +tableId)
+    },
   },
   actions: {
     /********** Table Game **********/

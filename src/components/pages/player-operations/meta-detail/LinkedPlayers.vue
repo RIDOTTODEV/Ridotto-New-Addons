@@ -99,7 +99,7 @@
                 >{{ index + 1 }} .
                 <span
                   class="text-capitalize open-link"
-                  @click="redirectToCustomerInformation(friend.playerId)"
+                  @click="redirectToCustomerInformation(friend.linkedPlayerId)"
                   >{{ friend.linkedPlayerFullName }}</span
                 >
                 <q-icon
@@ -110,7 +110,7 @@
                 />
                 <span
                   class="text-capitalize cursor-pointer open-link"
-                  @click="redirectToCustomerInformation(friend.linkedPlayerId)"
+                  @click="redirectToCustomerInformation(friend.playerId)"
                   >{{ friend.playerFullName }}</span
                 >
                 <div class="edit-comment q-ml-md">

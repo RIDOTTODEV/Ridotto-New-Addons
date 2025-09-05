@@ -55,7 +55,7 @@
                   :class="[
                     item.id === selectedTableCount?.id
                       ? 'bg-red-2'
-                      : item.isSave
+                      : item.CashSaveLock
                         ? 'bg-green-1'
                         : '',
                   ]"
@@ -67,10 +67,10 @@
                       :key="index"
                       @update:model-value="onCheckedTableCount()"
                       color="blue-grey-8"
-                      :disable="
-                        item.gamingDateId === getDefaultGamingDateId || item?.isAnyoneSit === true
-                      "
                     />
+                    <!--     :disable="
+                        item.gamingDateId === getDefaultGamingDateId || item?.isAnyoneSit === true
+                      " -->
                   </td>
                   <td class="text-center cursor-pointer" @click="onSelectTableCount(item)">
                     <div class="flex justify-center content-center items-center">
@@ -246,7 +246,7 @@
             <div class="row flex" v-if="selectedTableCount">
               <div
                 class="col q-pa-sm flex justify-start content-start items-start"
-                v-for="(item, i) in selectedTableCount?.chipInfoFormatted.filter(
+                v-for="(item, i) in selectedTableCount?.chipInfoFormatted?.filter(
                   (item) => item.chipType === 'Chip',
                 )"
                 :key="i"
@@ -301,7 +301,9 @@
                 <div class="row flex">
                   <div class="col-12">
                     <div class="col-12 flex justify-between">
-                      <div class="text-subtitle2">Cash {{ item.currencyName }}</div>
+                      <div class="text-subtitle2">
+                        Cash - <span class="text-negative">{{ item.currencyName }}*</span>
+                      </div>
                       <div class="text-subtitle2 q-mr-sm flex justify-between items-center">
                         {{
                           formatPrice(
@@ -312,7 +314,7 @@
                           )
                         }}
 
-                        <span v-if="selectedTableCount.isSave" class="q-ml-sm cursor-pointer">
+                        <span v-if="selectedTableCount.CashSaveLock" class="q-ml-sm cursor-pointer">
                           <q-icon
                             name="fa-regular fa-pen-to-square"
                             size="12px"
@@ -341,7 +343,7 @@
                               hide-bottom-space
                               borderless
                               standout
-                              :disable="selectedTableCount?.isSave"
+                              :disable="selectedTableCount?.CashSaveLock"
                               @update:model-value="
                                 (value) => {
                                   denom = {
@@ -367,7 +369,7 @@
                                   @change="(e) => emitValue(e.target.value)"
                                   pattern="[0-9]+([\.,][0-9]+)?"
                                   v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
-                                  :disabled="selectedTableCount?.isSave"
+                                  :disabled="selectedTableCount?.CashSaveLock"
                                 />
                               </template>
                             </q-field>
@@ -383,7 +385,7 @@
               </div>
               <div
                 class="col q-pa-sm flex justify-start content-start items-start"
-                v-for="(item, i) in selectedTableCount?.chipInfoFormatted.filter(
+                v-for="(item, i) in selectedTableCount?.chipInfoFormatted?.filter(
                   (item) => item.chipType !== 'Chip',
                 )"
                 :key="i"
@@ -403,7 +405,7 @@
                             ) || 0,
                           )
                         }}
-                        <span v-if="selectedTableCount.isSave" class="q-ml-sm">
+                        <span v-if="selectedTableCount.CashSaveLock" class="q-ml-sm">
                           <q-icon
                             name="fa-regular fa-pen-to-square"
                             size="12px"
@@ -447,7 +449,7 @@
                               class="q-pa-none myInput flex justify-center content-center items-center"
                               lazy-rules
                               @focus="(e) => (e.target.select ? e.target.select() : null)"
-                              :disable="selectedTableCount?.isSave"
+                              :disable="selectedTableCount?.CashSaveLock"
                             >
                               <template v-slot:control="{ id, modelValue, emitValue }">
                                 <input
@@ -458,7 +460,7 @@
                                   @change="(e) => emitValue(e.target.value)"
                                   pattern="[0-9]+([\.,][0-9]+)?"
                                   v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
-                                  :disabled="selectedTableCount?.isSave"
+                                  :disabled="selectedTableCount?.CashSaveLock"
                                 />
                               </template>
                             </q-field>
@@ -682,7 +684,7 @@ const onSelectTableCount = async (tableCount) => {
 const selectedCountTotalDropAdditional = computedAsync(async () => {
   if (!selectedTableCount.value) return 0
   const totalDrop =
-    selectedTableCount.value?.cashInfoFormatted.map((cashFormatted) => {
+    selectedTableCount.value?.cashInfoFormatted?.map((cashFormatted) => {
       return {
         currencyId: cashFormatted.currencyId,
         total:
@@ -709,7 +711,7 @@ const selectedCountTotalDropAdditional = computedAsync(async () => {
     }
   }
   const totalCredit =
-    selectedTableCount.value?.chipInfoFormatted.map((chipFormatted) => {
+    selectedTableCount.value?.chipInfoFormatted?.map((chipFormatted) => {
       return (
         chipFormatted.denominations.reduce(
           (acc, { chipDenom, quantity }) => acc + chipDenom * quantity,
@@ -717,11 +719,11 @@ const selectedCountTotalDropAdditional = computedAsync(async () => {
         ) || 0
       )
     }) || 0
-  return total + totalCredit.reduce((acc, item) => acc + item, 0)
+  return totalCredit ? total + totalCredit.reduce((acc, item) => acc + item, 0) : total
 })
 
 const selectedCountTableResult = computed(() => {
-  const totalDrop = selectedCountTotalDropAdditional.value || 0
+  const totalDrop = selectedCountTotalDropAdditional?.value || 0
   const totalCredit = selectedTableCount.value?.totalCredit || 0
   const totalFill = selectedTableCount.value?.totalFill || 0
 
@@ -731,7 +733,7 @@ const selectedCountTableResult = computed(() => {
 const onClickSetTableFloat = () => {
   if (selectedCashDesk.value?.isMain !== true) {
     Notify.create({
-      message: 'Main cashdesk is not allowed to set table float',
+      message: 'Sadece Main Cashdesk ile ayarlanabilir.',
       type: 'negative',
       icon: 'o_error',
       position: 'bottom-right',
@@ -763,7 +765,7 @@ const onClickSetTableFloat = () => {
 const onClickUpdateTableGamingDate = async () => {
   if (selectedCashDesk.value?.isMain !== true) {
     Notify.create({
-      message: 'Main cashdesk is not allowed to update table gaming date',
+      message: 'Sadece Main Cashdesk ile güncellenebilir.',
       type: 'negative',
       icon: 'o_error',
       position: 'bottom-right',
@@ -795,10 +797,11 @@ const onCheckedTableCount = () => {
 }
 
 const onClickUpdateTableCounts = async (table) => {
-  const allChipDenominations = selectedTableCount.value.chipInfoFormatted
+  const tableId = selectedTableCount.value.tableId
+  const allChipDenominations = selectedTableCount.value?.chipInfoFormatted
     .map((chip) => chip.denominations)
     .flat()
-  const allCashDenominations = selectedTableCount.value.cashInfoFormatted
+  const allCashDenominations = selectedTableCount.value?.cashInfoFormatted
     .map((cash) => cash.denominations)
     .flat()
 
@@ -822,6 +825,10 @@ const onClickUpdateTableCounts = async (table) => {
       position: 'bottom-right',
     })
     await tableStore.fetchTableCounts()
+    const tableCount = await tableStore.getTableCountByTableId(tableId)
+    if (tableCount) {
+      selectedTableCount.value = { ...tableCount }
+    }
   }
   $q.loading.hide()
 }
@@ -831,6 +838,9 @@ const onEditSavedCount = () => {
     component: defineAsyncComponent(
       () => import('src/components/pages/table-operations/dialogs/ConfirmPassword.vue'),
     ),
+    componentProps: {
+      tableCountId: selectedTableCount.value.id,
+    },
   }).onOk(async (payload) => {
     if (payload === true) {
       await tableStore.fetchTableCounts()

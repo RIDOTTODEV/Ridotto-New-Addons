@@ -88,17 +88,24 @@ const tableStore = useTableStore()
 defineEmits([...useDialogPluginComponent.emits])
 
 const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
-
+const props = defineProps({
+  tableCountId: {
+    type: Number,
+    required: true,
+    default: () => 0,
+  },
+})
 const values = ref({
   cashierPassword: '12345',
   pitbossPassword: '54321',
+  tableCountId: props.tableCountId,
 })
 const isPwd = ref(true)
 const isPitbossPwd = ref(true)
 
 const isSuccess = ref(false)
 const onSubmit = async () => {
-  const result = await tableStore.tableCountPlaqueAndCashEditCheck(values.value)
+  const result = await tableStore.tableCountPlaqueAndCashEditCheck({ ...values.value })
   if (result.data === true) {
     isSuccess.value = true
     setTimeout(() => {

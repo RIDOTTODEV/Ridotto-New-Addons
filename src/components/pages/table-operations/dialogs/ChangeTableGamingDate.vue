@@ -53,6 +53,13 @@
                         style="min-width: 350px"
                         autofocus
                       />
+                      <q-radio
+                        v-model="skipTableFloatCheck"
+                        :label="$t('skipTableFloatCheck')"
+                        dense
+                        class="q-mr-sm"
+                        :options="['true', 'false']"
+                      />
 
                       <q-btn
                         @click="onSave()"
@@ -1005,16 +1012,18 @@ const downloadPdf = () => {
     formElement.style.display = 'block'
   }, 100)
 }
-
+const skipTableFloatCheck = ref(true)
 const onSave = async () => {
   const tableCount = tableCounts.value[step.value - 1]
   const params = {
     tableId: tableCount.tableId,
     gamingDateId: tableCount.gamingDateId,
     floatSetId: tableCount.floatSetId,
+    skipTableFloatCheck: skipTableFloatCheck.value,
   }
   const result = await tableStore.changeGamingDateTable([params])
   if (result.status === 200) {
+    skipTableFloatCheck.value = true
     tableCounts.value = tableCounts.value.filter(
       (tableCount) => tableCount.tableId !== params.tableId,
     )

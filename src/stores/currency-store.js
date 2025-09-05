@@ -224,6 +224,16 @@ export const useCurrencyStore = defineStore('currencyStore', {
     getCurrencyById: (state) => (id) => {
       return state.currencies.find((currency) => currency.id === id) || {}
     },
+    getCurrencyByName: (state) => (name) => {
+      const currency = state.currencies.find((currency) => currency.name === name) || {}
+      return {
+        ...currency,
+        flag: state.currencyFlags.find((flag) => flag.name === currency.name)?.flag || '',
+      }
+    },
+    getCurrencyFlagByName: (state) => (name) => {
+      return state.currencyFlags.find((flag) => flag.name === name)?.flag || ''
+    },
     getCurrencyDenominations: (state) => (id) => {
       return state.currencies.find((currency) => currency.id === id)?.denominations || []
     },

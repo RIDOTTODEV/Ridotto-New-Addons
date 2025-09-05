@@ -54,14 +54,14 @@ export function useInspector() {
   } = storeToRefs(inspectorStore)
 
   const currencyStore = useCurrencyStore()
-  const { getCurrenciesWithFlags, getDefaultCurrency } = storeToRefs(currencyStore)
+  const { getCurrenciesWithFlags, getCurrencyByName, getCurrencyFlagByName } =
+    storeToRefs(currencyStore)
 
   const chipStore = useChipManagementStore()
   const { getChipsGridFormatted } = storeToRefs(chipStore)
 
   const authStore = useAuthStore()
-  const { getUserNameSurname, getDefaultGamingDateId, getDefaultCurrencyId } =
-    storeToRefs(authStore)
+  const { getUserNameSurname, getDefaultGamingDateId } = storeToRefs(authStore)
 
   const guestStore = useGuestManagementStore()
   const currentInspector = computed(() => {
@@ -118,6 +118,12 @@ export function useInspector() {
     },
   ])
 
+  const currentTableCurrency = computed(() => {
+    return (
+      getCurrencyByName.value(currentTable.value?.chipCurrencyName) ||
+      getCurrenciesWithFlags.value.find((currency) => currency.name === 'TRY')
+    )
+  })
   const currentTab = ref('currentPlayerChipHistory')
   const filterTable = ref('')
   const playersTableColumns = ref([
@@ -370,7 +376,7 @@ export function useInspector() {
           currencies: getCurrenciesWithFlags.value.filter((currency) =>
             currentTable.value.acceptedCurrencies.map((ac) => ac.currencyId).includes(currency.id),
           ),
-          defaultCurrencyId: getDefaultCurrencyId.value,
+          defaultCurrencyId: currentTableCurrency.value.id,
           player: currentPlayer.value,
           plaques: getChipsGridFormatted.value.filter((chip) => chip.type === 'Plaque'),
         },
@@ -497,7 +503,7 @@ export function useInspector() {
       })
   }
   const resetPlayer = (playerId = null) => {
-    let id = playerId ? playerId : currentPlayer.value.playerId
+    let id = playerId ? playerId : currentPlayer.value?.playerId
     let player = tableSitPlayers.value.find((player) => player.playerId === id)
     if (player) {
       onClickPlayer(player)
@@ -741,7 +747,7 @@ export function useInspector() {
     getActiveTablesCount,
     getPassiveTablesCount,
     inspectorTables,
-    getDefaultCurrency,
+    currentTableCurrency,
     date,
     tableFloatDenoms,
     getTableFloatDenomsAsGroup,
@@ -774,5 +780,6 @@ export function useInspector() {
     onClickMarkerInOut,
     onClickDeletePlayer,
     onClickPlayerLgInfo,
+    getCurrencyFlagByName,
   }
 }
