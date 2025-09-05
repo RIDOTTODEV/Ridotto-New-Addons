@@ -44,7 +44,7 @@
                     <div class="text-subtitle2">Result</div>
                   </th>
                   <th class="text-center app-cart-grey">
-                    <div class="text-subtitle2">Count</div>
+                    <div class="text-subtitle2">Table Count</div>
                   </th>
                 </tr>
               </thead>
@@ -121,26 +121,25 @@
                       )
                     }}
                   </td>
-                  <td
-                    class="text-center"
-                    @click="
-                      () => {
-                        if (item?.isChipSave) {
-                          onClickTableCountChipSaveEditCheck(item)
-                        }
-                      }
-                    "
-                  >
+                  <td class="text-center">
                     <div class="flex justify-center content-center items-center cursor-pointer">
-                      <span v-if="item?.isChipSave">
-                        <q-icon name="check_circle" size="20px" color="positive" class="q-mr-sm" />
-                      </span>
-                      <span v-else>
-                        <q-icon name="cancel" size="20px" color="negative" class="q-mr-sm" />
-                      </span>
-                      <div class="text-caption">
-                        {{ item?.isChipSave ? 'Saved' : 'Not Saved' }}
-                      </div>
+                      <q-chip
+                        outline
+                        clickable
+                        square
+                        dense
+                        :icon="item?.chipSaveLock ? 'check_circle' : 'cancel'"
+                        :color="item?.chipSaveLock ? 'green-7' : 'negative'"
+                        :text-color="item?.chipSaveLock ? 'white' : 'white'"
+                        @click="
+                          () => {
+                            if (item?.chipSaveLock) {
+                              onClickTableCountChipSaveEditCheck(item)
+                            }
+                          }
+                        "
+                        >Chip Count</q-chip
+                      >
                     </div>
                   </td>
                 </tr>

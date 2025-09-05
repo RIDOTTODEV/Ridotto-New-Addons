@@ -13,6 +13,7 @@
               placeholder="Date"
               :size="'default'"
               value-format="YYYY-MM-DD"
+              @change="onChangeDate"
             />
             <q-btn
               type="button"
@@ -194,19 +195,30 @@ const responseData = ref({
   gameResultReport: [],
 })
 const liveGameFloorResultReportFilterFields = ref({
-  Date: new Date(),
+  Date: null,
+  timezoneOffsetHours: null,
 })
 
 const getLiveGameFloorResult = async () => {
-  const res = await reportStore.getLiveGameFloorResult({
-    Date: date.formatDate(liveGameFloorResultReportFilterFields.value.Date, 'YYYY-MM-DD'),
-  })
+  const res = await reportStore.getLiveGameFloorResult(liveGameFloorResultReportFilterFields.value)
   responseData.value = res
+}
+const getTimezoneOffsetHours = (dateString = null) => {
+  const date = dateString ? new Date(dateString) : new Date()
+  return -date.getTimezoneOffset() / 60
 }
 
 onMounted(() => {
+  liveGameFloorResultReportFilterFields.value.timezoneOffsetHours = getTimezoneOffsetHours()
+  liveGameFloorResultReportFilterFields.value.Date = date.formatDate(new Date(), 'YYYY-MM-DD')
   getLiveGameFloorResult()
 })
+
+const onChangeDate = (dateString) => {
+  liveGameFloorResultReportFilterFields.value.timezoneOffsetHours =
+    getTimezoneOffsetHours(dateString)
+  liveGameFloorResultReportFilterFields.value.Date = date.formatDate(dateString, 'YYYY-MM-DD')
+}
 </script>
 <style scoped lang="scss">
 .linkMenu {

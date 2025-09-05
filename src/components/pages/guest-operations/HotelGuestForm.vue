@@ -297,7 +297,6 @@
                       outlined
                       class="super-small"
                       :debounce="1000"
-                      :rules="[(val) => !!val || $t('requiredField')]"
                       bg-color="white"
                       :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                     />
@@ -317,7 +316,6 @@
                   outlined
                   class="super-small"
                   :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                  :rules="[(val) => !!val || $t('requiredField')]"
                   hide-bottom-space
                   bg-color="white"
                 />
@@ -352,7 +350,6 @@
                       outlined
                       class="super-small"
                       :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                      :rules="[(val) => !!val || $t('requiredField')]"
                       hide-bottom-space
                       bg-color="white"
                     />
@@ -367,7 +364,6 @@
                       outlined
                       class="super-small"
                       :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                      :rules="[(val) => !!val || $t('requiredField')]"
                       hide-bottom-space
                       bg-color="white"
                     />
@@ -399,7 +395,6 @@
                       outlined
                       class="super-small"
                       :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                      :rules="[(val) => !!val || $t('requiredField')]"
                       hide-bottom-space
                       bg-color="white"
                     />
@@ -414,7 +409,6 @@
                       outlined
                       class="super-small"
                       :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                      :rules="[(val) => !!val || $t('requiredField')]"
                       hide-bottom-space
                       bg-color="white"
                     />
@@ -432,7 +426,6 @@
                   outlined
                   class="super-small"
                   :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                  :rules="[(val) => !!val || $t('requiredField')]"
                   hide-bottom-space
                   bg-color="white"
                 />
@@ -449,7 +442,6 @@
                     icon-selected="star"
                     size="24px"
                     :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                    :rules="[(val) => !!val || $t('requiredField')]"
                     hide-bottom-space
                     bg-color="white"
                   />
@@ -728,7 +720,6 @@
           </div>
         </fieldset>
       </div>
-
       <div class="col-12 q-mt-md text-right">
         <q-btn
           unelevated
@@ -1070,6 +1061,7 @@ const deleteRoomMate = async (player) => {
 const toggleEditMode = () => {
   isEditingReservationDetails.value = !isEditingReservationDetails.value
 }
+
 const updateReservationDetails = () => {
   isEditingReservationDetails.value = false
 }
@@ -1183,7 +1175,6 @@ const calculateGrandTotal = () => {
   return total.toFixed(2)
 }
 
-// watch the props.formValues
 watch(
   () => props.formValues,
   async () => {
@@ -1335,6 +1326,7 @@ watch(
     onChangeRoomTotalPrice()
   },
 )
+
 const onSelectExpenseParameter = () => {
   if (selectedExpenseParameter.value) {
     newExpenseEntry.value.quantity = 1
@@ -1342,6 +1334,7 @@ const onSelectExpenseParameter = () => {
     newExpenseEntry.value.amount = selectedExpenseParameter.value.amount
   }
 }
+
 watch(
   () => [newExpenseEntry.value.quantity, newExpenseEntry.value.value],
   () => {
