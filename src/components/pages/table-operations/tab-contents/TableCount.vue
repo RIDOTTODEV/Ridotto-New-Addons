@@ -55,7 +55,7 @@
                   :class="[
                     item.id === selectedTableCount?.id
                       ? 'bg-red-2'
-                      : item.CashSaveLock
+                      : item.cashSaveLock
                         ? 'bg-green-1'
                         : '',
                   ]"
@@ -67,10 +67,10 @@
                       :key="index"
                       @update:model-value="onCheckedTableCount()"
                       color="blue-grey-8"
-                    />
-                    <!--     :disable="
+                      :disable="
                         item.gamingDateId === getDefaultGamingDateId || item?.isAnyoneSit === true
-                      " -->
+                      "
+                    />
                   </td>
                   <td class="text-center cursor-pointer" @click="onSelectTableCount(item)">
                     <div class="flex justify-center content-center items-center">
@@ -241,6 +241,14 @@
     </q-card-section>
     <q-card-section v-if="selectedTableCount" class="q-mt-md">
       <div class="row">
+        <Alert
+          message="Bu masa oyuncu ile dolu olduğu için güncellenemez."
+          type="error"
+          :showDirect="true"
+          v-if="selectedTableCount?.isAnyoneSit"
+        />
+      </div>
+      <div class="row">
         <q-card flat square class="q-pa-none">
           <q-card-section class="q-pa-none q-mt-md" v-if="selectedTableCount">
             <div class="row flex" v-if="selectedTableCount">
@@ -314,7 +322,7 @@
                           )
                         }}
 
-                        <span v-if="selectedTableCount.CashSaveLock" class="q-ml-sm cursor-pointer">
+                        <span v-if="selectedTableCount.cashSaveLock" class="q-ml-sm cursor-pointer">
                           <q-icon
                             name="fa-regular fa-pen-to-square"
                             size="12px"
@@ -343,7 +351,7 @@
                               hide-bottom-space
                               borderless
                               standout
-                              :disable="selectedTableCount?.CashSaveLock"
+                              :disable="selectedTableCount?.cashSaveLock"
                               @update:model-value="
                                 (value) => {
                                   denom = {
@@ -369,7 +377,7 @@
                                   @change="(e) => emitValue(e.target.value)"
                                   pattern="[0-9]+([\.,][0-9]+)?"
                                   v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
-                                  :disabled="selectedTableCount?.CashSaveLock"
+                                  :disabled="selectedTableCount?.cashSaveLock"
                                 />
                               </template>
                             </q-field>
@@ -405,7 +413,7 @@
                             ) || 0,
                           )
                         }}
-                        <span v-if="selectedTableCount.CashSaveLock" class="q-ml-sm">
+                        <span v-if="selectedTableCount.cashSaveLock" class="q-ml-sm">
                           <q-icon
                             name="fa-regular fa-pen-to-square"
                             size="12px"
@@ -449,7 +457,7 @@
                               class="q-pa-none myInput flex justify-center content-center items-center"
                               lazy-rules
                               @focus="(e) => (e.target.select ? e.target.select() : null)"
-                              :disable="selectedTableCount?.CashSaveLock"
+                              :disable="selectedTableCount?.cashSaveLock"
                             >
                               <template v-slot:control="{ id, modelValue, emitValue }">
                                 <input
@@ -460,7 +468,7 @@
                                   @change="(e) => emitValue(e.target.value)"
                                   pattern="[0-9]+([\.,][0-9]+)?"
                                   v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
-                                  :disabled="selectedTableCount?.CashSaveLock"
+                                  :disabled="selectedTableCount?.cashSaveLock"
                                 />
                               </template>
                             </q-field>
@@ -556,6 +564,7 @@ import { computedAsync } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { useQuasar, Notify } from 'quasar'
 import { formatPrice } from 'src/helpers/helpers'
+import Alert from 'src/components/ui/Alert.vue'
 
 const authStore = useAuthStore()
 const { getDefaultCurrencyId, getDefaultGamingDateId } = storeToRefs(authStore)
@@ -797,7 +806,15 @@ const onCheckedTableCount = () => {
 }
 
 const onClickUpdateTableCounts = async (table) => {
-  const tableId = selectedTableCount.value.tableId
+  if (table.isAnyoneSit === true) {
+    Notify.create({
+      message: 'Masa oyuncu ile dolu olduğu için güncellenemez.',
+      type: 'negative',
+      icon: 'o_error',
+      position: 'bottom-right',
+    })
+    return
+  }
   const allChipDenominations = selectedTableCount.value?.chipInfoFormatted
     .map((chip) => chip.denominations)
     .flat()
@@ -825,10 +842,7 @@ const onClickUpdateTableCounts = async (table) => {
       position: 'bottom-right',
     })
     await tableStore.fetchTableCounts()
-    const tableCount = await tableStore.getTableCountByTableId(tableId)
-    if (tableCount) {
-      selectedTableCount.value = { ...tableCount }
-    }
+    selectedTableCount.value = null
   }
   $q.loading.hide()
 }

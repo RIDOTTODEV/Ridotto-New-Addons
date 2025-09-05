@@ -43,24 +43,26 @@
                 <div class="row q-mt-sm form-container" :id="`form-container-${index}`">
                   <q-form @submit="onSave" class="full-width row">
                     <div class="col-6"></div>
-                    <div class="col-6 flex justify-end">
-                      <q-input
-                        v-model="tableCount.note"
-                        :label="$t('note')"
-                        outlined
-                        dense
-                        class="super-small q-mr-sm"
-                        style="min-width: 350px"
-                        autofocus
-                      />
-                      <q-radio
-                        v-model="skipTableFloatCheck"
-                        :label="$t('skipTableFloatCheck')"
-                        dense
-                        class="q-mr-sm"
-                        :options="['true', 'false']"
-                      />
-
+                    <div class="col-6 flex justify-end content-end items-end">
+                      <div class="col-8">
+                        <q-checkbox
+                          v-model="skipTableFloatCheck"
+                          :label="$t('skipTableFloatCheck')"
+                          dense
+                          class="q-mr-sm col-12"
+                          :value="true"
+                          :false-value="false"
+                        />
+                        <q-input
+                          v-model="tableCount.note"
+                          :label="$t('note')"
+                          outlined
+                          dense
+                          class="super-small q-mr-sm col-12"
+                          style="min-width: 350px"
+                          autofocus
+                        />
+                      </div>
                       <q-btn
                         @click="onSave()"
                         color="blue-grey-8"

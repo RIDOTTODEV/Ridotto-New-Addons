@@ -218,7 +218,7 @@ const onOKClick = async () => {
   })
 
   const result = await tableStore.updateChipCount(formData)
-
+  console.log(result)
   if (result.status === 200) {
     $q.notify({
       message: 'Chip sayım kaydı yapıldı.',
@@ -241,7 +241,7 @@ onMounted(async () => {
     gamingDateId: props.table.gamingDateId,
     floatSetId: props.table.floatSetId,
   })
-  ChipSaveLock.value = tableCount.ChipSaveLock
+  ChipSaveLock.value = tableCount.chipSaveLock
   tableFloatDenoms.value = tableCount.chipInfo
     .filter((chip) => chip.chipType === 'Chip')
     .sort((a, b) => a.chipDenom - b.chipDenom)
