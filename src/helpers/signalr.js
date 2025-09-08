@@ -1,16 +1,19 @@
 import * as signalR from '@microsoft/signalr'
+
 class SignalRService {
   constructor() {
     this.connections = {}
   }
-  connectToHub(hubName, url, tryReconnect = true) {
+  connectToHub(hubName, url, tryReconnect = true, token = null) {
     if (this.connections[hubName]) {
       return this.connections[hubName]
     }
+
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(url, {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets,
+        accessTokenFactory: () => token,
       })
       .build()
     /*     const reconnect = () => {

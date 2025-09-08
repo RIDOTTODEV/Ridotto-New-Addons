@@ -165,7 +165,7 @@ const router = useRouter()
 const route = useRoute()
 const currentRouteName = ref(route.name)
 const currentRouteMeta = ref(route.meta.groupName)
-console.log(route.meta.groupName)
+
 const expansionRefs = ref([])
 const sideBarDrawer = ref(props.drawer)
 

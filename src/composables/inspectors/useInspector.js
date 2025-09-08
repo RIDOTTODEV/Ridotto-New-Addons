@@ -20,6 +20,7 @@ import { useGuestManagementStore } from 'src/stores/guest-management-store'
 
 import mainOidc from 'src/helpers/oidc-lib'
 export function useInspector() {
+  const inspectorHubConnection = inject('inspectorHubConnection')
   const bus = inject('bus')
   const router = useRouter()
   const $q = useQuasar()
@@ -241,6 +242,14 @@ export function useInspector() {
         chipStore.fetchChips()
       }
     })
+
+    console.log('inspectorHubConnection.invoke', inspectorHubConnection.invoke)
+    console.log('inspectorHubConnection.invoke', inspectorHubConnection.invoke)
+  })
+  inspectorHubConnection.on('RefreshInspectingTables', async () => {
+    console.log('RefreshInspectingTables')
+    const validatedTable = await inspectorStore.validateSavedTables()
+    console.log('validatedTable', validatedTable)
   })
 
   const selectionInspectorTables = () => {

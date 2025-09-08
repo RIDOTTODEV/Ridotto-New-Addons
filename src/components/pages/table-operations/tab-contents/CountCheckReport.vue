@@ -11,13 +11,14 @@ const { tableCounts } = storeToRefs(tableStore)
 const filterValues = ref({
   tableCountId: null,
 })
-const reports = ref([])
+const reports = ref(null)
 onMounted(async () => {
   await tableStore.fetchTableCounts()
   filterValues.value.tableCountId = tableCounts.value[0]?.id
 })
 const loadingData = ref(false)
 const onSubmitFilter = async () => {
+  reports.value = null
   loadingData.value = true
   const res = await reportStore.getTableCountCheckReport({
     ...filterValues.value,
@@ -27,7 +28,7 @@ const onSubmitFilter = async () => {
     reports.value = res.data
   } else {
     errorHandle(res)
-    reports.value = []
+    reports.value = null
   }
   setTimeout(() => {
     loadingData.value = false

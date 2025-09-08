@@ -1,11 +1,12 @@
 import { useInspectorStore } from 'stores/inspector-store'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 
 import { useAuthStore } from 'src/stores/auth-store'
 import { LocalStorage } from 'quasar'
 
 export function useInspectorTable() {
+  const inspectorHubConnection = inject('inspectorHubConnection')
   const tablesColumn = ref([
     {
       name: 'id',
@@ -37,22 +38,16 @@ export function useInspectorTable() {
   const onClickTable = async (table) => {
     const tableExist = inspectorTables.value.find((t) => t.id === table.id)
     if (!tableExist) {
+      await inspectorHubConnection.invoke('InspectTable', table.id)
+      //await inspectorStore.validateSavedTables()
       table.showNotify = true
-      const result = await inspectorStore.inspectorFollowTable(table.id)
-      if (result) {
-        inspectorTables.value.push(table)
-        setTimeout(() => {
-          delete table.showNotify
-        }, 2000)
-      }
+      setTimeout(() => {
+        delete table.showNotify
+      }, 2000)
     } else {
-      const result = await inspectorStore.inspectorUnfollowTable(table.id)
-      if (result) {
-        const index = inspectorTables.value.findIndex((t) => t.id === table.id)
-        inspectorTables.value.splice(index, 1)
-      }
+      await inspectorHubConnection.invoke('UninspectTable', table.id)
+      // await inspectorStore.validateSavedTables()
     }
-    LocalStorage.set('inspectorTables', [...inspectorTables.value])
     LocalStorage.set('currentTable', table)
   }
 
