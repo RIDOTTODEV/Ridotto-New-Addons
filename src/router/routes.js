@@ -72,6 +72,7 @@ const routes = [
     meta: {
       authName: mainOidc.authName,
       requiresAuth: true,
+      groupName: 'definition',
     },
     children: [
       {
@@ -162,6 +163,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.RoomType',
           requiresAuth: true,
+          groupName: 'definitionGuestManagement',
         },
       },
       {
@@ -171,6 +173,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.VisitorCategory',
           requiresAuth: true,
+          groupName: 'definitionGuestManagement',
         },
       },
       {
@@ -180,6 +183,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.ExpenseParameter',
           requiresAuth: true,
+          groupName: 'definitionGuestManagement',
         },
       },
       {
@@ -189,6 +193,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.Chips',
           requiresAuth: true,
+          groupName: 'definitionChipManagement',
         },
       },
       {
@@ -198,6 +203,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.FloatSets',
           requiresAuth: true,
+          groupName: 'definitionChipManagement',
         },
       },
       {
@@ -207,6 +213,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.ChipOperations',
           requiresAuth: true,
+          groupName: 'definitionChipManagement',
         },
       },
     ],
@@ -217,6 +224,7 @@ const routes = [
     meta: {
       authName: mainOidc.authName,
       requiresAuth: true,
+      groupName: 'tableOperations',
     },
     children: [
       {
@@ -236,6 +244,7 @@ const routes = [
     meta: {
       authName: mainOidc.authName,
       requiresAuth: true,
+      groupName: 'guestOperations',
     },
     children: [
       {
@@ -264,6 +273,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.InOutReport.GetInOutReportNew',
           requiresAuth: true,
+          groupName: 'inOutReport',
         },
       },
       {
@@ -273,6 +283,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.InOutReport.GetFilteredReport',
           requiresAuth: true,
+          groupName: 'inOutReport',
         },
       },
       {
@@ -282,6 +293,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.InOutReport.GetNetCashReport',
           requiresAuth: true,
+          groupName: 'inOutReport',
         },
       },
       {
@@ -291,6 +303,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.InOutReport.GetInOutReportDetail',
           requiresAuth: true,
+          groupName: 'inOutReport',
         },
       },
       {
@@ -300,6 +313,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.InOutReport.GetInOutSelectedNameReport',
           requiresAuth: true,
+          groupName: 'inOutReport',
         },
       },
       {
@@ -309,6 +323,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.InOutReport.GetPlayerResultReport',
           requiresAuth: true,
+          groupName: 'reports',
         },
       },
       {
@@ -318,6 +333,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.InOutReport.GetTimeInOutReport',
           requiresAuth: true,
+          groupName: 'reports',
         },
       },
       {
@@ -327,6 +343,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.InOutReport.GetTimeInOutReportByPlayer',
           requiresAuth: true,
+          groupName: 'reports',
         },
       },
       {
@@ -336,6 +353,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.InOutReport.GetTimeInOutReportByTable',
           requiresAuth: true,
+          groupName: 'reports',
         },
       },
       {
@@ -345,6 +363,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.TableFloats.ShowList',
           requiresAuth: true,
+          groupName: 'reports',
         },
       },
       {
@@ -354,6 +373,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.InOutReport.GetActiveFloorListReport',
           requiresAuth: true,
+          groupName: 'managementReports',
         },
       },
       {
@@ -363,6 +383,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.InOutReport.GetActiveFloorInfoReport',
           requiresAuth: true,
+          groupName: 'managementReports',
         },
       },
       {
@@ -372,6 +393,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Reports.MasterReport',
           requiresAuth: true,
+          groupName: 'managementReports',
         },
       },
       {
@@ -381,6 +403,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.InOutReport.GetBalanceReport',
           requiresAuth: true,
+          groupName: 'managementReports',
         },
       },
       {
@@ -390,6 +413,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Operations.CallReport',
           requiresAuth: true,
+          groupName: 'managementReports',
         },
       },
       {
@@ -400,6 +424,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Operations.PlayerWinLossAnalysisReport',
           requiresAuth: true,
+          groupName: 'managementReports',
         },
       },
     ],
@@ -410,6 +435,7 @@ const routes = [
     meta: {
       authName: mainOidc.authName,
       requiresAuth: true,
+      groupName: 'operations',
     },
     children: [
       {
@@ -483,6 +509,7 @@ const routes = [
     meta: {
       authName: mainOidc.authName,
       requiresAuth: true,
+      groupName: 'inspector',
     },
     children: [
       {
@@ -502,6 +529,7 @@ const routes = [
     meta: {
       authName: mainOidc.authName,
       requiresAuth: true,
+      groupName: 'pit',
     },
     children: [
       {

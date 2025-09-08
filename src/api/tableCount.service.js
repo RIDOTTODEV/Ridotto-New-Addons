@@ -30,6 +30,18 @@ export const tableCountService = {
     return api.get('/api/TableCount/GetAll', { params: data, ...options })
   },
   /**
+   * Get Table Count Check Report Table Count
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.tableCountId] - Table Count Id
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getTableCountCheckReport(data = {}, options = {}) {
+    return api.get('/api/TableCount/GetTableCountCheckReport', { params: data, ...options })
+  },
+  /**
    * Update Table Count
    *
    * @param {object} [data]

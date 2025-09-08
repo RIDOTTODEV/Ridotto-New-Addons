@@ -1,5 +1,5 @@
 import { date } from 'quasar'
-import { formatPrice } from './helpers'
+import { formatPrice, priceAbsFormatted } from './helpers'
 
 const defaultAlign = 'center'
 const sortableFields = ['id', 'totalAmount']
@@ -13,6 +13,9 @@ const formatValue = (value, fieldType, customFormat) => {
   }
   if (numberFormatFields.includes(fieldType)) {
     return formatPrice(value)
+  }
+  if (fieldType === 'priceAbs') {
+    return priceAbsFormatted(value)
   }
   if (typeof value === 'boolean') {
     return value ? 'Yes' : 'No'

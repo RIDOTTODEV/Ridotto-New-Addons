@@ -25,6 +25,18 @@
       <q-card-section class="q-pa-xs">
         <div class="row">
           <div class="col-6">
+            <div class="row">
+              <q-radio
+                v-model="chipSaveLockCount"
+                v-for="(type, index) in chipCountTypes"
+                :key="index"
+                checked-icon="task_alt"
+                unchecked-icon="panorama_fish_eye"
+                :val="type.value"
+                :label="type.label"
+                size="lg"
+              />
+            </div>
             <div class="row" v-for="(denom, index) in tableFloatDenoms" :key="index">
               <div class="col-12 q-pa-xs" :class="{ 'opacity-50': ChipSaveLock }">
                 <q-input
@@ -56,7 +68,7 @@
                 </q-input>
               </div>
             </div>
-            <div class="row q-mt-md" v-if="ChipSaveLock">
+            <div class="row q-mt-md q-mb-xl" v-if="ChipSaveLock">
               <Alert
                 :message="'Bu masa zaten chip sayım işlemi kaydedilmiştir.'"
                 type="error"
@@ -203,6 +215,7 @@ const props = defineProps({
 const tableFloatDenoms = ref([])
 const SelectedTableFloatDenom = ref()
 const ChipSaveLock = ref(false)
+const chipSaveLockCount = ref('Balance')
 defineEmits([...useDialogPluginComponent.emits])
 
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
@@ -212,7 +225,9 @@ const onOKClick = async () => {
     chipInfo: [...tableFloatDenoms.value],
     tableId: props.table.id,
     floatSetId: props.table.floatSetId,
+    chipSaveLock: chipSaveLockCount.value === 'Count' ? true : false,
   }
+
   formData.chipInfo.map((chip) => {
     chip.quantity = Number(chip.quantity) || 0
   })
@@ -300,6 +315,17 @@ const onInput = (e) => {
   }
   tableFloatDenoms.value[latestClickedDenomInputIndex.value].quantity = e
 }
+
+const chipCountTypes = ref([
+  {
+    value: 'Balance',
+    label: 'Balance',
+  },
+  {
+    value: 'Count',
+    label: 'Count',
+  },
+])
 </script>
 <style scoped lang="scss">
 .appendAmount {

@@ -1,6 +1,9 @@
 <template>
   <q-drawer v-model="sideBarDrawer" show-if-above :width="235" :breakpoint="400" class="sidebar">
-    <q-scroll-area style="height: calc(100% - 90px); margin-top: 70px">
+    <q-scroll-area
+      style="height: calc(100% - 90px); margin-top: 70px"
+      :thumb-style="{ opacity: 0 }"
+    >
       <q-list separator>
         <div v-for="(menu, index) in menus" :key="index">
           <q-item
@@ -52,7 +55,7 @@
             </template>
             <q-card class="bg-transparent q-pa-none">
               <q-card-section class="q-pa-none">
-                <q-list separator dense>
+                <q-list separator dense :class="menu.subMenus.length >= 7 ? 'subMenuScroll' : ''">
                   <div v-for="(item, index) in menu.subMenus" :key="index">
                     <q-item
                       v-if="item.type !== 'dropdown'"
@@ -65,16 +68,6 @@
                       :to="{ name: item.routeName }"
                       v-el-perms="item?.permission"
                     >
-                      <q-badge
-                        style="margin-right: 10px"
-                        v-if="item?.badge"
-                        text-color="dark"
-                        color="lime"
-                        floating
-                      >
-                        {{ $t(`${item.badge}`) }}
-                      </q-badge>
-
                       <q-item-section>
                         <div
                           class="row flex no-wrap justify-start text-caption content-center items-center"
@@ -121,15 +114,6 @@
                               :to="{ name: subItem.routeName }"
                               v-el-perms="subItem?.permission"
                             >
-                              <q-badge
-                                style="margin-right: 10px"
-                                v-if="subItem?.badge"
-                                text-color="dark"
-                                color="lime"
-                                floating
-                              >
-                                {{ $t(`${subItem.badge}`) }}
-                              </q-badge>
                               <q-item-section class=" ">
                                 <div
                                   class="row flex no-wrap justify-start text-caption content-center items-center"
@@ -181,6 +165,7 @@ const router = useRouter()
 const route = useRoute()
 const currentRouteName = ref(route.name)
 const currentRouteMeta = ref(route.meta.groupName)
+console.log(route.meta.groupName)
 const expansionRefs = ref([])
 const sideBarDrawer = ref(props.drawer)
 
@@ -227,5 +212,11 @@ const expansionOnHandleShow = (name, parentName = null) => {
 }
 .mt-2 {
   margin-top: 2px !important;
+}
+.subMenuScroll {
+  height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #dddddd transparent;
 }
 </style>

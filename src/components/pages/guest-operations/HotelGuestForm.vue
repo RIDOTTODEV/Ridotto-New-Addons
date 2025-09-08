@@ -305,6 +305,23 @@
               </div>
             </div>
             <div class="col-6 q-pa-sm q-gutter-sm">
+              <div class="flex content-center items-center">
+                <q-checkbox
+                  v-model="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
+                  dense
+                  outlined
+                  class="super-small"
+                  :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
+                  hide-bottom-space
+                  bg-color="white"
+                  :true-value="true"
+                  :false-value="false"
+                  @update:model-value="onChangeIsWalkIn"
+                />
+                <div class="text-subtitle2 q-ml-sm text-grey-8 flex content-center items-center">
+                  {{ $t('isWalkIn') }}
+                </div>
+              </div>
               <div class="">
                 <div class="text-subtitle2 text-grey-8 flex content-center items-center">
                   <q-icon name="o_flight" size="xs" color="grey-8" />
@@ -318,6 +335,7 @@
                   :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                   hide-bottom-space
                   bg-color="white"
+                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                 />
               </div>
               <div class="">
@@ -336,6 +354,7 @@
                   option-label="label"
                   option-value="value"
                   bg-color="white"
+                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                 />
               </div>
               <div class=" ">
@@ -352,6 +371,7 @@
                       :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                       hide-bottom-space
                       bg-color="white"
+                      :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                     />
                   </div>
                   <div class="col">
@@ -366,6 +386,7 @@
                       :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                       hide-bottom-space
                       bg-color="white"
+                      :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                     />
                   </div>
                   <div class="col">
@@ -379,6 +400,7 @@
                       class="super-small"
                       :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                       bg-color="white"
+                      :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                     />
                   </div>
                 </div>
@@ -397,6 +419,7 @@
                       :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                       hide-bottom-space
                       bg-color="white"
+                      :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                     />
                   </div>
                   <div class="col">
@@ -411,6 +434,7 @@
                       :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                       hide-bottom-space
                       bg-color="white"
+                      :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                     />
                   </div>
                 </div>
@@ -428,6 +452,7 @@
                   :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                   hide-bottom-space
                   bg-color="white"
+                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                 />
               </div>
 
@@ -462,6 +487,7 @@
                   bg-color="white"
                   class="super-small no-spinner"
                   :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
+                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                   @input="
                     (val) => {
                       const numVal = parseFloat(val.replace(',', '.'))
@@ -805,6 +831,7 @@ const hotelGuestFormValues = ref({
     pnr2: '',
     flightTicketPrice: 0,
     isBusiness: 0,
+    isWalkIn: false,
   },
   note: '',
   remark: '',
@@ -1361,6 +1388,19 @@ watch(
     }
   },
 )
+
+const onChangeIsWalkIn = () => {
+  if (hotelGuestFormValues.value.hotelFlightInfo.isWalkIn) {
+    hotelGuestFormValues.value.hotelFlightInfo.flight = ''
+    hotelGuestFormValues.value.hotelFlightInfo.ticketType = ''
+    hotelGuestFormValues.value.hotelFlightInfo.from = ''
+    hotelGuestFormValues.value.hotelFlightInfo.to = ''
+    hotelGuestFormValues.value.hotelFlightInfo.to2 = ''
+    hotelGuestFormValues.value.hotelFlightInfo.pnr = ''
+    hotelGuestFormValues.value.hotelFlightInfo.pnr2 = ''
+    hotelGuestFormValues.value.hotelFlightInfo.flightTicketPrice = 0
+  }
+}
 </script>
 
 <style scoped lang="scss">

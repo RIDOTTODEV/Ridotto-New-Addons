@@ -4,17 +4,6 @@ import { api } from 'src/boot/axios'
 export const tableFloatService = {
   name: 'TableFloat',
   /**
-   * Apply Table Counts To Floats Table Float
-   *
-   * @param {object} [data]
-   * @param {object} [options] - Axios Options
-   * @param {object} [options.headers] - Request Headers
-   * @param {string} [options.responseType] - Response Type
-   */
-  applyTableCountsToFloats(data = {}, options = {}) {
-    return api.post('/api/TableFloat/ApplyTableCountsToFloats', data, options)
-  },
-  /**
    * Set Table Float Table Float
    *
    * @param {object} [data]

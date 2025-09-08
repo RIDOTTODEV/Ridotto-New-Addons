@@ -138,9 +138,18 @@ const {
               <template v-slot:default>
                 <div class="row text-blue-grey-8">
                   <div class="row col-12">
-                    <!--  <div class="col-12">
-                      <q-icon name="task_alt" size="2em" color="positive" />
-                    </div> -->
+                    <div class="col-12">
+                      <q-icon
+                        name="task_alt"
+                        size="2em"
+                        color="positive"
+                        v-if="currentTable?.chipSaveLock"
+                      >
+                        <q-tooltip class="app-cart-grey text-dark text-subtitle2" :delay="1500">{{
+                          $t('tableChipSaveLock')
+                        }}</q-tooltip>
+                      </q-icon>
+                    </div>
                     <div class="col-12 flex justify-center">
                       <div class="text-subtitle2 text-bold">
                         {{ table.name }}
@@ -176,7 +185,7 @@ const {
                   </div>
 
                   <div
-                    class="absolute-top-left text-caption currencyBackground text-white rounded-borders q-mt-xs q-ml-xs"
+                    class="absolute-top-left text-caption text-negative rounded-borders q-mt-xs q-ml-xs"
                   >
                     <span class="q-pl-xs q-pr-xs"> {{ currentTableCurrency?.name }}</span>
                     <q-tooltip class="app-cart-grey text-dark text-subtitle2">{{

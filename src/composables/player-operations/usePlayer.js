@@ -215,7 +215,7 @@ export function usePlayer() {
     }).onOk(async () => {
       await playerStore.updatePlayerStatusFlags({
         playerId: selectedPlayer.value?.player?.id,
-        isDiscountStatus: !selectedPlayer.value?.player?.discountStatus,
+        discountStatus: !selectedPlayer.value?.player?.discountStatus,
       })
       await playerStore.fetchPlayerMetaDetail({ playerId: selectedPlayer.value?.player?.id })
     })

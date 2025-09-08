@@ -74,6 +74,13 @@
         >
           <TableCountReport />
         </q-tab-panel>
+        <q-tab-panel
+          v-el-perms="'Addon.TableOperations.Tab.CountCheckReport'"
+          name="countCheckReport"
+          class="no-box-shadow q-pa-none"
+        >
+          <CountCheckReport />
+        </q-tab-panel>
       </q-tab-panels>
     </q-card-section>
   </q-card>
@@ -84,6 +91,7 @@ import { ref, defineAsyncComponent } from 'vue'
 import Tables from './tab-contents/Tables.vue'
 import TableCount from './tab-contents/TableCount.vue'
 import TableCountReport from './tab-contents/TableCountReport.vue'
+import CountCheckReport from './tab-contents/CountCheckReport.vue'
 import { LocalStorage, useQuasar } from 'quasar'
 const $q = useQuasar()
 const tableOperationTabs = ref([
@@ -104,6 +112,12 @@ const tableOperationTabs = ref([
     elPermission: 'Addon.TableOperations.Tab.TableCountReport',
     icon: 'o_article',
     name: 'tableCountReport',
+  },
+  {
+    label: 'countCheckReport',
+    elPermission: 'Addon.TableOperations.Tab.CountCheckReport',
+    icon: 'o_article',
+    name: 'countCheckReport',
   },
 ])
 

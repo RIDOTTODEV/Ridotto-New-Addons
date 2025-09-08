@@ -8,6 +8,7 @@ import {
   callReportService,
   playerService,
   cashdeskTransactionService,
+  tableCountService,
 } from 'src/api'
 import { useAuthStore } from 'src/stores/auth-store'
 import { priceAbsFormatted } from 'src/helpers/helpers'
@@ -111,6 +112,9 @@ export const useReportStore = defineStore('reportStore', {
       })
       const { data } = await reportService.getTableCountReport(searchParams)
       return data
+    },
+    getTableCountCheckReport(params) {
+      return tableCountService.getTableCountCheckReport(params)
     },
 
     async getInOutReportNew(params) {

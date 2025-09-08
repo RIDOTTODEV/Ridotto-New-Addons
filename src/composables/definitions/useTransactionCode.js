@@ -19,6 +19,7 @@ export const useTransactionCode = () => {
       name: 'id',
       label: 'ID',
       field: 'id',
+      required: true,
     },
     {
       field: 'name',
@@ -26,7 +27,7 @@ export const useTransactionCode = () => {
     },
     {
       field: 'transType',
-      sortable: true,
+      sortable: false,
     },
     {
       field: 'isDaily',

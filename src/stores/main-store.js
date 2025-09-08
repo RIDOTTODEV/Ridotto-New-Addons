@@ -99,7 +99,7 @@ export const useMainStore = defineStore('main', {
       {
         title: 'guestOperations',
         type: 'dropdown',
-        name: 'guest',
+        name: 'guestOperations',
         permission: 'Addon.GuestList',
         subMenus: [
           {
@@ -259,7 +259,7 @@ export const useMainStore = defineStore('main', {
           {
             title: 'chipManagement',
             type: 'dropdown',
-            name: 'chipManagement',
+            name: 'definition',
             permission: 'Addon.Definitions',
             subMenus: [
               {
@@ -285,7 +285,7 @@ export const useMainStore = defineStore('main', {
           {
             title: 'guestManagement',
             type: 'dropdown',
-            name: 'guestManagement',
+            name: 'definition',
             permission: 'Addon.Definitions',
             subMenus: [
               {

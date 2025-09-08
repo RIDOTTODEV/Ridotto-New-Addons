@@ -74,6 +74,7 @@ export const reportService = {
    *
    * @param {object} [data]
    * @param {undefined} [data.date] - Date
+   * @param {undefined} [data.timezoneOffsetHours] - Timezone Offset Hours
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type

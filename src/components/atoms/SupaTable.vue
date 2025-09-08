@@ -286,7 +286,6 @@ const pagination = ref({
   page: 1,
   rowsPerPage: 10,
   totalCount: 0,
-  rowsNumber: 0,
 })
 const visibleColumnOptions = ref(['id'])
 const visibleColumns = ref([])
@@ -398,9 +397,9 @@ const initColumns = async () => {
 }
 const initPagination = (response = null) => {
   if (response) {
-    pagination.value.totalPages = Math.ceil(response.totalCount / pagination.value.rowsPerPage)
-    pagination.value.totalCount = response.totalCount
-    //pagination.value.rowsNumber = response.totalCount
+    const totalCount = response.totalCount || response.count
+    pagination.value.totalPages = Math.ceil(totalCount / pagination.value.rowsPerPage)
+    pagination.value.totalCount = totalCount
   } else {
     pagination.value = {
       ...pagination.value,
