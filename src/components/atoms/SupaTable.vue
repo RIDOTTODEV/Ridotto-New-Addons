@@ -396,14 +396,13 @@ const initColumns = async () => {
   const userColumns = getUserTableColumns.value(props.tableName, columns)
   tableColumns.value = userColumns
   visibleColumnOptions.value = getUserTableVisibleColumns.value(props.tableName, columns)
-
-  console.log('tableColumns.value', tableColumns.value)
 }
 const initPagination = (response = null) => {
   if (response) {
     const totalCount = response.totalCount || response.count
     pagination.value.totalPages = Math.ceil(totalCount / pagination.value.rowsPerPage)
     pagination.value.totalCount = totalCount
+    pagination.value.rowsPerPage = getTableRowsPerPage.value(props.tableName, props.rowsPerPage)
     //pagination.value.rowsNumber = totalCount
   } else {
     pagination.value = {
@@ -535,9 +534,6 @@ const toggleShowHideColumns = async (columnNames, isVisible = true) => {
   })
 }
 const filterMethod = (val, row, index) => {
-  console.log('val', val)
-  console.log('row', row)
-  console.log('index', index)
   return row[val]?.toLowerCase().includes(row[index]?.toLowerCase())
 }
 // Expose public methods and properties
