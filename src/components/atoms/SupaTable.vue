@@ -285,9 +285,9 @@ const pagination = ref({
   sortBy: 'desc',
   descending: false,
   page: 1,
-  rowsPerPage: 10,
+  rowsPerPage: getTableRowsPerPage.value(props.tableName, props.rowsPerPage),
   totalCount: 0,
-  rowsNumber: 0,
+  //rowsNumber: 0,
 })
 const visibleColumnOptions = ref(['id'])
 const visibleColumns = ref([])
@@ -404,7 +404,7 @@ const initPagination = (response = null) => {
     const totalCount = response.totalCount || response.count
     pagination.value.totalPages = Math.ceil(totalCount / pagination.value.rowsPerPage)
     pagination.value.totalCount = totalCount
-    pagination.value.rowsNumber = totalCount
+    //pagination.value.rowsNumber = totalCount
   } else {
     pagination.value = {
       ...pagination.value,
