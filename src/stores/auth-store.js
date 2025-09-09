@@ -230,7 +230,7 @@ export const useAuthStore = defineStore('authStore', {
       this.userPanelSettings.tableColumns[tableName].columns = columnsToSave
       this.userPanelSettings.tableColumns[tableName].rowsPerPage = rowsPerPage
 
-      applicationSettingService
+      await applicationSettingService
         .setUserSettings({
           name: 'AddonSettings',
           value: JSON.stringify(this.userPanelSettings),

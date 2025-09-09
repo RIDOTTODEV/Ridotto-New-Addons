@@ -16,7 +16,7 @@ class SignalRService {
         accessTokenFactory: () => token,
       })
       .build()
-    /*     const reconnect = () => {
+    const reconnect = () => {
       setTimeout(() => {
         console.log(`${hubName} bağlantısı kopmuş, yeniden bağlanmaya çalışılıyor...`)
 
@@ -25,17 +25,19 @@ class SignalRService {
           reconnect()
         })
       }, 5000)
-    } */
+    }
     console.log('tryReconnect', tryReconnect)
-    //  connection.onclose(() => (tryReconnect ? reconnect() : null))
+    connection.onclose(() => (tryReconnect ? reconnect() : null))
     connection
       .start()
       .then(() => {
         console.log(`${hubName} bağlantısı başarılı!`)
       })
-      .catch
-      //reconnect
-      ()
+      .catch((err) => {
+        console.error(`${hubName} bağlantısı başarılı!`, err)
+        reconnect()
+      })
+
     this.connections[hubName] = connection
     return connection
   }

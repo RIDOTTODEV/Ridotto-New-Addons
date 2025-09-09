@@ -143,7 +143,7 @@ const {
                         name="task_alt"
                         size="2em"
                         color="positive"
-                        v-if="currentTable?.chipSaveLock"
+                        v-if="table?.chipSaveLock"
                       >
                         <q-tooltip class="app-cart-grey text-dark text-subtitle2" :delay="1500">{{
                           $t('tableChipSaveLock')

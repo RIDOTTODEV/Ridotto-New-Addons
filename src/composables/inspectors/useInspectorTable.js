@@ -39,14 +39,12 @@ export function useInspectorTable() {
     const tableExist = inspectorTables.value.find((t) => t.id === table.id)
     if (!tableExist) {
       await inspectorHubConnection.invoke('InspectTable', table.id)
-      //await inspectorStore.validateSavedTables()
       table.showNotify = true
       setTimeout(() => {
         delete table.showNotify
       }, 2000)
     } else {
       await inspectorHubConnection.invoke('UninspectTable', table.id)
-      // await inspectorStore.validateSavedTables()
     }
     LocalStorage.set('currentTable', table)
   }

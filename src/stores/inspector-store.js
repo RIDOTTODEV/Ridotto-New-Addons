@@ -56,22 +56,7 @@ export const useInspectorStore = defineStore('inspectorStore', {
       }
       return existCurrentTable ? savedCurrentTable : this.inspectorTables[0] || null
     },
-    async fetchInspectorTables() {
-      const savedTables = await api.get('/api/Inspector/GetInspectorFollowedTables').then((res) => {
-        return res.data
-      })
-      this.inspectorTables = savedTables
-    },
-    async inspectorFollowTable(tableId) {
-      return await api
-        .post('/api/Inspector/FollowTable', { tableId })
-        .then(() => {
-          return true
-        })
-        .catch(() => {
-          return false
-        })
-    },
+
     async inspectorUnfollowTable(tableId) {
       return await api
         .post('/api/Inspector/UnfollowTable', { tableId })

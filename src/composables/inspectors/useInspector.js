@@ -242,14 +242,9 @@ export function useInspector() {
         chipStore.fetchChips()
       }
     })
-
-    console.log('inspectorHubConnection.invoke', inspectorHubConnection.invoke)
-    console.log('inspectorHubConnection.invoke', inspectorHubConnection.invoke)
   })
-  inspectorHubConnection.on('RefreshInspectingTables', async () => {
-    console.log('RefreshInspectingTables')
-    const validatedTable = await inspectorStore.validateSavedTables()
-    console.log('validatedTable', validatedTable)
+  inspectorHubConnection?.on('RefreshInspectingTables', async () => {
+    await inspectorStore.validateSavedTables()
   })
 
   const selectionInspectorTables = () => {

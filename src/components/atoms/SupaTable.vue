@@ -7,16 +7,17 @@
     bordered
     :rows="tableRows"
     :columns="tableColumns"
-    :visible-columns="visibleColumns"
-    row-key="id"
+    :row-key="rowKey"
     dense
     separator="cell"
-    :rows-per-page-options="[0]"
-    :loading="tableLoading"
     ref="refTable"
-    class="no-box-shadow col-12 supa-table"
     :filter="tableFilterInput"
+    @filter-method="filterMethod"
+    :loading="tableLoading"
+    :rows-per-page-options="[0]"
+    :visible-columns="visibleColumns"
     :pagination="pagination"
+    class="no-box-shadow col-12 supa-table"
     @row-click="onRowClick"
   >
     <template v-slot:top="">
@@ -281,16 +282,17 @@ const tableRows = ref([])
 const tableLoading = ref(false)
 const pagination = ref({
   totalPages: 1,
-  sortBy: null,
+  sortBy: 'desc',
   descending: false,
   page: 1,
   rowsPerPage: 10,
   totalCount: 0,
+  rowsNumber: 0,
 })
 const visibleColumnOptions = ref(['id'])
 const visibleColumns = ref([])
 const refTable = ref(null)
-const tableFilterInput = ref('')
+const tableFilterInput = ref(null)
 const fullScreen = ref(false)
 
 const onDrop = async (from, to, table, mode) => {
@@ -385,7 +387,7 @@ const getTableFilterParams = () => {
     ...tableFilterParams.value,
     maxResultCount: pagination.value.rowsPerPage,
     skipCount: (pagination.value.page - 1) * pagination.value.rowsPerPage,
-    sorting: pagination.value.sortBy,
+    //sorting: pagination.value.sortBy,
     cashDeskId: props.useCurrentCashDesk ? getSelectedCashDesk.value.Id : null,
   }
 }
@@ -394,12 +396,15 @@ const initColumns = async () => {
   const userColumns = getUserTableColumns.value(props.tableName, columns)
   tableColumns.value = userColumns
   visibleColumnOptions.value = getUserTableVisibleColumns.value(props.tableName, columns)
+
+  console.log('tableColumns.value', tableColumns.value)
 }
 const initPagination = (response = null) => {
   if (response) {
     const totalCount = response.totalCount || response.count
     pagination.value.totalPages = Math.ceil(totalCount / pagination.value.rowsPerPage)
     pagination.value.totalCount = totalCount
+    pagination.value.rowsNumber = totalCount
   } else {
     pagination.value = {
       ...pagination.value,
@@ -442,13 +447,13 @@ const handleInputFocusOut = () => {
 
 const onChangeRowsPerPage = async () => {
   pagination.value.page = 1
-  await fetchData()
-  authStore.saveUserTableColumns(
+  await authStore.saveUserTableColumns(
     props.tableName,
     visibleColumns.value,
     tableColumns.value,
     pagination.value.rowsPerPage,
   )
+  await fetchData()
 }
 
 /******** JSON DETAIL ********/
@@ -528,6 +533,12 @@ const toggleShowHideColumns = async (columnNames, isVisible = true) => {
       visibleColumns.value = visibleColumns.value.filter((column) => column !== columnName)
     }
   })
+}
+const filterMethod = (val, row, index) => {
+  console.log('val', val)
+  console.log('row', row)
+  console.log('index', index)
+  return row[val]?.toLowerCase().includes(row[index]?.toLowerCase())
 }
 // Expose public methods and properties
 defineExpose({
