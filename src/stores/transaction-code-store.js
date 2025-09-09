@@ -28,14 +28,27 @@ export const useTransactionCodeStore = defineStore('transactionCodeStore', {
       }
       return state.transactionCodes.filter((tcd) => tcd.transType) || []
     },
-    getTransactionCodeTransactionCodeTypeAndGroupTypes: (state) => (type, group) => {
-      if (!type || !group) return []
-      return state.transactionCodes.filter(
-        (code) =>
-          code?.transType?.toLowerCase() === type.toLowerCase() &&
-          code.transactionCodeGroupTypes.includes(group),
-      )
-    },
+    getTransactionCodeTransactionCodeTypeAndGroupTypes:
+      (state) =>
+      (type = null, group = null) => {
+        if (type === null && group === null) return state.transactionCodes
+        if (type !== null) {
+          return state.transactionCodes.filter(
+            (code) => code?.transType?.toLowerCase() === type.toLowerCase(),
+          )
+        }
+        if (group !== null) {
+          return state.transactionCodes.filter((code) =>
+            code.transactionCodeGroupTypes.includes(group),
+          )
+        }
+
+        return state.transactionCodes.filter(
+          (code) =>
+            code?.transType?.toLowerCase() === type.toLowerCase() &&
+            code.transactionCodeGroupTypes.includes(group),
+        )
+      },
   },
   actions: {
     async fetchTransactionCodes(params = {}) {
