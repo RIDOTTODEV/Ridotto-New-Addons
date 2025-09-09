@@ -37,7 +37,7 @@ export const useInspectorStore = defineStore('inspectorStore', {
   },
   actions: {
     async validateSavedTables() {
-      let existCurrentTable = null
+      /*    let existCurrentTable = null
       const savedTables = await api.get('/api/Inspector/GetInspectorFollowedTables').then((res) => {
         return res.data
       })
@@ -54,6 +54,33 @@ export const useInspectorStore = defineStore('inspectorStore', {
           return false
         })
       }
+      return existCurrentTable ? savedCurrentTable : this.inspectorTables[0] || null */
+
+      let existCurrentTable = null
+      const savedTables = await api.get('/api/Inspector/GetInspectorFollowedTables').then((res) => {
+        return res.data
+      })
+
+      const savedCurrentTable = LocalStorage.getItem('currentTable') || null
+      if (savedTables) {
+        this.inspectorTables = this.tables.filter((t) => {
+          return !!savedTables.find((table) => table.tableId === t.id)
+        })
+        this.inspectorTables.map((t) => {
+          t.isSelected = true
+        })
+
+        existCurrentTable = !!savedTables.find((table) => {
+          if (table.tableId === savedCurrentTable?.id) {
+            return this.tables.find((t) => t.id === table.tableId)
+          }
+          return false
+        })
+      }
+      this.tables = this.tables.map((t) => {
+        t.isSelected = savedTables.find((table) => table.tableId === t.id) ? true : false
+        return t
+      })
       return existCurrentTable ? savedCurrentTable : this.inspectorTables[0] || null
     },
 

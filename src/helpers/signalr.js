@@ -26,7 +26,6 @@ class SignalRService {
         })
       }, 5000)
     }
-    console.log('tryReconnect', tryReconnect)
     connection.onclose(() => (tryReconnect ? reconnect() : null))
     connection
       .start()

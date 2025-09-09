@@ -36,7 +36,7 @@ export function useInspectorTable() {
   const filterTable = ref('')
 
   const onClickTable = async (table) => {
-    const tableExist = inspectorTables.value.find((t) => t.id === table.id)
+    /*     const tableExist = inspectorTables.value.find((t) => t.id === table.id)
     if (!tableExist) {
       await inspectorHubConnection.invoke('InspectTable', table.id)
       table.showNotify = true
@@ -46,11 +46,23 @@ export function useInspectorTable() {
     } else {
       await inspectorHubConnection.invoke('UninspectTable', table.id)
     }
+    LocalStorage.set('currentTable', table) */
+    if (table.isSelected) {
+      await inspectorHubConnection.invoke('UninspectTable', table.id)
+    } else {
+      await inspectorHubConnection.invoke('InspectTable', table.id)
+      table.isSelected = true
+      table.showNotify = true
+      setTimeout(() => {
+        delete table.showNotify
+      }, 2000)
+    }
     LocalStorage.set('currentTable', table)
   }
 
   const checkTableIsSelected = (tableId) => {
-    return inspectorTables.value.find((t) => t.id === tableId)
+    // return inspectorTables.value.find((t) => t.id === tableId)
+    return tables.value.find((t) => t.id === tableId)?.isSelected || false
   }
 
   return {
