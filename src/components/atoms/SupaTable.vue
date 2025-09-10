@@ -11,14 +11,14 @@
     dense
     separator="cell"
     ref="refTable"
-    :filter="tableFilterInput"
-    @filter-method="filterMethod"
-    :loading="tableLoading"
     :rows-per-page-options="[0]"
     :visible-columns="visibleColumns"
-    :pagination="pagination"
+    v-model:pagination="pagination"
+    :loading="tableLoading"
+    :filter="tableFilterInput"
     class="no-box-shadow col-12 supa-table"
     @row-click="onRowClick"
+    @request="filterMethod"
   >
     <template v-slot:top="">
       <div class="flex row full-width q-pa-sm">
@@ -287,8 +287,9 @@ const pagination = ref({
   page: 1,
   rowsPerPage: getTableRowsPerPage.value(props.tableName, props.rowsPerPage),
   totalCount: 0,
-  //rowsNumber: 0,
+  rowsNumber: 0,
 })
+
 const visibleColumnOptions = ref(['id'])
 const visibleColumns = ref([])
 const refTable = ref(null)
@@ -316,6 +317,16 @@ const onDropColumn = (from, to) => {
   }
 }
 
+const filterMethod = (request) => {
+  const needle = request.filter.toLowerCase()
+  const filteredData = copiedData.value.filter((row) => {
+    return Object.values(row).some((value) => {
+      return value.toString().toLowerCase().includes(needle)
+    })
+  })
+  tableRows.value = [...filteredData]
+}
+
 watch(
   visibleColumns,
   () => {
@@ -334,6 +345,7 @@ watch(
     immediate: true,
   },
 )
+
 watch(
   visibleColumnOptions,
   (newValue) => {
@@ -370,6 +382,8 @@ const fetchData = async () => {
     tableLoading.value = false
   }
 }
+
+const copiedData = ref([])
 const initResponseData = (response) => {
   let data = response[props.dataKey] || response || []
   const isExistRowKey = data.some((item) => item[props.rowKey])
@@ -379,8 +393,10 @@ const initResponseData = (response) => {
       return { ...item, [props.rowKey]: index + 1 }
     })
   }
-  tableRows.value = data
+
   initPagination(response)
+  tableRows.value = data
+  copiedData.value = data
 }
 const getTableFilterParams = () => {
   return {
@@ -403,7 +419,7 @@ const initPagination = (response = null) => {
     pagination.value.totalPages = Math.ceil(totalCount / pagination.value.rowsPerPage)
     pagination.value.totalCount = totalCount
     pagination.value.rowsPerPage = getTableRowsPerPage.value(props.tableName, props.rowsPerPage)
-    //pagination.value.rowsNumber = totalCount
+    pagination.value.rowsNumber = pagination.value.rowsPerPage
   } else {
     pagination.value = {
       ...pagination.value,
@@ -411,12 +427,10 @@ const initPagination = (response = null) => {
     }
   }
 }
-
 const toggleFullscreen = () => {
   fullScreen.value = !fullScreen.value
   refTable.value.toggleFullscreen()
 }
-
 const resetColumns = async () => {
   const freshColumns = generateColumns([...props.columns])
   const freshVisibleColumns = [...freshColumns].map((item) => item.name)
@@ -433,7 +447,6 @@ const resetColumns = async () => {
     tableLoading.value = false
   }, 2000)
 }
-
 const isInputFocused = ref(false)
 const handleInputFocus = () => {
   isInputFocused.value = true
@@ -443,7 +456,6 @@ const handleInputFocusOut = () => {
     isInputFocused.value = false
   }
 }
-
 const onChangeRowsPerPage = async () => {
   pagination.value.page = 1
   await authStore.saveUserTableColumns(
@@ -454,9 +466,7 @@ const onChangeRowsPerPage = async () => {
   )
   await fetchData()
 }
-
 /******** JSON DETAIL ********/
-
 const showTheJsonDetail = (jsonValues) => {
   $q.dialog({
     component: ShowJsonDetailDialog,
@@ -465,7 +475,6 @@ const showTheJsonDetail = (jsonValues) => {
     },
   })
 }
-
 const onSelectVisibleColumn = async (val) => {
   const index = visibleColumns.value.indexOf(val)
   if (index === -1) {
@@ -475,7 +484,6 @@ const onSelectVisibleColumn = async (val) => {
   }
   await saveUserColumn()
 }
-
 const saveUserColumn = async (
   upComingVisibleColumns = null,
   upComingColumns = null,
@@ -488,16 +496,8 @@ const saveUserColumn = async (
     upComingRowsPerPage || pagination.value.rowsPerPage,
   )
 }
-
 const selectedRow = ref(null)
 const selectedRowIndex = ref(null)
-
-/*
- @param evt: Event
- @param row: Row
- @param index: Index
-*/
-
 const onRowClick = (evt, row, index) => {
   removeSelectedRowClass()
   selectedRow.value = row
@@ -521,7 +521,6 @@ const removeSelectedRowClass = () => {
   })
   selectedRow.value = null
 }
-
 const toggleShowHideColumns = async (columnNames, isVisible = true) => {
   columnNames.forEach((columnName) => {
     const column = tableColumns.value.find((column) => column.name === columnName)
@@ -533,9 +532,7 @@ const toggleShowHideColumns = async (columnNames, isVisible = true) => {
     }
   })
 }
-const filterMethod = (val, row, index) => {
-  return row[val]?.toLowerCase().includes(row[index]?.toLowerCase())
-}
+
 // Expose public methods and properties
 defineExpose({
   fetchData,
