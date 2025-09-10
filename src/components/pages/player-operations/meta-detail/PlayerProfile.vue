@@ -2,6 +2,17 @@
   <div>
     <div class="row flex justify-center content-center items-start">
       <div class="col-4">
+        <q-btn
+          class="q-mr-sm q-card--bordered q-mb-sm full-width"
+          no-caps
+          size="13px"
+          icon="fa fa-arrow-left"
+          unelevated
+          color="grey-2"
+          :label="$t('back')"
+          text-color="black"
+          to="/player-operations"
+        />
         <div class="player-photo-container">
           <q-img
             class="player-photo"

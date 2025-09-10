@@ -88,7 +88,7 @@ const onClickChipTableBalanceDetail = async (row) => {
     </q-card-section>
     <q-card-section class="row" v-if="tableChipBalanceDetailData.tableName">
       <div class="col-12 flex justify-center q-mt-md">
-        <div class="text-subtitle1 bg-orange-1 q-card--bordered text-bold">
+        <div class="text-subtitle1 bg-orange-1 q-card--bordered text-bold q-pl-sm q-pr-sm">
           {{ tableChipBalanceDetailData?.tableName }}:
           <span class="text-negative">{{ tableChipBalanceDetailData?.gamingDate }}</span>
         </div>
