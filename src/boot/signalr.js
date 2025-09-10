@@ -10,7 +10,8 @@ export default defineBoot(async ({ app, store, router }) => {
   /*   const cardDeskConnection = signalRService.connectToHub('carddesk', cardDeskHubUrl, false) */
   /*  const ridottoHubConnection = signalRService.connectToHub('ridotto', ridottoHubUrl) */
   let inspectorHubConnection = null
-
+  const ridottoHubUrl = process.env.RIDOTTO_HUB_URL
+  const ridottoHubConnection = signalRService.connectToHub('ridotto', ridottoHubUrl)
   router.beforeEach((to, from, next) => {
     if (to.name === 'inspector') {
       inspectorHubConnection = signalRService.connectToHub(
@@ -26,5 +27,10 @@ export default defineBoot(async ({ app, store, router }) => {
 
   /*   app.provide('cardDeskConnection', cardDeskConnection) */
   app.provide('cardDeskConnection', {})
-  app.provide('ridottoHubConnection', {})
+  app.provide('ridottoHubConnection', ridottoHubConnection)
+
+  ridottoHubConnection.on('WebPanelGamingDateSwitch', () => {
+    console.log('WebPanelGamingDateSwitch')
+    authStore.fetchDefaultGamingDateInfo()
+  })
 })

@@ -4,12 +4,21 @@ import { useReportStore } from 'src/stores/report-store'
 import { onMounted, ref } from 'vue'
 
 import { priceAbsFormatted } from 'src/helpers/helpers'
+import { Loading } from 'quasar'
 
 const reportStore = useReportStore()
 const activeFloorListReport = ref(null)
 onMounted(async () => {
   activeFloorListReport.value = await reportStore.getActiveFloorListReport()
 })
+
+const reloadReport = async () => {
+  Loading.show({
+    message: 'Yükleniyor...',
+  })
+  activeFloorListReport.value = await reportStore.getActiveFloorListReport()
+  Loading.hide()
+}
 </script>
 
 <template>
@@ -82,6 +91,21 @@ onMounted(async () => {
         </div>
       </q-card-section>
     </q-card>
+    <div class="absolute-top-right q-mr-sm q-mt-sm">
+      <q-btn
+        icon="o_sync"
+        color="blue-grey-8"
+        text-color="white"
+        unelevated
+        no-caps
+        @click="reloadReport"
+        class="q-card--bordered"
+      >
+        <q-tooltip class="text-subtitle2 app-cart-grey text-dark flex no-wrap">{{
+          $t('reloadReport')
+        }}</q-tooltip>
+      </q-btn>
+    </div>
   </q-page>
 </template>
 

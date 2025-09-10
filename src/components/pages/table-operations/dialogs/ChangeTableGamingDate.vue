@@ -968,7 +968,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useDialogPluginComponent } from 'quasar'
+import { useDialogPluginComponent, Notify } from 'quasar'
 import html2pdf from 'html2pdf.js'
 import { formatPrice } from 'src/helpers/helpers'
 import { useTableStore } from 'src/stores/table-store'
@@ -1024,6 +1024,7 @@ const onSave = async () => {
     skipTableFloatCheck: skipTableFloatCheck.value,
   }
   const result = await tableStore.changeGamingDateTable([params])
+
   if (result.status === 200) {
     skipTableFloatCheck.value = true
     tableCounts.value = tableCounts.value.filter(
@@ -1038,6 +1039,12 @@ const onSave = async () => {
     } else {
       onDialogOK()
     }
+  } else {
+    Notify.create({
+      position: 'bottom-right',
+      type: 'negative',
+      message: result.message,
+    })
   }
 }
 </script>

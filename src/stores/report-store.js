@@ -189,7 +189,7 @@ export const useReportStore = defineStore('reportStore', {
     async getActiveFloorListReport() {
       const authStore = useAuthStore()
       const payload = {
-        balanceCurrencyId: authStore.getDefaultCurrencyId,
+        defaultCurrencyId: authStore.getDefaultCurrencyId,
       }
       const { data } = await reportService.getActiveFloorListReport(payload)
       return data
@@ -321,6 +321,14 @@ export const useReportStore = defineStore('reportStore', {
     },
     async getMissingChipDetailReport(params) {
       const { data } = await playerLgReportService.getMissingChipReportDetail(params)
+      return data
+    },
+    async getTableChipBalance(params) {
+      const { data } = await tableCountService.getTableChipBalance(params)
+      return data
+    },
+    async getChipTableBalanceDetail(params) {
+      const { data } = await tableCountService.getChipTableBalanceDetail(params)
       return data
     },
   },

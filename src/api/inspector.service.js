@@ -15,25 +15,15 @@ export const inspectorService = {
     return api.get('/api/Inspector/GetInspectorFollowedTables', { params: data, ...options })
   },
   /**
-   * Follow Table Inspector
+   * Reset Inspector Tables Inspector
    *
    * @param {object} [data]
+   * @param {undefined} [data.userId] - User Id
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type
    */
-  followTable(data = {}, options = {}) {
-    return api.post('/api/Inspector/FollowTable', data, options)
-  },
-  /**
-   * Unfollow Table Inspector
-   *
-   * @param {object} [data]
-   * @param {object} [options] - Axios Options
-   * @param {object} [options.headers] - Request Headers
-   * @param {string} [options.responseType] - Response Type
-   */
-  unfollowTable(data = {}, options = {}) {
-    return api.post('/api/Inspector/UnfollowTable', data, options)
+  resetInspectorTables(data = {}, options = {}) {
+    return api.get('/api/Inspector/ResetInspectorTables', { params: data, ...options })
   }
 }

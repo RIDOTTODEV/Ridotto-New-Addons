@@ -79,7 +79,7 @@
           name="countCheckReport"
           class="no-box-shadow q-pa-none"
         >
-          <CountCheckReport />
+          <TableChipBalance />
         </q-tab-panel>
       </q-tab-panels>
     </q-card-section>
@@ -91,7 +91,7 @@ import { ref, defineAsyncComponent } from 'vue'
 import Tables from './tab-contents/Tables.vue'
 import TableCount from './tab-contents/TableCount.vue'
 import TableCountReport from './tab-contents/TableCountReport.vue'
-import CountCheckReport from './tab-contents/CountCheckReport.vue'
+import TableChipBalance from './tab-contents/TableChipBalance.vue'
 import { LocalStorage, useQuasar } from 'quasar'
 const $q = useQuasar()
 const tableOperationTabs = ref([
@@ -114,7 +114,7 @@ const tableOperationTabs = ref([
     name: 'tableCountReport',
   },
   {
-    label: 'countCheckReport',
+    label: 'tableChipBalance',
     elPermission: 'Addon.TableOperations.Tab.CountCheckReport',
     icon: 'o_article',
     name: 'countCheckReport',

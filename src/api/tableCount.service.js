@@ -30,16 +30,27 @@ export const tableCountService = {
     return api.get('/api/TableCount/GetAll', { params: data, ...options })
   },
   /**
-   * Get Table Count Check Report Table Count
+   * Get Table Chip Balance Table Count
    *
    * @param {object} [data]
-   * @param {undefined} [data.tableCountId] - Table Count Id
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type
    */
-  getTableCountCheckReport(data = {}, options = {}) {
-    return api.get('/api/TableCount/GetTableCountCheckReport', { params: data, ...options })
+  getTableChipBalance(data = {}, options = {}) {
+    return api.get('/api/TableCount/GetTableChipBalance', { params: data, ...options })
+  },
+  /**
+   * Get Chip Table Balance Detail Table Count
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.tableId] - Table Id
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getChipTableBalanceDetail(data = {}, options = {}) {
+    return api.get('/api/TableCount/GetChipTableBalanceDetail', { params: data, ...options })
   },
   /**
    * Update Table Count
