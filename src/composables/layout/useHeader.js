@@ -123,14 +123,6 @@ export function useHeader(props, emit) {
       })
       return false
     }
-    if (selectedCashDesk.value?.isMain === true) {
-      $q.notify({
-        position: 'bottom-right',
-        type: 'warning',
-        message: i18n.global.t('Sadece Ana Kasa oyun tarihini güncelleyebilir.'),
-      })
-      return false
-    }
     if (Math.abs(currentCashDeskBalance) > 0.5 || Math.abs(currentCashDeskChipBalance) > 0.5) {
       $q.notify({
         position: 'bottom-right',
