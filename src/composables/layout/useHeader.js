@@ -115,13 +115,19 @@ export function useHeader(props, emit) {
   }
 
   const changeCashDeskGamingDate = () => {
-    if (
-      defaultGamingDateInfo.value?.allLiveTableCount !== defaultGamingDateInfo.value?.liveTableCount
-    ) {
+    if (selectedCashDesk.value.gamingDateId === defaultGamingDateInfo.value?.id) {
       $q.notify({
         position: 'bottom-right',
         type: 'warning',
-        message: i18n.global.t('Lütfen önce masaların oyun tarihini güncelleyiniz.'),
+        message: i18n.global.t('Kasa zaten en son oyun tarihine sahip.'),
+      })
+      return false
+    }
+    if (selectedCashDesk.value?.isMain === true) {
+      $q.notify({
+        position: 'bottom-right',
+        type: 'warning',
+        message: i18n.global.t('Sadece Ana Kasa oyun tarihini güncelleyebilir.'),
       })
       return false
     }

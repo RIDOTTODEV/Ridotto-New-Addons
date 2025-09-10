@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useReportStore } from 'src/stores/report-store'
 import { formatPrice } from 'src/helpers/helpers'
+import { Loading } from 'quasar'
 const reportStore = useReportStore()
 const columns = ref([
   {
@@ -17,10 +18,12 @@ const columns = ref([
   {
     field: 'chipCountTotal',
     fieldType: 'price',
+    label: 'Count',
   },
   {
     field: 'floatTotal',
     fieldType: 'price',
+    label: 'System Value',
   },
   {
     field: 'actions',
@@ -28,19 +31,25 @@ const columns = ref([
 ])
 
 const tableChipBalanceTable = ref(null)
-const showTableChipBalanceDetailDialog = ref(false)
+
 const tableChipBalanceDetailParams = ref({
   tableId: null,
 })
 const tableChipBalanceDetailData = ref({})
+
 const onClickChipTableBalanceDetail = async (row) => {
   tableChipBalanceDetailParams.value = {
     tableId: row.tableId,
   }
-  showTableChipBalanceDetailDialog.value = true
+  Loading.show({
+    message: 'Yükleniyor...',
+  })
   tableChipBalanceDetailData.value = await reportStore.getChipTableBalanceDetail(
     tableChipBalanceDetailParams.value,
   )
+  setTimeout(() => {
+    Loading.hide()
+  }, 1000)
 }
 </script>
 
@@ -68,149 +77,119 @@ const onClickChipTableBalanceDetail = async (row) => {
               @click="onClickChipTableBalanceDetail(props.row)"
               v-el-perms="'Addon.TableOperations.Table.View'"
               data-cy="viewData"
-            />
+            >
+              <q-tooltip class="text-subtitle2 app-cart-grey text-dark">{{
+                $t('viewDetail')
+              }}</q-tooltip>
+            </q-btn>
           </q-td>
         </template>
       </SupaTable>
     </q-card-section>
-    <q-dialog
-      v-model="showTableChipBalanceDetailDialog"
-      persistent
-      square
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card style="min-width: 800px">
-        <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
-          <div class="text-subtitle2">
-            {{ $t('tableChipBalanceDetail') }}
-          </div>
-
-          <q-space />
-
-          <q-btn dense flat icon="close" v-close-popup>
-            <q-tooltip class="text-subtitle1 bg-blue-grey-8">{{ $t('close') }}</q-tooltip>
-          </q-btn>
-        </q-bar>
-
-        <q-card-section class="row q-pt-none">
-          <div class="col-12 flex justify-center q-mt-md">
-            <div class="text-subtitle1 bg-orange-1 q-card--bordered text-bold">
-              {{ tableChipBalanceDetailData?.tableName }}:
-              <span class="text-negative">{{ tableChipBalanceDetailData?.gamingDate }}</span>
-            </div>
-          </div>
-          <div class="col-6 q-pa-md">
-            <div class="text-subtitle2">
-              {{ $t('chipCountDetails') }}
-            </div>
-            <q-markup-table separator="cell" flat square bordered dense>
-              <thead>
-                <tr>
-                  <th class="grey-card text-center">
-                    <strong>Denom</strong>
-                  </th>
-                  <th class="grey-card text-center">
-                    <strong>Type</strong>
-                  </th>
-                  <th class="grey-card text-center">
-                    <strong class="q-pr-md">Quantity</strong>
-                  </th>
-                  <th class="grey-card text-center">
-                    <strong class="q-pr-md">Amount</strong>
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="denom-body">
-                <tr
-                  v-for="(denom, denomIndex) in tableChipBalanceDetailData?.chipCountDetails"
-                  :key="denomIndex"
-                >
-                  <td
-                    class="text-center text-center cursor-not-allowed"
-                    style="padding: 0 !important"
-                  >
-                    {{ denom.chipDenomName }}
-                  </td>
-                  <td
-                    class="text-center text-center cursor-not-allowed"
-                    style="padding: 0 !important"
-                  >
-                    {{ denom.chipType }}
-                  </td>
-                  <td
-                    class="text-center text-grey-8 text-center cursor-not-allowed"
-                    style="padding: 0 !important"
-                  >
-                    {{ denom.quantity }}
-                  </td>
-                  <td
-                    class="text-center text-grey-8 text-center cursor-not-allowed"
-                    style="padding: 0 !important"
-                  >
-                    {{ formatPrice(denom.amount) }}
-                  </td>
-                </tr>
-              </tbody>
-            </q-markup-table>
-          </div>
-          <div class="col-6 q-pa-md">
-            <div class="text-subtitle2">
-              {{ $t('tableFloatDetails') }}
-            </div>
-            <q-markup-table separator="cell" flat square bordered dense>
-              <thead>
-                <tr>
-                  <th class="grey-card text-center">
-                    <strong>Denom</strong>
-                  </th>
-                  <th class="grey-card text-center">
-                    <strong>Type</strong>
-                  </th>
-                  <th class="grey-card text-center">
-                    <strong class="q-pr-md">Quantity</strong>
-                  </th>
-                  <th class="grey-card text-center">
-                    <strong class="q-pr-md">Amount</strong>
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="denom-body">
-                <tr
-                  v-for="(denom, denomIndex) in tableChipBalanceDetailData?.tableFloatDetails"
-                  :key="denomIndex"
-                >
-                  <td
-                    class="text-center text-center cursor-not-allowed"
-                    style="padding: 0 !important"
-                  >
-                    {{ denom.chipDenomName }}
-                  </td>
-                  <td
-                    class="text-center text-center cursor-not-allowed"
-                    style="padding: 0 !important"
-                  >
-                    {{ denom.chipType }}
-                  </td>
-                  <td
-                    class="text-center text-grey-8 text-center cursor-not-allowed"
-                    style="padding: 0 !important"
-                  >
-                    {{ denom.quantity }}
-                  </td>
-                  <td
-                    class="text-center text-grey-8 text-center cursor-not-allowed"
-                    style="padding: 0 !important"
-                  >
-                    {{ formatPrice(denom.amount) }}
-                  </td>
-                </tr>
-              </tbody>
-            </q-markup-table>
-          </div>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+    <q-card-section class="row" v-if="tableChipBalanceDetailData.tableName">
+      <div class="col-12 flex justify-center q-mt-md">
+        <div class="text-subtitle1 bg-orange-1 q-card--bordered text-bold">
+          {{ tableChipBalanceDetailData?.tableName }}:
+          <span class="text-negative">{{ tableChipBalanceDetailData?.gamingDate }}</span>
+        </div>
+      </div>
+      <div class="col-6 q-pa-md">
+        <div class="text-subtitle2">
+          {{ $t('chipCountDetails') }}
+        </div>
+        <q-markup-table separator="cell" flat square bordered dense>
+          <thead>
+            <tr>
+              <th class="grey-card text-center">
+                <strong>Denom</strong>
+              </th>
+              <th class="grey-card text-center">
+                <strong>Type</strong>
+              </th>
+              <th class="grey-card text-center">
+                <strong class="q-pr-md">Quantity</strong>
+              </th>
+              <th class="grey-card text-center">
+                <strong class="q-pr-md">Amount</strong>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="denom-body">
+            <tr
+              v-for="(denom, denomIndex) in tableChipBalanceDetailData?.chipCountDetails"
+              :key="denomIndex"
+            >
+              <td class="text-center text-center cursor-not-allowed" style="padding: 0 !important">
+                {{ denom.chipDenomName }}
+              </td>
+              <td class="text-center text-center cursor-not-allowed" style="padding: 0 !important">
+                {{ denom.chipType }}
+              </td>
+              <td
+                class="text-center text-grey-8 text-center cursor-not-allowed"
+                style="padding: 0 !important"
+              >
+                {{ denom.quantity }}
+              </td>
+              <td
+                class="text-center text-grey-8 text-center cursor-not-allowed"
+                style="padding: 0 !important"
+              >
+                {{ formatPrice(denom.amount) }}
+              </td>
+            </tr>
+          </tbody>
+        </q-markup-table>
+      </div>
+      <div class="col-6 q-pa-md">
+        <div class="text-subtitle2">
+          {{ $t('tableFloatDetails') }}
+        </div>
+        <q-markup-table separator="cell" flat square bordered dense>
+          <thead>
+            <tr>
+              <th class="grey-card text-center">
+                <strong>Denom</strong>
+              </th>
+              <th class="grey-card text-center">
+                <strong>Type</strong>
+              </th>
+              <th class="grey-card text-center">
+                <strong class="q-pr-md">Quantity</strong>
+              </th>
+              <th class="grey-card text-center">
+                <strong class="q-pr-md">Amount</strong>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="denom-body">
+            <tr
+              v-for="(denom, denomIndex) in tableChipBalanceDetailData?.tableFloatDetails"
+              :key="denomIndex"
+            >
+              <td class="text-center text-center cursor-not-allowed" style="padding: 0 !important">
+                {{ denom.chipDenomName }}
+              </td>
+              <td class="text-center text-center cursor-not-allowed" style="padding: 0 !important">
+                {{ denom.chipType }}
+              </td>
+              <td
+                class="text-center text-grey-8 text-center cursor-not-allowed"
+                style="padding: 0 !important"
+              >
+                {{ denom.quantity }}
+              </td>
+              <td
+                class="text-center text-grey-8 text-center cursor-not-allowed"
+                style="padding: 0 !important"
+              >
+                {{ formatPrice(denom.amount) }}
+              </td>
+            </tr>
+          </tbody>
+        </q-markup-table>
+      </div>
+    </q-card-section>
   </q-card>
 </template>
 
