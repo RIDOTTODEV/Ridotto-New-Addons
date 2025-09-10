@@ -126,7 +126,7 @@
                         "
                         class="q-ml-xs cursor-pointer"
                         v-el-perms="'Addon.CageOperations.GamingDateChangeUpdate'"
-                        @click="router.push({ name: 'table-operations' })"
+                        @click="router.push({ name: 'tableOperations' })"
                       >
                         <q-icon name="o_change_circle" size="22px" />
                         <q-tooltip class="text-caption bg-blue-grey-8">

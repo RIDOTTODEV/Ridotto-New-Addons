@@ -221,6 +221,7 @@ const routes = [
   {
     path: '/table-operations',
     component: () => import('layouts/MainLayout.vue'),
+
     meta: {
       authName: mainOidc.authName,
       requiresAuth: true,
