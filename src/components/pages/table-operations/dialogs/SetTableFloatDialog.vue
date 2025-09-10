@@ -206,6 +206,13 @@ const onSubmit = async () => {
     } else {
       onDialogOK()
     }
+  } else {
+    Notify.create({
+      message: result.response.data,
+      type: 'negative',
+      icon: 'o_error',
+      position: 'bottom-right',
+    })
   }
 }
 

@@ -1025,7 +1025,13 @@ const onSave = async () => {
   }
   const result = await tableStore.changeGamingDateTable([params])
 
+  console.log(result)
   if (result.status === 200) {
+    Notify.create({
+      position: 'bottom-right',
+      type: 'positive',
+      message: 'Oyun tarihi başarıyla güncellendi.',
+    })
     skipTableFloatCheck.value = true
     tableCounts.value = tableCounts.value.filter(
       (tableCount) => tableCount.tableId !== params.tableId,
@@ -1043,7 +1049,7 @@ const onSave = async () => {
     Notify.create({
       position: 'bottom-right',
       type: 'negative',
-      message: result.message,
+      message: result.response.data,
     })
   }
 }
