@@ -14,6 +14,8 @@ export const slotUiBannerService = {
    */
   getBannerAsJpeg(data = {}, options = {}) {
     return api.get('/api/SlotUiBanner/GetBannerAsJpeg', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Slot Ui Banner
@@ -26,5 +28,7 @@ export const slotUiBannerService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/SlotUiBanner/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

@@ -14,6 +14,8 @@ export const floatSetService = {
    */
   floatDenomDelete(data = {}, options = {}) {
     return api.delete('/api/FloatSet/FloatDenomDelete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Float Set
@@ -26,6 +28,8 @@ export const floatSetService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/FloatSet/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Float Set
@@ -46,6 +50,8 @@ export const floatSetService = {
       data.skipCount = 0
     }
     return api.get('/api/FloatSet/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Float Set
@@ -57,6 +63,8 @@ export const floatSetService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/FloatSet/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Float Set
@@ -68,6 +76,8 @@ export const floatSetService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/FloatSet/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Float Set
@@ -80,5 +90,7 @@ export const floatSetService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/FloatSet/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

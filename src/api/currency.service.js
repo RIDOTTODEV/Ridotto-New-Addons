@@ -14,6 +14,8 @@ export const currencyService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/Currency/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All With Current Rates Paged Currency
@@ -34,6 +36,8 @@ export const currencyService = {
       data.skipCount = 0
     }
     return api.get('/api/Currency/GetAllWithCurrentRatesPaged', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Currency Rates Currency
@@ -46,6 +50,8 @@ export const currencyService = {
    */
   getCurrencyRates(data = {}, options = {}) {
     return api.get('/api/Currency/GetCurrencyRates', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Currency
@@ -58,6 +64,8 @@ export const currencyService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/Currency/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Currency
@@ -78,6 +86,8 @@ export const currencyService = {
       data.skipCount = 0
     }
     return api.get('/api/Currency/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Currency
@@ -89,6 +99,8 @@ export const currencyService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/Currency/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Currency
@@ -100,6 +112,8 @@ export const currencyService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/Currency/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Currency
@@ -112,5 +126,7 @@ export const currencyService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/Currency/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

@@ -13,6 +13,8 @@ export const expenseParameterService = {
    */
   getExpenseTypes(data = {}, options = {}) {
     return api.get('/api/ExpenseParameter/GetExpenseTypes', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Expense Parameter
@@ -25,6 +27,8 @@ export const expenseParameterService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/ExpenseParameter/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Expense Parameter
@@ -45,6 +49,8 @@ export const expenseParameterService = {
       data.skipCount = 0
     }
     return api.get('/api/ExpenseParameter/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Expense Parameter
@@ -56,6 +62,8 @@ export const expenseParameterService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/ExpenseParameter/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Expense Parameter
@@ -67,6 +75,8 @@ export const expenseParameterService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/ExpenseParameter/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Expense Parameter
@@ -79,5 +89,7 @@ export const expenseParameterService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/ExpenseParameter/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

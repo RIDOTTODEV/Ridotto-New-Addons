@@ -13,5 +13,7 @@ export const enumService = {
    */
   getAllEnums(data = {}, options = {}) {
     return api.get('/api/Enum/GetAllEnums', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

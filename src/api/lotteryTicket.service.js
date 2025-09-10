@@ -25,6 +25,8 @@ export const lotteryTicketService = {
       data.skipCount = 0
     }
     return api.get('/api/LotteryTicket/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Tickets Printed Status Lottery Ticket
@@ -36,6 +38,8 @@ export const lotteryTicketService = {
    */
   updateTicketsPrintedStatus(data = {}, options = {}) {
     return api.post('/api/LotteryTicket/UpdateTicketsPrintedStatus', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Players Not Printed Their Lottery Tickets Lottery Ticket
@@ -48,6 +52,8 @@ export const lotteryTicketService = {
    */
   getPlayersNotPrintedTheirLotteryTickets(data = {}, options = {}) {
     return api.get('/api/LotteryTicket/GetPlayersNotPrintedTheirLotteryTickets', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Lottery Ticket Range Lottery Ticket
@@ -60,6 +66,8 @@ export const lotteryTicketService = {
    */
   getLotteryTicketRange(data = {}, options = {}) {
     return api.get('/api/LotteryTicket/GetLotteryTicketRange', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Lottery Ticket Count And Turn Over Lottery Ticket
@@ -75,6 +83,8 @@ export const lotteryTicketService = {
    */
   getLotteryTicketCountAndTurnOver(data = {}, options = {}) {
     return api.get('/api/LotteryTicket/GetLotteryTicketCountAndTurnOver', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Lottery Winner Ticket Lottery Ticket
@@ -87,6 +97,8 @@ export const lotteryTicketService = {
    */
   getLotteryWinnerTicket(data = {}, options = {}) {
     return api.get('/api/LotteryTicket/GetLotteryWinnerTicket', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Lottery Ticket
@@ -99,6 +111,8 @@ export const lotteryTicketService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/LotteryTicket/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Lottery Ticket
@@ -110,6 +124,8 @@ export const lotteryTicketService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/LotteryTicket/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Lottery Ticket
@@ -121,6 +137,8 @@ export const lotteryTicketService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/LotteryTicket/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Lottery Ticket
@@ -133,5 +151,7 @@ export const lotteryTicketService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/LotteryTicket/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

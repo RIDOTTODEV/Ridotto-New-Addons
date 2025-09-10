@@ -13,6 +13,8 @@ export const tableService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/Table/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Table Game Table
@@ -24,6 +26,8 @@ export const tableService = {
    */
   updateTableGame(data = {}, options = {}) {
     return api.post('/api/Table/UpdateTableGame', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Change Gaming Date Table
@@ -35,6 +39,8 @@ export const tableService = {
    */
   changeGamingDate(data = {}, options = {}) {
     return api.post('/api/Table/ChangeGamingDate', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Transactions Table
@@ -59,6 +65,8 @@ export const tableService = {
       data.skipCount = 0
     }
     return api.get('/api/Table/GetTransactions', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Expected Table Count Table
@@ -73,6 +81,8 @@ export const tableService = {
    */
   getExpectedTableCount(data = {}, options = {}) {
     return api.get('/api/Table/GetExpectedTableCount', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Bulk Update Table Game Table
@@ -84,6 +94,8 @@ export const tableService = {
    */
   bulkUpdateTableGame(data = {}, options = {}) {
     return api.post('/api/Table/BulkUpdateTableGame', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Bulk Update Table Float Set Table
@@ -95,6 +107,8 @@ export const tableService = {
    */
   bulkUpdateTableFloatSet(data = {}, options = {}) {
     return api.post('/api/Table/BulkUpdateTableFloatSet', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Bulk Change Table Gaming Date Table
@@ -106,6 +120,8 @@ export const tableService = {
    */
   bulkChangeTableGamingDate(data = {}, options = {}) {
     return api.post('/api/Table/BulkChangeTableGamingDate', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Table
@@ -118,6 +134,8 @@ export const tableService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/Table/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Table
@@ -138,6 +156,8 @@ export const tableService = {
       data.skipCount = 0
     }
     return api.get('/api/Table/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Table
@@ -149,6 +169,8 @@ export const tableService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/Table/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Table
@@ -161,5 +183,7 @@ export const tableService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/Table/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

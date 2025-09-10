@@ -14,6 +14,8 @@ export const bankAccountService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/BankAccount/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Bank Account
@@ -34,6 +36,8 @@ export const bankAccountService = {
       data.skipCount = 0
     }
     return api.get('/api/BankAccount/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Bank Account
@@ -45,6 +49,8 @@ export const bankAccountService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/BankAccount/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Bank Account
@@ -56,6 +62,8 @@ export const bankAccountService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/BankAccount/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Bank Account
@@ -68,5 +76,7 @@ export const bankAccountService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/BankAccount/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

@@ -17,5 +17,7 @@ export const widgetReportService = {
    */
   getCashdeskWidgetReport(data = {}, options = {}) {
     return api.get('/api/WidgetReport/GetCashdeskWidgetReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

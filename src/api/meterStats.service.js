@@ -16,6 +16,8 @@ export const meterStatsService = {
    */
   getPlayerWinLoss(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetPlayerWinLoss', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Promo Player Win Loss Meter Stats
@@ -30,6 +32,8 @@ export const meterStatsService = {
    */
   getPromoPlayerWinLoss(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetPromoPlayerWinLoss', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Win Loss Meter Stats
@@ -48,6 +52,8 @@ export const meterStatsService = {
    */
   getSlotWinLoss(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetSlotWinLoss', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Statistics By Money Meter Stats
@@ -67,6 +73,8 @@ export const meterStatsService = {
    */
   getSlotStatisticsByMoney(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetSlotStatisticsByMoney', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Statistics By Meter Meter Stats
@@ -86,6 +94,8 @@ export const meterStatsService = {
    */
   getSlotStatisticsByMeter(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetSlotStatisticsByMeter', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Statistics By Game Meter Stats
@@ -104,6 +114,8 @@ export const meterStatsService = {
    */
   getSlotStatisticsByGame(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetSlotStatisticsByGame', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Game Statistics By Slot Meter Stats
@@ -123,6 +135,8 @@ export const meterStatsService = {
    */
   getGameStatisticsBySlot(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetGameStatisticsBySlot', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Gm Latest Meters Meter Stats
@@ -142,6 +156,8 @@ export const meterStatsService = {
    */
   getGmLatestMeters(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetGmLatestMeters', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Summary By Machine Meter Stats
@@ -158,6 +174,8 @@ export const meterStatsService = {
    */
   getPlayerSummaryByMachine(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetPlayerSummaryByMachine', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Statistics Meter Stats
@@ -174,6 +192,8 @@ export const meterStatsService = {
    */
   getPlayerStatistics(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetPlayerStatistics', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Roulette Stats Meter Stats
@@ -189,6 +209,8 @@ export const meterStatsService = {
    */
   getPlayerRouletteStats(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetPlayerRouletteStats', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Gm Last Bets Meter Stats
@@ -200,6 +222,8 @@ export const meterStatsService = {
    */
   getGmLastBets(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetGmLastBets', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Double Bets Meter Stats
@@ -214,6 +238,8 @@ export const meterStatsService = {
    */
   getDoubleBets(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetDoubleBets', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Slot Turnover Meter Stats
@@ -228,5 +254,7 @@ export const meterStatsService = {
    */
   getPlayerSlotTurnover(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetPlayerSlotTurnover', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

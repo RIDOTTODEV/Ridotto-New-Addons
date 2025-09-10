@@ -13,6 +13,8 @@ export const cashdeskCountService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/CashdeskCount/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Reset Cashdesk Balance Cashdesk Count
@@ -24,6 +26,8 @@ export const cashdeskCountService = {
    */
   resetCashdeskBalance(data = {}, options = {}) {
     return api.post('/api/CashdeskCount/ResetCashdeskBalance', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Count Denomination Cashdesk Count
@@ -36,6 +40,8 @@ export const cashdeskCountService = {
    */
   getAllCountDenomination(data = {}, options = {}) {
     return api.get('/api/CashdeskCount/GetAllCountDenomination', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Cashdesks Rate Effect Cashdesk Count
@@ -48,6 +54,8 @@ export const cashdeskCountService = {
    */
   getCashdesksRateEffect(data = {}, options = {}) {
     return api.get('/api/CashdeskCount/GetCashdesksRateEffect', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Balance Cashdesk Count
@@ -61,6 +69,8 @@ export const cashdeskCountService = {
    */
   getBalance(data = {}, options = {}) {
     return api.get('/api/CashdeskCount/GetBalance', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Count Histories Total Cashdesk Count
@@ -84,6 +94,8 @@ export const cashdeskCountService = {
       data.skipCount = 0
     }
     return api.get('/api/CashdeskCount/GetCountHistoriesTotal', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Cashdesk Chip Count History Total Cashdesk Count
@@ -107,5 +119,7 @@ export const cashdeskCountService = {
       data.skipCount = 0
     }
     return api.get('/api/CashdeskCount/GetCashdeskChipCountHistoryTotal', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

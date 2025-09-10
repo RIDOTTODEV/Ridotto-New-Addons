@@ -13,6 +13,8 @@ export const transactionCodeService = {
    */
   getTransactionCodeGroupTypes(data = {}, options = {}) {
     return api.get('/api/TransactionCode/GetTransactionCodeGroupTypes', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Transaction Code Types Transaction Code
@@ -24,6 +26,8 @@ export const transactionCodeService = {
    */
   getTransactionCodeTypes(data = {}, options = {}) {
     return api.get('/api/TransactionCode/GetTransactionCodeTypes', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Transaction Codes By Group Type Transaction Code
@@ -36,6 +40,8 @@ export const transactionCodeService = {
    */
   getTransactionCodesByGroupType(data = {}, options = {}) {
     return api.get('/api/TransactionCode/GetTransactionCodesByGroupType', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Transaction Code
@@ -48,6 +54,8 @@ export const transactionCodeService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/TransactionCode/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Transaction Code
@@ -68,6 +76,8 @@ export const transactionCodeService = {
       data.skipCount = 0
     }
     return api.get('/api/TransactionCode/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Transaction Code
@@ -79,6 +89,8 @@ export const transactionCodeService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/TransactionCode/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Transaction Code
@@ -90,6 +102,8 @@ export const transactionCodeService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/TransactionCode/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Transaction Code
@@ -102,5 +116,7 @@ export const transactionCodeService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/TransactionCode/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

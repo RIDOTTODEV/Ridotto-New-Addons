@@ -14,6 +14,8 @@ export const slotUiSettingSetService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/SlotUiSettingSet/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Ui Setting Set
@@ -26,6 +28,8 @@ export const slotUiSettingSetService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/SlotUiSettingSet/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Slot Ui Setting Set
@@ -46,6 +50,8 @@ export const slotUiSettingSetService = {
       data.skipCount = 0
     }
     return api.get('/api/SlotUiSettingSet/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Slot Ui Setting Set
@@ -57,6 +63,8 @@ export const slotUiSettingSetService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/SlotUiSettingSet/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Slot Ui Setting Set
@@ -68,6 +76,8 @@ export const slotUiSettingSetService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/SlotUiSettingSet/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Slot Ui Setting Set
@@ -80,5 +90,7 @@ export const slotUiSettingSetService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/SlotUiSettingSet/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

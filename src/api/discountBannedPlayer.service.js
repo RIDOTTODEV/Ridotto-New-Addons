@@ -13,6 +13,8 @@ export const discountBannedPlayerService = {
    */
   getAll(data = {}, options = {}) {
     return api.get('/api/DiscountBannedPlayer/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Discount Banned Player
@@ -25,6 +27,8 @@ export const discountBannedPlayerService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/DiscountBannedPlayer/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Discount Banned Player
@@ -36,6 +40,8 @@ export const discountBannedPlayerService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/DiscountBannedPlayer/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Bulk Remove Discount Banned Player
@@ -47,6 +53,8 @@ export const discountBannedPlayerService = {
    */
   bulkRemove(data = {}, options = {}) {
     return api.post('/api/DiscountBannedPlayer/BulkRemove', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Remove Discount Banned Player
@@ -59,5 +67,7 @@ export const discountBannedPlayerService = {
    */
   remove(data = {}, options = {}) {
     return api.delete('/api/DiscountBannedPlayer/Remove', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

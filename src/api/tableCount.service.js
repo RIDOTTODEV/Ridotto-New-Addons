@@ -16,6 +16,8 @@ export const tableCountService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/TableCount/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Table Count
@@ -28,6 +30,8 @@ export const tableCountService = {
    */
   getAll(data = {}, options = {}) {
     return api.get('/api/TableCount/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Table Chip Balance Table Count
@@ -39,6 +43,8 @@ export const tableCountService = {
    */
   getTableChipBalance(data = {}, options = {}) {
     return api.get('/api/TableCount/GetTableChipBalance', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Chip Table Balance Detail Table Count
@@ -51,6 +57,8 @@ export const tableCountService = {
    */
   getChipTableBalanceDetail(data = {}, options = {}) {
     return api.get('/api/TableCount/GetChipTableBalanceDetail', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Table Count
@@ -62,6 +70,8 @@ export const tableCountService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/TableCount/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Chip Count Save Table Count
@@ -73,6 +83,8 @@ export const tableCountService = {
    */
   chipCountSave(data = {}, options = {}) {
     return api.post('/api/TableCount/ChipCountSave', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Table Count Plaque And Cash Edit Check Table Count
@@ -84,6 +96,8 @@ export const tableCountService = {
    */
   tableCountPlaqueAndCashEditCheck(data = {}, options = {}) {
     return api.post('/api/TableCount/TableCountPlaqueAndCashEditCheck', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Table Count Chip Save Edit Check Table Count
@@ -95,5 +109,7 @@ export const tableCountService = {
    */
   tableCountChipSaveEditCheck(data = {}, options = {}) {
     return api.post('/api/TableCount/TableCountChipSaveEditCheck', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

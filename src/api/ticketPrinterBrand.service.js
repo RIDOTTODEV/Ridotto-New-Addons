@@ -14,6 +14,8 @@ export const ticketPrinterBrandService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/TicketPrinterBrand/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Ticket Printer Brand
@@ -26,6 +28,8 @@ export const ticketPrinterBrandService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/TicketPrinterBrand/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Ticket Printer Brand
@@ -46,6 +50,8 @@ export const ticketPrinterBrandService = {
       data.skipCount = 0
     }
     return api.get('/api/TicketPrinterBrand/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Ticket Printer Brand
@@ -57,6 +63,8 @@ export const ticketPrinterBrandService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/TicketPrinterBrand/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Ticket Printer Brand
@@ -68,6 +76,8 @@ export const ticketPrinterBrandService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/TicketPrinterBrand/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Ticket Printer Brand
@@ -80,5 +90,7 @@ export const ticketPrinterBrandService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/TicketPrinterBrand/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

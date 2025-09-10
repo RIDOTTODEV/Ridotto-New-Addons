@@ -16,6 +16,8 @@ export const meterLogService = {
    */
   getPlayerTodayResult(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetPlayerTodayResult', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Cash Box Occupancy Meter Log
@@ -31,6 +33,8 @@ export const meterLogService = {
    */
   getCashBoxOccupancy(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetCashBoxOccupancy', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Cash Box Occupancy Details Meter Log
@@ -45,6 +49,8 @@ export const meterLogService = {
    */
   getCashBoxOccupancyDetails(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetCashBoxOccupancyDetails', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Meter Logs Meter Log
@@ -71,6 +77,8 @@ export const meterLogService = {
       data.skipCount = 0
     }
     return api.get('/api/MeterLog/GetMeterLogs', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Last Meter Info Meter Log
@@ -83,6 +91,8 @@ export const meterLogService = {
    */
   getLastMeterInfo(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetLastMeterInfo', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Hall Volume Meter Log
@@ -98,6 +108,8 @@ export const meterLogService = {
    */
   getHallVolume(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetHallVolume', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Meter Result Meter Log
@@ -111,6 +123,8 @@ export const meterLogService = {
    */
   meterResult(data = {}, options = {}) {
     return api.get('/api/MeterLog/MeterResult', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Meter Result2 Meter Log
@@ -124,6 +138,8 @@ export const meterLogService = {
    */
   meterResult2(data = {}, options = {}) {
     return api.get('/api/MeterLog/MeterResult2', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Promo Player Win Loss Meter Log
@@ -140,6 +156,8 @@ export const meterLogService = {
    */
   getPromoPlayerWinLoss(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetPromoPlayerWinLoss', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Win Loss Meter Log
@@ -156,6 +174,8 @@ export const meterLogService = {
    */
   getPlayerWinLoss(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetPlayerWinLoss', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Win Loss Meter Log
@@ -176,6 +196,8 @@ export const meterLogService = {
    */
   getSlotWinLoss(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetSlotWinLoss', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Money Stat Summary Meter Log
@@ -196,6 +218,8 @@ export const meterLogService = {
    */
   getMoneyStatSummary(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetMoneyStatSummary', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Meter Graph Meter Log
@@ -217,6 +241,8 @@ export const meterLogService = {
    */
   getPlayerMeterGraph(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetPlayerMeterGraph', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Machine Today Result Meter Log
@@ -231,6 +257,8 @@ export const meterLogService = {
    */
   getPlayerMachineTodayResult(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetPlayerMachineTodayResult', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Machine Meter Graph Meter Log
@@ -252,6 +280,8 @@ export const meterLogService = {
    */
   getSlotMachineMeterGraph(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetSlotMachineMeterGraph', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player History By Machine Meter Log
@@ -269,6 +299,8 @@ export const meterLogService = {
    */
   getPlayerHistoryByMachine(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetPlayerHistoryByMachine', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Today Player History By Machine Meter Log
@@ -282,6 +314,8 @@ export const meterLogService = {
    */
   getTodayPlayerHistoryByMachine(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetTodayPlayerHistoryByMachine', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Statistics By Money Meter Log
@@ -302,6 +336,8 @@ export const meterLogService = {
    */
   getSlotStatisticsByMoney(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetSlotStatisticsByMoney', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Statistics By Meter Meter Log
@@ -322,6 +358,8 @@ export const meterLogService = {
    */
   getSlotStatisticsByMeter(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetSlotStatisticsByMeter', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Statistics By Game Meter Log
@@ -342,6 +380,8 @@ export const meterLogService = {
    */
   getSlotStatisticsByGame(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetSlotStatisticsByGame', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Game Statistics By Slot Meter Log
@@ -363,6 +403,8 @@ export const meterLogService = {
    */
   getGameStatisticsBySlot(data = {}, options = {}) {
     return api.get('/api/MeterLog/GetGameStatisticsBySlot', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Minus Meters Meter Log
@@ -388,6 +430,8 @@ export const meterLogService = {
       data.skipCount = 0
     }
     return api.get('/api/MeterLog/GetMinusMeters', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Meter Log Meter Log
@@ -404,5 +448,7 @@ export const meterLogService = {
    */
   deleteMeterLog(data = {}, options = {}) {
     return api.delete('/api/MeterLog/DeleteMeterLog', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

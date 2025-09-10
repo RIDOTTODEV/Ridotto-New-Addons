@@ -13,6 +13,8 @@ export const cashdeskTransactionService = {
    */
   cashdeskExchangeTransaction(data = {}, options = {}) {
     return api.post('/api/CashdeskTransaction/CashdeskExchangeTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Cashdesk Between Transfer Transaction Cashdesk Transaction
@@ -24,6 +26,8 @@ export const cashdeskTransactionService = {
    */
   cashdeskBetweenTransferTransaction(data = {}, options = {}) {
     return api.post('/api/CashdeskTransaction/CashdeskBetweenTransferTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Cashdesk In Out Transfer Transaction Cashdesk Transaction
@@ -35,6 +39,8 @@ export const cashdeskTransactionService = {
    */
   cashdeskInOutTransferTransaction(data = {}, options = {}) {
     return api.post('/api/CashdeskTransaction/CashdeskInOutTransferTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Cashdesk Bank Transaction Cashdesk Transaction
@@ -46,6 +52,8 @@ export const cashdeskTransactionService = {
    */
   cashdeskBankTransaction(data = {}, options = {}) {
     return api.post('/api/CashdeskTransaction/CashdeskBankTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Cashdesk Chip Transaction Cashdesk Transaction
@@ -57,6 +65,8 @@ export const cashdeskTransactionService = {
    */
   cashdeskChipTransaction(data = {}, options = {}) {
     return api.post('/api/CashdeskTransaction/CashdeskChipTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Cashdesk Chip In Out Transfer Transaction Cashdesk Transaction
@@ -68,6 +78,8 @@ export const cashdeskTransactionService = {
    */
   cashdeskChipInOutTransferTransaction(data = {}, options = {}) {
     return api.post('/api/CashdeskTransaction/CashdeskChipInOutTransferTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Cashdesk Between Chip Transfer Transaction Cashdesk Transaction
@@ -79,6 +91,8 @@ export const cashdeskTransactionService = {
    */
   cashdeskBetweenChipTransferTransaction(data = {}, options = {}) {
     return api.post('/api/CashdeskTransaction/CashdeskBetweenChipTransferTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Cashdesk Table Fill Credit Transaction Cashdesk Transaction
@@ -90,6 +104,8 @@ export const cashdeskTransactionService = {
    */
   cashdeskTableFillCreditTransaction(data = {}, options = {}) {
     return api.post('/api/CashdeskTransaction/CashdeskTableFillCreditTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Cashdesk Ticket Transaction Cashdesk Transaction
@@ -101,6 +117,8 @@ export const cashdeskTransactionService = {
    */
   cashdeskTicketTransaction(data = {}, options = {}) {
     return api.post('/api/CashdeskTransaction/CashdeskTicketTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Other Transaction Cashdesk Transaction
@@ -112,6 +130,8 @@ export const cashdeskTransactionService = {
    */
   otherTransaction(data = {}, options = {}) {
     return api.post('/api/CashdeskTransaction/OtherTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Cashdesk Rate Effect Transaction Cashdesk Transaction
@@ -123,6 +143,8 @@ export const cashdeskTransactionService = {
    */
   cashdeskRateEffectTransaction(data = {}, options = {}) {
     return api.post('/api/CashdeskTransaction/CashdeskRateEffectTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Cashdesk Deposit Credit Transaction Cashdesk Transaction
@@ -134,6 +156,8 @@ export const cashdeskTransactionService = {
    */
   cashdeskDepositCreditTransaction(data = {}, options = {}) {
     return api.post('/api/CashdeskTransaction/CashdeskDepositCreditTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Table Count Cash Transaction Cashdesk Transaction
@@ -145,6 +169,8 @@ export const cashdeskTransactionService = {
    */
   tableCountCashTransaction(data = {}, options = {}) {
     return api.post('/api/CashdeskTransaction/TableCountCashTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Table Float Fill Transaction Cashdesk Transaction
@@ -156,6 +182,8 @@ export const cashdeskTransactionService = {
    */
   tableFloatFillTransaction(data = {}, options = {}) {
     return api.post('/api/CashdeskTransaction/TableFloatFillTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Cashdesk Transaction
@@ -191,6 +219,8 @@ export const cashdeskTransactionService = {
       data.skipCount = 0
     }
     return api.get('/api/CashdeskTransaction/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Chip Transactions Cashdesk Transaction
@@ -226,6 +256,8 @@ export const cashdeskTransactionService = {
       data.skipCount = 0
     }
     return api.get('/api/CashdeskTransaction/GetAllChipTransactions', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Last Chip Transactions Cashdesk Transaction
@@ -247,6 +279,8 @@ export const cashdeskTransactionService = {
       data.skipCount = 0
     }
     return api.get('/api/CashdeskTransaction/GetLastChipTransactions', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Chip Transaction Detail Cashdesk Transaction
@@ -259,6 +293,8 @@ export const cashdeskTransactionService = {
    */
   getChipTransactionDetail(data = {}, options = {}) {
     return api.get('/api/CashdeskTransaction/GetChipTransactionDetail', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Transaction Code Types Cashdesk Transaction
@@ -270,6 +306,8 @@ export const cashdeskTransactionService = {
    */
   getTransactionCodeTypes(data = {}, options = {}) {
     return api.get('/api/CashdeskTransaction/GetTransactionCodeTypes', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Trans Type Cashdesk Transaction
@@ -281,6 +319,8 @@ export const cashdeskTransactionService = {
    */
   getTransType(data = {}, options = {}) {
     return api.get('/api/CashdeskTransaction/GetTransType', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Cashdesk Transaction Types Cashdesk Transaction
@@ -292,6 +332,8 @@ export const cashdeskTransactionService = {
    */
   getCashdeskTransactionTypes(data = {}, options = {}) {
     return api.get('/api/CashdeskTransaction/GetCashdeskTransactionTypes', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Deposits And Credits Cashdesk Transaction
@@ -305,6 +347,8 @@ export const cashdeskTransactionService = {
    */
   getDepositsAndCredits(data = {}, options = {}) {
     return api.get('/api/CashdeskTransaction/GetDepositsAndCredits', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Transaction Totals Cashdesk Transaction
@@ -321,6 +365,8 @@ export const cashdeskTransactionService = {
    */
   getTransactionTotals(data = {}, options = {}) {
     return api.get('/api/CashdeskTransaction/GetTransactionTotals', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Fill Credit Transactions Cashdesk Transaction
@@ -334,6 +380,8 @@ export const cashdeskTransactionService = {
    */
   getFillCreditTransactions(data = {}, options = {}) {
     return api.get('/api/CashdeskTransaction/GetFillCreditTransactions', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Chip Transactions Total Cashdesk Transaction
@@ -350,6 +398,8 @@ export const cashdeskTransactionService = {
    */
   getChipTransactionsTotal(data = {}, options = {}) {
     return api.get('/api/CashdeskTransaction/GetChipTransactionsTotal', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Cashdesk Transaction
@@ -362,5 +412,7 @@ export const cashdeskTransactionService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/CashdeskTransaction/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

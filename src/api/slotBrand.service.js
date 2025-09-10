@@ -14,6 +14,8 @@ export const slotBrandService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/SlotBrand/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Brand
@@ -26,6 +28,8 @@ export const slotBrandService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/SlotBrand/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Slot Brand
@@ -46,6 +50,8 @@ export const slotBrandService = {
       data.skipCount = 0
     }
     return api.get('/api/SlotBrand/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Slot Brand
@@ -57,6 +63,8 @@ export const slotBrandService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/SlotBrand/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Slot Brand
@@ -68,6 +76,8 @@ export const slotBrandService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/SlotBrand/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Slot Brand
@@ -80,5 +90,7 @@ export const slotBrandService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/SlotBrand/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

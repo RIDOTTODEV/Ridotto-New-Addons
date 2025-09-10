@@ -14,6 +14,8 @@ export const cageBalanceGroupService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/CageBalanceGroup/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Cage Balance Group
@@ -26,6 +28,8 @@ export const cageBalanceGroupService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/CageBalanceGroup/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Cage Balance Group
@@ -46,6 +50,8 @@ export const cageBalanceGroupService = {
       data.skipCount = 0
     }
     return api.get('/api/CageBalanceGroup/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Cage Balance Group
@@ -57,6 +63,8 @@ export const cageBalanceGroupService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/CageBalanceGroup/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Cage Balance Group
@@ -68,6 +76,8 @@ export const cageBalanceGroupService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/CageBalanceGroup/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Cage Balance Group
@@ -80,5 +90,7 @@ export const cageBalanceGroupService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/CageBalanceGroup/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

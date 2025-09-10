@@ -18,6 +18,8 @@ export const playerLgReportService = {
    */
   getTimeInOutReportByTable(data = {}, options = {}) {
     return api.get('/api/PlayerLgReport/GetTimeInOutReportByTable', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Time In Out Report By Player Player Lg Report
@@ -34,6 +36,8 @@ export const playerLgReportService = {
    */
   getTimeInOutReportByPlayer(data = {}, options = {}) {
     return api.get('/api/PlayerLgReport/GetTimeInOutReportByPlayer', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Result Report Player Lg Report
@@ -50,6 +54,8 @@ export const playerLgReportService = {
    */
   getPlayerResultReport(data = {}, options = {}) {
     return api.get('/api/PlayerLgReport/GetPlayerResultReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Result Detail Report Player Lg Report
@@ -66,6 +72,8 @@ export const playerLgReportService = {
    */
   getPlayerResultDetailReport(data = {}, options = {}) {
     return api.get('/api/PlayerLgReport/GetPlayerResultDetailReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Missing Chip Report Player Lg Report
@@ -82,6 +90,8 @@ export const playerLgReportService = {
    */
   getMissingChipReport(data = {}, options = {}) {
     return api.get('/api/PlayerLgReport/GetMissingChipReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Time In Out Report Player Lg Report
@@ -99,6 +109,8 @@ export const playerLgReportService = {
    */
   getTimeInOutReport(data = {}, options = {}) {
     return api.get('/api/PlayerLgReport/GetTimeInOutReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Active Floor Info Player Lg Report
@@ -110,6 +122,8 @@ export const playerLgReportService = {
    */
   getActiveFloorInfo(data = {}, options = {}) {
     return api.get('/api/PlayerLgReport/GetActiveFloorInfo', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Active Floor Info New Player Lg Report
@@ -122,6 +136,8 @@ export const playerLgReportService = {
    */
   getActiveFloorInfoNew(data = {}, options = {}) {
     return api.get('/api/PlayerLgReport/GetActiveFloorInfoNew', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Missing Chip Report Detail Player Lg Report
@@ -138,5 +154,7 @@ export const playerLgReportService = {
    */
   getMissingChipReportDetail(data = {}, options = {}) {
     return api.get('/api/PlayerLgReport/GetMissingChipReportDetail', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

@@ -13,6 +13,8 @@ export const billAcceptorRuleSetService = {
    */
   getAll(data = {}, options = {}) {
     return api.get('/api/BillAcceptorRuleSet/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Key Values Bill Acceptor Rule Set
@@ -25,6 +27,8 @@ export const billAcceptorRuleSetService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/BillAcceptorRuleSet/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Bill Acceptor Rule Set
@@ -36,6 +40,8 @@ export const billAcceptorRuleSetService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/BillAcceptorRuleSet/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Bill Acceptor Rule Set
@@ -47,6 +53,8 @@ export const billAcceptorRuleSetService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/BillAcceptorRuleSet/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Or Update Bill Acceptor Rule Set
@@ -58,6 +66,8 @@ export const billAcceptorRuleSetService = {
    */
   createOrUpdate(data = {}, options = {}) {
     return api.post('/api/BillAcceptorRuleSet/CreateOrUpdate', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Bill Acceptor Rule Set
@@ -70,6 +80,8 @@ export const billAcceptorRuleSetService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/BillAcceptorRuleSet/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Bill Acceptor Rule Set
@@ -82,5 +94,7 @@ export const billAcceptorRuleSetService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/BillAcceptorRuleSet/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

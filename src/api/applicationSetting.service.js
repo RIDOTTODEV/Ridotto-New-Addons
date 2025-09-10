@@ -13,6 +13,8 @@ export const applicationSettingService = {
    */
   setSettings(data = {}, options = {}) {
     return api.post('/api/ApplicationSetting/SetSettings', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Set Gm Meter Report Time Application Setting
@@ -26,6 +28,8 @@ export const applicationSettingService = {
    */
   setGmMeterReportTime(data = {}, options = {}) {
     return api.post('/api/ApplicationSetting/SetGmMeterReportTime', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Set User Settings Application Setting
@@ -37,6 +41,8 @@ export const applicationSettingService = {
    */
   setUserSettings(data = {}, options = {}) {
     return api.post('/api/ApplicationSetting/SetUserSettings', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get User Settings Application Setting
@@ -49,6 +55,8 @@ export const applicationSettingService = {
    */
   getUserSettings(data = {}, options = {}) {
     return api.get('/api/ApplicationSetting/GetUserSettings', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Settings Application Setting
@@ -61,5 +69,7 @@ export const applicationSettingService = {
    */
   getSettings(data = {}, options = {}) {
     return api.get('/api/ApplicationSetting/GetSettings', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

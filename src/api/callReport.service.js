@@ -14,6 +14,8 @@ export const callReportService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/CallReport/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Call Report
@@ -39,6 +41,8 @@ export const callReportService = {
       data.skipCount = 0
     }
     return api.get('/api/CallReport/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Call Report
@@ -50,6 +54,8 @@ export const callReportService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/CallReport/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Call Report
@@ -61,6 +67,8 @@ export const callReportService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/CallReport/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Call Report
@@ -73,5 +81,7 @@ export const callReportService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/CallReport/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

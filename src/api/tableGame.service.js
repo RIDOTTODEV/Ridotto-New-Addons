@@ -14,6 +14,8 @@ export const tableGameService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/TableGame/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Table Game
@@ -34,6 +36,8 @@ export const tableGameService = {
       data.skipCount = 0
     }
     return api.get('/api/TableGame/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Table Game
@@ -45,6 +49,8 @@ export const tableGameService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/TableGame/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Table Game
@@ -56,6 +62,8 @@ export const tableGameService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/TableGame/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Table Game
@@ -68,5 +76,7 @@ export const tableGameService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/TableGame/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

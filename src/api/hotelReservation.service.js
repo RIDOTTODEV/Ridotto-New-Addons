@@ -28,6 +28,8 @@ export const hotelReservationService = {
       data.skipCount = 0
     }
     return api.get('/api/HotelReservation/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Copy Reservation Hotel Reservation
@@ -39,6 +41,8 @@ export const hotelReservationService = {
    */
   copyReservation(data = {}, options = {}) {
     return api.post('/api/HotelReservation/CopyReservation', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Reservation Hotel Reservation
@@ -50,6 +54,8 @@ export const hotelReservationService = {
    */
   createReservation(data = {}, options = {}) {
     return api.post('/api/HotelReservation/CreateReservation', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Reservation Hotel Reservation
@@ -61,6 +67,8 @@ export const hotelReservationService = {
    */
   updateReservation(data = {}, options = {}) {
     return api.post('/api/HotelReservation/UpdateReservation', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Reservation Hotel Reservation
@@ -73,6 +81,8 @@ export const hotelReservationService = {
    */
   deleteReservation(data = {}, options = {}) {
     return api.delete('/api/HotelReservation/DeleteReservation', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Hotel Flight Info Hotel Reservation
@@ -84,6 +94,8 @@ export const hotelReservationService = {
    */
   updateHotelFlightInfo(data = {}, options = {}) {
     return api.post('/api/HotelReservation/UpdateHotelFlightInfo', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Add Hotel Reservation Player Hotel Reservation
@@ -95,6 +107,8 @@ export const hotelReservationService = {
    */
   addHotelReservationPlayer(data = {}, options = {}) {
     return api.post('/api/HotelReservation/AddHotelReservationPlayer', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Hotel Reservation Player Hotel Reservation
@@ -106,6 +120,8 @@ export const hotelReservationService = {
    */
   deleteHotelReservationPlayer(data = {}, options = {}) {
     return api.post('/api/HotelReservation/DeleteHotelReservationPlayer', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Add Hotel Reservation Expense Hotel Reservation
@@ -117,6 +133,8 @@ export const hotelReservationService = {
    */
   addHotelReservationExpense(data = {}, options = {}) {
     return api.post('/api/HotelReservation/AddHotelReservationExpense', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Remove Hotel Reservation Expense Hotel Reservation
@@ -128,6 +146,8 @@ export const hotelReservationService = {
    */
   removeHotelReservationExpense(data = {}, options = {}) {
     return api.post('/api/HotelReservation/RemoveHotelReservationExpense', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Reservation Date Hotel Reservation
@@ -139,6 +159,8 @@ export const hotelReservationService = {
    */
   updateReservationDate(data = {}, options = {}) {
     return api.put('/api/HotelReservation/UpdateReservationDate', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Board Types Hotel Reservation
@@ -150,6 +172,8 @@ export const hotelReservationService = {
    */
   getBoardTypes(data = {}, options = {}) {
     return api.get('/api/HotelReservation/GetBoardTypes', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Flight Ticket Types Hotel Reservation
@@ -161,6 +185,8 @@ export const hotelReservationService = {
    */
   getFlightTicketTypes(data = {}, options = {}) {
     return api.get('/api/HotelReservation/GetFlightTicketTypes', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Expense Directions Types Hotel Reservation
@@ -172,6 +198,8 @@ export const hotelReservationService = {
    */
   getExpenseDirectionsTypes(data = {}, options = {}) {
     return api.get('/api/HotelReservation/GetExpenseDirectionsTypes', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Guest List Hotel Reservation
@@ -186,6 +214,8 @@ export const hotelReservationService = {
    */
   getGuestList(data = {}, options = {}) {
     return api.get('/api/HotelReservation/GetGuestList', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Hotel Player List Hotel Reservation
@@ -197,6 +227,8 @@ export const hotelReservationService = {
    */
   getHotelPlayerList(data = {}, options = {}) {
     return api.get('/api/HotelReservation/GetHotelPlayerList', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Hotel Player Hotel Reservation
@@ -210,6 +242,8 @@ export const hotelReservationService = {
    */
   getHotelPlayer(data = {}, options = {}) {
     return api.get('/api/HotelReservation/GetHotelPlayer', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Reservation Status Hotel Reservation
@@ -221,5 +255,7 @@ export const hotelReservationService = {
    */
   getReservationStatus(data = {}, options = {}) {
     return api.get('/api/HotelReservation/GetReservationStatus', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

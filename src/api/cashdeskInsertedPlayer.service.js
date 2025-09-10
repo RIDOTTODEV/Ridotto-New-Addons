@@ -29,6 +29,8 @@ export const cashdeskInsertedPlayerService = {
       data.skipCount = 0
     }
     return api.get('/api/CashdeskInsertedPlayer/GetAllCashDeskCardReaderLogs', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Cashdesk Inserted Player
@@ -40,5 +42,7 @@ export const cashdeskInsertedPlayerService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/CashdeskInsertedPlayer/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

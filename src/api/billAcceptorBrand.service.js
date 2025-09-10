@@ -13,6 +13,8 @@ export const billAcceptorBrandService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/BillAcceptorBrand/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Bill Acceptor Brand
@@ -24,6 +26,8 @@ export const billAcceptorBrandService = {
    */
   getAll(data = {}, options = {}) {
     return api.get('/api/BillAcceptorBrand/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Bill Acceptor Brand
@@ -36,6 +40,8 @@ export const billAcceptorBrandService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/BillAcceptorBrand/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Bill Acceptor Brand
@@ -47,6 +53,8 @@ export const billAcceptorBrandService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/BillAcceptorBrand/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Bill Acceptor Brand
@@ -58,6 +66,8 @@ export const billAcceptorBrandService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/BillAcceptorBrand/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Bill Acceptor Brand
@@ -70,5 +80,7 @@ export const billAcceptorBrandService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/BillAcceptorBrand/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

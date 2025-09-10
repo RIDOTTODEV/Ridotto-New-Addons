@@ -13,5 +13,7 @@ export const reportCorrectService = {
    */
   reportCorrect(data = {}, options = {}) {
     return api.post('/api/ReportCorrect/ReportCorrect', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

@@ -41,6 +41,8 @@ export const ticketService = {
       data.skipCount = 0
     }
     return api.get('/api/Ticket/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Ticket
@@ -52,6 +54,8 @@ export const ticketService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/Ticket/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Ticket Ticket
@@ -65,6 +69,8 @@ export const ticketService = {
    */
   getTicket(data = {}, options = {}) {
     return api.get('/api/Ticket/GetTicket', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Status Ticket
@@ -76,6 +82,8 @@ export const ticketService = {
    */
   updateStatus(data = {}, options = {}) {
     return api.post('/api/Ticket/UpdateStatus', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All For Panel Ticket
@@ -113,6 +121,8 @@ export const ticketService = {
       data.skipCount = 0
     }
     return api.get('/api/Ticket/GetAllForPanel', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Ticket Summaries Ticket
@@ -133,6 +143,8 @@ export const ticketService = {
    */
   getTicketSummaries(data = {}, options = {}) {
     return api.get('/api/Ticket/GetTicketSummaries', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Ticket History Ticket
@@ -145,5 +157,7 @@ export const ticketService = {
    */
   getTicketHistory(data = {}, options = {}) {
     return api.get('/api/Ticket/GetTicketHistory', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

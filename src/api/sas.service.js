@@ -29,6 +29,8 @@ export const sasService = {
       data.skipCount = 0
     }
     return api.get('/api/Sas/GetCSasDebugLogs', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Sas Logs Sas
@@ -64,6 +66,8 @@ export const sasService = {
       data.skipCount = 0
     }
     return api.get('/api/Sas/GetSasLogs', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Sas Debug Logs Sas
@@ -90,5 +94,7 @@ export const sasService = {
       data.skipCount = 0
     }
     return api.get('/api/Sas/GetSasDebugLogs', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

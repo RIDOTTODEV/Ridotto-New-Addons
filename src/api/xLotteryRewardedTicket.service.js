@@ -13,6 +13,8 @@ export const xLotteryRewardedTicketService = {
    */
   checkAndSave(data = {}, options = {}) {
     return api.post('/api/XLotteryRewardedTicket/CheckAndSave', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Reward Ticket X Lottery Rewarded Ticket
@@ -24,6 +26,8 @@ export const xLotteryRewardedTicketService = {
    */
   updateRewardTicket(data = {}, options = {}) {
     return api.post('/api/XLotteryRewardedTicket/UpdateRewardTicket', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get X Lottery Rewarded Ticket
@@ -36,6 +40,8 @@ export const xLotteryRewardedTicketService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/XLotteryRewardedTicket/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All X Lottery Rewarded Ticket
@@ -59,6 +65,8 @@ export const xLotteryRewardedTicketService = {
       data.skipCount = 0
     }
     return api.get('/api/XLotteryRewardedTicket/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create X Lottery Rewarded Ticket
@@ -70,6 +78,8 @@ export const xLotteryRewardedTicketService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/XLotteryRewardedTicket/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update X Lottery Rewarded Ticket
@@ -81,6 +91,8 @@ export const xLotteryRewardedTicketService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/XLotteryRewardedTicket/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete X Lottery Rewarded Ticket
@@ -93,5 +105,7 @@ export const xLotteryRewardedTicketService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/XLotteryRewardedTicket/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

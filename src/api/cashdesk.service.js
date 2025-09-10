@@ -22,6 +22,8 @@ export const cashdeskService = {
       data.skipCount = 0
     }
     return api.get('/api/Cashdesk/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Cash Count Balance Cashdesk
@@ -36,6 +38,8 @@ export const cashdeskService = {
    */
   getCashCountBalance(data = {}, options = {}) {
     return api.get('/api/Cashdesk/GetCashCountBalance', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Chip Count Balance Cashdesk
@@ -50,6 +54,8 @@ export const cashdeskService = {
    */
   getChipCountBalance(data = {}, options = {}) {
     return api.get('/api/Cashdesk/GetChipCountBalance', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Count Active Cashdesk
@@ -61,6 +67,8 @@ export const cashdeskService = {
    */
   updateCountActive(data = {}, options = {}) {
     return api.post('/api/Cashdesk/UpdateCountActive', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Set As Main Cashdesk Cashdesk
@@ -72,6 +80,8 @@ export const cashdeskService = {
    */
   setAsMainCashdesk(data = {}, options = {}) {
     return api.post('/api/Cashdesk/SetAsMainCashdesk', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Cashdesk Change Gaming Date Cashdesk
@@ -83,6 +93,8 @@ export const cashdeskService = {
    */
   cashdeskChangeGamingDate(data = {}, options = {}) {
     return api.post('/api/Cashdesk/CashdeskChangeGamingDate', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Cashdesks Cashdesk
@@ -94,6 +106,8 @@ export const cashdeskService = {
    */
   getCashdesks(data = {}, options = {}) {
     return api.get('/api/Cashdesk/GetCashdesks', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Gaming Date By Cashdesk Id Cashdesk
@@ -106,6 +120,8 @@ export const cashdeskService = {
    */
   getGamingDateByCashdeskId(data = {}, options = {}) {
     return api.get('/api/Cashdesk/GetGamingDateByCashdeskId', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Cashdesk
@@ -118,6 +134,8 @@ export const cashdeskService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/Cashdesk/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Cashdesk
@@ -129,6 +147,8 @@ export const cashdeskService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/Cashdesk/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Cashdesk
@@ -140,6 +160,8 @@ export const cashdeskService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/Cashdesk/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Cashdesk
@@ -152,5 +174,7 @@ export const cashdeskService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/Cashdesk/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

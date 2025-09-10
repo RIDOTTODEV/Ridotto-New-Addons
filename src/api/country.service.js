@@ -13,6 +13,8 @@ export const countryService = {
    */
   getCountries(data = {}, options = {}) {
     return api.get('/api/Country/GetCountries', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Country
@@ -25,6 +27,8 @@ export const countryService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/Country/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Country
@@ -45,6 +49,8 @@ export const countryService = {
       data.skipCount = 0
     }
     return api.get('/api/Country/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Country
@@ -56,6 +62,8 @@ export const countryService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/Country/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Country
@@ -67,6 +75,8 @@ export const countryService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/Country/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Country
@@ -79,5 +89,7 @@ export const countryService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/Country/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

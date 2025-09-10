@@ -14,6 +14,8 @@ export const meterGroupService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/MeterGroup/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Meter Group
@@ -26,6 +28,8 @@ export const meterGroupService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/MeterGroup/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Meter Group
@@ -46,6 +50,8 @@ export const meterGroupService = {
       data.skipCount = 0
     }
     return api.get('/api/MeterGroup/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Meter Group
@@ -57,6 +63,8 @@ export const meterGroupService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/MeterGroup/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Meter Group
@@ -68,6 +76,8 @@ export const meterGroupService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/MeterGroup/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Meter Group
@@ -80,5 +90,7 @@ export const meterGroupService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/MeterGroup/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

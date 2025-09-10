@@ -22,6 +22,8 @@ export const gmWidgetService = {
    */
   getTopNPlayers(data = {}, options = {}) {
     return api.get('/api/GmWidget/GetTopNPlayers', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Top N Slots Gm Widget
@@ -42,6 +44,8 @@ export const gmWidgetService = {
    */
   getTopNSlots(data = {}, options = {}) {
     return api.get('/api/GmWidget/GetTopNSlots', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Top N Player Play Time Gm Widget
@@ -60,6 +64,8 @@ export const gmWidgetService = {
    */
   getTopNPlayerPlayTime(data = {}, options = {}) {
     return api.get('/api/GmWidget/GetTopNPlayerPlayTime', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Top N Slot Brands Gm Widget
@@ -80,6 +86,8 @@ export const gmWidgetService = {
    */
   getTopNSlotBrands(data = {}, options = {}) {
     return api.get('/api/GmWidget/GetTopNSlotBrands', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Top N Slot Banks Gm Widget
@@ -99,5 +107,7 @@ export const gmWidgetService = {
    */
   getTopNSlotBanks(data = {}, options = {}) {
     return api.get('/api/GmWidget/GetTopNSlotBanks', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

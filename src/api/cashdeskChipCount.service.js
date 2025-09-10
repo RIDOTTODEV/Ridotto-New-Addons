@@ -13,6 +13,8 @@ export const cashdeskChipCountService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/CashdeskChipCount/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Reset Cashdesk Chip Balance Cashdesk Chip Count
@@ -24,6 +26,8 @@ export const cashdeskChipCountService = {
    */
   resetCashdeskChipBalance(data = {}, options = {}) {
     return api.post('/api/CashdeskChipCount/ResetCashdeskChipBalance', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Chip Count Denomination Cashdesk Chip Count
@@ -36,6 +40,8 @@ export const cashdeskChipCountService = {
    */
   getAllChipCountDenomination(data = {}, options = {}) {
     return api.get('/api/CashdeskChipCount/GetAllChipCountDenomination', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Balance Cashdesk Chip Count
@@ -49,5 +55,7 @@ export const cashdeskChipCountService = {
    */
   getBalance(data = {}, options = {}) {
     return api.get('/api/CashdeskChipCount/GetBalance', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

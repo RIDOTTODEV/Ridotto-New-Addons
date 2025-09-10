@@ -14,6 +14,8 @@ export const slotUiLanguageKeyService = {
    */
   getSlotUiTexts(data = {}, options = {}) {
     return api.get('/api/SlotUiLanguageKey/GetSlotUiTexts', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Slot Ui Texts Slot Ui Language Key
@@ -25,6 +27,8 @@ export const slotUiLanguageKeyService = {
    */
   updateSlotUiTexts(data = {}, options = {}) {
     return api.post('/api/SlotUiLanguageKey/UpdateSlotUiTexts', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Ui Key Slot Ui Language Key
@@ -37,6 +41,8 @@ export const slotUiLanguageKeyService = {
    */
   getSlotUiKey(data = {}, options = {}) {
     return api.get('/api/SlotUiLanguageKey/GetSlotUiKey', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Slot Ui Key Slot Ui Language Key
@@ -48,6 +54,8 @@ export const slotUiLanguageKeyService = {
    */
   createSlotUiKey(data = {}, options = {}) {
     return api.post('/api/SlotUiLanguageKey/CreateSlotUiKey', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Slot Ui Key Slot Ui Language Key
@@ -59,5 +67,7 @@ export const slotUiLanguageKeyService = {
    */
   updateSlotUiKey(data = {}, options = {}) {
     return api.post('/api/SlotUiLanguageKey/UpdateSlotUiKey', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

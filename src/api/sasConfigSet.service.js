@@ -16,6 +16,8 @@ export const sasConfigSetService = {
    */
   getDdl(data = {}, options = {}) {
     return api.get('/api/SasConfigSet/GetDdl', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Sas Config Set
@@ -28,6 +30,8 @@ export const sasConfigSetService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/SasConfigSet/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Sas Config Set
@@ -48,6 +52,8 @@ export const sasConfigSetService = {
       data.skipCount = 0
     }
     return api.get('/api/SasConfigSet/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Sas Config Set
@@ -59,6 +65,8 @@ export const sasConfigSetService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/SasConfigSet/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Sas Config Set
@@ -70,6 +78,8 @@ export const sasConfigSetService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/SasConfigSet/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Sas Config Set
@@ -82,5 +92,7 @@ export const sasConfigSetService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/SasConfigSet/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

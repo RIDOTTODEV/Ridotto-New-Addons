@@ -14,6 +14,8 @@ export const slotUiService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/SlotUi/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Ui Data By Mac Address Slot Ui
@@ -27,5 +29,7 @@ export const slotUiService = {
    */
   getUiDataByMacAddress(data = {}, options = {}) {
     return api.get('/api/SlotUi/GetUiDataByMacAddress', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

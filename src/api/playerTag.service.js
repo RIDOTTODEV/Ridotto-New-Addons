@@ -14,6 +14,8 @@ export const playerTagService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/PlayerTag/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Player Tag
@@ -34,6 +36,8 @@ export const playerTagService = {
       data.skipCount = 0
     }
     return api.get('/api/PlayerTag/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Player Tag
@@ -45,6 +49,8 @@ export const playerTagService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/PlayerTag/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Player Tag
@@ -56,6 +62,8 @@ export const playerTagService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/PlayerTag/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Player Tag
@@ -68,5 +76,7 @@ export const playerTagService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/PlayerTag/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

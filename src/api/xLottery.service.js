@@ -25,6 +25,8 @@ export const xLotteryService = {
       data.skipCount = 0
     }
     return api.get('/api/XLottery/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Lottery X Lottery
@@ -36,6 +38,8 @@ export const xLotteryService = {
    */
   createLottery(data = {}, options = {}) {
     return api.post('/api/XLottery/CreateLottery', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Highlight Lottery X Lottery
@@ -49,6 +53,8 @@ export const xLotteryService = {
    */
   getHighlightLottery(data = {}, options = {}) {
     return api.get('/api/XLottery/GetHighlightLottery', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Lottery X Lottery
@@ -61,6 +67,8 @@ export const xLotteryService = {
    */
   getLottery(data = {}, options = {}) {
     return api.get('/api/XLottery/GetLottery', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Lottery X Lottery
@@ -72,6 +80,8 @@ export const xLotteryService = {
    */
   updateLottery(data = {}, options = {}) {
     return api.post('/api/XLottery/UpdateLottery', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Lottery Point X Lottery
@@ -85,6 +95,8 @@ export const xLotteryService = {
    */
   getPlayerLotteryPoint(data = {}, options = {}) {
     return api.get('/api/XLottery/GetPlayerLotteryPoint', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Lotteries X Lottery
@@ -98,6 +110,8 @@ export const xLotteryService = {
    */
   getPlayerLotteries(data = {}, options = {}) {
     return api.get('/api/XLottery/GetPlayerLotteries', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Lottery Player Point Totals X Lottery
@@ -113,6 +127,8 @@ export const xLotteryService = {
    */
   getLotteryPlayerPointTotals(data = {}, options = {}) {
     return api.get('/api/XLottery/GetLotteryPlayerPointTotals', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Lottery Player Points X Lottery
@@ -140,6 +156,8 @@ export const xLotteryService = {
       data.skipCount = 0
     }
     return api.get('/api/XLottery/GetLotteryPlayerPoints', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Lottery Winner Ticket X Lottery
@@ -152,6 +170,8 @@ export const xLotteryService = {
    */
   getLotteryWinnerTicket(data = {}, options = {}) {
     return api.get('/api/XLottery/GetLotteryWinnerTicket', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Tickets X Lottery
@@ -175,6 +195,8 @@ export const xLotteryService = {
       data.skipCount = 0
     }
     return api.get('/api/XLottery/GetAllTickets', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Lottery Ticket Count And Turn Over X Lottery
@@ -190,5 +212,7 @@ export const xLotteryService = {
    */
   getLotteryTicketCountAndTurnOver(data = {}, options = {}) {
     return api.get('/api/XLottery/GetLotteryTicketCountAndTurnOver', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

@@ -16,6 +16,8 @@ export const playerInfoService = {
    */
   getPlayerInformationDetail(data = {}, options = {}) {
     return api.get('/api/PlayerInfo/GetPlayerInformationDetail', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Information Meta Detail Player Info
@@ -29,5 +31,7 @@ export const playerInfoService = {
    */
   getPlayerInformationMetaDetail(data = {}, options = {}) {
     return api.get('/api/PlayerInfo/GetPlayerInformationMetaDetail', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

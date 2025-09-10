@@ -14,6 +14,8 @@ export const roomTypeService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/RoomType/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Room Type
@@ -34,6 +36,8 @@ export const roomTypeService = {
       data.skipCount = 0
     }
     return api.get('/api/RoomType/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Room Type
@@ -45,6 +49,8 @@ export const roomTypeService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/RoomType/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Room Type
@@ -56,6 +62,8 @@ export const roomTypeService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/RoomType/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Room Type
@@ -68,5 +76,7 @@ export const roomTypeService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/RoomType/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

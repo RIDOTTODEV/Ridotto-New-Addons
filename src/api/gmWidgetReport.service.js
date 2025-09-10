@@ -22,6 +22,8 @@ export const gmWidgetReportService = {
    */
   getTopNSlots(data = {}, options = {}) {
     return api.get('/api/GmWidgetReport/GetTopNSlots', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Top N Slot Brands Gm Widget Report
@@ -42,6 +44,8 @@ export const gmWidgetReportService = {
    */
   getTopNSlotBrands(data = {}, options = {}) {
     return api.get('/api/GmWidgetReport/GetTopNSlotBrands', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Top N Slot Banks Gm Widget Report
@@ -61,6 +65,8 @@ export const gmWidgetReportService = {
    */
   getTopNSlotBanks(data = {}, options = {}) {
     return api.get('/api/GmWidgetReport/GetTopNSlotBanks', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Money Stats Summary Gm Widget Report
@@ -80,6 +86,8 @@ export const gmWidgetReportService = {
    */
   getMoneyStatsSummary(data = {}, options = {}) {
     return api.get('/api/GmWidgetReport/GetMoneyStatsSummary', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Top N Players Gm Widget Report
@@ -100,5 +108,7 @@ export const gmWidgetReportService = {
    */
   getTopNPlayers(data = {}, options = {}) {
     return api.get('/api/GmWidgetReport/GetTopNPlayers', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

@@ -14,6 +14,8 @@ export const playerLinkService = {
    */
   getLinkedPlayersByPlayer(data = {}, options = {}) {
     return api.get('/api/PlayerLink/GetLinkedPlayersByPlayer', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Add Player Link
@@ -25,6 +27,8 @@ export const playerLinkService = {
    */
   add(data = {}, options = {}) {
     return api.post('/api/PlayerLink/Add', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Player Link
@@ -37,5 +41,7 @@ export const playerLinkService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/PlayerLink/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

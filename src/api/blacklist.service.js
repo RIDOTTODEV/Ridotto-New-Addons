@@ -14,6 +14,8 @@ export const blacklistService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/Blacklist/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Blacklist
@@ -36,6 +38,8 @@ export const blacklistService = {
       data.skipCount = 0
     }
     return api.get('/api/Blacklist/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Blacklist
@@ -47,6 +51,8 @@ export const blacklistService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/Blacklist/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Blacklist
@@ -58,6 +64,8 @@ export const blacklistService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/Blacklist/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Blacklist
@@ -70,5 +78,7 @@ export const blacklistService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/Blacklist/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

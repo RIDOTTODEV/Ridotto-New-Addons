@@ -14,6 +14,8 @@ export const slotBankService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/SlotBank/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Bank
@@ -26,6 +28,8 @@ export const slotBankService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/SlotBank/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Slot Bank
@@ -46,6 +50,8 @@ export const slotBankService = {
       data.skipCount = 0
     }
     return api.get('/api/SlotBank/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Slot Bank
@@ -57,6 +63,8 @@ export const slotBankService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/SlotBank/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Slot Bank
@@ -68,6 +76,8 @@ export const slotBankService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/SlotBank/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Slot Bank
@@ -80,5 +90,7 @@ export const slotBankService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/SlotBank/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

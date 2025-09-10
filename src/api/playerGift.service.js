@@ -14,6 +14,8 @@ export const playerGiftService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/PlayerGift/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Player Gift
@@ -39,6 +41,8 @@ export const playerGiftService = {
       data.skipCount = 0
     }
     return api.get('/api/PlayerGift/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Player Gift
@@ -50,6 +54,8 @@ export const playerGiftService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/PlayerGift/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Player Gift
@@ -61,6 +67,8 @@ export const playerGiftService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/PlayerGift/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Player Gift
@@ -73,5 +81,7 @@ export const playerGiftService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/PlayerGift/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

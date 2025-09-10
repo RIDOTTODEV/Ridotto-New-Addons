@@ -21,5 +21,7 @@ export const gmMeterSummaryService = {
       data.skipCount = 0
     }
     return api.get('/api/GmMeterSummary/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

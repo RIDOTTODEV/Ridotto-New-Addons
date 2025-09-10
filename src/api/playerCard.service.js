@@ -13,6 +13,8 @@ export const playerCardService = {
    */
   getPlayerCards(data = {}, options = {}) {
     return api.get('/api/PlayerCard/GetPlayerCards', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Player Card Player Card
@@ -24,6 +26,8 @@ export const playerCardService = {
    */
   createPlayerCard(data = {}, options = {}) {
     return api.post('/api/PlayerCard/CreatePlayerCard', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Player Card Player Card
@@ -35,6 +39,8 @@ export const playerCardService = {
    */
   updatePlayerCard(data = {}, options = {}) {
     return api.post('/api/PlayerCard/UpdatePlayerCard', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Disable Player Card Player Card
@@ -47,6 +53,8 @@ export const playerCardService = {
    */
   disablePlayerCard(data = {}, options = {}) {
     return api.delete('/api/PlayerCard/DisablePlayerCard', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Disable Player Card By Card Uid Player Card
@@ -58,5 +66,7 @@ export const playerCardService = {
    */
   disablePlayerCardByCardUid(data = {}, options = {}) {
     return api.post('/api/PlayerCard/DisablePlayerCardByCardUid', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

@@ -14,6 +14,8 @@ export const currencyDenominationService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/CurrencyDenomination/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Currency Denomination
@@ -34,6 +36,8 @@ export const currencyDenominationService = {
       data.skipCount = 0
     }
     return api.get('/api/CurrencyDenomination/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Currency Denomination
@@ -45,6 +49,8 @@ export const currencyDenominationService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/CurrencyDenomination/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Currency Denomination
@@ -56,6 +62,8 @@ export const currencyDenominationService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/CurrencyDenomination/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Currency Denomination
@@ -68,5 +76,7 @@ export const currencyDenominationService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/CurrencyDenomination/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

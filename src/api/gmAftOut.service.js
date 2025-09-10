@@ -28,5 +28,7 @@ export const gmAftOutService = {
       data.skipCount = 0
     }
     return api.get('/api/GmAftOut/GetGmAftOuts', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

@@ -13,6 +13,8 @@ export const casinoChipStockService = {
    */
   getAll(data = {}, options = {}) {
     return api.get('/api/CasinoChipStock/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Histories Casino Chip Stock
@@ -24,6 +26,8 @@ export const casinoChipStockService = {
    */
   getHistories(data = {}, options = {}) {
     return api.get('/api/CasinoChipStock/GetHistories', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Chip Stock In Out Casino Chip Stock
@@ -35,5 +39,7 @@ export const casinoChipStockService = {
    */
   chipStockInOut(data = {}, options = {}) {
     return api.post('/api/CasinoChipStock/ChipStockInOut', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

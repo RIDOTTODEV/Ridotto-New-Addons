@@ -28,6 +28,8 @@ export const gmAftInService = {
       data.skipCount = 0
     }
     return api.get('/api/GmAftIn/GetGmAftIns', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Gm Aft In Outs Gm Aft In
@@ -54,5 +56,7 @@ export const gmAftInService = {
       data.skipCount = 0
     }
     return api.get('/api/GmAftIn/GetGmAftInOuts', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

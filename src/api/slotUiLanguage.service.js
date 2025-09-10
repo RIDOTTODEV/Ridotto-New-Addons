@@ -16,6 +16,8 @@ export const slotUiLanguageService = {
    */
   getLanguagesDdl(data = {}, options = {}) {
     return api.get('/api/SlotUiLanguage/GetLanguagesDdl', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Ui Language
@@ -28,6 +30,8 @@ export const slotUiLanguageService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/SlotUiLanguage/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Slot Ui Language
@@ -48,6 +52,8 @@ export const slotUiLanguageService = {
       data.skipCount = 0
     }
     return api.get('/api/SlotUiLanguage/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Slot Ui Language
@@ -59,6 +65,8 @@ export const slotUiLanguageService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/SlotUiLanguage/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Slot Ui Language
@@ -70,6 +78,8 @@ export const slotUiLanguageService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/SlotUiLanguage/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Slot Ui Language
@@ -82,5 +92,7 @@ export const slotUiLanguageService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/SlotUiLanguage/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

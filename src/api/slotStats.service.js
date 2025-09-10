@@ -28,6 +28,8 @@ export const slotStatsService = {
       data.skipCount = 0
     }
     return api.get('/api/SlotStats/GetSlotDailyPlayerDetail', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Machine Top10 Games Slot Stats
@@ -45,6 +47,8 @@ export const slotStatsService = {
    */
   getSlotMachineTop10Games(data = {}, options = {}) {
     return api.get('/api/SlotStats/GetSlotMachineTop10Games', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Machine Top10 Players Slot Stats
@@ -62,6 +66,8 @@ export const slotStatsService = {
    */
   getSlotMachineTop10Players(data = {}, options = {}) {
     return api.get('/api/SlotStats/GetSlotMachineTop10Players', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Slot Brand Summary Games Played Slot Stats
@@ -82,6 +88,8 @@ export const slotStatsService = {
    */
   slotBrandSummaryGamesPlayed(data = {}, options = {}) {
     return api.get('/api/SlotStats/SlotBrandSummaryGamesPlayed', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Result By Gaming Date Graph Slot Stats
@@ -99,6 +107,8 @@ export const slotStatsService = {
    */
   getSlotResultByGamingDateGraph(data = {}, options = {}) {
     return api.get('/api/SlotStats/GetSlotResultByGamingDateGraph', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Top N Games By Bet And Games Played Slot Stats
@@ -117,5 +127,7 @@ export const slotStatsService = {
    */
   getTopNGamesByBetAndGamesPlayed(data = {}, options = {}) {
     return api.get('/api/SlotStats/GetTopNGamesByBetAndGamesPlayed', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

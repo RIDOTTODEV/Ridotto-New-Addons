@@ -139,14 +139,10 @@ export const ${lowerFirstLetter(k)}Service = {
           }
         }
         content += `
-    return api.${subO.method}(${k === 'Pos' ? 'apiUrl + ' : ''}'${subO.url}', { params: data, ...options })
-      .then((response) => response)
-      .catch((error) => error)`
+    return api.${subO.method}(${k === 'Pos' ? 'apiUrl + ' : ''}'${subO.url}', { params: data, ...options })`
       } else {
         content += `
-    return api.${subO.method}(${k === 'Pos' ? 'apiUrl + ' : ''}'${subO.url}', data, options)
-      .then((response) => response)
-      .catch((error) => error)`
+    return api.${subO.method}(${k === 'Pos' ? 'apiUrl + ' : ''}'${subO.url}', data, options)`
       }
       content += `
   }${i < Object.values(o).length ? ',' : ''}

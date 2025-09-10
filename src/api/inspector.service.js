@@ -13,6 +13,8 @@ export const inspectorService = {
    */
   getInspectorFollowedTables(data = {}, options = {}) {
     return api.get('/api/Inspector/GetInspectorFollowedTables', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Reset Inspector Tables Inspector
@@ -25,5 +27,7 @@ export const inspectorService = {
    */
   resetInspectorTables(data = {}, options = {}) {
     return api.get('/api/Inspector/ResetInspectorTables', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

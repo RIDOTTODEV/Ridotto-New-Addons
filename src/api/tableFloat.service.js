@@ -13,6 +13,8 @@ export const tableFloatService = {
    */
   setTableFloat(data = {}, options = {}) {
     return api.post('/api/TableFloat/SetTableFloat', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Expected Table Float Table Float
@@ -25,6 +27,8 @@ export const tableFloatService = {
    */
   getExpectedTableFloat(data = {}, options = {}) {
     return api.get('/api/TableFloat/GetExpectedTableFloat', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Table Float
@@ -37,5 +41,7 @@ export const tableFloatService = {
    */
   getAll(data = {}, options = {}) {
     return api.get('/api/TableFloat/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

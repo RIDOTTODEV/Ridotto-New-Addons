@@ -14,6 +14,8 @@ export const playerCategoryService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/PlayerCategory/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Player Category
@@ -34,6 +36,8 @@ export const playerCategoryService = {
       data.skipCount = 0
     }
     return api.get('/api/PlayerCategory/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Player Category
@@ -45,6 +49,8 @@ export const playerCategoryService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/PlayerCategory/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Player Category
@@ -56,6 +62,8 @@ export const playerCategoryService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/PlayerCategory/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Player Category
@@ -68,5 +76,7 @@ export const playerCategoryService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/PlayerCategory/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

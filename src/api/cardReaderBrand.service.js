@@ -14,6 +14,8 @@ export const cardReaderBrandService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/CardReaderBrand/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Card Reader Brand
@@ -26,6 +28,8 @@ export const cardReaderBrandService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/CardReaderBrand/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Card Reader Brand
@@ -46,6 +50,8 @@ export const cardReaderBrandService = {
       data.skipCount = 0
     }
     return api.get('/api/CardReaderBrand/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Card Reader Brand
@@ -57,6 +63,8 @@ export const cardReaderBrandService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/CardReaderBrand/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Card Reader Brand
@@ -68,6 +76,8 @@ export const cardReaderBrandService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/CardReaderBrand/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Card Reader Brand
@@ -80,5 +90,7 @@ export const cardReaderBrandService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/CardReaderBrand/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

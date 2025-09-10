@@ -18,6 +18,8 @@ export const inOutReportService = {
    */
   getInOutReportNew(data = {}, options = {}) {
     return api.get('/api/InOutReport/GetInOutReportNew', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get In Out Player Detail In Out Report
@@ -34,6 +36,8 @@ export const inOutReportService = {
    */
   getInOutPlayerDetail(data = {}, options = {}) {
     return api.get('/api/InOutReport/GetInOutPlayerDetail', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Report Detail In Out In Out Report
@@ -50,6 +54,8 @@ export const inOutReportService = {
    */
   getReportDetailInOut(data = {}, options = {}) {
     return api.get('/api/InOutReport/GetReportDetailInOut', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Report Detail Net In Out Report
@@ -66,6 +72,8 @@ export const inOutReportService = {
    */
   getReportDetailNet(data = {}, options = {}) {
     return api.get('/api/InOutReport/GetReportDetailNet', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Filtered Report In Out Report
@@ -82,6 +90,8 @@ export const inOutReportService = {
    */
   getFilteredReport(data = {}, options = {}) {
     return api.get('/api/InOutReport/GetFilteredReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Net Cash Report In Out Report
@@ -98,6 +108,8 @@ export const inOutReportService = {
    */
   getNetCashReport(data = {}, options = {}) {
     return api.get('/api/InOutReport/GetNetCashReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Net Cash Summary Report In Out Report
@@ -114,6 +126,8 @@ export const inOutReportService = {
    */
   getNetCashSummaryReport(data = {}, options = {}) {
     return api.get('/api/InOutReport/GetNetCashSummaryReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Missing Chip Details In Out Report
@@ -130,5 +144,7 @@ export const inOutReportService = {
    */
   getPlayerMissingChipDetails(data = {}, options = {}) {
     return api.get('/api/InOutReport/GetPlayerMissingChipDetails', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

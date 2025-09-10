@@ -28,5 +28,7 @@ export const playerStatsService = {
       data.skipCount = 0
     }
     return api.get('/api/PlayerStats/GetPlayersDrop', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

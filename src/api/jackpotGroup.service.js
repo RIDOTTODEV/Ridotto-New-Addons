@@ -14,6 +14,8 @@ export const jackpotGroupService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/JackpotGroup/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Jackpot Group
@@ -26,6 +28,8 @@ export const jackpotGroupService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/JackpotGroup/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Jackpot Group
@@ -46,6 +50,8 @@ export const jackpotGroupService = {
       data.skipCount = 0
     }
     return api.get('/api/JackpotGroup/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Jackpot Group
@@ -57,6 +63,8 @@ export const jackpotGroupService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/JackpotGroup/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Jackpot Group
@@ -68,6 +76,8 @@ export const jackpotGroupService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/JackpotGroup/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Jackpot Group
@@ -80,5 +90,7 @@ export const jackpotGroupService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/JackpotGroup/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

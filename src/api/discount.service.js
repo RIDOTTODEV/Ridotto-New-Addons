@@ -14,6 +14,8 @@ export const discountService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/Discount/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Discount
@@ -34,6 +36,8 @@ export const discountService = {
       data.skipCount = 0
     }
     return api.get('/api/Discount/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Discount
@@ -45,6 +49,8 @@ export const discountService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/Discount/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Discount
@@ -56,6 +62,8 @@ export const discountService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/Discount/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Discount
@@ -68,5 +76,7 @@ export const discountService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/Discount/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

@@ -14,6 +14,8 @@ export const playerAttachmentService = {
    */
   getAllByPlayer(data = {}, options = {}) {
     return api.get('/api/PlayerAttachment/GetAllByPlayer', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Download File Player Attachment
@@ -26,6 +28,8 @@ export const playerAttachmentService = {
    */
   downloadFile(data = {}, options = {}) {
     return api.get('/api/PlayerAttachment/DownloadFile', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Add Player Attachment
@@ -37,6 +41,8 @@ export const playerAttachmentService = {
    */
   add(data = {}, options = {}) {
     return api.post('/api/PlayerAttachment/Add', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Player Attachment
@@ -49,5 +55,7 @@ export const playerAttachmentService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/PlayerAttachment/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

@@ -13,6 +13,8 @@ export const playerLgService = {
    */
   updatePlayerAvgBet(data = {}, options = {}) {
     return api.post('/api/PlayerLg/UpdatePlayerAvgBet', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Player Chip In Out Player Lg
@@ -24,6 +26,8 @@ export const playerLgService = {
    */
   playerChipInOut(data = {}, options = {}) {
     return api.post('/api/PlayerLg/PlayerChipInOut', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Player Marker In Out Player Lg
@@ -35,6 +39,8 @@ export const playerLgService = {
    */
   playerMarkerInOut(data = {}, options = {}) {
     return api.post('/api/PlayerLg/PlayerMarkerInOut', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Player Cash In Player Lg
@@ -46,6 +52,8 @@ export const playerLgService = {
    */
   playerCashIn(data = {}, options = {}) {
     return api.post('/api/PlayerLg/PlayerCashIn', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Player Sit Player Lg
@@ -57,6 +65,8 @@ export const playerLgService = {
    */
   playerSit(data = {}, options = {}) {
     return api.post('/api/PlayerLg/PlayerSit', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Player Pause Or Resume Player Lg
@@ -68,6 +78,8 @@ export const playerLgService = {
    */
   playerPauseOrResume(data = {}, options = {}) {
     return api.post('/api/PlayerLg/PlayerPauseOrResume', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Player Leave Player Lg
@@ -79,6 +91,8 @@ export const playerLgService = {
    */
   playerLeave(data = {}, options = {}) {
     return api.post('/api/PlayerLg/PlayerLeave', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Player Sit Delete Player Lg
@@ -91,6 +105,8 @@ export const playerLgService = {
    */
   playerSitDelete(data = {}, options = {}) {
     return api.delete('/api/PlayerLg/PlayerSitDelete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Chip Drop Histories Player Lg
@@ -106,6 +122,8 @@ export const playerLgService = {
    */
   getChipDropHistories(data = {}, options = {}) {
     return api.get('/api/PlayerLg/GetChipDropHistories', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Chip Drop Detail Histories Player Lg
@@ -120,6 +138,8 @@ export const playerLgService = {
    */
   getChipDropDetailHistories(data = {}, options = {}) {
     return api.get('/api/PlayerLg/GetChipDropDetailHistories', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Drop Histories Player Lg
@@ -134,6 +154,8 @@ export const playerLgService = {
    */
   getDropHistories(data = {}, options = {}) {
     return api.get('/api/PlayerLg/GetDropHistories', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Cash Drop Detail Histories Player Lg
@@ -148,6 +170,8 @@ export const playerLgService = {
    */
   getCashDropDetailHistories(data = {}, options = {}) {
     return api.get('/api/PlayerLg/GetCashDropDetailHistories', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Sit Player Histories Player Lg
@@ -161,6 +185,8 @@ export const playerLgService = {
    */
   getSitPlayerHistories(data = {}, options = {}) {
     return api.get('/api/PlayerLg/GetSitPlayerHistories', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Sit Players Player Lg
@@ -173,6 +199,8 @@ export const playerLgService = {
    */
   getSitPlayers(data = {}, options = {}) {
     return api.get('/api/PlayerLg/GetSitPlayers', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Table In Out Transactions Player Lg
@@ -190,6 +218,8 @@ export const playerLgService = {
    */
   getPlayerTableInOutTransactions(data = {}, options = {}) {
     return api.get('/api/PlayerLg/GetPlayerTableInOutTransactions', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Table Report Player Lg
@@ -203,6 +233,8 @@ export const playerLgService = {
    */
   getTableReport(data = {}, options = {}) {
     return api.get('/api/PlayerLg/GetTableReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Table Total Drop Player Lg
@@ -216,6 +248,8 @@ export const playerLgService = {
    */
   getTableTotalDrop(data = {}, options = {}) {
     return api.get('/api/PlayerLg/GetTableTotalDrop', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Lg Info Player Lg
@@ -230,6 +264,8 @@ export const playerLgService = {
    */
   getPlayerLgInfo(data = {}, options = {}) {
     return api.get('/api/PlayerLg/GetPlayerLgInfo', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Player Sit Today History Player Lg
@@ -242,5 +278,7 @@ export const playerLgService = {
    */
   playerSitTodayHistory(data = {}, options = {}) {
     return api.get('/api/PlayerLg/PlayerSitTodayHistory', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

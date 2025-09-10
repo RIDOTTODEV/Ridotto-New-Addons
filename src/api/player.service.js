@@ -33,6 +33,8 @@ export const playerService = {
       data.skipCount = 0
     }
     return api.get('/api/Player/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Profile Player
@@ -45,6 +47,8 @@ export const playerService = {
    */
   getProfile(data = {}, options = {}) {
     return api.get('/api/Player/GetProfile', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player
@@ -57,6 +61,8 @@ export const playerService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/Player/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Info Player
@@ -69,6 +75,8 @@ export const playerService = {
    */
   getPlayerInfo(data = {}, options = {}) {
     return api.get('/api/Player/GetPlayerInfo', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Visit Dates Player
@@ -86,6 +94,8 @@ export const playerService = {
    */
   getPlayerVisitDates(data = {}, options = {}) {
     return api.get('/api/Player/GetPlayerVisitDates', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Search Return With Profile Photos Player
@@ -98,6 +108,8 @@ export const playerService = {
    */
   searchReturnWithProfilePhotos(data = {}, options = {}) {
     return api.get('/api/Player/SearchReturnWithProfilePhotos', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Image Player
@@ -110,6 +122,8 @@ export const playerService = {
    */
   getPlayerImage(data = {}, options = {}) {
     return api.get('/api/Player/GetPlayerImage', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Blacklist Info Player
@@ -122,6 +136,8 @@ export const playerService = {
    */
   getBlacklistInfo(data = {}, options = {}) {
     return api.get('/api/Player/GetBlacklistInfo', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Day Total Time Player
@@ -138,6 +154,8 @@ export const playerService = {
    */
   getDayTotalTime(data = {}, options = {}) {
     return api.get('/api/Player/GetDayTotalTime', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Discount Percentage Player
@@ -152,6 +170,8 @@ export const playerService = {
    */
   getDiscountPercentage(data = {}, options = {}) {
     return api.get('/api/Player/GetDiscountPercentage', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Portfolios Player
@@ -183,6 +203,8 @@ export const playerService = {
       data.skipCount = 0
     }
     return api.get('/api/Player/GetPlayerPortfolios', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Transactions Player
@@ -201,6 +223,8 @@ export const playerService = {
    */
   getPlayerTransactions(data = {}, options = {}) {
     return api.get('/api/Player/GetPlayerTransactions', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Save Profile Player
@@ -212,6 +236,8 @@ export const playerService = {
    */
   saveProfile(data = {}, options = {}) {
     return api.post('/api/Player/SaveProfile', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Profile Player
@@ -223,6 +249,8 @@ export const playerService = {
    */
   updateProfile(data = {}, options = {}) {
     return api.post('/api/Player/UpdateProfile', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Or Update Player
@@ -234,6 +262,8 @@ export const playerService = {
    */
   createOrUpdate(data = {}, options = {}) {
     return api.post('/api/Player/CreateOrUpdate', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Set Player Active Player
@@ -245,6 +275,8 @@ export const playerService = {
    */
   setPlayerActive(data = {}, options = {}) {
     return api.post('/api/Player/SetPlayerActive', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Default Currency Player
@@ -256,6 +288,8 @@ export const playerService = {
    */
   updateDefaultCurrency(data = {}, options = {}) {
     return api.post('/api/Player/UpdateDefaultCurrency', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Black List Player
@@ -267,6 +301,8 @@ export const playerService = {
    */
   updateBlackList(data = {}, options = {}) {
     return api.post('/api/Player/UpdateBlackList', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Player Note Player
@@ -278,6 +314,8 @@ export const playerService = {
    */
   updatePlayerNote(data = {}, options = {}) {
     return api.post('/api/Player/UpdatePlayerNote', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Player Meta Detail Player
@@ -289,6 +327,8 @@ export const playerService = {
    */
   updatePlayerMetaDetail(data = {}, options = {}) {
     return api.post('/api/Player/UpdatePlayerMetaDetail', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Discount Player
@@ -300,6 +340,8 @@ export const playerService = {
    */
   updateDiscount(data = {}, options = {}) {
     return api.post('/api/Player/UpdateDiscount', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update User Class Player
@@ -311,6 +353,8 @@ export const playerService = {
    */
   updateUserClass(data = {}, options = {}) {
     return api.post('/api/Player/UpdateUserClass', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Player Status Flags Player
@@ -322,6 +366,8 @@ export const playerService = {
    */
   updatePlayerStatusFlags(data = {}, options = {}) {
     return api.post('/api/Player/UpdatePlayerStatusFlags', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Save Profile Photo Player
@@ -333,6 +379,8 @@ export const playerService = {
    */
   saveProfilePhoto(data = {}, options = {}) {
     return api.put('/api/Player/SaveProfilePhoto', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Photo As Jpeg Player
@@ -345,5 +393,7 @@ export const playerService = {
    */
   getPhotoAsJpeg(data = {}, options = {}) {
     return api.get('/api/Player/GetPhotoAsJpeg', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

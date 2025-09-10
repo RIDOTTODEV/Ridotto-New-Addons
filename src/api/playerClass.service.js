@@ -14,6 +14,8 @@ export const playerClassService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/PlayerClass/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Player Class
@@ -34,6 +36,8 @@ export const playerClassService = {
       data.skipCount = 0
     }
     return api.get('/api/PlayerClass/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Player Class
@@ -45,6 +49,8 @@ export const playerClassService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/PlayerClass/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Player Class
@@ -56,6 +62,8 @@ export const playerClassService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/PlayerClass/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Player Class
@@ -68,5 +76,7 @@ export const playerClassService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/PlayerClass/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

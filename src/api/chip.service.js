@@ -13,6 +13,8 @@ export const chipService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/Chip/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Chip
@@ -24,6 +26,8 @@ export const chipService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/Chip/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Gaming Chip Types Chip
@@ -35,6 +39,8 @@ export const chipService = {
    */
   getGamingChipTypes(data = {}, options = {}) {
     return api.get('/api/Chip/GetGamingChipTypes', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Chip
@@ -47,6 +53,8 @@ export const chipService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/Chip/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Chip
@@ -67,6 +75,8 @@ export const chipService = {
       data.skipCount = 0
     }
     return api.get('/api/Chip/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Chip
@@ -79,5 +89,7 @@ export const chipService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/Chip/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

@@ -33,6 +33,8 @@ export const statsService = {
       data.skipCount = 0
     }
     return api.get('/api/Stats/GetCriticalEvents', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Hand Pay Activity Logs Stats
@@ -64,6 +66,8 @@ export const statsService = {
       data.skipCount = 0
     }
     return api.get('/api/Stats/GetHandPayActivityLogs', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Gm Event Logs Stats
@@ -93,5 +97,7 @@ export const statsService = {
       data.skipCount = 0
     }
     return api.get('/api/Stats/GetGmEventLogs', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

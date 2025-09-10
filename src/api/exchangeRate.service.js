@@ -24,6 +24,8 @@ export const exchangeRateService = {
       data.skipCount = 0
     }
     return api.get('/api/ExchangeRate/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Range Exchange Rate
@@ -35,6 +37,8 @@ export const exchangeRateService = {
    */
   createRange(data = {}, options = {}) {
     return api.post('/api/ExchangeRate/CreateRange', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Latest Rates Exchange Rate
@@ -50,6 +54,8 @@ export const exchangeRateService = {
    */
   getLatestRates(data = {}, options = {}) {
     return api.get('/api/ExchangeRate/GetLatestRates', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Converted Amount Exchange Rate
@@ -64,6 +70,8 @@ export const exchangeRateService = {
    */
   getConvertedAmount(data = {}, options = {}) {
     return api.get('/api/ExchangeRate/GetConvertedAmount', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Exchange Rate
@@ -76,6 +84,8 @@ export const exchangeRateService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/ExchangeRate/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Exchange Rate
@@ -87,6 +97,8 @@ export const exchangeRateService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/ExchangeRate/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Exchange Rate
@@ -98,6 +110,8 @@ export const exchangeRateService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/ExchangeRate/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Exchange Rate
@@ -110,5 +124,7 @@ export const exchangeRateService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/ExchangeRate/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

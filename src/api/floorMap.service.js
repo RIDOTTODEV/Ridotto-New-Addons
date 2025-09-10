@@ -18,6 +18,8 @@ export const floorMapService = {
    */
   getHeatmapByField(data = {}, options = {}) {
     return api.get('/api/FloorMap/GetHeatmapByField', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Heatmap By Sit Times Floor Map
@@ -38,6 +40,8 @@ export const floorMapService = {
    */
   getHeatmapBySitTimes(data = {}, options = {}) {
     return api.get('/api/FloorMap/GetHeatmapBySitTimes', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Floors Floor Map
@@ -49,6 +53,8 @@ export const floorMapService = {
    */
   getFloors(data = {}, options = {}) {
     return api.get('/api/FloorMap/GetFloors', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Floor Zones Floor Map
@@ -60,6 +66,8 @@ export const floorMapService = {
    */
   getFloorZones(data = {}, options = {}) {
     return api.get('/api/FloorMap/GetFloorZones', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Save Floor Map Floor Map
@@ -71,6 +79,8 @@ export const floorMapService = {
    */
   saveFloorMap(data = {}, options = {}) {
     return api.post('/api/FloorMap/SaveFloorMap', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Save Floor Floor Map
@@ -82,6 +92,8 @@ export const floorMapService = {
    */
   saveFloor(data = {}, options = {}) {
     return api.post('/api/FloorMap/SaveFloor', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Save Floor Zone Floor Map
@@ -93,6 +105,8 @@ export const floorMapService = {
    */
   saveFloorZone(data = {}, options = {}) {
     return api.post('/api/FloorMap/SaveFloorZone', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Floor Map
@@ -105,6 +119,8 @@ export const floorMapService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/FloorMap/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Floor Map
@@ -127,6 +143,8 @@ export const floorMapService = {
       data.skipCount = 0
     }
     return api.get('/api/FloorMap/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Floor Map
@@ -138,6 +156,8 @@ export const floorMapService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/FloorMap/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Floor Map
@@ -149,6 +169,8 @@ export const floorMapService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/FloorMap/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Floor Map
@@ -161,5 +183,7 @@ export const floorMapService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/FloorMap/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

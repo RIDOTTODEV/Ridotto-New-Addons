@@ -21,6 +21,8 @@ export const exportService = {
    */
   getSlotWinLoss(data = {}, options = {}) {
     return api.get('/api/Export/GetSlotWinLoss', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Promo Player Win Loss Export
@@ -38,6 +40,8 @@ export const exportService = {
    */
   getPromoPlayerWinLoss(data = {}, options = {}) {
     return api.get('/api/Export/GetPromoPlayerWinLoss', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Win Loss Export
@@ -55,6 +59,8 @@ export const exportService = {
    */
   getPlayerWinLoss(data = {}, options = {}) {
     return api.get('/api/Export/GetPlayerWinLoss', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Statistics By Meter Export
@@ -75,6 +81,8 @@ export const exportService = {
    */
   getSlotStatisticsByMeter(data = {}, options = {}) {
     return api.get('/api/Export/GetSlotStatisticsByMeter', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Slot Statistics By Money Export Export
@@ -95,6 +103,8 @@ export const exportService = {
    */
   slotStatisticsByMoneyExport(data = {}, options = {}) {
     return api.get('/api/Export/SlotStatisticsByMoneyExport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Slot Statistics By Game Export Export
@@ -114,6 +124,8 @@ export const exportService = {
    */
   slotStatisticsByGameExport(data = {}, options = {}) {
     return api.get('/api/Export/SlotStatisticsByGameExport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Game Statistics By Slot Export Export
@@ -134,6 +146,8 @@ export const exportService = {
    */
   gameStatisticsBySlotExport(data = {}, options = {}) {
     return api.get('/api/Export/GameStatisticsBySlotExport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Master Report Export
@@ -150,6 +164,8 @@ export const exportService = {
    */
   getMasterReport(data = {}, options = {}) {
     return api.get('/api/Export/GetMasterReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Balance Report Export
@@ -165,6 +181,8 @@ export const exportService = {
    */
   getBalanceReport(data = {}, options = {}) {
     return api.get('/api/Export/GetBalanceReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Portfolio Export
@@ -188,5 +206,7 @@ export const exportService = {
    */
   getPlayerPortfolio(data = {}, options = {}) {
     return api.get('/api/Export/GetPlayerPortfolio', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

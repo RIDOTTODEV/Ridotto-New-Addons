@@ -14,6 +14,8 @@ export const cabinetTypeService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/CabinetType/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Cabinet Type
@@ -26,6 +28,8 @@ export const cabinetTypeService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/CabinetType/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Cabinet Type
@@ -46,6 +50,8 @@ export const cabinetTypeService = {
       data.skipCount = 0
     }
     return api.get('/api/CabinetType/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Cabinet Type
@@ -57,6 +63,8 @@ export const cabinetTypeService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/CabinetType/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Cabinet Type
@@ -68,6 +76,8 @@ export const cabinetTypeService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/CabinetType/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Cabinet Type
@@ -80,5 +90,7 @@ export const cabinetTypeService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/CabinetType/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

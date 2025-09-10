@@ -28,6 +28,8 @@ export const slotUiMessageLogService = {
       data.skipCount = 0
     }
     return api.get('/api/SlotUiMessageLog/GetSlotUiUserMessages', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get C Slot Ui User Messages Slot Ui Message Log
@@ -47,5 +49,7 @@ export const slotUiMessageLogService = {
    */
   getCSlotUiUserMessages(data = {}, options = {}) {
     return api.get('/api/SlotUiMessageLog/GetCSlotUiUserMessages', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

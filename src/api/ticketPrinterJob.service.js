@@ -14,6 +14,8 @@ export const ticketPrinterJobService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/TicketPrinterJob/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Ticket Printer Job
@@ -44,6 +46,8 @@ export const ticketPrinterJobService = {
       data.skipCount = 0
     }
     return api.get('/api/TicketPrinterJob/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Ticket Printer Job
@@ -55,6 +59,8 @@ export const ticketPrinterJobService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/TicketPrinterJob/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Ticket Printer Job
@@ -66,6 +72,8 @@ export const ticketPrinterJobService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/TicketPrinterJob/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Ticket Printer Job
@@ -78,5 +86,7 @@ export const ticketPrinterJobService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/TicketPrinterJob/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

@@ -13,6 +13,8 @@ export const userService = {
    */
   getRoles(data = {}, options = {}) {
     return api.get('/api/User/GetRoles', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Claims User
@@ -24,6 +26,8 @@ export const userService = {
    */
   getClaims(data = {}, options = {}) {
     return api.get('/api/User/GetClaims', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * User Save User
@@ -35,5 +39,7 @@ export const userService = {
    */
   userSave(data = {}, options = {}) {
     return api.post('/api/User/UserSave', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

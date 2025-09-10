@@ -14,6 +14,8 @@ export const gameTypeService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/GameType/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Game Type
@@ -26,6 +28,8 @@ export const gameTypeService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/GameType/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Game Type
@@ -46,6 +50,8 @@ export const gameTypeService = {
       data.skipCount = 0
     }
     return api.get('/api/GameType/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Game Type
@@ -57,6 +63,8 @@ export const gameTypeService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/GameType/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Game Type
@@ -68,6 +76,8 @@ export const gameTypeService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/GameType/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Game Type
@@ -80,5 +90,7 @@ export const gameTypeService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/GameType/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

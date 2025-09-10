@@ -275,8 +275,8 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
           })
         : []
     },
-    async updateCashDeskGamingDate(params) {
-      return await cashdeskService.cashdeskChangeGamingDate(params)
+    updateCashDeskGamingDate(params) {
+      return cashdeskService.cashdeskChangeGamingDate(params)
     },
   },
 })

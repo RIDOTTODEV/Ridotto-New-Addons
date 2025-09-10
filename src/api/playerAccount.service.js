@@ -24,6 +24,8 @@ export const playerAccountService = {
       data.skipCount = 0
     }
     return api.get('/api/PlayerAccount/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Accounts Player Account
@@ -38,6 +40,8 @@ export const playerAccountService = {
    */
   getPlayerAccounts(data = {}, options = {}) {
     return api.get('/api/PlayerAccount/GetPlayerAccounts', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Player Accounts Player Account
@@ -51,6 +55,8 @@ export const playerAccountService = {
    */
   getAllPlayerAccounts(data = {}, options = {}) {
     return api.get('/api/PlayerAccount/GetAllPlayerAccounts', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Paged Player Accounts Player Account
@@ -77,6 +83,8 @@ export const playerAccountService = {
       data.skipCount = 0
     }
     return api.get('/api/PlayerAccount/GetPagedPlayerAccounts', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Account Transactions Player Account
@@ -114,6 +122,8 @@ export const playerAccountService = {
       data.skipCount = 0
     }
     return api.get('/api/PlayerAccount/GetAccountTransactions', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Pending Gm Transactions Player Account
@@ -151,6 +161,8 @@ export const playerAccountService = {
       data.skipCount = 0
     }
     return api.get('/api/PlayerAccount/GetPendingGmTransactions', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Post Panel Transaction Pending Finalize Player Account
@@ -162,6 +174,8 @@ export const playerAccountService = {
    */
   postPanelTransactionPendingFinalize(data = {}, options = {}) {
     return api.post('/api/PlayerAccount/PostPanelTransactionPendingFinalize', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Post Cashdesk Transaction Player Account
@@ -173,6 +187,8 @@ export const playerAccountService = {
    */
   postCashdeskTransaction(data = {}, options = {}) {
     return api.post('/api/PlayerAccount/PostCashdeskTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Post Cashdesk Player In Out Transaction Player Account
@@ -184,6 +200,8 @@ export const playerAccountService = {
    */
   postCashdeskPlayerInOutTransaction(data = {}, options = {}) {
     return api.post('/api/PlayerAccount/PostCashdeskPlayerInOutTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Post Gm Transaction Player Account
@@ -195,6 +213,8 @@ export const playerAccountService = {
    */
   postGmTransaction(data = {}, options = {}) {
     return api.post('/api/PlayerAccount/PostGmTransaction', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Post Gm Transaction Pending Player Account
@@ -206,6 +226,8 @@ export const playerAccountService = {
    */
   postGmTransactionPending(data = {}, options = {}) {
     return api.post('/api/PlayerAccount/PostGmTransactionPending', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Meta Detail Player Account
@@ -223,6 +245,8 @@ export const playerAccountService = {
    */
   getPlayerMetaDetail(data = {}, options = {}) {
     return api.get('/api/PlayerAccount/GetPlayerMetaDetail', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Accounts With Totals Player Account
@@ -239,6 +263,8 @@ export const playerAccountService = {
    */
   getAccountsWithTotals(data = {}, options = {}) {
     return api.get('/api/PlayerAccount/GetAccountsWithTotals', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Last Transactions Player Account
@@ -260,6 +286,8 @@ export const playerAccountService = {
       data.skipCount = 0
     }
     return api.get('/api/PlayerAccount/GetLastTransactions', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Last Cash Transactions Player Account
@@ -281,6 +309,8 @@ export const playerAccountService = {
       data.skipCount = 0
     }
     return api.get('/api/PlayerAccount/GetLastCashTransactions', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player In Out Player Account
@@ -297,6 +327,8 @@ export const playerAccountService = {
    */
   getPlayerInOut(data = {}, options = {}) {
     return api.get('/api/PlayerAccount/GetPlayerInOut', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Account Types Player Account
@@ -308,6 +340,8 @@ export const playerAccountService = {
    */
   getPlayerAccountTypes(data = {}, options = {}) {
     return api.get('/api/PlayerAccount/GetPlayerAccountTypes', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Discount Player Account
@@ -320,6 +354,8 @@ export const playerAccountService = {
    */
   getPlayerDiscount(data = {}, options = {}) {
     return api.get('/api/PlayerAccount/GetPlayerDiscount', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Post Player Discount Player Account
@@ -331,5 +367,7 @@ export const playerAccountService = {
    */
   postPlayerDiscount(data = {}, options = {}) {
     return api.post('/api/PlayerAccount/PostPlayerDiscount', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

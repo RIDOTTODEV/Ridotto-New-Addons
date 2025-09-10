@@ -17,6 +17,8 @@ export const slotMachineService = {
    */
   getLastEmptyDate(data = {}, options = {}) {
     return api.get('/api/SlotMachine/GetLastEmptyDate', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Copy Machine Slot Machine
@@ -28,6 +30,8 @@ export const slotMachineService = {
    */
   copyMachine(data = {}, options = {}) {
     return api.post('/api/SlotMachine/CopyMachine', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Gm With Online Players Slot Machine
@@ -39,6 +43,8 @@ export const slotMachineService = {
    */
   getGmWithOnlinePlayers(data = {}, options = {}) {
     return api.post('/api/SlotMachine/GetGmWithOnlinePlayers', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get By Mac Address Slot Machine
@@ -51,6 +57,8 @@ export const slotMachineService = {
    */
   getByMacAddress(data = {}, options = {}) {
     return api.get('/api/SlotMachine/GetByMacAddress', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Machines Ddl Slot Machine
@@ -66,6 +74,8 @@ export const slotMachineService = {
    */
   getSlotMachinesDdl(data = {}, options = {}) {
     return api.get('/api/SlotMachine/GetSlotMachinesDdl', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Gms With Floor Map Slot Machine
@@ -80,6 +90,8 @@ export const slotMachineService = {
    */
   getGmsWithFloorMap(data = {}, options = {}) {
     return api.get('/api/SlotMachine/GetGmsWithFloorMap', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Machines For Bulk Actions Slot Machine
@@ -94,6 +106,8 @@ export const slotMachineService = {
    */
   getSlotMachinesForBulkActions(data = {}, options = {}) {
     return api.get('/api/SlotMachine/GetSlotMachinesForBulkActions', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Machines Games Slot Machine
@@ -106,6 +120,8 @@ export const slotMachineService = {
    */
   getSlotMachinesGames(data = {}, options = {}) {
     return api.get('/api/SlotMachine/GetSlotMachinesGames', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Machine Tech Details Slot Machine
@@ -118,6 +134,8 @@ export const slotMachineService = {
    */
   getSlotMachineTechDetails(data = {}, options = {}) {
     return api.get('/api/SlotMachine/GetSlotMachineTechDetails', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Slot Machine Sas Config Slot Machine
@@ -129,6 +147,8 @@ export const slotMachineService = {
    */
   updateSlotMachineSasConfig(data = {}, options = {}) {
     return api.post('/api/SlotMachine/UpdateSlotMachineSasConfig', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Gm Accepted Currencies Slot Machine
@@ -140,6 +160,8 @@ export const slotMachineService = {
    */
   updateGmAcceptedCurrencies(data = {}, options = {}) {
     return api.post('/api/SlotMachine/UpdateGmAcceptedCurrencies', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Machine Ip Ddl Slot Machine
@@ -156,6 +178,8 @@ export const slotMachineService = {
    */
   getSlotMachineIpDdl(data = {}, options = {}) {
     return api.get('/api/SlotMachine/GetSlotMachineIpDdl', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Set Gm Slot Bank Slot Machine
@@ -167,6 +191,8 @@ export const slotMachineService = {
    */
   setGmSlotBank(data = {}, options = {}) {
     return api.post('/api/SlotMachine/SetGmSlotBank', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Set Gm Slot Brand Slot Machine
@@ -178,6 +204,8 @@ export const slotMachineService = {
    */
   setGmSlotBrand(data = {}, options = {}) {
     return api.post('/api/SlotMachine/SetGmSlotBrand', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Set Gm Slot Model Slot Machine
@@ -189,6 +217,8 @@ export const slotMachineService = {
    */
   setGmSlotModel(data = {}, options = {}) {
     return api.post('/api/SlotMachine/SetGmSlotModel', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Set Gm Meter Group Slot Machine
@@ -200,6 +230,8 @@ export const slotMachineService = {
    */
   setGmMeterGroup(data = {}, options = {}) {
     return api.post('/api/SlotMachine/SetGmMeterGroup', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Set Gm Jackpot Group Slot Machine
@@ -211,6 +243,8 @@ export const slotMachineService = {
    */
   setGmJackpotGroup(data = {}, options = {}) {
     return api.post('/api/SlotMachine/SetGmJackpotGroup', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Set Gm Special Code2 Slot Machine
@@ -222,6 +256,8 @@ export const slotMachineService = {
    */
   setGmSpecialCode2(data = {}, options = {}) {
     return api.post('/api/SlotMachine/SetGmSpecialCode2', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Slot Machine Detail Slot Machine
@@ -233,6 +269,8 @@ export const slotMachineService = {
    */
   updateSlotMachineDetail(data = {}, options = {}) {
     return api.post('/api/SlotMachine/UpdateSlotMachineDetail', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Slot Interface Detail Slot Machine
@@ -244,6 +282,8 @@ export const slotMachineService = {
    */
   updateSlotInterfaceDetail(data = {}, options = {}) {
     return api.post('/api/SlotMachine/UpdateSlotInterfaceDetail', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Slot Ui Detail Slot Machine
@@ -255,6 +295,8 @@ export const slotMachineService = {
    */
   updateSlotUiDetail(data = {}, options = {}) {
     return api.post('/api/SlotMachine/UpdateSlotUiDetail', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Bill Acceptor Detail Slot Machine
@@ -266,6 +308,8 @@ export const slotMachineService = {
    */
   updateBillAcceptorDetail(data = {}, options = {}) {
     return api.post('/api/SlotMachine/UpdateBillAcceptorDetail', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Card Reader Detail Slot Machine
@@ -277,6 +321,8 @@ export const slotMachineService = {
    */
   updateCardReaderDetail(data = {}, options = {}) {
     return api.post('/api/SlotMachine/UpdateCardReaderDetail', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Ticket Printer Detail Slot Machine
@@ -288,6 +334,8 @@ export const slotMachineService = {
    */
   updateTicketPrinterDetail(data = {}, options = {}) {
     return api.post('/api/SlotMachine/UpdateTicketPrinterDetail', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Machine
@@ -300,6 +348,8 @@ export const slotMachineService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/SlotMachine/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Slot Machine
@@ -346,6 +396,8 @@ export const slotMachineService = {
       data.skipCount = 0
     }
     return api.get('/api/SlotMachine/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Slot Machine
@@ -357,6 +409,8 @@ export const slotMachineService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/SlotMachine/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Slot Machine
@@ -368,6 +422,8 @@ export const slotMachineService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/SlotMachine/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Slot Machine
@@ -380,5 +436,7 @@ export const slotMachineService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/SlotMachine/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

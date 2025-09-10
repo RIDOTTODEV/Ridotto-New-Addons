@@ -150,14 +150,28 @@ export function useHeader(props, emit) {
         class: 'text-capitalize',
       },
     }).onOk(async () => {
-      await cashdeskStore.updateCashDeskGamingDate({
+      const res = await cashdeskStore.updateCashDeskGamingDate({
         countBalanceCurrencyId: getDefaultCurrencyId.value,
         cashdeskId: selectedCashDesk.value.id,
       })
-      authStore.fetchDefaultGamingDateInfo()
-      cashdeskStore.getGamingDateByCashdeskId({
-        cashdeskId: selectedCashDesk.value.id,
-      })
+
+      if (res.status === 200) {
+        $q.notify({
+          position: 'bottom-right',
+          type: 'positive',
+          message: i18n.global.t('Oyun tarihi başarıyla güncellendi.'),
+        })
+        authStore.fetchDefaultGamingDateInfo()
+        cashdeskStore.getGamingDateByCashdeskId({
+          cashdeskId: selectedCashDesk.value.id,
+        })
+      } else {
+        $q.notify({
+          position: 'bottom-right',
+          type: 'negative',
+          message: res.response.data,
+        })
+      }
     })
   }
 

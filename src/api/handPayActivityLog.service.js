@@ -14,6 +14,8 @@ export const handPayActivityLogService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/HandPayActivityLog/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Hand Pay Activity Log
@@ -42,6 +44,8 @@ export const handPayActivityLogService = {
       data.skipCount = 0
     }
     return api.get('/api/HandPayActivityLog/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Hand Pay Activity Log
@@ -53,6 +57,8 @@ export const handPayActivityLogService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/HandPayActivityLog/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Hand Pay Activity Log
@@ -64,6 +70,8 @@ export const handPayActivityLogService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/HandPayActivityLog/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Hand Pay Activity Log
@@ -76,5 +84,7 @@ export const handPayActivityLogService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/HandPayActivityLog/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

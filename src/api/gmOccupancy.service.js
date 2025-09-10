@@ -17,6 +17,8 @@ export const gmOccupancyService = {
    */
   getGmSitTimes(data = {}, options = {}) {
     return api.get('/api/GmOccupancy/GetGmSitTimes', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Gm Brand Occupancy Gm Occupancy
@@ -30,5 +32,7 @@ export const gmOccupancyService = {
    */
   getGmBrandOccupancy(data = {}, options = {}) {
     return api.get('/api/GmOccupancy/GetGmBrandOccupancy', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

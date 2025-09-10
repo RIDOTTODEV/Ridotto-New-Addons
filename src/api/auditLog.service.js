@@ -30,6 +30,8 @@ export const auditLogService = {
       data.skipCount = 0
     }
     return api.get('/api/AuditLog/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Audit Log
@@ -42,5 +44,7 @@ export const auditLogService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/AuditLog/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

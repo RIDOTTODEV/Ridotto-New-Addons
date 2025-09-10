@@ -17,6 +17,8 @@ export const reportService = {
    */
   getMasterReport(data = {}, options = {}) {
     return api.get('/api/Report/GetMasterReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Balance Report Report
@@ -31,6 +33,8 @@ export const reportService = {
    */
   getBalanceReport(data = {}, options = {}) {
     return api.get('/api/Report/GetBalanceReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Table Count Report Report
@@ -44,6 +48,8 @@ export const reportService = {
    */
   getTableCountReport(data = {}, options = {}) {
     return api.get('/api/Report/GetTableCountReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Table Counts Report
@@ -56,6 +62,8 @@ export const reportService = {
    */
   getTableCounts(data = {}, options = {}) {
     return api.get('/api/Report/GetTableCounts', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Active Floor List Report Report
@@ -68,6 +76,8 @@ export const reportService = {
    */
   getActiveFloorListReport(data = {}, options = {}) {
     return api.get('/api/Report/GetActiveFloorListReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Live Game Floor Result Report
@@ -81,6 +91,8 @@ export const reportService = {
    */
   getLiveGameFloorResult(data = {}, options = {}) {
     return api.get('/api/Report/GetLiveGameFloorResult', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Game Result Report Report
@@ -93,6 +105,8 @@ export const reportService = {
    */
   getGameResultReport(data = {}, options = {}) {
     return api.get('/api/Report/GetGameResultReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Win Loss Analysis Report Report
@@ -108,6 +122,8 @@ export const reportService = {
    */
   getPlayerWinLossAnalysisReport(data = {}, options = {}) {
     return api.get('/api/Report/GetPlayerWinLossAnalysisReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Info Audit Logs Report
@@ -129,6 +145,8 @@ export const reportService = {
       data.skipCount = 0
     }
     return api.get('/api/Report/GetPlayerInfoAuditLogs', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Lookup Audit Logs Report
@@ -150,5 +168,7 @@ export const reportService = {
       data.skipCount = 0
     }
     return api.get('/api/Report/GetPlayerLookupAuditLogs', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

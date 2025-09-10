@@ -14,6 +14,8 @@ export const playerFriendshipService = {
    */
   getPlayerFriendship(data = {}, options = {}) {
     return api.get('/api/PlayerFriendship/GetPlayerFriendship', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Player Friendship
@@ -25,6 +27,8 @@ export const playerFriendshipService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/PlayerFriendship/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Player Friendship
@@ -37,5 +41,7 @@ export const playerFriendshipService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/PlayerFriendship/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

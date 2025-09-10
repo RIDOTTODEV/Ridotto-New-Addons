@@ -15,6 +15,8 @@ export const playerNoteService = {
    */
   getPlayerNotes(data = {}, options = {}) {
     return api.get('/api/PlayerNote/GetPlayerNotes', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Transaction Code Group Types Player Note
@@ -26,6 +28,8 @@ export const playerNoteService = {
    */
   getTransactionCodeGroupTypes(data = {}, options = {}) {
     return api.get('/api/PlayerNote/GetTransactionCodeGroupTypes', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Note
@@ -38,6 +42,8 @@ export const playerNoteService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/PlayerNote/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Player Note
@@ -60,6 +66,8 @@ export const playerNoteService = {
       data.skipCount = 0
     }
     return api.get('/api/PlayerNote/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Player Note
@@ -71,6 +79,8 @@ export const playerNoteService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/PlayerNote/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Player Note
@@ -82,6 +92,8 @@ export const playerNoteService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/PlayerNote/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Player Note
@@ -94,5 +106,7 @@ export const playerNoteService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/PlayerNote/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

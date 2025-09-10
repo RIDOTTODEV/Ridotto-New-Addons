@@ -15,6 +15,8 @@ export const cashdeskAccountService = {
    */
   getCashdeskAccountsByCashdeskId(data = {}, options = {}) {
     return api.get('/api/CashdeskAccount/GetCashdeskAccountsByCashdeskId', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Cashdesk Account
@@ -27,6 +29,8 @@ export const cashdeskAccountService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/CashdeskAccount/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Cashdesk Account
@@ -47,6 +51,8 @@ export const cashdeskAccountService = {
       data.skipCount = 0
     }
     return api.get('/api/CashdeskAccount/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Cashdesk Account
@@ -58,6 +64,8 @@ export const cashdeskAccountService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/CashdeskAccount/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Cashdesk Account
@@ -69,6 +77,8 @@ export const cashdeskAccountService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/CashdeskAccount/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Cashdesk Account
@@ -81,5 +91,7 @@ export const cashdeskAccountService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/CashdeskAccount/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

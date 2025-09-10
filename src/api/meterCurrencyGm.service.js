@@ -27,6 +27,8 @@ export const meterCurrencyGmService = {
       data.skipCount = 0
     }
     return api.get('/api/MeterCurrencyGm/GetJackpots', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Big Wins Meter Currency Gm
@@ -52,5 +54,7 @@ export const meterCurrencyGmService = {
       data.skipCount = 0
     }
     return api.get('/api/MeterCurrencyGm/GetBigWins', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

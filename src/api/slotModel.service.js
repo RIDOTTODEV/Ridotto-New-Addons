@@ -14,6 +14,8 @@ export const slotModelService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/SlotModel/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Model
@@ -26,6 +28,8 @@ export const slotModelService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/SlotModel/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Slot Model
@@ -46,6 +50,8 @@ export const slotModelService = {
       data.skipCount = 0
     }
     return api.get('/api/SlotModel/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Slot Model
@@ -57,6 +63,8 @@ export const slotModelService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/SlotModel/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Slot Model
@@ -68,6 +76,8 @@ export const slotModelService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/SlotModel/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Slot Model
@@ -80,5 +90,7 @@ export const slotModelService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/SlotModel/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

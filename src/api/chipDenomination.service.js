@@ -13,6 +13,8 @@ export const chipDenominationService = {
    */
   getAllChipDenomination(data = {}, options = {}) {
     return api.get('/api/ChipDenomination/GetAllChipDenomination', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Chip Denomination
@@ -25,6 +27,8 @@ export const chipDenominationService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/ChipDenomination/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Chip Denomination
@@ -45,6 +49,8 @@ export const chipDenominationService = {
       data.skipCount = 0
     }
     return api.get('/api/ChipDenomination/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Chip Denomination
@@ -56,6 +62,8 @@ export const chipDenominationService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/ChipDenomination/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Chip Denomination
@@ -67,6 +75,8 @@ export const chipDenominationService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/ChipDenomination/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Chip Denomination
@@ -79,5 +89,7 @@ export const chipDenominationService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/ChipDenomination/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

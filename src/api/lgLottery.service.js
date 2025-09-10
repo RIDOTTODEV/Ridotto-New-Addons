@@ -13,6 +13,8 @@ export const lgLotteryService = {
    */
   createOrUpdate(data = {}, options = {}) {
     return api.post('/api/LgLottery/CreateOrUpdate', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Lg Lottery Closed Lg Lottery
@@ -24,6 +26,8 @@ export const lgLotteryService = {
    */
   updateLgLotteryClosed(data = {}, options = {}) {
     return api.post('/api/LgLottery/UpdateLgLotteryClosed', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Manuel End Lg Lottery
@@ -35,6 +39,8 @@ export const lgLotteryService = {
    */
   manuelEnd(data = {}, options = {}) {
     return api.post('/api/LgLottery/ManuelEnd', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Lg Lotteries Lg Lottery
@@ -47,6 +53,8 @@ export const lgLotteryService = {
    */
   getPlayerLgLotteries(data = {}, options = {}) {
     return api.get('/api/LgLottery/GetPlayerLgLotteries', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Lotteries Credit For Panel Lg Lottery
@@ -60,6 +68,8 @@ export const lgLotteryService = {
    */
   getPlayerLotteriesCreditForPanel(data = {}, options = {}) {
     return api.get('/api/LgLottery/GetPlayerLotteriesCreditForPanel', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Lottery Player Point Totals For Panel Lg Lottery
@@ -75,6 +85,8 @@ export const lgLotteryService = {
    */
   getLotteryPlayerPointTotalsForPanel(data = {}, options = {}) {
     return api.get('/api/LgLottery/GetLotteryPlayerPointTotalsForPanel', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Lg Lottery Credit Lg Lottery
@@ -89,6 +101,8 @@ export const lgLotteryService = {
    */
   getPlayerLgLotteryCredit(data = {}, options = {}) {
     return api.get('/api/LgLottery/GetPlayerLgLotteryCredit', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Lg Lottery
@@ -101,6 +115,8 @@ export const lgLotteryService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/LgLottery/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Lg Lottery
@@ -124,6 +140,8 @@ export const lgLotteryService = {
       data.skipCount = 0
     }
     return api.get('/api/LgLottery/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Lg Lottery
@@ -135,6 +153,8 @@ export const lgLotteryService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/LgLottery/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Lg Lottery
@@ -146,6 +166,8 @@ export const lgLotteryService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/LgLottery/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Lg Lottery
@@ -158,5 +180,7 @@ export const lgLotteryService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/LgLottery/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

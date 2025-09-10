@@ -14,6 +14,8 @@ export const expenseService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/Expense/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Expense
@@ -37,6 +39,8 @@ export const expenseService = {
       data.skipCount = 0
     }
     return api.get('/api/Expense/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Expense
@@ -48,6 +52,8 @@ export const expenseService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/Expense/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Expense
@@ -59,6 +65,8 @@ export const expenseService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/Expense/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Expense
@@ -71,5 +79,7 @@ export const expenseService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/Expense/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

@@ -14,6 +14,8 @@ export const slotUiBannerSetService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/SlotUiBannerSet/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Banner Set Slot Ui Banner Set
@@ -26,6 +28,8 @@ export const slotUiBannerSetService = {
    */
   getBannerSet(data = {}, options = {}) {
     return api.get('/api/SlotUiBannerSet/GetBannerSet', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Banner Set Slot Ui Banner Set
@@ -37,6 +41,8 @@ export const slotUiBannerSetService = {
    */
   createBannerSet(data = {}, options = {}) {
     return api.post('/api/SlotUiBannerSet/CreateBannerSet', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Banner Set Slot Ui Banner Set
@@ -48,6 +54,8 @@ export const slotUiBannerSetService = {
    */
   updateBannerSet(data = {}, options = {}) {
     return api.post('/api/SlotUiBannerSet/UpdateBannerSet', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Ui Banner Set
@@ -60,6 +68,8 @@ export const slotUiBannerSetService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/SlotUiBannerSet/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Slot Ui Banner Set
@@ -80,6 +90,8 @@ export const slotUiBannerSetService = {
       data.skipCount = 0
     }
     return api.get('/api/SlotUiBannerSet/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Slot Ui Banner Set
@@ -91,6 +103,8 @@ export const slotUiBannerSetService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/SlotUiBannerSet/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Slot Ui Banner Set
@@ -102,6 +116,8 @@ export const slotUiBannerSetService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/SlotUiBannerSet/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Slot Ui Banner Set
@@ -114,5 +130,7 @@ export const slotUiBannerSetService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/SlotUiBannerSet/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

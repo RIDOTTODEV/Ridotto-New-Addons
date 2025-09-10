@@ -14,6 +14,8 @@ export const slotGameService = {
    */
   deleteAllBySlotId(data = {}, options = {}) {
     return api.delete('/api/SlotGame/DeleteAllBySlotId/{slotMachineId}', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Game
@@ -26,6 +28,8 @@ export const slotGameService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/SlotGame/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Slot Game
@@ -46,6 +50,8 @@ export const slotGameService = {
       data.skipCount = 0
     }
     return api.get('/api/SlotGame/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Slot Game
@@ -57,6 +63,8 @@ export const slotGameService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/SlotGame/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Slot Game
@@ -68,6 +76,8 @@ export const slotGameService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/SlotGame/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Slot Game
@@ -80,5 +90,7 @@ export const slotGameService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/SlotGame/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

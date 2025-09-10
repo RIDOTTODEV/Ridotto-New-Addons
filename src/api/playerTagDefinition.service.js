@@ -13,6 +13,8 @@ export const playerTagDefinitionService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/PlayerTagDefinition/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Player Tag Definition
@@ -25,6 +27,8 @@ export const playerTagDefinitionService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/PlayerTagDefinition/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Player Tag Definition
@@ -45,6 +49,8 @@ export const playerTagDefinitionService = {
       data.skipCount = 0
     }
     return api.get('/api/PlayerTagDefinition/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Player Tag Definition
@@ -56,6 +62,8 @@ export const playerTagDefinitionService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/PlayerTagDefinition/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Player Tag Definition
@@ -67,6 +75,8 @@ export const playerTagDefinitionService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/PlayerTagDefinition/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Player Tag Definition
@@ -79,5 +89,7 @@ export const playerTagDefinitionService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/PlayerTagDefinition/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

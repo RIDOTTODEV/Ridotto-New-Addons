@@ -14,5 +14,7 @@ export const importService = {
    */
   excelImport(data = {}, options = {}) {
     return api.post('/api/Import/ExcelImport', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

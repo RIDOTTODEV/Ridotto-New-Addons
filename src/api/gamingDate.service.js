@@ -13,6 +13,8 @@ export const gamingDateService = {
    */
   create(data = {}, options = {}) {
     return api.post('/api/GamingDate/Create', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Set Gd Auto Switch Status Gaming Date
@@ -24,6 +26,8 @@ export const gamingDateService = {
    */
   setGdAutoSwitchStatus(data = {}, options = {}) {
     return api.post('/api/GamingDate/SetGdAutoSwitchStatus', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Gm Count Gaming Date
@@ -35,6 +39,8 @@ export const gamingDateService = {
    */
   gmCount(data = {}, options = {}) {
     return api.post('/api/GamingDate/GmCount', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Gaming Date Closed Gaming Date
@@ -46,6 +52,8 @@ export const gamingDateService = {
    */
   updateGamingDateClosed(data = {}, options = {}) {
     return api.post('/api/GamingDate/UpdateGamingDateClosed', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Gm End Gaming Date Gaming Date
@@ -57,6 +65,8 @@ export const gamingDateService = {
    */
   gmEndGamingDate(data = {}, options = {}) {
     return api.post('/api/GamingDate/GmEndGamingDate', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Gm Count Detail Gaming Date
@@ -70,6 +80,8 @@ export const gamingDateService = {
    */
   getGmCountDetail(data = {}, options = {}) {
     return api.get('/api/GamingDate/GetGmCountDetail', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Gm Count Details Gaming Date
@@ -82,6 +94,8 @@ export const gamingDateService = {
    */
   getGmCountDetails(data = {}, options = {}) {
     return api.get('/api/GamingDate/GetGmCountDetails', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Machine Gaming Date List Gaming Date
@@ -104,6 +118,8 @@ export const gamingDateService = {
       data.skipCount = 0
     }
     return api.get('/api/GamingDate/GetMachineGamingDateList', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Current Gaming Date Info Gaming Date
@@ -115,6 +131,8 @@ export const gamingDateService = {
    */
   getCurrentGamingDateInfo(data = {}, options = {}) {
     return api.get('/api/GamingDate/GetCurrentGamingDateInfo', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Key Values Gaming Date
@@ -127,6 +145,8 @@ export const gamingDateService = {
    */
   getAllKeyValues(data = {}, options = {}) {
     return api.get('/api/GamingDate/GetAllKeyValues', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Gm Count Day By Day Gaming Date
@@ -142,6 +162,8 @@ export const gamingDateService = {
    */
   getGmCountDayByDay(data = {}, options = {}) {
     return api.get('/api/GamingDate/GetGmCountDayByDay', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Slot Machines Ddl By Gaming Date Gaming Date
@@ -155,6 +177,8 @@ export const gamingDateService = {
    */
   getSlotMachinesDdlByGamingDate(data = {}, options = {}) {
     return api.get('/api/GamingDate/GetSlotMachinesDdlByGamingDate', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Create Or Update Count Detail Gaming Date
@@ -166,6 +190,8 @@ export const gamingDateService = {
    */
   createOrUpdateCountDetail(data = {}, options = {}) {
     return api.post('/api/GamingDate/CreateOrUpdateCountDetail', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get Gaming Date
@@ -178,6 +204,8 @@ export const gamingDateService = {
    */
   get(data = {}, options = {}) {
     return api.get('/api/GamingDate/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Get All Gaming Date
@@ -198,6 +226,8 @@ export const gamingDateService = {
       data.skipCount = 0
     }
     return api.get('/api/GamingDate/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Update Gaming Date
@@ -209,6 +239,8 @@ export const gamingDateService = {
    */
   update(data = {}, options = {}) {
     return api.post('/api/GamingDate/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Delete Gaming Date
@@ -221,5 +253,7 @@ export const gamingDateService = {
    */
   delete(data = {}, options = {}) {
     return api.delete('/api/GamingDate/Delete', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

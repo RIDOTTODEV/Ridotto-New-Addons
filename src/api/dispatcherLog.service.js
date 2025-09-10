@@ -29,5 +29,7 @@ export const dispatcherLogService = {
       data.skipCount = 0
     }
     return api.get('/api/DispatcherLog/GetCDispatcherLogs', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

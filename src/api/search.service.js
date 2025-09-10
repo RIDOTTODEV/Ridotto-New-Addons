@@ -12,6 +12,8 @@ export const searchService = {
    */
   raw(data = {}, options = {}) {
     return api.get('/api/Search/Raw', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   },
   /**
    * Player Search
@@ -22,5 +24,7 @@ export const searchService = {
    */
   player(data = {}, options = {}) {
     return api.get('/api/Search/Player', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }
