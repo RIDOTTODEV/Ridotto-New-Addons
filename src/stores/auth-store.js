@@ -201,6 +201,9 @@ export const useAuthStore = defineStore('authStore', {
             ? JSON.parse(res.data.value)
             : { DefaultCurrencyId: 2 }
         })
+        .catch(() => {
+          this.defaultSettings = { DefaultCurrencyId: 2, sigaretteReportTags: [7] }
+        })
     },
   },
 })
