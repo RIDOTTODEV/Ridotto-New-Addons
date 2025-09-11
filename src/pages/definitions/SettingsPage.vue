@@ -58,6 +58,29 @@
               </template>
             </q-select>
           </div>
+          <div class="col-3 q-pa-xs">
+            <div class="text-caption">
+              {{ $t('sigaretteReportTags') }}
+              <span class="text-negative">*</span>
+            </div>
+            <q-select
+              multiple
+              v-model="defaultSettings.sigaretteReportTags"
+              outlined
+              dense
+              :options="sigaretteReportTags"
+              option-value="id"
+              option-label="name"
+              map-options
+              emit-value
+              class="super-small"
+              hide-bottom-space
+              behavior="menu"
+              lazy-rules
+              reactive-rules
+              :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
+            />
+          </div>
           <div class="col-12 q-pa-xs flex justify-start q-mt-lg">
             <q-btn
               unelevated
@@ -77,6 +100,8 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
+import { posApi } from 'boot/axios'
 import { useCurrencyStore } from 'src/stores/currency-store'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from 'src/stores/auth-store'
@@ -85,6 +110,14 @@ const { defaultSettings } = storeToRefs(authStore)
 
 const currencyStore = useCurrencyStore()
 const { getCurrenciesWithFlags } = storeToRefs(currencyStore)
+
+const sigaretteReportTags = ref([])
+
+onMounted(async () => {
+  await posApi.get('/api/Tag/GetAll').then(({ data }) => {
+    sigaretteReportTags.value = data.data
+  })
+})
 </script>
 
 <style scoped></style>

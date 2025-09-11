@@ -72,10 +72,13 @@
 <script setup>
 import { ref } from 'vue'
 import { posApi } from 'src/boot/axios'
-
+import { useAuthStore } from 'src/stores/auth-store'
+import { storeToRefs } from 'pinia'
+const authStore = useAuthStore()
+const { defaultSettings } = storeToRefs(authStore)
 const filterValues = ref({
   playerId: null,
-  TagIds: [7],
+  TagIds: defaultSettings.value.sigaretteReportTags,
   CreatedByName: null,
 })
 const onSelectPlayer = (val) => {

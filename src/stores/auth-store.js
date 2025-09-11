@@ -17,6 +17,7 @@ export const useAuthStore = defineStore('authStore', {
     isInitialized: false,
     defaultSettings: {
       DefaultCurrencyId: 2,
+      sigaretteReportTags: [],
     },
   }),
   getters: {
@@ -182,7 +183,7 @@ export const useAuthStore = defineStore('authStore', {
         value: JSON.stringify(settings),
       })
 
-      if (reloadPage) {
+      if (reloadPage && reloadPage === true) {
         setTimeout(() => {
           window.location.reload()
         }, 1000)
