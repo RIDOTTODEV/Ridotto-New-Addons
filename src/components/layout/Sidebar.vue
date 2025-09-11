@@ -214,7 +214,7 @@ const expansionOnHandleShow = (name, parentName = null) => {
   margin-top: 2px !important;
 }
 .subMenuScroll {
-  height: 300px;
+  height: 340px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #dddddd transparent;

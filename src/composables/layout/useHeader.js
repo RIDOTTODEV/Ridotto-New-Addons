@@ -19,8 +19,13 @@ export function useHeader(props, emit) {
   const { darkMode, locales, selectedLocale } = storeToRefs(mainStore)
 
   const authStore = useAuthStore()
-  const { isAuthorityUser, getUserNameSurname, defaultGamingDateInfo, getDefaultCurrencyId } =
-    storeToRefs(authStore)
+  const {
+    isAuthorityUser,
+    getUserNameSurname,
+    defaultGamingDateInfo,
+    getDefaultCurrencyId,
+    defaultSettings,
+  } = storeToRefs(authStore)
   const { locale } = useI18n({ useScope: 'global' })
   const currencyStore = useCurrencyStore()
   const { currencies } = storeToRefs(currencyStore)
@@ -69,7 +74,6 @@ export function useHeader(props, emit) {
   const userSettings = ref({
     darkMode: $q.dark.isActive,
     fullScreen: $q.fullscreen.isActive,
-    selectedSystemCurrency: getDefaultCurrencyId.value,
     selectedLocale: selectedLocale.value?.lang,
   })
 
@@ -200,5 +204,6 @@ export function useHeader(props, emit) {
     onSelectPlayer,
     onClearPlayer,
     changeCashDeskGamingDate,
+    defaultSettings,
   }
 }

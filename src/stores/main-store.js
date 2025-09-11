@@ -356,6 +356,12 @@ export const useMainStore = defineStore('main', {
             routeName: 'gifts',
             permission: 'Addon.Definitions.Gift.ShowList',
           },
+          {
+            title: 'settings',
+            icon: 'remove',
+            routeName: 'settings',
+            permission: 'Addon.Definitions.Settings',
+          },
         ],
       },
     ],

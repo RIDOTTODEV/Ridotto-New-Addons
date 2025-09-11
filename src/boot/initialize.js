@@ -20,6 +20,7 @@ export const initialize = async () => {
   const transactionCodeStore = useTransactionCodeStore()
   await Promise.all([
     authStore.getUserPanelSettings(),
+    authStore.getDefaultSettings(),
     authStore.fetchDefaultGamingDateInfo(),
     currencyStore.fetchCurrencies(),
     cashdeskStore.getCashdesks(),

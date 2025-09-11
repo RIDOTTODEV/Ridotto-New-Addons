@@ -76,6 +76,15 @@ const routes = [
     },
     children: [
       {
+        path: 'settings',
+        name: 'settings',
+        component: () => import('src/pages/definitions/SettingsPage.vue'),
+        meta: {
+          requiredPermission: 'Addon.Definitions.Settings',
+          requiresAuth: true,
+        },
+      },
+      {
         path: 'table-games',
         name: 'tableGames',
         component: () => import('src/pages/definitions/TableGames.vue'),

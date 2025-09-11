@@ -3,7 +3,7 @@ import { api } from 'boot/axios'
 import { LocalStorage } from 'quasar'
 import { applicationSettingService, gamingDateService } from 'src/api'
 import { useCurrencyStore } from 'src/stores/currency-store'
-import { Loading } from 'quasar'
+
 export const useAuthStore = defineStore('authStore', {
   state: () => ({
     user: {},
@@ -15,6 +15,9 @@ export const useAuthStore = defineStore('authStore', {
       DefaultCurrencyId: 2,
     },
     isInitialized: false,
+    defaultSettings: {
+      DefaultCurrencyId: 2,
+    },
   }),
   getters: {
     hasPermission: (state) => (permission) => {
@@ -44,7 +47,7 @@ export const useAuthStore = defineStore('authStore', {
     },
     getDefaultCurrencyId() {
       const defaultCurrencyId =
-        this.userPanelSettings.DefaultCurrencyId || LocalStorage.getItem('systemDefaultCurrencyId')
+        this.defaultSettings.DefaultCurrencyId || LocalStorage.getItem('systemDefaultCurrencyId')
       return defaultCurrencyId
     },
     getDefaultGamingDateId() {
@@ -56,13 +59,13 @@ export const useAuthStore = defineStore('authStore', {
         return '-'
       }
       const currency = currencyStore.currencies.find(
-        (c) => c.id === +this.userPanelSettings.DefaultCurrencyId,
+        (c) => c.id === +this.defaultSettings.DefaultCurrencyId,
       )
       return currency?.name || '-'
     },
     defaultCurrency: (state) => {
       const currencyStore = useCurrencyStore()
-      return currencyStore.currencies.find((c) => c.id === state.defaultCurrencyId)
+      return currencyStore.currencies.find((c) => c.id === state.defaultSettings.DefaultCurrencyId)
     },
 
     getUserTableColumnsFormatted:
@@ -133,39 +136,6 @@ export const useAuthStore = defineStore('authStore', {
       const PREFIX = 'Addon'
       this.userPermissions = permissions.filter((permission) => permission.startsWith(PREFIX))
     },
-    setUserDefaultCurrency(currency, reloadPage = false) {
-      if (!currency?.id) {
-        return
-      }
-
-      if (this.userPanelSettings.DefaultCurrencyId !== currency.id) {
-        this.userPanelSettings.DefaultCurrencyId = currency.id
-        applicationSettingService
-          .setUserSettings({
-            name: 'AddonSettings',
-            value: JSON.stringify({ ...this.userPanelSettings, DefaultCurrencyId: currency.id }),
-          })
-          .then(() => {
-            console.log('success')
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-        const currencyStore = useCurrencyStore()
-        currencyStore.setDefaultCurrency(this.userPanelSettings.DefaultCurrencyId)
-        if (reloadPage) {
-          Loading.show({
-            message: 'Updating currency...',
-          })
-          setTimeout(() => {
-            Loading.hide()
-            window.location.reload()
-          }, 2000)
-        }
-      }
-
-      LocalStorage.set('systemDefaultCurrencyId', currency.id)
-    },
     async fetchDefaultGamingDateInfo() {
       await gamingDateService
         .getCurrentGamingDateInfo()
@@ -203,6 +173,32 @@ export const useAuthStore = defineStore('authStore', {
         })
         .then(async () => {
           await this.getUserPanelSettings()
+        })
+    },
+    async saveDefaultSettings(reloadPage = false) {
+      let settings = { ...this.defaultSettings }
+      await applicationSettingService.setUserSettings({
+        name: 'AddonDefaultSettings',
+        value: JSON.stringify(settings),
+      })
+
+      if (reloadPage) {
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
+      } else {
+        await this.getDefaultSettings()
+      }
+    },
+    async getDefaultSettings() {
+      await applicationSettingService
+        .getUserSettings({
+          name: 'AddonDefaultSettings',
+        })
+        .then((res) => {
+          this.defaultSettings = res.data.value
+            ? JSON.parse(res.data.value)
+            : { DefaultCurrencyId: 2 }
         })
     },
   },

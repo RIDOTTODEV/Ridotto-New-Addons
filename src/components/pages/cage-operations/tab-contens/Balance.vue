@@ -9,7 +9,7 @@ const bus = inject('bus')
 const cashdeskStore = useCashdeskStore()
 const { currentCashDeskBalance, currentCashDeskChipBalance } = storeToRefs(cashdeskStore)
 const authStore = useAuthStore()
-const { getDefaultCurrencyName, getDefaultCurrencyId } = storeToRefs(authStore)
+const { getDefaultCurrencyName, getDefaultCurrencyId, defaultSettings } = storeToRefs(authStore)
 const currencyStore = useCurrencyStore()
 const { currencies } = storeToRefs(currencyStore)
 
@@ -25,10 +25,10 @@ const total = computed(() => {
 })
 
 const showTotal = ref(false)
-const onChangeCurrency = (currencyId) => {
-  const currency = currencies.value.find((currency) => currency.id === currencyId)
-  authStore.setUserDefaultCurrency(currency)
-  cashdeskStore.setCashdeskBalance()
+const onChangeCurrency = async (currencyId) => {
+  defaultSettings.value.DefaultCurrencyId = currencyId
+  await authStore.saveDefaultSettings()
+  await cashdeskStore.setCashdeskBalance()
 }
 </script>
 
