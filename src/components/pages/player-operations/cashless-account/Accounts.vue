@@ -10,13 +10,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { usePlayerStore } from 'src/stores/player-store'
 import Account from './Account.vue'
 const playerStore = usePlayerStore()
 const accounts = ref([])
 const loading = ref(false)
-const bus = inject('bus')
+
 const props = defineProps({
   playerId: {
     type: Number,
@@ -32,10 +32,16 @@ onMounted(async () => {
 const fetchPlayerCashlessAccounts = async () => {
   const response = await playerStore.getAccountsWithTotals({ playerId: props.playerId })
   accounts.value = response.data
-
   loading.value = false
 }
-bus.on('reloadPlayerCashless', fetchPlayerCashlessAccounts)
+watch(
+  () => playerStore.dateTimeFilterValues,
+  (newVal) => {
+    if (Object.keys(newVal).length > 0) {
+      fetchPlayerCashlessAccounts()
+    }
+  },
+)
 </script>
 
 <style scoped></style>

@@ -43,5 +43,6 @@ export const initialize = async () => {
     if (defaultCurrencyId) {
       currencyStore.setDefaultCurrency(defaultCurrencyId)
     }
+    authStore.setIsInitialized(true)
   })
 }

@@ -1,10 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import { date } from 'quasar'
-/* import { useRouter } from 'vue-router' */
 import { formatPrice } from 'src/helpers/helpers'
 import { usePlayerStore } from 'src/stores/player-store'
-import { storeToRefs } from 'pinia'
 
 const playerStore = usePlayerStore()
 const { dateTimeFilterValues } = storeToRefs(playerStore)
@@ -65,7 +64,6 @@ const columns = ref([
     visible: true,
   },
 ])
-/* const router = useRouter() */
 const props = defineProps({
   playerId: {
     type: Number,

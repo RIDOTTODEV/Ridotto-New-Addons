@@ -35,6 +35,7 @@
             @focus="handleInputFocus"
             @focusout="handleInputFocusOut"
             clearable
+            @clear="filterMethod"
           >
             <template v-slot:append>
               <q-icon name="search" />
@@ -205,8 +206,7 @@ const $q = useQuasar()
 const cashdeskStore = useCashdeskStore()
 const { getSelectedCashDesk } = storeToRefs(cashdeskStore)
 const authStore = useAuthStore()
-const { getUserTableColumns, getUserTableVisibleColumns, getTableRowsPerPage } =
-  storeToRefs(authStore)
+const { getUserTableColumnsFormatted, getTableRowsPerPage } = storeToRefs(authStore)
 const props = defineProps({
   tableName: {
     type: String,
@@ -318,10 +318,10 @@ const onDropColumn = (from, to) => {
 }
 
 const filterMethod = (request) => {
-  const needle = request.filter.toLowerCase()
+  const needle = request.filter?.toLowerCase() || ''
   const filteredData = copiedData.value.filter((row) => {
     return Object.values(row).some((value) => {
-      return value.toString().toLowerCase().includes(needle)
+      return value?.toString().toLowerCase().includes(needle) || false
     })
   })
   tableRows.value = [...filteredData]
@@ -384,6 +384,7 @@ const fetchData = async () => {
 }
 
 const copiedData = ref([])
+
 const initResponseData = (response) => {
   let data = response[props.dataKey] || response || []
   const isExistRowKey = data.some((item) => item[props.rowKey])
@@ -403,15 +404,14 @@ const getTableFilterParams = () => {
     ...tableFilterParams.value,
     maxResultCount: pagination.value.rowsPerPage,
     skipCount: (pagination.value.page - 1) * pagination.value.rowsPerPage,
-    //sorting: pagination.value.sortBy,
     cashDeskId: props.useCurrentCashDesk ? getSelectedCashDesk.value.Id : null,
   }
 }
 const initColumns = async () => {
   const columns = generateColumns(props.columns)
-  const userColumns = getUserTableColumns.value(props.tableName, columns)
-  tableColumns.value = userColumns
-  visibleColumnOptions.value = getUserTableVisibleColumns.value(props.tableName, columns)
+  const userColumns = getUserTableColumnsFormatted.value(props.tableName, columns)
+  tableColumns.value = userColumns.columns
+  visibleColumnOptions.value = userColumns.visibleColumns
 }
 const initPagination = (response = null) => {
   if (response) {
@@ -432,15 +432,17 @@ const toggleFullscreen = () => {
   refTable.value.toggleFullscreen()
 }
 const resetColumns = async () => {
-  const freshColumns = generateColumns([...props.columns])
-  const freshVisibleColumns = [...freshColumns].map((item) => item.name)
+  const defaultColumns = generateColumns([...props.columns])
+  const formattedColumns = defaultColumns.map((column, order) => {
+    return [column.colId, order, column.visible ? 1 : 0]
+  })
+  let formattedTable = {
+    columns: formattedColumns,
+    rowsPerPage: pagination.value.rowsPerPage,
+  }
+
   tableLoading.value = true
-  await authStore.saveUserTableColumns(
-    props.tableName,
-    freshVisibleColumns,
-    freshColumns,
-    pagination.value.rowsPerPage,
-  )
+  await authStore.saveUserTableColumnsFormatted(props.tableName, formattedTable)
   await initColumns()
   await fetchData()
   setTimeout(() => {
@@ -458,12 +460,13 @@ const handleInputFocusOut = () => {
 }
 const onChangeRowsPerPage = async () => {
   pagination.value.page = 1
-  await authStore.saveUserTableColumns(
-    props.tableName,
-    visibleColumns.value,
-    tableColumns.value,
-    pagination.value.rowsPerPage,
-  )
+  const formattedColumns = tableColumns.value.map((column, index) => {
+    return [column.colId, index, visibleColumns.value.includes(column.name) ? 1 : 0]
+  })
+  await authStore.saveUserTableColumnsFormatted(props.tableName, {
+    columns: formattedColumns,
+    rowsPerPage: pagination.value.rowsPerPage,
+  })
   await fetchData()
 }
 /******** JSON DETAIL ********/
@@ -484,17 +487,21 @@ const onSelectVisibleColumn = async (val) => {
   }
   await saveUserColumn()
 }
-const saveUserColumn = async (
-  upComingVisibleColumns = null,
-  upComingColumns = null,
-  upComingRowsPerPage = null,
-) => {
-  await authStore.saveUserTableColumns(
-    props.tableName,
-    upComingVisibleColumns || visibleColumns.value,
-    upComingColumns || tableColumns.value,
-    upComingRowsPerPage || pagination.value.rowsPerPage,
-  )
+const saveUserColumn = async () => {
+  const tableColumnsSortByVisibleColumns = tableColumns.value.sort((a, b) => {
+    return visibleColumns.value.indexOf(a.name) - visibleColumns.value.indexOf(b.name)
+  })
+  let formattedColumns = []
+  tableColumnsSortByVisibleColumns.forEach((column, index) => {
+    formattedColumns.push([column.colId, index, visibleColumns.value.includes(column.name) ? 1 : 0])
+  })
+
+  let formattedTable = {
+    columns: formattedColumns,
+    rowsPerPage: pagination.value.rowsPerPage,
+  }
+  await authStore.saveUserTableColumnsFormatted(props.tableName, formattedTable)
+  await initColumns()
 }
 const selectedRow = ref(null)
 const selectedRowIndex = ref(null)

@@ -69,7 +69,7 @@ mainOidc.events.addUserLoaded(async function (user) {
   const authStore = useAuthStore()
   await authStore.setCurrentUser(user)
   api.defaults.headers.common['Authorization'] = `${user.token_type} ${user.access_token}`
-  if (!authStore.isAuthenticated) {
+  if (!authStore.isInitialized) {
     await initialize()
   }
 })

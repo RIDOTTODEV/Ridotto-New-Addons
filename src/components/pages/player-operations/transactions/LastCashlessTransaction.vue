@@ -1,10 +1,11 @@
 <script setup>
-import { ref, onMounted, inject } from 'vue'
+import { ref, onMounted, watch, inject } from 'vue'
 import { date } from 'quasar'
 import { formatPrice } from 'src/helpers/helpers'
 import { usePlayerStore } from 'src/stores/player-store'
 
 const playerStore = usePlayerStore()
+const bus = inject('bus')
 const lastCashlessTransactions = ref([])
 const columns = ref([
   {
@@ -62,7 +63,7 @@ const columns = ref([
     visible: true,
   },
 ])
-const bus = inject('bus')
+
 const props = defineProps({
   playerId: {
     type: Number,
@@ -90,7 +91,15 @@ const getDetailFormatter = (detail) => {
       return ''
   }
 }
-bus.on('reloadPlayerCashless', loadLastCashlessTransactions)
+watch(
+  () => playerStore.dateTimeFilterValues,
+  async (newVal) => {
+    if (Object.keys(newVal).length > 0) {
+      await loadLastCashlessTransactions()
+    }
+  },
+)
+bus.on('reloadCashlessTransactions', loadLastCashlessTransactions)
 </script>
 
 <template>

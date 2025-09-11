@@ -10,7 +10,8 @@ import { fireNotify, priceAbsFormatted } from 'src/helpers/helpers'
 export function usePlayer() {
   const playerStore = usePlayerStore()
   const router = useRouter()
-  const { selectedPlayer, playerClasses, playerDepositAndCredits } = storeToRefs(playerStore)
+  const { selectedPlayer, playerClasses, playerDepositAndCredits, dateTimeFilterValues } =
+    storeToRefs(playerStore)
   const $q = useQuasar()
   const currencyStore = useCurrencyStore()
   const { currencies, getCurrencyById, getCurrenciesByIds } = storeToRefs(currencyStore)
@@ -253,5 +254,6 @@ export function usePlayer() {
     onChangeActiveStatus,
     onChangeDiscountStatus,
     showCcPosAndCcSlipId,
+    dateTimeFilterValues,
   }
 }

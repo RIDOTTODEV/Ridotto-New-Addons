@@ -48,7 +48,7 @@ const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginC
 const onsubmit = async () => {
   await playerStore.postCashdeskTransaction({ ...formValues.value }).then((res) => {
     if (res) {
-      bus.emit('reloadPlayerCashless')
+      bus.emit('reloadCashlessTransactions')
       onDialogOK()
     }
   })

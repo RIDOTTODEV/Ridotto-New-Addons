@@ -1,11 +1,11 @@
 <script setup>
-import { ref, onMounted, inject } from 'vue'
+import { ref, onMounted, watch, inject } from 'vue'
 import { date } from 'quasar'
-/* import { useRouter } from 'vue-router' */
 import { formatPrice } from 'src/helpers/helpers'
 import { usePlayerStore } from 'src/stores/player-store'
-const bus = inject('bus')
+
 const playerStore = usePlayerStore()
+const bus = inject('bus')
 const lastCageTransactions = ref([])
 const columns = ref([
   {
@@ -61,7 +61,6 @@ const columns = ref([
     visible: true,
   },
 ])
-/* const router = useRouter() */
 const props = defineProps({
   playerId: {
     type: Number,
@@ -78,10 +77,19 @@ const loadLastCageTransactions = async () => {
   })
   lastCageTransactions.value = data
 }
-bus.on('reloadPlayerCashless', loadLastCageTransactions)
+
 defineExpose({
   reload: loadLastCageTransactions,
 })
+watch(
+  () => playerStore.dateTimeFilterValues,
+  (newVal) => {
+    if (Object.keys(newVal).length > 0) {
+      loadLastCageTransactions()
+    }
+  },
+)
+bus.on('reloadCageTransactions', loadLastCageTransactions)
 const refTable = ref(null)
 </script>
 

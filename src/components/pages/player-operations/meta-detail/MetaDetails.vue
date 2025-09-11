@@ -170,7 +170,6 @@
 </template>
 
 <script setup>
-import { inject } from 'vue'
 import PlayerProfile from 'src/components/pages/player-operations/meta-detail/PlayerProfile.vue'
 import { usePlayer } from 'src/composables/player-operations/usePlayer'
 import PlayerNote from 'src/components/pages/player-operations/meta-detail/PlayerNote.vue'
@@ -190,10 +189,9 @@ const {
   onChangeActiveStatus,
   onChangeDiscountStatus,
 } = usePlayer()
-const bus = inject('bus')
+
 const onChangeDateTimeFilterValues = (params) => {
   playerStore.setDateTimeFilterValues(params)
-  bus.emit('reloadPlayerCashless')
 }
 </script>
 

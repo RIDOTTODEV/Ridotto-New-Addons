@@ -94,7 +94,7 @@ const onsubmit = async () => {
         position: 'bottom-right',
         icon: 'fa fa-check-circle',
       })
-      bus.emit('reloadPlayerCashless')
+      bus.emit('reloadCageTransactions')
       onDialogOK()
     }
   })

@@ -71,7 +71,7 @@ if (props.transactionType === 'Withdrawal') {
 const onsubmit = async () => {
   await playerStore.postCashdeskTransaction({ ...formValues.value }).then((res) => {
     if (res) {
-      bus.emit('reloadPlayerCashless')
+      bus.emit('reloadCageTransactions')
       onDialogOK()
     }
   })

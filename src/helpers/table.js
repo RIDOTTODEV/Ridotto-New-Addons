@@ -34,7 +34,7 @@ const camelCaseToSentence = (str) => {
   })
 }
 export const generateColumns = (columnConfigs) => {
-  return columnConfigs.map((config) => ({
+  return columnConfigs.map((config, index) => ({
     name: config.name || config.field,
     required: requiredFields.includes(config.field) || false,
     label: config.label || camelCaseToSentence(config.field),
@@ -48,7 +48,8 @@ export const generateColumns = (columnConfigs) => {
     sortable: config.sortable || sortableFields.includes(config.field) || false,
     sort: config.sort,
     visible: config.visible || true,
-    parseIndex: config.parseIndex || 0,
+    colId: config.colId || index,
+    orderColumn: config.orderColumn || index,
     defaultVisible: config.defaultVisible || false,
   }))
 }

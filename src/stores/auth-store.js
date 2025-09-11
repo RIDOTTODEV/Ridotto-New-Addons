@@ -10,7 +10,11 @@ export const useAuthStore = defineStore('authStore', {
     userPermissions: [],
     isAuthenticated: false,
     defaultGamingDateInfo: null,
-    userPanelSettings: {},
+    userPanelSettings: {
+      tableColumns: {},
+      DefaultCurrencyId: 2,
+    },
+    isInitialized: false,
   }),
   getters: {
     hasPermission: (state) => (permission) => {
@@ -60,69 +64,46 @@ export const useAuthStore = defineStore('authStore', {
       const currencyStore = useCurrencyStore()
       return currencyStore.currencies.find((c) => c.id === state.defaultCurrencyId)
     },
-    getUserTableColumns: (state) => (tableName, defaultColumns) => {
-      if (!tableName) {
-        return defaultColumns
-      }
-      if (Object.keys(state.userPanelSettings).length === 0) {
-        return defaultColumns
-      }
-      if (!state.userPanelSettings.tableColumns) {
-        return defaultColumns
-      }
-      const userColumns = state.userPanelSettings.tableColumns[tableName]?.columns
 
-      if (userColumns) {
-        return defaultColumns.map((column) => {
-          const columnProperties = userColumns.find(
-            (defaultColumn) => defaultColumn.name === column.name,
-          )
-          if (columnProperties === undefined) {
-            return {
-              ...column,
-              visible: true,
-            }
-          }
-          const findIndex = defaultColumns.findIndex(
-            (defaultColumn) => defaultColumn.name === columnProperties.name,
-          )
+    getUserTableColumnsFormatted:
+      (state) =>
+      (tableName, defaultColumns, defaultRowsPerPage = 10) => {
+        let formattedTable = {
+          columns: defaultColumns,
+          rowsPerPage: defaultRowsPerPage,
+          visibleColumns: defaultColumns.map((column) => column.name),
+        }
+        if (!tableName) {
+          return formattedTable
+        }
+        if (state.userPanelSettings.tableColumns[tableName]) {
+          const userSavedColumns = state.userPanelSettings.tableColumns[tableName].columns
+          let userColumns =
+            defaultColumns.map((column) => {
+              const userColumn = userSavedColumns.find(
+                (defaultColumn) => defaultColumn[0] === column.colId,
+              )
+              return {
+                ...column,
+                visible: userColumn[2] === 1,
+                orderColumn: userColumn[1],
+              }
+            }) || []
+          userColumns = userColumns.sort((a, b) => a.orderColumn - b.orderColumn)
           return {
-            ...defaultColumns[findIndex],
-            visible: column.visible,
+            columns: userColumns,
+            visibleColumns: userColumns
+              .filter((column) => column.visible)
+              .map((column) => column.name),
+            rowsPerPage: state.userPanelSettings.tableColumns[tableName].rowsPerPage,
           }
-        })
-      }
-      return defaultColumns
-    },
-    getUserTableVisibleColumns: (state) => (tableName, defaultColumns) => {
-      if (Object.keys(state.userPanelSettings).length === 0) {
-        return defaultColumns.map((column) => column.name)
-      }
-      if (!state.userPanelSettings.tableColumns) {
-        return defaultColumns.map((column) => column.name)
-      }
-      if (!state.userPanelSettings.tableColumns[tableName]) {
-        return defaultColumns.map((column) => column.name)
-      }
+        }
+        return formattedTable
+      },
 
-      const userColumns = state.userPanelSettings.tableColumns[tableName]?.columns
-
-      if (userColumns) {
-        return userColumns
-          .filter((column) => column.visible || column.defaultVisible)
-          .map((column) => column.name)
-      }
-      return defaultColumns.map((column) => column.name)
-    },
     getTableRowsPerPage:
       (state) =>
       (tableName, defaultRowsPerPage = 10) => {
-        if (Object.keys(state.userPanelSettings).length === 0) {
-          return defaultRowsPerPage
-        }
-        if (!state.userPanelSettings.tableColumns) {
-          return defaultRowsPerPage
-        }
         if (!state.userPanelSettings.tableColumns[tableName]) {
           return defaultRowsPerPage
         }
@@ -131,6 +112,9 @@ export const useAuthStore = defineStore('authStore', {
       },
   },
   actions: {
+    setIsInitialized(value) {
+      this.isInitialized = value
+    },
     async setCurrentUser(user) {
       this.user = { ...user }
       api.defaults.headers.common['Authorization'] = `${user.token_type} ${user.access_token}`
@@ -210,26 +194,8 @@ export const useAuthStore = defineStore('authStore', {
           console.log(err)
         })
     },
-    async saveUserTableColumns(tableName, visibleColumnsNames, columns, rowsPerPage = 10) {
-      let columnsToSave = columns
-        .map((column) => {
-          let index = visibleColumnsNames.indexOf(column.name)
-          return {
-            name: column.name,
-            visible: index !== -1,
-            order: index !== -1 ? index : visibleColumnsNames.length,
-          }
-        })
-        .sort((a, b) => a.order - b.order)
-      if (!this.userPanelSettings.tableColumns) {
-        this.userPanelSettings.tableColumns = {}
-      }
-      if (!this.userPanelSettings.tableColumns[tableName]) {
-        this.userPanelSettings.tableColumns[tableName] = {}
-      }
-      this.userPanelSettings.tableColumns[tableName].columns = columnsToSave
-      this.userPanelSettings.tableColumns[tableName].rowsPerPage = rowsPerPage
-
+    async saveUserTableColumnsFormatted(tableName, tableSettings) {
+      this.userPanelSettings.tableColumns[tableName] = tableSettings
       await applicationSettingService
         .setUserSettings({
           name: 'AddonSettings',
