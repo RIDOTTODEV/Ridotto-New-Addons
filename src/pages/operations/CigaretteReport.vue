@@ -1,5 +1,24 @@
 <template>
   <q-page class="q-pa-md">
+    <div class="flex justify-between q-mb-xs">
+      <div class="text-subtitle1">
+        {{ $t('cigaretteReport') }}
+      </div>
+      <q-btn
+        v-el-perms="'Addon.CigaretteReport.Settings'"
+        icon="o_settings"
+        color="blue-grey-8"
+        text-color="white"
+        unelevated
+        no-caps
+        @click="onClickCigaretteReportSettings"
+        class="q-card--bordered"
+      >
+        <q-tooltip class="text-subtitle2 bg-blue-grey-8">{{
+          $t('cigaretteReportSettings')
+        }}</q-tooltip>
+      </q-btn>
+    </div>
     <SupaTable
       :columns="columns"
       :getDataFn="getCigaretteReport"
@@ -70,10 +89,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, defineAsyncComponent } from 'vue'
 import { posApi } from 'src/boot/axios'
 import { useAuthStore } from 'src/stores/auth-store'
 import { storeToRefs } from 'pinia'
+import { useQuasar } from 'quasar'
+const $q = useQuasar()
 const authStore = useAuthStore()
 const { addonGeneralSettings } = storeToRefs(authStore)
 const filterValues = ref({
@@ -136,6 +157,13 @@ const getCigaretteReport = async () => {
     params: searchParams,
   })
   return data
+}
+const onClickCigaretteReportSettings = () => {
+  $q.dialog({
+    component: defineAsyncComponent(
+      () => import('src/components/pages/operations/CigaretteReportSettingsModal.vue'),
+    ),
+  })
 }
 </script>
 

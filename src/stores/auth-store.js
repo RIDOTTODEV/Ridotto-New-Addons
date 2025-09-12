@@ -199,6 +199,7 @@ export const useAuthStore = defineStore('authStore', {
         value: JSON.stringify(settings),
       })
       await this.getAddonGeneralSettings()
+      return true
     },
     async getAddonGeneralSettings() {
       await applicationSettingService

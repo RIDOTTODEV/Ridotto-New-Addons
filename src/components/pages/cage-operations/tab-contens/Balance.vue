@@ -9,8 +9,7 @@ const bus = inject('bus')
 const cashdeskStore = useCashdeskStore()
 const { currentCashDeskBalance, currentCashDeskChipBalance } = storeToRefs(cashdeskStore)
 const authStore = useAuthStore()
-const { getDefaultCurrencyName, getDefaultCurrencyId, addonGeneralSettings } =
-  storeToRefs(authStore)
+const { getDefaultCurrencyName } = storeToRefs(authStore)
 const currencyStore = useCurrencyStore()
 const { currencies } = storeToRefs(currencyStore)
 
@@ -25,11 +24,6 @@ const total = computed(() => {
 })
 
 const showTotal = ref(false)
-const onChangeCurrency = async (currencyId) => {
-  addonGeneralSettings.value.DefaultCurrencyId = currencyId
-  await authStore.saveAddonGeneralSettings()
-  await cashdeskStore.setCashdeskBalance()
-}
 </script>
 
 <template>
@@ -85,35 +79,6 @@ const onChangeCurrency = async (currencyId) => {
                 data-cy="cageCurrencyName"
               >
                 {{ getDefaultCurrencyName }}
-
-                <q-popup-proxy transition-show="flip-up" transition-hide="flip-down">
-                  <q-list
-                    style="width: 100px"
-                    class="q-card"
-                    v-el-perms="'Addon.CageOperations.Balance.UpdateCurrency'"
-                    dense
-                  >
-                    <q-item
-                      class="text-center"
-                      clickable
-                      v-close-popup
-                      v-for="(currency, index) in currencies"
-                      :key="index"
-                      @click="onChangeCurrency(currency.id)"
-                    >
-                      <q-item-section class="q-pa-none">
-                        <div class="text-subtitle2">
-                          {{ currency.name }}
-                          <q-icon
-                            name="fiber_manual_record"
-                            color="positive"
-                            v-if="currency.id === getDefaultCurrencyId"
-                          />
-                        </div>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-popup-proxy>
               </span>
               <q-icon
                 data-cy="reloadCageBalanceBtn"
