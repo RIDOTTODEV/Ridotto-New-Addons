@@ -278,23 +278,31 @@
             >
               <div class="row flex full-height full-width">
                 <div class="col-12">
-                  <div class="col-12 flex justify-between">
-                    <div class="text-subtitle2">
-                      {{ item.chipType }}
-                    </div>
-                    <div class="text-subtitle2 q-mr-sm">
-                      {{
-                        formatPrice(
-                          item.denominations.reduce(
-                            (acc, { quantity, chipDenom }) => acc + quantity * chipDenom,
-                            0,
-                          ) || 0,
-                        )
-                      }}
-                    </div>
-                  </div>
                   <q-markup-table separator="cell" class="row" flat square bordered dense>
                     <thead>
+                      <tr>
+                        <th class="text-center">{{ item.chipType }}</th>
+                        <th class="text-center">
+                          {{
+                            formatPrice(
+                              item.denominations.reduce(
+                                (acc, { quantity, chipDenom }) => acc + quantity * chipDenom,
+                                0,
+                              ) || 0,
+                            )
+                          }}
+                        </th>
+                        <th class="text-center">
+                          {{
+                            formatPrice(
+                              item.denominations.reduce(
+                                (acc, { expected, chipDenom }) => acc + expected * chipDenom,
+                                0,
+                              ) || 0,
+                            )
+                          }}
+                        </th>
+                      </tr>
                       <tr>
                         <th class="grey-card text-center">Denom</th>
                         <th class="grey-card text-center">Amount</th>
@@ -319,29 +327,39 @@
               </div>
             </div>
             <div
-              class="col q-pa-sm flex justify-start content-start items-start"
+              class="col q-pa-sm"
               v-for="(item, i) in selectedTableCount?.cashInfoFormatted"
               :key="i"
             >
               <div class="row flex">
                 <div class="col-12">
-                  <div class="col-12 flex justify-between">
-                    <div class="text-subtitle2">
-                      Cash - <span class="text-negative">{{ item.currencyName }}*</span>
-                    </div>
-                    <div class="text-subtitle2 q-mr-sm flex justify-between items-center">
-                      {{
-                        formatPrice(
-                          item.denominations.reduce(
-                            (acc, { currencyDenom, quantity }) => acc + currencyDenom * quantity,
-                            0,
-                          ),
-                        )
-                      }}
-                    </div>
-                  </div>
                   <q-markup-table class="row" separator="cell" flat square bordered dense>
                     <thead>
+                      <tr>
+                        <th class="text-center text-negative">{{ item.currencyName }} *</th>
+                        <th class="text-center">
+                          {{
+                            formatPrice(
+                              item.denominations.reduce(
+                                (acc, { quantity, currencyDenom }) =>
+                                  acc + quantity * currencyDenom,
+                                0,
+                              ),
+                            )
+                          }}
+                        </th>
+                        <th class="text-center">
+                          {{
+                            formatPrice(
+                              item.denominations.reduce(
+                                (acc, { expected, currencyDenom }) =>
+                                  acc + expected * currencyDenom,
+                                0,
+                              ) || 0,
+                            )
+                          }}
+                        </th>
+                      </tr>
                       <tr>
                         <th class="grey-card text-center">Denom</th>
                         <th class="grey-card text-center">Count</th>
@@ -372,7 +390,7 @@
                             dense
                             flat
                             type="number"
-                            class="q-pa-none myInput flex justify-center content-center items-center"
+                            class="q-pa-none myInput"
                             lazy-rules
                             @focus="(e) => (e.target.select ? e.target.select() : null)"
                           >
@@ -408,23 +426,33 @@
             >
               <div class="row flex">
                 <div class="col-12">
-                  <div class="col-12 flex justify-between">
-                    <div class="text-subtitle2">
-                      {{ item.chipType }}
-                    </div>
-                    <div class="text-subtitle2 q-mr-sm flex justify-between">
-                      {{
-                        formatPrice(
-                          item.denominations.reduce(
-                            (acc, { quantity, chipDenom }) => acc + quantity * chipDenom,
-                            0,
-                          ) || 0,
-                        )
-                      }}
-                    </div>
-                  </div>
                   <q-markup-table separator="cell" flat square bordered dense>
                     <thead>
+                      <tr>
+                        <th class="text-center">
+                          {{ item.chipType }}
+                        </th>
+                        <th class="text-right">
+                          {{
+                            formatPrice(
+                              item.denominations.reduce(
+                                (acc, { quantity, chipDenom }) => acc + quantity * chipDenom,
+                                0,
+                              ) || 0,
+                            )
+                          }}
+                        </th>
+                        <th class="text-right">
+                          {{
+                            formatPrice(
+                              item.denominations.reduce(
+                                (acc, { expected, chipDenom }) => acc + expected * chipDenom,
+                                0,
+                              ) || 0,
+                            )
+                          }}
+                        </th>
+                      </tr>
                       <tr>
                         <th class="grey-card text-center">Denom</th>
                         <th class="grey-card text-right">Count</th>

@@ -45,14 +45,6 @@
                     <div class="col-6"></div>
                     <div class="col-6 flex justify-end content-end items-end">
                       <div class="col-8">
-                        <q-checkbox
-                          v-model="skipTableFloatCheck"
-                          :label="$t('skipTableFloatCheck')"
-                          dense
-                          class="q-mr-sm col-12"
-                          :value="true"
-                          :false-value="false"
-                        />
                         <q-input
                           v-model="tableCount.note"
                           :label="$t('note')"
@@ -968,13 +960,14 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useDialogPluginComponent, Notify } from 'quasar'
+import { useDialogPluginComponent, Notify, useQuasar } from 'quasar'
 import html2pdf from 'html2pdf.js'
 import { formatPrice } from 'src/helpers/helpers'
 import { useTableStore } from 'src/stores/table-store'
 import { useReportStore } from 'src/stores/report-store'
 const tableStore = useTableStore()
 const reportStore = useReportStore()
+const $q = useQuasar()
 const props = defineProps({
   tableCountIds: {
     type: Array,
@@ -1014,7 +1007,7 @@ const downloadPdf = () => {
     formElement.style.display = 'block'
   }, 100)
 }
-const skipTableFloatCheck = ref(true)
+const skipTableFloatCheck = ref(false)
 const onSave = async () => {
   const tableCount = tableCounts.value[step.value - 1]
   const params = {
@@ -1045,11 +1038,36 @@ const onSave = async () => {
       onDialogOK()
     }
   } else {
-    Notify.create({
-      position: 'bottom-right',
-      type: 'negative',
-      message: result.response.data,
-    })
+    const message = result.response.data
+    if (message.startsWith('Table float is not updated.')) {
+      $q.dialog({
+        title: 'Onayla',
+        message: 'Masanın floatı güncellenmedi. Masa floatını güncellemek istiyor musunuz?',
+        cancel: {
+          flat: true,
+          color: 'primary',
+          label: 'İptal',
+          class: 'text-capitalize',
+        },
+        ok: {
+          flat: true,
+          color: 'positive',
+          label: 'Onayla',
+          class: 'text-capitalize',
+        },
+        persistent: true,
+      })
+        .onOk(async () => {
+          skipTableFloatCheck.value = true
+          await onSave()
+        })
+        .onCancel(() => {
+          skipTableFloatCheck.value = false
+        })
+        .onDismiss(() => {
+          skipTableFloatCheck.value = false
+        })
+    }
   }
 }
 </script>
