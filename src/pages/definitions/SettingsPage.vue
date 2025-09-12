@@ -60,6 +60,54 @@
           </div>
           <div class="col-3 q-pa-xs">
             <div class="text-caption">
+              {{ $t('defaultLocale') }}
+              <span class="text-negative">*</span>
+            </div>
+            <q-select
+              v-model="addonGeneralSettings.DefaultLocale"
+              :options="locales"
+              dense
+              map-options
+              emit-value
+              option-value="lang"
+              option-label="title"
+              hide-bottom-space
+              behavior="menu"
+              class="super-small"
+              outlined
+            >
+              <template v-slot:option="scope">
+                <q-item v-bind="scope.itemProps">
+                  <q-item-section>
+                    <q-item-label>
+                      <q-img
+                        :src="scope.opt.iconPath"
+                        fit="contain"
+                        width="20px"
+                        height="20px"
+                        class="q-mr-sm"
+                      />
+                      {{ scope.opt.title }}
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+              </template>
+              <template v-slot:selected-item="scope">
+                <div class="text-subtitle2">
+                  <q-img
+                    :src="scope.opt.iconPath"
+                    fit="contain"
+                    width="20px"
+                    height="20px"
+                    class="q-mr-sm"
+                  />
+                  {{ scope.opt.title }}
+                </div>
+              </template>
+            </q-select>
+          </div>
+          <div class="col-3 q-pa-xs">
+            <div class="text-caption">
               {{ $t('sigaretteReportTags') }}
               <span class="text-negative">*</span>
             </div>
@@ -145,6 +193,7 @@
 import { ref, onMounted } from 'vue'
 import { posApi } from 'boot/axios'
 import { useCurrencyStore } from 'src/stores/currency-store'
+import { useMainStore } from 'src/stores/main-store'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from 'src/stores/auth-store'
 const authStore = useAuthStore()
@@ -152,7 +201,8 @@ const { addonGeneralSettings } = storeToRefs(authStore)
 
 const currencyStore = useCurrencyStore()
 const { getCurrenciesWithFlags } = storeToRefs(currencyStore)
-
+const mainStore = useMainStore()
+const { locales } = storeToRefs(mainStore)
 const sigaretteReportTags = ref([])
 const isPwdCashier = ref(true)
 const isPwdPitboss = ref(true)

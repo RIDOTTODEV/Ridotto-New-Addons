@@ -2,6 +2,7 @@ import { defineBoot } from '#q-app/wrappers'
 import { createI18n } from 'vue-i18n'
 import { LocalStorage } from 'quasar'
 import { useMainStore } from 'src/stores/main-store'
+import { useAuthStore } from 'src/stores/auth-store'
 import messages from 'src/i18n'
 function formatMissingKey(key) {
   // First handle cases like "last1Year" or "last15minutes"
@@ -19,7 +20,10 @@ function formatMissingKey(key) {
 }
 let i18n = null
 export default defineBoot(({ app, store }) => {
-  const initialLocale = LocalStorage.getItem('locale') || 'en'
+  const authStore = useAuthStore(store)
+
+  const initialLocale =
+    LocalStorage.getItem('locale') || authStore.userAddonSettings.DefaultLocale || 'en'
   const initialDarkMode = LocalStorage.getItem('darkMode') || false
 
   const mainStore = useMainStore(store)

@@ -40,7 +40,8 @@ export const initialize = async () => {
       setTimeout(() => bus.emit('setNewCashDesk'), 300)
     }
 
-    const defaultCurrencyId = LocalStorage.getItem('defaultCurrencyId')
+    const defaultCurrencyId =
+      authStore.userAddonSettings.DefaultCurrencyId || LocalStorage.getItem('defaultCurrencyId')
     if (defaultCurrencyId) {
       currencyStore.setDefaultCurrency(defaultCurrencyId)
     }
