@@ -75,10 +75,10 @@ import { posApi } from 'src/boot/axios'
 import { useAuthStore } from 'src/stores/auth-store'
 import { storeToRefs } from 'pinia'
 const authStore = useAuthStore()
-const { defaultSettings } = storeToRefs(authStore)
+const { addonGeneralSettings } = storeToRefs(authStore)
 const filterValues = ref({
   playerId: null,
-  TagIds: defaultSettings.value.sigaretteReportTags,
+  TagIds: addonGeneralSettings.value.sigaretteReportTags,
   CreatedByName: null,
 })
 const onSelectPlayer = (val) => {

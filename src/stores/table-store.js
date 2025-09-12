@@ -164,15 +164,15 @@ export const useTableStore = defineStore('tableStore', {
     async tableCountChipSaveEditCheck(params) {
       return await tableCountService.tableCountChipSaveEditCheck(params)
     },
-    async updateTableCountFormStableSettings(params) {
+    async updateTableOperationsSettings(params) {
       return await applicationSettingService.setSettings({
-        name: 'TableCountFormStableSettings',
+        name: 'TableOperationsSettings',
         value: JSON.stringify(params),
       })
     },
-    async getTableCountFormStableSettings() {
+    async getTableOperationsSettings() {
       return await applicationSettingService.getSettings({
-        name: 'TableCountFormStableSettings',
+        name: 'TableOperationsSettings',
       })
     },
   },

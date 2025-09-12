@@ -231,7 +231,7 @@ const getExpectedTableFloat = async () => {
 
 onMounted(async () => {
   await getExpectedTableFloat()
-  const response = await tableStore.getTableCountFormStableSettings()
+  const response = await tableStore.getTableOperationsSettings()
   values.value.transactionCodeId = response.data?.value
     ? JSON.parse(response.data.value).transactionCodeId
     : null

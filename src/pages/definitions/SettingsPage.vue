@@ -6,15 +6,15 @@
           {{ $t('settings') }}
         </div>
       </q-card-section>
-      <q-card-section>
-        <q-form @submit="authStore.saveDefaultSettings" class="row">
+      <q-card-section class="q-pt-none">
+        <q-form @submit="authStore.saveAddonGeneralSettings" class="row">
           <div class="col-3 q-pa-xs">
             <div class="text-caption">
               {{ $t('defaultCurrency') }}
               <span class="text-negative">*</span>
             </div>
             <q-select
-              v-model="defaultSettings.DefaultCurrencyId"
+              v-model="addonGeneralSettings.DefaultCurrencyId"
               outlined
               dense
               :options="getCurrenciesWithFlags"
@@ -65,7 +65,7 @@
             </div>
             <q-select
               multiple
-              v-model="defaultSettings.sigaretteReportTags"
+              v-model="addonGeneralSettings.sigaretteReportTags"
               outlined
               dense
               :options="sigaretteReportTags"
@@ -80,6 +80,48 @@
               reactive-rules
               :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
             />
+          </div>
+          <div class="col-3 q-pa-xs">
+            <div class="text-caption">
+              {{ $t('CashierPassword') }}
+              <span class="text-negative"></span>
+            </div>
+            <q-input
+              v-model="addonGeneralSettings.CashierPassword"
+              outlined
+              dense
+              :type="isPwdCashier ? 'password' : 'text'"
+              class="super-small"
+            >
+              <template v-slot:append>
+                <q-icon
+                  :name="isPwdCashier ? 'o_visibility' : 'o_visibility_off'"
+                  @click="isPwdCashier = !isPwdCashier"
+                  class="cursor-pointer"
+                />
+              </template>
+            </q-input>
+          </div>
+          <div class="col-3 q-pa-xs">
+            <div class="text-caption">
+              {{ $t('PitbossPassword') }}
+              <span class="text-negative"></span>
+            </div>
+            <q-input
+              v-model="addonGeneralSettings.PitbossPassword"
+              outlined
+              dense
+              class="super-small"
+              :type="isPwdPitboss ? 'password' : 'text'"
+            >
+              <template v-slot:append>
+                <q-icon
+                  :name="isPwdPitboss ? 'o_visibility' : 'o_visibility_off'"
+                  @click="isPwdPitboss = !isPwdPitboss"
+                  class="cursor-pointer"
+                />
+              </template>
+            </q-input>
           </div>
           <div class="col-12 q-pa-xs flex justify-start q-mt-lg">
             <q-btn
@@ -106,13 +148,14 @@ import { useCurrencyStore } from 'src/stores/currency-store'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from 'src/stores/auth-store'
 const authStore = useAuthStore()
-const { defaultSettings } = storeToRefs(authStore)
+const { addonGeneralSettings } = storeToRefs(authStore)
 
 const currencyStore = useCurrencyStore()
 const { getCurrenciesWithFlags } = storeToRefs(currencyStore)
 
 const sigaretteReportTags = ref([])
-
+const isPwdCashier = ref(true)
+const isPwdPitboss = ref(true)
 onMounted(async () => {
   await posApi.get('/api/Tag/GetAll').then(({ data }) => {
     sigaretteReportTags.value = data.data

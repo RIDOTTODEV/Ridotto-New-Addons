@@ -206,7 +206,7 @@ const $q = useQuasar()
 const cashdeskStore = useCashdeskStore()
 const { getSelectedCashDesk } = storeToRefs(cashdeskStore)
 const authStore = useAuthStore()
-const { getUserTableColumnsFormatted, getTableRowsPerPage } = storeToRefs(authStore)
+const { getUserTableColumns, getTableRowsPerPage } = storeToRefs(authStore)
 const props = defineProps({
   tableName: {
     type: String,
@@ -409,7 +409,7 @@ const getTableFilterParams = () => {
 }
 const initColumns = async () => {
   const columns = generateColumns(props.columns)
-  const userColumns = getUserTableColumnsFormatted.value(props.tableName, columns)
+  const userColumns = getUserTableColumns.value(props.tableName, columns)
   tableColumns.value = userColumns.columns
   visibleColumnOptions.value = userColumns.visibleColumns
 }

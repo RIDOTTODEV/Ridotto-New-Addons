@@ -9,7 +9,8 @@ const bus = inject('bus')
 const cashdeskStore = useCashdeskStore()
 const { currentCashDeskBalance, currentCashDeskChipBalance } = storeToRefs(cashdeskStore)
 const authStore = useAuthStore()
-const { getDefaultCurrencyName, getDefaultCurrencyId, defaultSettings } = storeToRefs(authStore)
+const { getDefaultCurrencyName, getDefaultCurrencyId, addonGeneralSettings } =
+  storeToRefs(authStore)
 const currencyStore = useCurrencyStore()
 const { currencies } = storeToRefs(currencyStore)
 
@@ -17,7 +18,6 @@ onMounted(() => {
   cashdeskStore.setCashdeskBalance()
 })
 bus.on('reloadCageBalance', () => {
-  console.log('reloadCageBalance')
   cashdeskStore.setCashdeskBalance()
 })
 const total = computed(() => {
@@ -26,8 +26,8 @@ const total = computed(() => {
 
 const showTotal = ref(false)
 const onChangeCurrency = async (currencyId) => {
-  defaultSettings.value.DefaultCurrencyId = currencyId
-  await authStore.saveDefaultSettings()
+  addonGeneralSettings.value.DefaultCurrencyId = currencyId
+  await authStore.saveAddonGeneralSettings()
   await cashdeskStore.setCashdeskBalance()
 }
 </script>

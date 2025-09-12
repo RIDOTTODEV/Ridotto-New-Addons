@@ -166,14 +166,14 @@
                       />
                       <q-select
                         v-if="isAuthorityUser"
-                        v-model="defaultSettings.DefaultCurrencyId"
+                        v-model="userAddonSettings.DefaultCurrencyId"
                         :options="currencies"
                         map-options
                         emit-value
                         option-value="id"
                         :option-label="(val) => val.symbol + ' ' + val.name"
                         label="Default Currency"
-                        @update:model-value="authStore.saveDefaultSettings(true)"
+                        @update:model-value="authStore.saveUserCurrency"
                         dense
                       />
                       <q-select
@@ -306,7 +306,7 @@ const {
   onSelectPlayer,
   onClearPlayer,
   changeCashDeskGamingDate,
-  defaultSettings,
+  userAddonSettings,
 } = useHeader(props, emit)
 
 const localeChange = (locale) => {

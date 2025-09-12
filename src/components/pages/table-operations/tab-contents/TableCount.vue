@@ -7,130 +7,130 @@
     </div>
     <q-card-section class="q-pa-none">
       <div class="row">
-        <div class="col q-pa-xs">
+        <div class="col-12 q-pa-xs">
           <fieldset class="row">
             <legend align="center" class="text-subtitle2">
               {{ $t('tableCounts') }}
             </legend>
-            <q-markup-table dense separator="cell" square class="no-box-shadow full-width">
-              <thead>
-                <tr>
-                  <th class="text-center app-cart-grey" style="padding: 0 !important">
-                    <q-checkbox
-                      v-model="selectAllTableCounts"
-                      @update:model-value="onSelectAllTableCounts"
-                      color="blue-grey-8"
-                    />
-                  </th>
-                  <th class="text-center app-cart-grey">
-                    <div class="text-subtitle2">Table</div>
-                  </th>
-                  <th class="text-center app-cart-grey">
-                    <div class="text-subtitle2">Gaming Date</div>
-                  </th>
-                  <th class="text-center app-cart-grey">
-                    <div class="text-subtitle2">Float Set</div>
-                  </th>
-                  <th class="text-center app-cart-grey">
-                    <div class="text-subtitle2">Total Drop</div>
-                  </th>
-                  <th class="text-center app-cart-grey">
-                    <div class="text-subtitle2">Total Credit</div>
-                  </th>
-                  <th class="text-center app-cart-grey">
-                    <div class="text-subtitle2">Total Fill</div>
-                  </th>
-                  <th class="text-center app-cart-grey">
-                    <div class="text-subtitle2">Result</div>
-                  </th>
-                  <th class="text-center app-cart-grey">
-                    <div class="text-subtitle2">Table Count</div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="(item, index) in tableStore.tableCounts"
-                  :key="index"
-                  :class="[
-                    item.id === selectedTableCount?.id
-                      ? 'bg-red-2'
-                      : item.cashSaveLock
-                        ? 'bg-green-1'
-                        : '',
-                  ]"
-                >
-                  <td class="text-center">
-                    <q-checkbox
-                      v-model="selectedTableCountIds"
-                      :val="item.id"
-                      :key="index"
-                      @update:model-value="onCheckedTableCount()"
-                      color="blue-grey-8"
-                      :disable="
-                        item.gamingDateId === getDefaultGamingDateId || item?.isAnyoneSit === true
-                      "
-                    />
-                  </td>
-                  <td class="text-center cursor-pointer" @click="onSelectTableCount(item)">
-                    <div class="flex justify-center content-center items-center">
-                      {{ item?.tableName }}
-                      <div class="" v-if="item?.isAnyoneSit">
-                        <q-icon
-                          name="fa-solid fa-users"
-                          size="12px"
-                          color="negative"
-                          class="q-mr-sm q-ml-sm animateIcon"
-                        >
-                          <q-tooltip class="bg-blue-grey-8 text-white text-subtitle2">{{
-                            $t('hasPlayers')
-                          }}</q-tooltip>
-                        </q-icon>
+            <div class="col-12 q-pa-md">
+              <q-markup-table dense separator="cell" square class="no-box-shadow full-width">
+                <thead>
+                  <tr>
+                    <th class="text-center app-cart-grey" style="padding: 0 !important">
+                      <q-checkbox
+                        v-model="selectAllTableCounts"
+                        @update:model-value="onSelectAllTableCounts"
+                        color="blue-grey-8"
+                      />
+                    </th>
+                    <th class="text-center app-cart-grey">
+                      <div class="text-bold">Table</div>
+                    </th>
+                    <th class="text-center app-cart-grey">
+                      <div class="text-bold">Gaming Date</div>
+                    </th>
+                    <th class="text-center app-cart-grey">
+                      <div class="text-bold">Float Set</div>
+                    </th>
+                    <th class="text-center app-cart-grey">
+                      <div class="text-bold">Total Drop</div>
+                    </th>
+                    <th class="text-center app-cart-grey">
+                      <div class="text-bold">Total Credit</div>
+                    </th>
+                    <th class="text-center app-cart-grey">
+                      <div class="text-bold">Total Fill</div>
+                    </th>
+                    <th class="text-center app-cart-grey">
+                      <div class="text-bold">Result</div>
+                    </th>
+                    <th class="text-center app-cart-grey">
+                      <div class="text-bold">Chip Count</div>
+                    </th>
+                    <th class="text-center app-cart-grey">
+                      <div class="text-bold">Cash Count</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(item, index) in tableStore.tableCounts"
+                    :key="index"
+                    :class="[
+                      item.id === selectedTableCount?.id
+                        ? 'bg-red-2'
+                        : item.cashSaveLock
+                          ? 'bg-green-1'
+                          : '',
+                    ]"
+                  >
+                    <td class="text-center">
+                      <q-checkbox
+                        v-model="selectedTableCountIds"
+                        :val="item.id"
+                        :key="index"
+                        @update:model-value="onCheckedTableCount()"
+                        color="blue-grey-8"
+                        :disable="
+                          item.gamingDateId === getDefaultGamingDateId || item?.isAnyoneSit === true
+                        "
+                      />
+                    </td>
+                    <td class="text-center cursor-pointer" @click="onSelectTableCount(item)">
+                      <div class="flex justify-center content-center items-center">
+                        {{ item?.tableName }}
+                        <div class="" v-if="item?.isAnyoneSit">
+                          <q-icon
+                            name="fa-solid fa-users"
+                            size="12px"
+                            color="negative"
+                            class="q-mr-sm q-ml-sm animateIcon"
+                          >
+                            <q-tooltip class="bg-blue-grey-8 text-white text-subtitle2">{{
+                              $t('hasPlayers')
+                            }}</q-tooltip>
+                          </q-icon>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td class="text-center">
-                    <div class="row">
-                      <div class="col-12">
-                        {{ item?.gamingDate }}
+                    </td>
+                    <td class="text-center">
+                      <div class="row">
+                        <div class="col-12">
+                          {{ item?.gamingDate }}
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td class="text-center">{{ item?.floatSetName }}</td>
-                  <td class="text-center">
-                    {{
-                      formatPrice(
-                        item.id === selectedTableCount?.id
-                          ? selectedCountTotalDropAdditional
-                          : item?.totalDrop,
-                      )
-                    }}
-                  </td>
-                  <td class="text-center">
-                    {{ formatPrice(item?.totalCredit) }}
-                  </td>
-                  <td class="text-center">
-                    {{ formatPrice(item?.totalFill) }}
-                  </td>
-                  <td class="text-center">
-                    {{
-                      formatPrice(
-                        item.id === selectedTableCount?.id
-                          ? selectedCountTableResult
-                          : item?.result,
-                      )
-                    }}
-                  </td>
-                  <td class="text-center">
-                    <div class="flex justify-center content-center items-center cursor-pointer">
-                      <q-chip
-                        outline
-                        clickable
-                        square
-                        dense
-                        :icon="item?.chipSaveLock ? 'check_circle' : 'cancel'"
-                        :color="item?.chipSaveLock ? 'green-7' : 'negative'"
-                        :text-color="item?.chipSaveLock ? 'white' : 'white'"
+                    </td>
+                    <td class="text-center">{{ item?.floatSetName }}</td>
+                    <td class="text-center">
+                      {{
+                        formatPrice(
+                          item.id === selectedTableCount?.id
+                            ? selectedCountTotalDropAdditional
+                            : item?.totalDrop,
+                        )
+                      }}
+                    </td>
+                    <td class="text-center">
+                      {{ formatPrice(item?.totalCredit) }}
+                    </td>
+                    <td class="text-center">
+                      {{ formatPrice(item?.totalFill) }}
+                    </td>
+                    <td class="text-center">
+                      {{
+                        formatPrice(
+                          item.id === selectedTableCount?.id
+                            ? selectedCountTableResult
+                            : item?.result,
+                        )
+                      }}
+                    </td>
+                    <td class="text-center">
+                      <q-icon
+                        :class="item?.chipSaveLock ? 'cursor-pointer' : 'text-negative'"
+                        :name="item?.chipSaveLock ? 'lock' : 'lock_open'"
+                        :color="item?.chipSaveLock ? 'positive' : 'negative'"
+                        size="20px"
                         @click="
                           () => {
                             if (item?.chipSaveLock) {
@@ -138,49 +138,63 @@
                             }
                           }
                         "
-                        >Chip Count</q-chip
-                      >
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="10" class="text-right">
-                    <div class="flex justify-end q-pa-sm">
-                      <q-btn
-                        :disable="selectedTableCountIds.length >= 1 ? false : true"
-                        unelevated
-                        color="grey-2"
-                        text-color="dark"
-                        no-caps
-                        icon="repartition"
-                        size="11px"
-                        @click="onClickSetTableFloat"
-                        v-el-perms="'Addon.TableCount.Tab.SetTableFloat'"
-                        class="q-mr-md"
-                        :label="$t('setTableFloat')"
                       />
+                    </td>
+                    <td class="text-center">
+                      <q-icon
+                        :class="item?.cashSaveLock ? 'cursor-pointer' : ''"
+                        :name="item?.cashSaveLock ? 'lock' : 'lock_open'"
+                        :color="item?.cashSaveLock ? 'positive' : 'negative'"
+                        size="20px"
+                        @click="
+                          () => {
+                            if (item?.cashSaveLock) {
+                              onEditSavedCount(item)
+                            }
+                          }
+                        "
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="10" class="text-right">
+                      <div class="flex justify-end q-pa-sm">
+                        <q-btn
+                          :disable="selectedTableCountIds.length >= 1 ? false : true"
+                          unelevated
+                          color="grey-2"
+                          text-color="dark"
+                          no-caps
+                          icon="repartition"
+                          size="11px"
+                          @click="onClickSetTableFloat"
+                          v-el-perms="'Addon.TableCount.Tab.SetTableFloat'"
+                          class="q-mr-md"
+                          :label="$t('setTableFloat')"
+                        />
 
-                      <q-btn
-                        :disable="selectedTableCountIds.length >= 1 ? false : true"
-                        unelevated
-                        color="grey-2"
-                        text-color="dark"
-                        no-caps
-                        size="11px"
-                        icon="manage_history"
-                        class="q-ml-md"
-                        @click="onClickUpdateTableGamingDate"
-                        v-el-perms="'Addon.TableCount.Tab.ChangeTableGamingDate'"
-                        :label="$t('changeTableGamingDate')"
-                      />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </q-markup-table>
+                        <q-btn
+                          :disable="selectedTableCountIds.length >= 1 ? false : true"
+                          unelevated
+                          color="grey-2"
+                          text-color="dark"
+                          no-caps
+                          size="11px"
+                          icon="manage_history"
+                          class="q-ml-md"
+                          @click="onClickUpdateTableGamingDate"
+                          v-el-perms="'Addon.TableCount.Tab.ChangeTableGamingDate'"
+                          :label="$t('changeTableGamingDate')"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </q-markup-table>
+            </div>
           </fieldset>
         </div>
-        <div class="col-5 q-pa-xs" v-if="selectedTableCount?.formattedTableFloats">
+        <!--         <div class="col-5 q-pa-xs" v-if="selectedTableCount?.formattedTableFloats">
           <fieldset class="row">
             <legend class="text-subtitle2" align="center">Table Float Sets</legend>
             <div
@@ -235,10 +249,10 @@
               </q-markup-table>
             </div>
           </fieldset>
-        </div>
+        </div> -->
       </div>
     </q-card-section>
-    <q-card-section v-if="selectedTableCount" class="q-mt-md">
+    <q-card-section v-if="selectedTableCount" class="q-mt-md q-pa-xs">
       <div class="row">
         <Alert
           message="Bu masa oyuncu ile dolu olduğu için güncellenemez."
@@ -247,256 +261,241 @@
           v-if="selectedTableCount?.isAnyoneSit"
         />
       </div>
-      <div class="row">
-        <q-card flat square class="q-pa-none">
-          <q-card-section class="q-pa-none q-mt-md" v-if="selectedTableCount">
-            <div class="row flex" v-if="selectedTableCount">
-              <div
-                class="col q-pa-sm flex justify-start content-start items-start"
-                v-for="(item, i) in selectedTableCount?.chipInfoFormatted?.filter(
-                  (item) => item.chipType === 'Chip',
-                )"
-                :key="i"
-              >
-                <div class="row flex full-height full-width">
-                  <div class="col-12">
-                    <div class="col-12 flex justify-between">
-                      <div class="text-subtitle2">
-                        {{ item.chipType }}
-                      </div>
-                      <div class="text-subtitle2 q-mr-sm">
-                        {{
-                          formatPrice(
-                            item.denominations.reduce(
-                              (acc, { quantity, chipDenom }) => acc + quantity * chipDenom,
-                              0,
-                            ) || 0,
-                          )
-                        }}
-                      </div>
+      <fieldset class="row q-pa-none">
+        <legend align="center" class="text-subtitle2">
+          {{ $t('tableCountsDetails') }}
+        </legend>
+        <div class="col-12 q-pa-xs">
+          <div class="row flex" v-if="selectedTableCount">
+            <div
+              class="col q-pa-sm flex justify-start content-start items-start"
+              v-for="(item, i) in selectedTableCount?.chipInfoFormatted?.filter(
+                (item) => item.chipType === 'Chip',
+              )"
+              :key="i"
+            >
+              <div class="row flex full-height full-width">
+                <div class="col-12">
+                  <div class="col-12 flex justify-between">
+                    <div class="text-subtitle2">
+                      {{ item.chipType }}
                     </div>
-                    <q-markup-table separator="cell" class="row" flat square bordered dense>
-                      <thead>
-                        <tr>
-                          <th class="grey-card text-center">Denom</th>
-                          <th class="grey-card text-center">Amount</th>
-                          <th class="grey-card text-center">Expected</th>
-                        </tr>
-                      </thead>
-                      <tbody class="denom-body">
-                        <tr v-for="(denom, denomIndex) in item?.denominations" :key="denomIndex">
-                          <td class="text-center text-center">
-                            {{ denom.chipDenomName }}
-                          </td>
-                          <td class="text-center text-center bg-grey-2">
-                            {{ denom.quantity }}
-                          </td>
-                          <td class="text-center text-center">
-                            {{ denom?.expected }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </q-markup-table>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="col q-pa-sm flex justify-start content-start items-start"
-                v-for="(item, i) in selectedTableCount?.cashInfoFormatted"
-                :key="i"
-              >
-                <div class="row flex">
-                  <div class="col-12">
-                    <div class="col-12 flex justify-between">
-                      <div class="text-subtitle2">
-                        Cash - <span class="text-negative">{{ item.currencyName }}*</span>
-                      </div>
-                      <div class="text-subtitle2 q-mr-sm flex justify-between items-center">
-                        {{
-                          formatPrice(
-                            item.denominations.reduce(
-                              (acc, { currencyDenom, quantity }) => acc + currencyDenom * quantity,
-                              0,
-                            ),
-                          )
-                        }}
-
-                        <span v-if="selectedTableCount.cashSaveLock" class="q-ml-sm cursor-pointer">
-                          <q-icon
-                            name="fa-regular fa-pen-to-square"
-                            size="12px"
-                            color="blue-grey-8"
-                            @click="onEditSavedCount()"
-                          />
-                        </span>
-                      </div>
+                    <div class="text-subtitle2 q-mr-sm">
+                      {{
+                        formatPrice(
+                          item.denominations.reduce(
+                            (acc, { quantity, chipDenom }) => acc + quantity * chipDenom,
+                            0,
+                          ) || 0,
+                        )
+                      }}
                     </div>
-                    <q-markup-table class="row" separator="cell" flat square bordered dense>
-                      <thead>
-                        <tr>
-                          <th class="grey-card text-center">Denom</th>
-                          <th class="grey-card text-center">Count</th>
-                          <th class="grey-card text-center">Expected</th>
-                        </tr>
-                      </thead>
-                      <tbody class="denom-body">
-                        <tr v-for="(denom, denomIndex) in item.denominations" :key="denomIndex">
-                          <td class="text-center">
-                            {{ denom.currencyDenom }}
-                          </td>
-                          <td class="text-center bg-grey-2">
-                            <q-field
-                              v-model="denom.quantity"
-                              hide-bottom-space
-                              borderless
-                              standout
-                              :disable="selectedTableCount?.cashSaveLock"
-                              @update:model-value="
-                                (value) => {
-                                  denom = {
-                                    ...denom,
-                                    quantity: value,
-                                    amount: +value * +denom.denomination,
-                                  }
-                                }
-                              "
-                              dense
-                              flat
-                              type="number"
-                              class="q-pa-none myInput flex justify-center content-center items-center"
-                              lazy-rules
-                              @focus="(e) => (e.target.select ? e.target.select() : null)"
-                            >
-                              <template v-slot:control="{ id, modelValue, emitValue }">
-                                <input
-                                  type="number"
-                                  :id="id"
-                                  class="q-field__input text-center q-pa-none number-to-text bg-white myInput"
-                                  :value="modelValue"
-                                  @change="(e) => emitValue(e.target.value)"
-                                  pattern="[0-9]+([\.,][0-9]+)?"
-                                  v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
-                                  :disabled="selectedTableCount?.cashSaveLock"
-                                />
-                              </template>
-                            </q-field>
-                          </td>
-                          <td class="text-center">
-                            {{ denom?.expected }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </q-markup-table>
                   </div>
-                </div>
-              </div>
-              <div
-                class="col q-pa-sm flex justify-start content-start items-start"
-                v-for="(item, i) in selectedTableCount?.chipInfoFormatted?.filter(
-                  (item) => item.chipType !== 'Chip',
-                )"
-                :key="i"
-              >
-                <div class="row flex">
-                  <div class="col-12">
-                    <div class="col-12 flex justify-between">
-                      <div class="text-subtitle2">
-                        {{ item.chipType }}
-                      </div>
-                      <div class="text-subtitle2 q-mr-sm flex justify-between">
-                        {{
-                          formatPrice(
-                            item.denominations.reduce(
-                              (acc, { quantity, chipDenom }) => acc + quantity * chipDenom,
-                              0,
-                            ) || 0,
-                          )
-                        }}
-                        <span v-if="selectedTableCount.cashSaveLock" class="q-ml-sm">
-                          <q-icon
-                            name="fa-regular fa-pen-to-square"
-                            size="12px"
-                            color="blue-grey-8"
-                            @click="onEditSavedCount()"
-                          />
-                        </span>
-                      </div>
-                    </div>
-                    <q-markup-table separator="cell" flat square bordered dense>
-                      <thead>
-                        <tr>
-                          <th class="grey-card text-center">Denom</th>
-                          <th class="grey-card text-right">Count</th>
-                          <th class="grey-card text-right">Expected</th>
-                        </tr>
-                      </thead>
-                      <tbody class="denom-body">
-                        <tr v-for="(denom, denomIndex) in item?.denominations" :key="denomIndex">
-                          <td class="text-center text-center">
-                            {{ denom.chipDenomName }}
-                          </td>
-                          <td class="text-center bg-grey-2">
-                            <q-field
-                              v-model="denom.quantity"
-                              hide-bottom-space
-                              borderless
-                              standout
-                              @update:model-value="
-                                (value) => {
-                                  denom = {
-                                    ...denom,
-                                    quantity: value,
-                                    amount: +value * +denom.denomination,
-                                  }
-                                }
-                              "
-                              dense
-                              flat
-                              type="number"
-                              class="q-pa-none myInput flex justify-center content-center items-center"
-                              lazy-rules
-                              @focus="(e) => (e.target.select ? e.target.select() : null)"
-                              :disable="selectedTableCount?.cashSaveLock"
-                            >
-                              <template v-slot:control="{ id, modelValue, emitValue }">
-                                <input
-                                  type="number"
-                                  :id="id"
-                                  class="q-field__input text-center q-pa-none number-to-text bg-white myInput"
-                                  :value="modelValue"
-                                  @change="(e) => emitValue(e.target.value)"
-                                  pattern="[0-9]+([\.,][0-9]+)?"
-                                  v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
-                                  :disabled="selectedTableCount?.cashSaveLock"
-                                />
-                              </template>
-                            </q-field>
-                          </td>
-                          <td class="text-center">
-                            {{ denom?.expected }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </q-markup-table>
-                  </div>
+                  <q-markup-table separator="cell" class="row" flat square bordered dense>
+                    <thead>
+                      <tr>
+                        <th class="grey-card text-center">Denom</th>
+                        <th class="grey-card text-center">Amount</th>
+                        <th class="grey-card text-center">Expected</th>
+                      </tr>
+                    </thead>
+                    <tbody class="denom-body">
+                      <tr v-for="(denom, denomIndex) in item?.denominations" :key="denomIndex">
+                        <td class="text-center text-center">
+                          {{ denom.chipDenomName }}
+                        </td>
+                        <td class="text-center text-center bg-grey-2">
+                          {{ denom.quantity }}
+                        </td>
+                        <td class="text-center text-center">
+                          {{ denom?.expected }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </q-markup-table>
                 </div>
               </div>
             </div>
-          </q-card-section>
-          <q-card-section class="q-mt-lg text-right q-pa-none">
-            <q-btn
-              :disable="selectedTableCount?.isClosed"
-              unelevated
-              color="primary"
-              :label="$t('save')"
-              no-caps
-              icon="save"
-              size="13px"
-              @click="onClickUpdateTableCounts(selectedTableCount)"
-              v-el-perms="'Addon.TableCount.Tab.Save'"
-              class="q-mr-md"
-            />
-          </q-card-section>
+            <div
+              class="col q-pa-sm flex justify-start content-start items-start"
+              v-for="(item, i) in selectedTableCount?.cashInfoFormatted"
+              :key="i"
+            >
+              <div class="row flex">
+                <div class="col-12">
+                  <div class="col-12 flex justify-between">
+                    <div class="text-subtitle2">
+                      Cash - <span class="text-negative">{{ item.currencyName }}*</span>
+                    </div>
+                    <div class="text-subtitle2 q-mr-sm flex justify-between items-center">
+                      {{
+                        formatPrice(
+                          item.denominations.reduce(
+                            (acc, { currencyDenom, quantity }) => acc + currencyDenom * quantity,
+                            0,
+                          ),
+                        )
+                      }}
+                    </div>
+                  </div>
+                  <q-markup-table class="row" separator="cell" flat square bordered dense>
+                    <thead>
+                      <tr>
+                        <th class="grey-card text-center">Denom</th>
+                        <th class="grey-card text-center">Count</th>
+                        <th class="grey-card text-center">Expected</th>
+                      </tr>
+                    </thead>
+                    <tbody class="denom-body">
+                      <tr v-for="(denom, denomIndex) in item.denominations" :key="denomIndex">
+                        <td class="text-center">
+                          {{ denom.currencyDenom }}
+                        </td>
+                        <td class="text-center bg-grey-2">
+                          <q-field
+                            v-model="denom.quantity"
+                            hide-bottom-space
+                            borderless
+                            standout
+                            :disable="selectedTableCount?.cashSaveLock"
+                            @update:model-value="
+                              (value) => {
+                                denom = {
+                                  ...denom,
+                                  quantity: value,
+                                  amount: +value * +denom.denomination,
+                                }
+                              }
+                            "
+                            dense
+                            flat
+                            type="number"
+                            class="q-pa-none myInput flex justify-center content-center items-center"
+                            lazy-rules
+                            @focus="(e) => (e.target.select ? e.target.select() : null)"
+                          >
+                            <template v-slot:control="{ id, modelValue, emitValue }">
+                              <input
+                                type="number"
+                                :id="id"
+                                class="q-field__input text-center q-pa-none number-to-text bg-white myInput"
+                                :value="modelValue"
+                                @change="(e) => emitValue(e.target.value)"
+                                pattern="[0-9]+([\.,][0-9]+)?"
+                                v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
+                                :disabled="selectedTableCount?.cashSaveLock"
+                              />
+                            </template>
+                          </q-field>
+                        </td>
+                        <td class="text-center">
+                          {{ denom?.expected }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </q-markup-table>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col q-pa-sm flex justify-start content-start items-start"
+              v-for="(item, i) in selectedTableCount?.chipInfoFormatted?.filter(
+                (item) => item.chipType !== 'Chip',
+              )"
+              :key="i"
+            >
+              <div class="row flex">
+                <div class="col-12">
+                  <div class="col-12 flex justify-between">
+                    <div class="text-subtitle2">
+                      {{ item.chipType }}
+                    </div>
+                    <div class="text-subtitle2 q-mr-sm flex justify-between">
+                      {{
+                        formatPrice(
+                          item.denominations.reduce(
+                            (acc, { quantity, chipDenom }) => acc + quantity * chipDenom,
+                            0,
+                          ) || 0,
+                        )
+                      }}
+                    </div>
+                  </div>
+                  <q-markup-table separator="cell" flat square bordered dense>
+                    <thead>
+                      <tr>
+                        <th class="grey-card text-center">Denom</th>
+                        <th class="grey-card text-right">Count</th>
+                        <th class="grey-card text-right">Expected</th>
+                      </tr>
+                    </thead>
+                    <tbody class="denom-body">
+                      <tr v-for="(denom, denomIndex) in item?.denominations" :key="denomIndex">
+                        <td class="text-center text-center">
+                          {{ denom.chipDenomName }}
+                        </td>
+                        <td class="text-center bg-grey-2">
+                          <q-field
+                            v-model="denom.quantity"
+                            hide-bottom-space
+                            borderless
+                            standout
+                            @update:model-value="
+                              (value) => {
+                                denom = {
+                                  ...denom,
+                                  quantity: value,
+                                  amount: +value * +denom.denomination,
+                                }
+                              }
+                            "
+                            dense
+                            flat
+                            type="number"
+                            class="q-pa-none myInput flex justify-center content-center items-center"
+                            lazy-rules
+                            @focus="(e) => (e.target.select ? e.target.select() : null)"
+                            :disable="selectedTableCount?.cashSaveLock"
+                          >
+                            <template v-slot:control="{ id, modelValue, emitValue }">
+                              <input
+                                type="number"
+                                :id="id"
+                                class="q-field__input text-center q-pa-none number-to-text bg-white myInput"
+                                :value="modelValue"
+                                @change="(e) => emitValue(e.target.value)"
+                                pattern="[0-9]+([\.,][0-9]+)?"
+                                v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
+                                :disabled="selectedTableCount?.cashSaveLock"
+                              />
+                            </template>
+                          </q-field>
+                        </td>
+                        <td class="text-center">
+                          {{ denom?.expected }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </q-markup-table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <q-btn
+            :disable="selectedTableCount?.isClosed"
+            unelevated
+            color="primary"
+            :label="$t('save')"
+            no-caps
+            icon="save"
+            size="13px"
+            @click="onClickUpdateTableCounts(selectedTableCount)"
+            v-el-perms="'Addon.TableCount.Tab.Save'"
+            class="q-mr-md"
+            v-if="selectedTableCount"
+          />
+        </div>
+        <q-card flat square class="q-pa-none col-12">
           <q-card-section class="q-mt-lg text-right q-pa-none">
             <div class="row">
               <Information
@@ -510,45 +509,9 @@
                   </div>`"
               />
             </div>
-            <div class="row q-mt-md">
-              <Information
-                :content="`<div class='text-left'>
-                  <div class='text-subtitle2  '>
-                Apply Table Counts To Floats
-                  </div>
-                  <div class='text-subtitle2'>
-             Bu işlem table flaotı inspectorın saydığı çip bilgisi ve kasanın saymış olduğu  plak bilgisi table float’a uygulanacaktır .
-                  </div>
-                  </div>`"
-              />
-            </div>
-            <div class="row q-mt-md">
-              <Information
-                :content="`<div class='text-left'>
-                  <div class='text-subtitle2  '>
-               Set Table Float
-                  </div>
-                  <div class='text-subtitle2'>
-           Bu işlem güncel table floatı , float set’teki çip miktalarına göre fazlasını ve    eksiğinin ayarlanması yapıp kasa tarafına transaction kaydını otomatik oluşturacaktır.
-                  </div>
-                  </div>`"
-              />
-            </div>
-            <div class="row q-mt-md">
-              <div class="row col-12 q-pa-xs full-width">
-                <Information
-                  content="Burada inspector taradından yapılan çip sayımı görüntülenmektedir ve buradan güncelleme işlemi yapılmamaktadır. Güncelleme işlemleri inspector sayfasından yapılmaktadır. "
-                />
-              </div>
-              <div class="row q-mt-md">
-                <Information
-                  content="Burada kasada sayımı yapılan cashbox’ların ve plaque’ ların masa bazlı olarak kaydı girilecektir ve daha sonrasında sırasıyla"
-                />
-              </div>
-            </div>
           </q-card-section>
         </q-card>
-      </div>
+      </fieldset>
     </q-card-section>
   </q-card>
 </template>
@@ -846,7 +809,7 @@ const onClickUpdateTableCounts = async (table) => {
   $q.loading.hide()
 }
 
-const onEditSavedCount = () => {
+const onEditSavedCount = (tableCount) => {
   $q.dialog({
     component: defineAsyncComponent(
       () => import('src/components/pages/table-operations/dialogs/ConfirmPassword.vue'),
@@ -856,7 +819,17 @@ const onEditSavedCount = () => {
     },
   }).onOk(async (payload) => {
     if (payload === true) {
+      /*       console.log(selectedTableCount.value)
       await tableStore.fetchTableCounts()
+      const latestTableCount = tableStore.tableCounts.find(
+        (tableCount) => tableCount.id === selectedTableCount.value.id,
+      )
+      selectedTableCount.value = { ...latestTableCount } */
+      selectedTableCount.value = {
+        ...selectedTableCount.value,
+        cashSaveLock: false,
+      }
+      tableCount.cashSaveLock = false
     }
   })
 }

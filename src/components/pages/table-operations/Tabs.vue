@@ -38,7 +38,7 @@
               text-color="white"
               unelevated
               no-caps
-              @click="onClickOpenTableSettingsDialog"
+              @click="onClickTableOperationSettings"
               class="q-card--bordered"
             >
               <q-tooltip class="text-subtitle2 bg-blue-grey-8">{{
@@ -127,10 +127,10 @@ const onChangeTab = (tab) => {
   LocalStorage.set('tableOperationTab', tab)
 }
 
-const onClickOpenTableSettingsDialog = () => {
+const onClickTableOperationSettings = () => {
   $q.dialog({
     component: defineAsyncComponent(
-      () => import('src/components/pages/table-operations/dialogs/TableCountStableSettings.vue'),
+      () => import('src/components/pages/table-operations/dialogs/TableOperationSettings.vue'),
     ),
   })
 }

@@ -8,16 +8,18 @@ export const useAuthStore = defineStore('authStore', {
   state: () => ({
     user: {},
     userPermissions: [],
+    isInitialized: false,
     isAuthenticated: false,
     defaultGamingDateInfo: null,
-    userPanelSettings: {
+    userAddonSettings: {
       tableColumns: {},
-      DefaultCurrencyId: 2,
+      DefaultCurrencyId: null,
     },
-    isInitialized: false,
-    defaultSettings: {
+    addonGeneralSettings: {
       DefaultCurrencyId: 2,
       sigaretteReportTags: [],
+      CashierPassword: '',
+      PitbossPassword: '',
     },
   }),
   getters: {
@@ -48,7 +50,7 @@ export const useAuthStore = defineStore('authStore', {
     },
     getDefaultCurrencyId() {
       const defaultCurrencyId =
-        this.defaultSettings.DefaultCurrencyId || LocalStorage.getItem('systemDefaultCurrencyId')
+        this.userAddonSettings.DefaultCurrencyId || LocalStorage.getItem('systemDefaultCurrencyId')
       return defaultCurrencyId
     },
     getDefaultGamingDateId() {
@@ -60,16 +62,18 @@ export const useAuthStore = defineStore('authStore', {
         return '-'
       }
       const currency = currencyStore.currencies.find(
-        (c) => c.id === +this.defaultSettings.DefaultCurrencyId,
+        (c) => c.id === +this.userAddonSettings.DefaultCurrencyId,
       )
       return currency?.name || '-'
     },
     defaultCurrency: (state) => {
       const currencyStore = useCurrencyStore()
-      return currencyStore.currencies.find((c) => c.id === state.defaultSettings.DefaultCurrencyId)
+      return currencyStore.currencies.find(
+        (c) => c.id === state.userAddonSettings.DefaultCurrencyId,
+      )
     },
 
-    getUserTableColumnsFormatted:
+    getUserTableColumns:
       (state) =>
       (tableName, defaultColumns, defaultRowsPerPage = 10) => {
         let formattedTable = {
@@ -80,8 +84,8 @@ export const useAuthStore = defineStore('authStore', {
         if (!tableName) {
           return formattedTable
         }
-        if (state.userPanelSettings.tableColumns[tableName]) {
-          const userSavedColumns = state.userPanelSettings.tableColumns[tableName].columns
+        if (state.userAddonSettings.tableColumns[tableName]) {
+          const userSavedColumns = state.userAddonSettings.tableColumns[tableName].columns
           let userColumns =
             defaultColumns.map((column) => {
               const userColumn = userSavedColumns.find(
@@ -99,7 +103,7 @@ export const useAuthStore = defineStore('authStore', {
             visibleColumns: userColumns
               .filter((column) => column.visible)
               .map((column) => column.name),
-            rowsPerPage: state.userPanelSettings.tableColumns[tableName].rowsPerPage,
+            rowsPerPage: state.userAddonSettings.tableColumns[tableName].rowsPerPage,
           }
         }
         return formattedTable
@@ -108,10 +112,10 @@ export const useAuthStore = defineStore('authStore', {
     getTableRowsPerPage:
       (state) =>
       (tableName, defaultRowsPerPage = 10) => {
-        if (!state.userPanelSettings.tableColumns[tableName]) {
+        if (!state.userAddonSettings.tableColumns[tableName]) {
           return defaultRowsPerPage
         }
-        const tableSettings = state.userPanelSettings.tableColumns[tableName]
+        const tableSettings = state.userAddonSettings.tableColumns[tableName]
         return tableSettings?.rowsPerPage || defaultRowsPerPage
       },
   },
@@ -147,62 +151,80 @@ export const useAuthStore = defineStore('authStore', {
           console.log(err)
         })
     },
-    async getUserPanelSettings() {
+    async getUserAddonSettings() {
       await applicationSettingService
         .getUserSettings({
-          name: 'AddonSettings',
+          name: 'UserAddonSettings',
         })
         .then((res) => {
           const data = res.data.value
             ? JSON.parse(res.data.value)
             : {
                 tableColumns: {},
-                DefaultCurrencyId: 2,
+                DefaultCurrencyId: null,
               }
-          this.userPanelSettings = data
+          this.userAddonSettings = data
         })
-        .catch((err) => {
-          console.log(err)
+        .catch(() => {
+          this.userAddonSettings = {
+            tableColumns: {},
+            DefaultCurrencyId: null,
+          }
         })
     },
     async saveUserTableColumnsFormatted(tableName, tableSettings) {
-      this.userPanelSettings.tableColumns[tableName] = tableSettings
+      this.userAddonSettings.tableColumns[tableName] = tableSettings
       await applicationSettingService
         .setUserSettings({
-          name: 'AddonSettings',
-          value: JSON.stringify(this.userPanelSettings),
+          name: 'UserAddonSettings',
+          value: JSON.stringify(this.userAddonSettings),
         })
         .then(async () => {
-          await this.getUserPanelSettings()
+          await this.getUserAddonSettings()
         })
     },
-    async saveDefaultSettings(reloadPage = false) {
-      let settings = { ...this.defaultSettings }
+    async saveUserCurrency(currencyId) {
+      const settings = { ...this.userAddonSettings }
+      settings.DefaultCurrencyId = currencyId
       await applicationSettingService.setUserSettings({
-        name: 'AddonDefaultSettings',
+        name: 'UserAddonSettings',
         value: JSON.stringify(settings),
       })
-
-      if (reloadPage && reloadPage === true) {
-        setTimeout(() => {
-          window.location.reload()
-        }, 1000)
-      } else {
-        await this.getDefaultSettings()
-      }
+      await this.getUserAddonSettings()
     },
-    async getDefaultSettings() {
+    async saveAddonGeneralSettings() {
+      let settings = { ...this.addonGeneralSettings }
+      await applicationSettingService.setSettings({
+        name: 'AddonGeneralSettings',
+        value: JSON.stringify(settings),
+      })
+      await this.getAddonGeneralSettings()
+    },
+    async getAddonGeneralSettings() {
       await applicationSettingService
-        .getUserSettings({
-          name: 'AddonDefaultSettings',
+        .getSettings({
+          name: 'AddonGeneralSettings',
         })
         .then((res) => {
-          this.defaultSettings = res.data.value
+          this.addonGeneralSettings = res.data.value
             ? JSON.parse(res.data.value)
-            : { DefaultCurrencyId: 2 }
+            : {
+                DefaultCurrencyId: 2,
+                sigaretteReportTags: [7],
+                CashierPassword: '',
+                PitbossPassword: '',
+              }
+
+          if (!this.userAddonSettings.DefaultCurrencyId) {
+            this.userAddonSettings.DefaultCurrencyId =
+              this.addonGeneralSettings.DefaultCurrencyId || 2
+          }
         })
         .catch(() => {
-          this.defaultSettings = { DefaultCurrencyId: 2, sigaretteReportTags: [7] }
+          this.addonGeneralSettings = { DefaultCurrencyId: 2, sigaretteReportTags: [7] }
+          if (!this.userAddonSettings.DefaultCurrencyId) {
+            this.userAddonSettings.DefaultCurrencyId = 2
+          }
         })
     },
   },

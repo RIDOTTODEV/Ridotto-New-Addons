@@ -24,7 +24,7 @@ export function useHeader(props, emit) {
     getUserNameSurname,
     defaultGamingDateInfo,
     getDefaultCurrencyId,
-    defaultSettings,
+    userAddonSettings,
   } = storeToRefs(authStore)
   const { locale } = useI18n({ useScope: 'global' })
   const currencyStore = useCurrencyStore()
@@ -204,6 +204,6 @@ export function useHeader(props, emit) {
     onSelectPlayer,
     onClearPlayer,
     changeCashDeskGamingDate,
-    defaultSettings,
+    userAddonSettings,
   }
 }

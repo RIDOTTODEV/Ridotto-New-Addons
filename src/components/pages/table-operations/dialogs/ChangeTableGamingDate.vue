@@ -1025,7 +1025,6 @@ const onSave = async () => {
   }
   const result = await tableStore.changeGamingDateTable([params])
 
-  console.log(result)
   if (result.status === 200) {
     Notify.create({
       position: 'bottom-right',
