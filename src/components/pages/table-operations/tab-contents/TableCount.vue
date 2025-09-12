@@ -93,15 +93,17 @@
                         </div>
                       </div>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" @click="onSelectTableCount(item)">
                       <div class="row">
                         <div class="col-12">
                           {{ item?.gamingDate }}
                         </div>
                       </div>
                     </td>
-                    <td class="text-center">{{ item?.floatSetName }}</td>
-                    <td class="text-center">
+                    <td class="text-center" @click="onSelectTableCount(item)">
+                      {{ item?.floatSetName }}
+                    </td>
+                    <td class="text-center" @click="onSelectTableCount(item)">
                       {{
                         formatPrice(
                           item.id === selectedTableCount?.id
@@ -110,13 +112,13 @@
                         )
                       }}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" @click="onSelectTableCount(item)">
                       {{ formatPrice(item?.totalCredit) }}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" @click="onSelectTableCount(item)">
                       {{ formatPrice(item?.totalFill) }}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" @click="onSelectTableCount(item)">
                       {{
                         formatPrice(
                           item.id === selectedTableCount?.id
@@ -810,6 +812,9 @@ const onClickUpdateTableCounts = async (table) => {
 }
 
 const onEditSavedCount = (tableCount) => {
+  if (!selectedTableCount.value) {
+    onSelectTableCount(tableCount)
+  }
   $q.dialog({
     component: defineAsyncComponent(
       () => import('src/components/pages/table-operations/dialogs/ConfirmPassword.vue'),
@@ -834,6 +839,9 @@ const onEditSavedCount = (tableCount) => {
   })
 }
 const onClickTableCountChipSaveEditCheck = (tableCount) => {
+  if (!selectedTableCount.value) {
+    onSelectTableCount(tableCount)
+  }
   $q.dialog({
     componentProps: {
       tableCountId: tableCount.id,
