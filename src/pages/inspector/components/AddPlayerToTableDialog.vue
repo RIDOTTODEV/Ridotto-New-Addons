@@ -47,7 +47,6 @@
                   type="text"
                   @keydown.enter="onSubmitForm"
                   autofocus
-                  readonly
                 >
                   <template v-slot:after>
                     <q-btn

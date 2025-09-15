@@ -105,7 +105,6 @@
                         ),
                       )
                     "
-                    readonly
                     class="super-small"
                     outlined
                     dense
@@ -186,7 +185,6 @@
                         if (el) inputRefs[index] = el
                       }
                     "
-                    readonly
                   >
                     <template v-slot:append>
                       <div

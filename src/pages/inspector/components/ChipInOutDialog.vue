@@ -71,7 +71,6 @@
                       if (el) inputRefs[index] = el
                     }
                   "
-                  readonly
                 >
                   <template v-slot:append>
                     <div
