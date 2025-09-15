@@ -55,6 +55,7 @@
                   "
                   @update:model-value="onInput"
                   :disable="ChipSaveLock"
+                  readonly
                 >
                   <template v-slot:append>
                     <div

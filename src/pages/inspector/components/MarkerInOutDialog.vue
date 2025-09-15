@@ -48,7 +48,15 @@
             />
             <div class="row">
               <div class="col-12 q-pa-xs">
-                <q-input type="number" dense v-model="form.amount" outlined square autofocus />
+                <q-input
+                  type="number"
+                  dense
+                  v-model="form.amount"
+                  outlined
+                  square
+                  autofocus
+                  readonly
+                />
               </div>
             </div>
 

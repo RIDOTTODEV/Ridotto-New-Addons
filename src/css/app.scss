@@ -146,18 +146,29 @@ body {
   //color: #ffffff !important;
   //border-left: 3px solid #cddc39 !important;
   color: #ffffff !important;
-  border-left: 3px solid #dadada !important;
+  border-left: 3px solid #ffd001 !important;
+}
+.menuHover:hover {
+  // color: #ffd001 !important;
 }
 .menu .q-item {
   letter-spacing: 0.7px;
   //border-radius: 10px;
   margin-top: 2px;
-  min-height: 37px !important;
+  min-height: 32px !important;
   padding: 0 4px 0 6px;
   transition: none;
 }
+.subMenu .q-item {
+  letter-spacing: 0.7px !important;
+  //border-radius: 10px;
+  margin-top: 2px !important;
+  min-height: 32px !important;
+  padding: 0 4px 0 6px !important;
+  transition: none !important;
+}
 .singleMenu {
-  min-height: 37px !important;
+  min-height: 32px !important;
 }
 //.q-dialog__inner:has( .user-exist-popup-content) {
 //top: 50%!important;

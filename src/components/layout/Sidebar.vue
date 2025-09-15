@@ -33,11 +33,7 @@
 
           <q-expansion-item
             v-if="menu.type === 'dropdown'"
-            :class="
-              currentRouteMeta === menu.name
-                ? 'full-width  menu text-subtitle2'
-                : 'full-width  menu text-subtitle2'
-            "
+            class="full-width menu text-subtitle2"
             dense
             :default-opened="currentRouteMeta === menu.name"
             expand-icon-class="text-white"
@@ -54,12 +50,13 @@
               </q-item>
             </template>
             <q-card class="bg-transparent q-pa-none">
+              <!-- :class="menu.subMenus.length >= 7 ? 'subMenuScroll' : ''" -->
               <q-card-section class="q-pa-none">
-                <q-list separator dense :class="menu.subMenus.length >= 7 ? 'subMenuScroll' : ''">
+                <q-list separator dense>
                   <div v-for="(item, index) in menu.subMenus" :key="index">
                     <q-item
                       v-if="item.type !== 'dropdown'"
-                      class="menu"
+                      class="menu menuHover"
                       active-class="active-menu"
                       clickable
                       v-ripple

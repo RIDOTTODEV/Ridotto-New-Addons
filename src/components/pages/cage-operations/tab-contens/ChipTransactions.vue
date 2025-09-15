@@ -2,7 +2,7 @@
   <q-card class="no-box-shadow q-pa-none bg-transparent">
     <q-card-section class="q-pa-none q-mb-sm">
       <div class="row">
-        <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="col-md-6 col-sm-12 col-xs-12 flex content-end">
           <div class="text-subtitle1">
             {{ $t('chipTransactions') }}
           </div>
