@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <q-card square class="q-mb-md q-card--bordered" flat>
+    <q-card class="q-mb-md q-card--bordered" flat>
       <q-card-section class="row q-pa-sm">
         <div
           class="col-12 flex justify-start content-center items-center"

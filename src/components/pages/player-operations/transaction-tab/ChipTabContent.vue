@@ -49,7 +49,7 @@
           />
         </div>
         <div class="col-12">
-          <div class="row q-pl-xs q-pr-xs q-mt-none q-mb-md">
+          <div class="row q-pl-xs q-pr-xs q-mt-none q-mb-sm">
             <fieldset
               class="full-width row"
               :class="

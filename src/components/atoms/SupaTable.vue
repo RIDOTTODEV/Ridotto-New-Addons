@@ -18,6 +18,7 @@
     :filter="tableFilterInput"
     class="no-box-shadow col-12 supa-table"
     @row-click="onRowClick"
+    @row-dblclick="onRowDoubleClick"
     @request="filterMethod"
   >
     <template v-slot:top="">
@@ -194,6 +195,7 @@
 
 <script setup>
 import ShowJsonDetailDialog from './ShowJsonDetailDialog.vue'
+
 import { ref, watch, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 
@@ -537,6 +539,21 @@ const toggleShowHideColumns = async (columnNames, isVisible = true) => {
     } else {
       visibleColumns.value = visibleColumns.value.filter((column) => column !== columnName)
     }
+  })
+}
+
+const onRowDoubleClick = (evt, row) => {
+  const redirectTdIds = ['playerFullName']
+  const td = evt.target.closest('td')
+  const id = td ? td.id : null
+  if (redirectTdIds.includes(id)) {
+    return
+  }
+  $q.dialog({
+    component: ShowJsonDetailDialog,
+    componentProps: {
+      data: row,
+    },
   })
 }
 

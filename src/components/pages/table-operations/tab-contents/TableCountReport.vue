@@ -56,7 +56,7 @@ const downloadPdf = (index) => {
 </script>
 
 <template>
-  <q-card class="no-box-shadow" flat square>
+  <q-card class="no-box-shadow" flat>
     <q-card-section class="row">
       <div class="col-6">
         <div class="text-h6">

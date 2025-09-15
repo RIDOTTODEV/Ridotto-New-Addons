@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <q-card class="no-box-shadow q-mb-md" square>
+    <q-card class="no-box-shadow q-mb-md">
       <q-card-section class="row justify-between">
         <div class="text-h6">
           {{ $t('settings') }}

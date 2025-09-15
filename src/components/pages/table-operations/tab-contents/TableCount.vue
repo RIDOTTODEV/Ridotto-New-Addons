@@ -1,5 +1,5 @@
 <template>
-  <q-card flat square class="app-cart q-mt-sm">
+  <q-card flat class="app-cart q-mt-sm">
     <div class="row col-12 q-pa-xs full-width">
       <Information
         content="Masaların ne kadar çip ile açıldığını ve kapatıldığını bilgisini ve kasadan yapılan fill – credit işlemleri buraya otomatik olarak yansır . Açılış değerleri float set bilgisinden gelmektedir. "
@@ -255,18 +255,19 @@
       </div>
     </q-card-section>
     <q-card-section v-if="selectedTableCount" class="q-mt-md q-pa-xs">
-      <div class="row">
-        <Alert
-          message="Bu masa oyuncu ile dolu olduğu için güncellenemez."
-          type="error"
-          :showDirect="true"
-          v-if="selectedTableCount?.isAnyoneSit"
-        />
-      </div>
       <fieldset class="row q-pa-none">
         <legend align="center" class="text-subtitle2">
           {{ $t('tableCountsDetails') }}
         </legend>
+        <div class="col-12 flex justify-center content-center items-center">
+          <Alert
+            style="width: 500px !important"
+            message="Bu masa oyuncu ile dolu olduğu için güncellenemez."
+            type="error"
+            :showDirect="true"
+            v-if="selectedTableCount?.isAnyoneSit"
+          />
+        </div>
         <div class="col-12 q-pa-xs">
           <div class="row flex" v-if="selectedTableCount">
             <div
@@ -510,20 +511,22 @@
                 </div>
               </div>
             </div>
+            <div class="col-12 q-pa-xs text-right">
+              <q-btn
+                :disable="selectedTableCount?.isClosed"
+                unelevated
+                color="primary"
+                :label="$t('save')"
+                no-caps
+                icon="save"
+                size="13px"
+                @click="onClickUpdateTableCounts(selectedTableCount)"
+                v-el-perms="'Addon.TableCount.Tab.Save'"
+                class="q-mr-md"
+                v-if="selectedTableCount"
+              />
+            </div>
           </div>
-          <q-btn
-            :disable="selectedTableCount?.isClosed"
-            unelevated
-            color="primary"
-            :label="$t('save')"
-            no-caps
-            icon="save"
-            size="13px"
-            @click="onClickUpdateTableCounts(selectedTableCount)"
-            v-el-perms="'Addon.TableCount.Tab.Save'"
-            class="q-mr-md"
-            v-if="selectedTableCount"
-          />
         </div>
         <q-card flat square class="q-pa-none col-12">
           <q-card-section class="q-mt-lg text-right q-pa-none">
@@ -538,6 +541,43 @@
                   </div>
                   </div>`"
               />
+            </div>
+
+            <div class="row q-mt-md">
+              <Information
+                :content="`<div class='text-left'>
+                  <div class='text-subtitle2  '>
+                Apply Table Counts To Floats
+                  </div>
+                  <div class='text-subtitle2'>
+             Bu işlem table flaotı inspectorın saydığı çip bilgisi ve kasanın saymış olduğu  plak bilgisi table float’a uygulanacaktır .
+                  </div>
+                  </div>`"
+              />
+            </div>
+            <div class="row q-mt-md">
+              <Information
+                :content="`<div class='text-left'>
+                  <div class='text-subtitle2  '>
+               Set Table Float
+                  </div>
+                  <div class='text-subtitle2'>
+           Bu işlem güncel table floatı , float set’teki çip miktalarına göre fazlasını ve    eksiğinin ayarlanması yapıp kasa tarafına transaction kaydını otomatik oluşturacaktır.
+                  </div>
+                  </div>`"
+              />
+            </div>
+            <div class="row q-mt-md">
+              <div class="row col-12 q-pa-xs full-width">
+                <Information
+                  content="Burada inspector taradından yapılan çip sayımı görüntülenmektedir ve buradan güncelleme işlemi yapılmamaktadır. Güncelleme işlemleri inspector sayfasından yapılmaktadır. "
+                />
+              </div>
+              <div class="row q-mt-md">
+                <Information
+                  content="Burada kasada sayımı yapılan cashbox’ların ve plaque’ ların masa bazlı olarak kaydı girilecektir ve daha sonrasında sırasıyla"
+                />
+              </div>
             </div>
           </q-card-section>
         </q-card>

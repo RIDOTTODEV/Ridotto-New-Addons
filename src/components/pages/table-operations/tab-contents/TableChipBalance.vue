@@ -54,7 +54,7 @@ const onClickChipTableBalanceDetail = async (row) => {
 </script>
 
 <template>
-  <q-card class="no-box-shadow" flat square>
+  <q-card class="no-box-shadow" flat>
     <q-card-section class="row flex justify-center">
       <SupaTable
         :columns="columns"

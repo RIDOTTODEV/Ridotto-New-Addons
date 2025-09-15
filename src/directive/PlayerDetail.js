@@ -5,7 +5,7 @@ export default function createPlayerDetailDirective(router) {
         console.warn('PlayerDetail directive requires a player ID value')
         return
       }
-      el.addEventListener('click', () => {
+      el.addEventListener('dblclick', () => {
         router.push({
           name: 'playerDetail',
           params: { playerId: binding.value },

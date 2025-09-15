@@ -47,7 +47,7 @@
         </div>
       </template>
       <template v-slot:body-cell-playerFullName="{ props }">
-        <q-td :props="props">
+        <q-td :props="props" id="playerFullName">
           <span
             v-player-detail="props.row.playerId"
             :label="props.row.playerFullName"

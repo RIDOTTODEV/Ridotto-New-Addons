@@ -499,40 +499,65 @@ const showLiveGameResult = (value) => {
                     <th class="text-center text-bold text-negative">
                       {{ item.tableName }}
                     </th>
-                    <th class="text-center">Result</th>
                     <th class="text-center">Avg Bet</th>
-                    <th class="text-center">Total Drop</th>
+                    <th class="text-center">Result</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="(player, index) in item.players" :key="index">
-                    <td class="text-center">{{ player.playerName }}</td>
-
-                    <td class="text-center bg-orange-1">
-                      {{ priceAbsFormatted(player.result) }}
-                    </td>
+                    <td class="text-center text-capitalize">{{ player.playerName }}</td>
                     <td class="text-center">
                       {{ priceAbsFormatted(player.avgBet) }}
                     </td>
-                    <td class="text-center bg-green-2 cursor-pointer">
-                      {{ priceAbsFormatted(player.totalDrop) }}
-                      <q-tooltip
-                        class="text-dark bg-grey-2 q-card--bordered"
+                    <td class="text-center bg-orange-1 cursor-pointer">
+                      {{ priceAbsFormatted(player.result) }}
+                      <q-menu
+                        transition-show="scale"
+                        transition-hide="scale"
                         anchor="bottom middle"
                       >
-                        <q-card flat square class="flex no-wrap" style="min-width: 200px">
-                          <q-card-section class="q-pa-xs">
-                            <div class="text-subtitle2">
-                              Cash Drop:
-                              {{ priceAbsFormatted(player.cashDrop) }}
-                            </div>
-                            <div class="text-subtitle2">
-                              Plaque Drop:
-                              {{ priceAbsFormatted(player.chipDrop) }}
-                            </div>
-                          </q-card-section>
-                        </q-card>
-                      </q-tooltip>
+                        <q-list dense separator style="min-width: 200px">
+                          <q-item
+                            class="bg-grey-2 flex justify-center items-center content-center no-wrap"
+                          >
+                            <span class="text-caption text-bold text-negative text-capitalize">
+                              {{ player.playerName }}</span
+                            >
+                          </q-item>
+                          <q-item class="flex justify-between items-center content-center no-wrap">
+                            <span class="text-caption">Cash Drop: </span>
+                            <span class="text-caption">{{
+                              priceAbsFormatted(player.cashDrop)
+                            }}</span>
+                          </q-item>
+                          <q-item
+                            class="flex justify-between items-center content-center q-pa-none no-wrap"
+                          >
+                            <span class="text-caption">Chip Drop: </span>
+                            <span class="text-caption">{{
+                              priceAbsFormatted(player.chipDrop)
+                            }}</span>
+                          </q-item>
+                          <q-item class="flex justify-between items-center content-center no-wrap">
+                            <span class="text-caption">Total Drop: </span>
+                            <span class="text-caption">{{
+                              priceAbsFormatted(player.totalDrop)
+                            }}</span>
+                          </q-item>
+                          <q-item class="flex justify-between items-center content-center no-wrap">
+                            <span class="text-caption">Avg Bet: </span>
+                            <span class="text-caption">{{ priceAbsFormatted(player.avgBet) }}</span>
+                          </q-item>
+                          <q-item
+                            class="bg-orange-1 flex justify-between items-center content-center no-wrap"
+                          >
+                            <span class="text-caption text-bold">Result: </span>
+                            <span class="text-caption text-bold">{{
+                              priceAbsFormatted(player.result)
+                            }}</span>
+                          </q-item>
+                        </q-list>
+                      </q-menu>
                     </td>
                   </tr>
                 </tbody>
