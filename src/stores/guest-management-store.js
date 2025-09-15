@@ -184,6 +184,9 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
     async updateHotelReservation(params) {
       return await hotelReservationService.updateReservation(params)
     },
+    async updateHotelFlightInfoNew(params) {
+      return await hotelReservationService.updateHotelFlightInfo(params)
+    },
     async createHotelReservation(params) {
       return await hotelReservationService.createReservation(params)
     },

@@ -33,7 +33,6 @@
                 dense
                 class="super-small"
                 :options="visitorCategories"
-                :rules="[(val) => !!val]"
                 map-options
                 emit-value
                 option-label="name"
@@ -95,8 +94,7 @@
             </div>
           </div>
         </fieldset>
-
-        <fieldset name="Others" class="q-mt-sm">
+        <!--         <fieldset name="Others" class="q-mt-sm">
           <legend class="flex content-center items-center text-subtitle2 text-grey-9">
             <q-icon name="o_settings" size="xs" color="grey-9" class="q-mr-sm" />
             {{ $t('otherOptions') }}
@@ -117,8 +115,7 @@
               class="col-12"
             />
           </div>
-        </fieldset>
-
+        </fieldset> -->
         <fieldset name="Status" class="q-mt-sm">
           <legend class="flex content-center items-center text-subtitle2 text-grey-9">
             <q-icon name="o_done" size="xs" color="grey-9" class="q-mr-sm" />
@@ -222,9 +219,9 @@
                   emit-value
                   option-label="name"
                   option-value="id"
-                  :rules="[(val) => !!val || $t('requiredField')]"
                   hide-bottom-space
                   bg-color="white"
+                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                 />
               </div>
 
@@ -237,14 +234,14 @@
                   dense
                   outlined
                   class="super-small"
-                  :rules="[(val) => !!val || $t('requiredField')]"
                   :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                   hide-bottom-space
                   bg-color="white"
+                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                 />
               </div>
 
-              <div class="">
+              <!--               <div class="">
                 <div class="text-subtitle2 text-grey-8 flex content-center items-center">
                   {{ $t('boardType') }}
                 </div>
@@ -260,8 +257,10 @@
                   option-label="label"
                   option-value="value"
                   bg-color="white"
+                  clearable
+                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                 />
-              </div>
+              </div> -->
               <div class="">
                 <div class="row">
                   <div class="col-12 q-pa-xs flex justify-start content-center items-center">
@@ -304,39 +303,42 @@
                 </div>
               </div>
             </div>
-            <div class="col-6 q-pa-sm q-gutter-sm">
-              <div class="flex content-center items-center">
-                <q-checkbox
-                  v-model="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
-                  dense
-                  outlined
-                  class="super-small"
-                  :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                  hide-bottom-space
-                  bg-color="white"
-                  :true-value="true"
-                  :false-value="false"
-                  @update:model-value="onChangeIsWalkIn"
-                />
-                <div class="text-subtitle2 q-ml-sm text-grey-8 flex content-center items-center">
-                  {{ $t('isWalkIn') }}
+            <div class="col-6 q-pa-sm q-gutter-sm q-mt-md">
+              <div class="flex items-center content-center justify-between">
+                <div class="row items-center content-center">
+                  <q-checkbox
+                    v-model="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
+                    dense
+                    outlined
+                    class="super-small"
+                    :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
+                    hide-bottom-space
+                    bg-color="white"
+                    :true-value="true"
+                    :false-value="false"
+                    @update:model-value="onChangeIsWalkIn"
+                  />
+                  <div class="text-subtitle2 text-grey-8 q-ml-sm">
+                    {{ $t('isWalkIn') }}
+                  </div>
                 </div>
-              </div>
-              <div class="">
-                <div class="text-subtitle2 text-grey-8 flex content-center items-center">
-                  <q-icon name="o_flight" size="xs" color="grey-8" />
-                  {{ $t('flight') }}
+                <div class="row items-center content-center">
+                  <q-checkbox
+                    v-model="hotelGuestFormValues.hotelFlightInfo.isTransfer"
+                    dense
+                    outlined
+                    class="super-small"
+                    :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
+                    hide-bottom-space
+                    bg-color="white"
+                    :true-value="true"
+                    :false-value="false"
+                    @update:model-value="onChangeIsWalkIn"
+                  />
+                  <div class="text-subtitle2 text-grey-8 q-ml-sm">
+                    {{ $t('isTransfer') }}
+                  </div>
                 </div>
-                <q-input
-                  v-model="hotelGuestFormValues.hotelFlightInfo.flight"
-                  dense
-                  outlined
-                  class="super-small"
-                  :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                  hide-bottom-space
-                  bg-color="white"
-                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
-                />
               </div>
               <div class="">
                 <div class="text-subtitle2 text-grey-8 flex content-center items-center">
@@ -389,56 +391,9 @@
                       :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                     />
                   </div>
-                  <div class="col">
-                    <div class="text-subtitle2 text-grey-8 flex content-center items-center">
-                      {{ $t('to2') }}
-                    </div>
-                    <q-input
-                      v-model="hotelGuestFormValues.hotelFlightInfo.to2"
-                      dense
-                      outlined
-                      class="super-small"
-                      :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                      bg-color="white"
-                      :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
-                    />
-                  </div>
                 </div>
               </div>
-              <div class="">
-                <div class="row q-gutter-x-sm">
-                  <div class="col">
-                    <div class="text-subtitle2 text-grey-8 flex content-center items-center">
-                      {{ $t('pnr') }}
-                    </div>
-                    <q-input
-                      v-model="hotelGuestFormValues.hotelFlightInfo.pnr"
-                      dense
-                      outlined
-                      class="super-small"
-                      :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                      hide-bottom-space
-                      bg-color="white"
-                      :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
-                    />
-                  </div>
-                  <div class="col">
-                    <div class="text-subtitle2 text-grey-8 flex content-center items-center">
-                      {{ $t('pnr2') }}
-                    </div>
-                    <q-input
-                      v-model="hotelGuestFormValues.hotelFlightInfo.pnr2"
-                      dense
-                      outlined
-                      class="super-small"
-                      :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                      hide-bottom-space
-                      bg-color="white"
-                      :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
-                    />
-                  </div>
-                </div>
-              </div>
+
               <div class="">
                 <div class="text-subtitle2 text-grey-8 flex content-center items-center">
                   {{ $t('flightTicketPrice') }}
@@ -455,7 +410,6 @@
                   :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                 />
               </div>
-
               <div class="flex items-center content-center">
                 <div class="row items-center content-center q-mt-sm">
                   <q-rating
@@ -790,8 +744,13 @@ const props = defineProps({
 })
 
 const guestManagementStore = useGuestManagementStore()
-const { flightTicketTypes, boardTypes, roomTypes, visitorCategories, expenseParameters } =
-  storeToRefs(guestManagementStore)
+const {
+  flightTicketTypes,
+  // boardTypes,
+  roomTypes,
+  visitorCategories,
+  expenseParameters,
+} = storeToRefs(guestManagementStore)
 const $q = useQuasar()
 const statuses = ref([])
 onMounted(async () => {
@@ -821,24 +780,19 @@ const hotelGuestFormValues = ref({
     boardType: 'BB',
     roomPrice: 0,
     roomTotalPrice: 0,
-    expenseUse: true,
-    flight: '',
     ticketType: 'Casino',
     from: '',
     to: '',
-    to2: '',
-    pnr: '',
-    pnr2: '',
+
     flightTicketPrice: 0,
     isBusiness: 0,
     isWalkIn: false,
+    isTransfer: false,
   },
   note: '',
   remark: '',
   phone: true,
-  minibar: true,
-  spa: true,
-  fb: true,
+
   expenses: [],
 })
 const roomMateRef = ref({
@@ -1089,8 +1043,52 @@ const toggleEditMode = () => {
   isEditingReservationDetails.value = !isEditingReservationDetails.value
 }
 
-const updateReservationDetails = () => {
+const updateReservationDetails = async () => {
+  $q.loading.show({
+    message: 'Rezervasyon güncelleniyor...',
+  })
   isEditingReservationDetails.value = false
+  let formData = {
+    hotelReservationId: hotelGuestFormValues.value.id,
+    hotelFlightInfo: {
+      checkIn: hotelGuestFormValues.value.hotelFlightInfo.checkIn,
+      checkOut: hotelGuestFormValues.value.hotelFlightInfo.checkOut,
+      dayCount: hotelGuestFormValues.value.hotelFlightInfo.dayCount,
+      roomTypeId: hotelGuestFormValues.value.hotelFlightInfo.roomTypeId,
+      roomType: hotelGuestFormValues.value.hotelFlightInfo.roomType,
+      roomNo: hotelGuestFormValues.value.hotelFlightInfo.roomNo,
+      boardType: hotelGuestFormValues.value.hotelFlightInfo.boardType,
+      roomPrice: hotelGuestFormValues.value.hotelFlightInfo.roomPrice,
+      roomTotalPrice: hotelGuestFormValues.value.hotelFlightInfo.roomTotalPrice,
+      ticketType: hotelGuestFormValues.value.hotelFlightInfo.ticketType,
+      from: hotelGuestFormValues.value.hotelFlightInfo.from,
+      to: hotelGuestFormValues.value.hotelFlightInfo.to,
+
+      flightTicketPrice: hotelGuestFormValues.value.hotelFlightInfo.flightTicketPrice,
+      isBusiness: hotelGuestFormValues.value.hotelFlightInfo.isBusiness === 1 ? true : false,
+      isWalkIn: hotelGuestFormValues.value.hotelFlightInfo.isWalkIn,
+      expenseUse: hotelGuestFormValues.value.hotelFlightInfo.expenseUse,
+      isTransfer: hotelGuestFormValues.value.hotelFlightInfo.isTransfer,
+    },
+  }
+  const response = await guestManagementStore.updateHotelFlightInfoNew(formData)
+  if (response) {
+    fetchReservationExpenses(hotelGuestFormValues.value.id)
+    $q.loading.hide()
+    $q.notify({
+      message: 'Rezervasyon başarıyla güncellendi',
+      type: 'positive',
+      position: 'bottom-right',
+    })
+  } else {
+    $q.loading.hide()
+    $q.notify({
+      message: 'Rezervasyon güncellenirken bir hata oluştu',
+      type: 'negative',
+      position: 'bottom-right',
+    })
+  }
+  //emits('close')
 }
 
 const selectedExpenseParameter = ref(null)
@@ -1233,25 +1231,24 @@ const setFormValues = async () => {
         boardType: 'BB',
         roomPrice: 0,
         roomTotalPrice: 0,
-        expenseUse: true,
-        flight: '',
+
         ticketType: 'Casino',
         from: '',
         to: '',
-        to2: '',
-        pnr: '',
-        pnr2: '',
+
         flightTicketPrice: 0,
         isBusiness: 0,
+        isWalkIn: false,
+        isTransfer: false,
       },
       note: '',
       remark: '',
       phone: true,
-      minibar: true,
-      spa: true,
-      fb: true,
+
       expenses: [],
     }
+    setCheckInAndCheckOutDates()
+    isEditingReservationDetails.value = false
     return
   }
   if (props.formValues.isCopy) {
@@ -1304,8 +1301,6 @@ const setCheckInAndCheckOutDates = () => {
   checkOutDate.setHours(12, 0, 0, 0)
   hotelGuestFormValues.value.hotelFlightInfo.checkOut = checkOutDate
 }
-
-setCheckInAndCheckOutDates()
 
 const onSelectCheckInAndCheckOut = () => {
   const dateDiff = date.getDateDiff(
@@ -1395,9 +1390,7 @@ const onChangeIsWalkIn = () => {
     hotelGuestFormValues.value.hotelFlightInfo.ticketType = ''
     hotelGuestFormValues.value.hotelFlightInfo.from = ''
     hotelGuestFormValues.value.hotelFlightInfo.to = ''
-    hotelGuestFormValues.value.hotelFlightInfo.to2 = ''
-    hotelGuestFormValues.value.hotelFlightInfo.pnr = ''
-    hotelGuestFormValues.value.hotelFlightInfo.pnr2 = ''
+
     hotelGuestFormValues.value.hotelFlightInfo.flightTicketPrice = 0
   }
 }
