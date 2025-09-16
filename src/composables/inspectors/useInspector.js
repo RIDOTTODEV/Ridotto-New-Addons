@@ -632,15 +632,21 @@ export function useInspector() {
       tableId: currentTable.value.id,
       gamingDateId: getDefaultGamingDateId.value,
     })
-    dialogs.value.count = $q.dialog({
-      component: defineAsyncComponent(
-        () => import('../../pages/inspector/components/CountDialog.vue'),
-      ),
-      componentProps: {
-        table: currentTable.value,
-        totalDrop: response?.totalDrop,
-      },
-    })
+    dialogs.value.count = $q
+      .dialog({
+        component: defineAsyncComponent(
+          () => import('../../pages/inspector/components/CountDialog.vue'),
+        ),
+        componentProps: {
+          table: currentTable.value,
+          totalDrop: response?.totalDrop,
+        },
+      })
+      .onOk(async (payload) => {
+        if (payload === true) {
+          await onClickSelectTable({ ...currentTable.value })
+        }
+      })
   }
   const onClickPlayerLgInfo = async () => {
     if (!validateCurrentTable() || currentPlayer.value === null) return

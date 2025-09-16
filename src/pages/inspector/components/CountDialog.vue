@@ -240,7 +240,7 @@ const onOKClick = async () => {
       type: 'positive',
       position: 'top-right',
     })
-    onDialogOK({})
+    onDialogOK(true)
   } else {
     $q.notify({
       message: 'Chip sayım kaydı yapılırken bir hata oluştu.',
