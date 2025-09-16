@@ -154,9 +154,7 @@ const columns = ref([
   {
     field: 'status',
   },
-  {
-    field: 'expenseDirection',
-  },
+
   {
     field: 'expenses',
   },
@@ -184,10 +182,7 @@ const columns = ref([
   {
     field: 'boardType',
   },
-  {
-    field: 'expenseUse',
-    fieldType: 'boolean',
-  },
+
   {
     field: 'flight',
   },
@@ -200,9 +195,7 @@ const columns = ref([
   {
     field: 'to',
   },
-  {
-    field: 'to2',
-  },
+
   {
     field: 'pnr',
   },

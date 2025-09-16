@@ -557,12 +557,14 @@ const onRowDoubleClick = (evt, row) => {
   if (redirectTdIds.includes(id)) {
     return
   }
-  $q.dialog({
+  console.log('row', row)
+
+  /*   $q.dialog({
     component: ShowJsonDetailDialog,
     componentProps: {
       data: row,
     },
-  })
+  }) */
 }
 
 // Expose public methods and properties

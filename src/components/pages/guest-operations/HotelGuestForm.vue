@@ -393,6 +393,38 @@
                     />
                   </div>
                 </div>
+                <div class="row q-gutter-x-sm">
+                  <div class="col">
+                    <div class="text-subtitle2 text-grey-8 flex content-center items-center">
+                      {{ $t('pnr') }}
+                    </div>
+                    <q-input
+                      v-model="hotelGuestFormValues.hotelFlightInfo.pnr"
+                      dense
+                      outlined
+                      class="super-small"
+                      :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
+                      hide-bottom-space
+                      bg-color="white"
+                      :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
+                    />
+                  </div>
+                  <div class="col">
+                    <div class="text-subtitle2 text-grey-8 flex content-center items-center">
+                      {{ $t('pnr2') }}
+                    </div>
+                    <q-input
+                      v-model="hotelGuestFormValues.hotelFlightInfo.pnr2"
+                      dense
+                      outlined
+                      class="super-small"
+                      :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
+                      hide-bottom-space
+                      bg-color="white"
+                      :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div class="">
@@ -784,7 +816,8 @@ const hotelGuestFormValues = ref({
     ticketType: 'Casino',
     from: '',
     to: '',
-
+    pnr: '',
+    pnr2: '',
     flightTicketPrice: 0,
     isBusiness: 0,
   },
@@ -1064,6 +1097,8 @@ const updateReservationDetails = async () => {
       ticketType: hotelGuestFormValues.value.hotelFlightInfo.ticketType,
       from: hotelGuestFormValues.value.hotelFlightInfo.from,
       to: hotelGuestFormValues.value.hotelFlightInfo.to,
+      pnr: hotelGuestFormValues.value.hotelFlightInfo.pnr,
+      pnr2: hotelGuestFormValues.value.hotelFlightInfo.pnr2,
       flightTicketPrice: hotelGuestFormValues.value.hotelFlightInfo.flightTicketPrice,
       isBusiness: hotelGuestFormValues.value.hotelFlightInfo.isBusiness === 1 ? true : false,
       expenseUse: hotelGuestFormValues.value.hotelFlightInfo.expenseUse,
@@ -1229,11 +1264,11 @@ const setFormValues = async () => {
         boardType: 'BB',
         roomPrice: 0,
         roomTotalPrice: 0,
-
         ticketType: 'Casino',
         from: '',
         to: '',
-
+        pnr: '',
+        pnr2: '',
         flightTicketPrice: 0,
         isBusiness: 0,
       },
