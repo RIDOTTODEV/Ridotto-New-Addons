@@ -296,7 +296,7 @@
               <q-img
                 class="player-photo q-ma-sm"
                 width="150px"
-                :src="$playerPhotoUrl + selectedPlayer.playerId"
+                :src="$playerPhotoUrl + getInOutPlayerDetailFilter.playerId"
                 :error-src="'/assets/no-photo.png'"
                 :img-style="{
                   borderRadius: '4px',
