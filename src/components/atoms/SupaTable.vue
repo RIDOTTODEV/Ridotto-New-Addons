@@ -487,6 +487,14 @@ const onSelectVisibleColumn = async (val) => {
   } else {
     visibleColumns.value.splice(index, 1)
   }
+  /*   const columns = tableColumns.value.map((column, index) => {
+    return [column.colId, index, visibleColumns.value.includes(column.name) ? 1 : 0]
+  })
+  let formattedTable = {
+    columns: columns,
+    rowsPerPage: pagination.value.rowsPerPage,
+  }
+  console.log('formattedTable', formattedTable) */
   await saveUserColumn()
 }
 const saveUserColumn = async () => {

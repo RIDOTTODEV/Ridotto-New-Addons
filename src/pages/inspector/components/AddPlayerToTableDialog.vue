@@ -127,6 +127,7 @@
                         />
                       </q-td>
                       <q-td key="timeIn" :props="props">
+                        {{ disableTimeIn }}
                         <q-btn
                           color="grey-2"
                           unelevated
@@ -136,6 +137,7 @@
                           no-caps
                           dense
                           @click="onClickTimeIn(props)"
+                          :disable="disableTimeIn"
                         >
                           <q-img
                             src="/inspectors/icons8-time-machine-40.png"
@@ -203,6 +205,11 @@ const props = defineProps({
   gamingDateId: {
     type: Number,
     required: true,
+  },
+  disableTimeIn: {
+    type: Boolean,
+    required: true,
+    default: () => false,
   },
 })
 defineEmits([...useDialogPluginComponent.emits])

@@ -62,6 +62,7 @@
                       no-wrap
                       no-caps
                       @click="onClickTimeIn(customer)"
+                      :disable="disableTimeIn"
                     >
                       <q-img
                         src="/inspectors/icons8-time-machine-40.png"
@@ -114,6 +115,11 @@ const props = defineProps({
   currentTableId: {
     type: Number,
     required: true,
+  },
+  disableTimeIn: {
+    type: Boolean,
+    required: true,
+    default: () => false,
   },
 })
 defineEmits([...useDialogPluginComponent.emits])

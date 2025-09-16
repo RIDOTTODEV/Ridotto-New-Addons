@@ -74,6 +74,9 @@ export function useInspector() {
   const tablesGetQueryParams = ref({
     ...queryParams({ Sort: 'id desc', Take: 999 }),
   })
+  const currentTableChipSaveLock = computed(() => {
+    return currentTable.value?.chipSaveLock
+  })
   const upFunctionCards = ref([
     {
       title: 'Search',
@@ -444,6 +447,7 @@ export function useInspector() {
         componentProps: {
           currentTable: currentTable.value,
           gamingDateId: getDefaultGamingDateId.value,
+          disableTimeIn: currentTableChipSaveLock.value,
         },
       })
       .onOk(async (payload) => {
@@ -715,6 +719,7 @@ export function useInspector() {
           fetchFn: guestStore.getHotelPlayerList,
           timeInFn: inspectorStore.timeInPLayer,
           currentTableId: currentTable.value.id,
+          disableTimeIn: currentTableChipSaveLock.value,
         },
       })
       .onOk(async (payload) => {

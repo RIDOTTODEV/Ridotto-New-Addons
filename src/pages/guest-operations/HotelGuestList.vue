@@ -132,12 +132,10 @@ const columns = ref([
   {
     field: 'id',
     label: 'Id',
-    parseIndex: 0,
   },
   {
     field: 'createdAt',
     fieldType: 'date',
-    parseIndex: 1,
   },
   {
     field: 'playerCategoryName',

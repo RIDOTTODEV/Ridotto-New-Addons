@@ -84,6 +84,7 @@ export const useAuthStore = defineStore('authStore', {
         if (!tableName) {
           return formattedTable
         }
+
         if (state.userAddonSettings.tableColumns[tableName]) {
           const userSavedColumns = state.userAddonSettings.tableColumns[tableName].columns
           let userColumns =
@@ -97,7 +98,8 @@ export const useAuthStore = defineStore('authStore', {
                 orderColumn: userColumn[1],
               }
             }) || []
-          userColumns = userColumns.sort((a, b) => a.orderColumn - b.orderColumn)
+          console.log('userColumns', userColumns)
+          //userColumns = userColumns.sort((a, b) => a.orderColumn - b.orderColumn)
           return {
             columns: userColumns,
             visibleColumns: userColumns
