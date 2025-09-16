@@ -69,7 +69,7 @@
           </q-btn>
         </q-bar>
         <q-card-section>
-          <q-form @submit="onSubmitExpenseParameterForm" ref="form">
+          <q-form @submit="onSubmitExpenseParameterForm" ref="form" class="row">
             <div class="col-12">
               <q-input
                 :label="$t('expenseParameter')"
@@ -85,7 +85,55 @@
               />
             </div>
 
-            <div class="col-12 q-mt-md">
+            <div class="col-6 q-pa-xs">
+              <q-select
+                :label="$t('currency')"
+                v-model="expenseParameterFormValues.currencyId"
+                outlined
+                dense
+                :options="getCurrenciesWithFlags"
+                option-value="id"
+                :option-label="(val) => val.fullName + ' ' + val.name + ' ' + ' - ' + val.symbol"
+                emit-value
+                map-options
+                :rules="[(val) => !!val || $t('requiredField')]"
+                clearable
+                class="super-small"
+                hide-bottom-space
+                data-cy="currencyId"
+                behavior="menu"
+              >
+                <template v-slot:option="scope">
+                  <q-item v-bind="scope.itemProps">
+                    <q-item-section>
+                      <q-item-label>
+                        <q-img
+                          :src="scope.opt.flag"
+                          fit="contain"
+                          width="20px"
+                          height="20px"
+                          class="q-mr-sm"
+                        />
+                        {{ scope.opt.fullName }} - {{ scope.opt.symbol }}
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </template>
+                <template v-slot:selected-item="scope">
+                  <div class="text-subtitle2 q-mt-xs">
+                    <q-img
+                      :src="scope.opt.flag"
+                      fit="contain"
+                      width="20px"
+                      height="20px"
+                      class="q-mr-sm"
+                    />
+                    {{ scope.opt.fullName }} - {{ scope.opt.symbol }}
+                  </div>
+                </template>
+              </q-select>
+            </div>
+            <div class="col-6 q-pa-xs">
               <q-input
                 v-model="expenseParameterFormValues.amount"
                 :label="$t('price')"
@@ -96,19 +144,27 @@
               />
             </div>
 
-            <div class="col-12 q-mt-md">
+            <div class="col-4 q-pa-xs">
               <q-toggle
                 v-model="expenseParameterFormValues.dailyBasedQuantity"
                 :label="
                   expenseParameterFormValues.dailyBasedQuantity
-                    ? $t('isActive') + '-' + $t('yes')
-                    : $t('isActive') + '-' + $t('no')
+                    ? $t('dailyBasedQuantity')
+                    : $t('noDailyBasedQuantity')
                 "
                 color="positive"
                 dense
               />
             </div>
-            <div class="col-12 q-mt-md text-right">
+            <div class="col-4 q-pa-xs">
+              <q-toggle
+                v-model="expenseParameterFormValues.isVisible"
+                :label="expenseParameterFormValues.isVisible ? $t('isVisible') : $t('noisVisible')"
+                color="positive"
+                dense
+              />
+            </div>
+            <div class="col-4 q-pa-xs text-right">
               <q-btn
                 no-wrap
                 no-caps
@@ -142,5 +198,6 @@ const {
   onEditExpenseParameter,
   onDeleteExpenseParameter,
   guestManagementStore,
+  getCurrenciesWithFlags,
 } = useGuestManagement()
 </script>

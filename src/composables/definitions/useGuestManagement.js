@@ -1,9 +1,14 @@
 import { useGuestManagementStore } from 'src/stores/guest-management-store'
+
+import { useCurrencyStore } from 'src/stores/currency-store'
+import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { Dialog } from 'quasar'
 import { i18n } from 'src/boot/i18n'
 export function useGuestManagement() {
   const guestManagementStore = useGuestManagementStore()
+  const currencyStore = useCurrencyStore()
+  const { getCurrenciesWithFlags } = storeToRefs(currencyStore)
   const giftFormValues = ref({
     id: null,
     name: null,
@@ -278,6 +283,8 @@ export function useGuestManagement() {
     name: null,
     amount: null,
     dailyBasedQuantity: true,
+    currencyId: null,
+    isVisible: true,
   })
   const expenseParameterDialog = ref(false)
   const expenseParameterColumns = ref([
@@ -294,10 +301,17 @@ export function useGuestManagement() {
       fieldType: 'price',
     },
     {
+      field: 'currencyName',
+    },
+    {
       field: 'dailyBasedQuantity',
       fieldType: 'boolean',
     },
 
+    {
+      field: 'isVisible',
+      fieldType: 'boolean',
+    },
     {
       field: 'actions',
     },
@@ -401,5 +415,6 @@ export function useGuestManagement() {
     onSubmitExpenseParameterForm,
     onEditExpenseParameter,
     onDeleteExpenseParameter,
+    getCurrenciesWithFlags,
   }
 }

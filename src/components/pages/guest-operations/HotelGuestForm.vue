@@ -1069,6 +1069,7 @@ const updateReservationDetails = async () => {
       isWalkIn: hotelGuestFormValues.value.hotelFlightInfo.isWalkIn,
       expenseUse: hotelGuestFormValues.value.hotelFlightInfo.expenseUse,
       isTransfer: hotelGuestFormValues.value.hotelFlightInfo.isTransfer,
+      flightTicketReturnPrice: hotelGuestFormValues.value.hotelFlightInfo.flightTicketReturnPrice,
     },
   }
   const response = await guestManagementStore.updateHotelFlightInfoNew(formData)

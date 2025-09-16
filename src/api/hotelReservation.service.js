@@ -150,6 +150,19 @@ export const hotelReservationService = {
       .catch((error) => error)
   },
   /**
+   * Update Hotel Reservation Status Hotel Reservation
+   *
+   * @param {object} [data]
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  updateHotelReservationStatus(data = {}, options = {}) {
+    return api.post('/api/HotelReservation/UpdateHotelReservationStatus', data, options)
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
    * Update Reservation Date Hotel Reservation
    *
    * @param {object} [data]

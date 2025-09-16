@@ -7,12 +7,16 @@ import ExpenseSettingsDialog from 'src/components/pages/guest-operations/Expense
 import { formatPrice } from 'src/helpers/helpers'
 const guestManagementStore = useGuestManagementStore()
 const $q = useQuasar()
+const statuses = ref([])
 onMounted(() => {
   guestManagementStore.fetchVisitorCategories()
   guestManagementStore.fetchFlightTicketTypes()
   guestManagementStore.fetchBoardTypes()
   guestManagementStore.fetchRoomTypes()
   guestManagementStore.fetchExpenseParameters()
+  guestManagementStore.getHotelReservationStatuses().then((res) => {
+    statuses.value = res
+  })
 })
 
 const onCliclOpenExpenseSettingsDialog = async () => {
@@ -151,7 +155,6 @@ const columns = ref([
   },
   {
     field: 'status',
-    fieldType: 'boolean',
   },
   {
     field: 'expenseDirection',
@@ -273,6 +276,26 @@ const onClose = async () => {
   showHotelGuestForm.value = !showHotelGuestForm.value
   hotelGuestListTableRef.value.fetchData()
 }
+const hotelGuestFormValues = ref({
+  status: 'Pending',
+})
+const onSaveStatus = async (id) => {
+  $q.loading.show({
+    message: 'Yükleniyor...',
+  })
+  const response = await guestManagementStore.updateHotelReservationStatus({
+    hotelReservationId: id,
+    status: hotelGuestFormValues.value.status,
+  })
+  $q.loading.hide()
+  if (response) {
+    $q.notify({
+      message: 'Status başarıyla güncellendi',
+      color: 'positive',
+    })
+  }
+  hotelGuestListTableRef.value.fetchData()
+}
 </script>
 
 <template>
@@ -346,6 +369,7 @@ const onClose = async () => {
             'body-cell-playerCategoryName',
             'body-cell-Action',
             'body-cell-expenses',
+            'body-cell-status',
           ]"
           ref="hotelGuestListTableRef"
         >
@@ -412,6 +436,68 @@ const onClose = async () => {
           <template v-slot:body-cell-playerCategoryName="{ props }">
             <q-td key="playerCategoryName" align="center">
               {{ props.row.players?.find((player) => player.roomOwner)?.playerCategoryName }}
+            </q-td>
+          </template>
+          <template v-slot:body-cell-status="{ props }">
+            <q-td key="status" align="center">
+              <div>
+                {{ props.row.status }}
+                <q-menu
+                  transition-show="flip-right"
+                  transition-hide="flip-left"
+                  persistent
+                  @show="
+                    () => {
+                      hotelGuestFormValues.status = props.row.status
+                    }
+                  "
+                >
+                  <q-card style="width: 200px">
+                    <q-card-section class="q-pa-sm text-center bg-grey-2 q-card--bordered">
+                      <div class="text-subtitle2 text-negative">Update Status</div>
+                    </q-card-section>
+
+                    <q-card-section class="q-pa-sm">
+                      <div class="text-subtitle2">Status</div>
+                      <q-select
+                        v-model="hotelGuestFormValues.status"
+                        :options="statuses"
+                        :rules="[(val) => !!val]"
+                        map-options
+                        emit-value
+                        option-label="label"
+                        option-value="value"
+                        outlined
+                        dense
+                        bg-color="white"
+                        hide-bottom-space
+                      />
+                    </q-card-section>
+                    <q-card-actions class="q-pa-sm" align="right">
+                      <q-btn
+                        :label="$t('cancel')"
+                        icon="o_close"
+                        no-caps
+                        color="negative"
+                        unelevated
+                        dense
+                        flat
+                        v-close-popup
+                      />
+                      <q-btn
+                        :label="$t('save')"
+                        icon="o_save"
+                        no-caps
+                        color="primary"
+                        unelevated
+                        dense
+                        @click="onSaveStatus(props.row.id)"
+                        v-close-popup
+                      />
+                    </q-card-actions>
+                  </q-card>
+                </q-menu>
+              </div>
             </q-td>
           </template>
           <template v-slot:headerFilterSlots="{ props }">
