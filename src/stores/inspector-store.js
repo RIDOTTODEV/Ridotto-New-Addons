@@ -204,6 +204,11 @@ export const useInspectorStore = defineStore('inspectorStore', {
           errorHandle(err)
         })
     },
+    async searchPlayer(searchString) {
+      return await api.get(`/api/Search/Player?input=${searchString}`).then((res) => {
+        return res.data
+      })
+    },
     async playerTimePauseOrResume(data) {
       return await api
         .post('/api/PlayerLg/PlayerPauseOrResume', data)

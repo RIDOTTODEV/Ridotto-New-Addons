@@ -233,7 +233,7 @@ const onOKClick = async () => {
   })
 
   const result = await tableStore.updateChipCount(formData)
-  console.log(result)
+
   if (result.status === 200) {
     $q.notify({
       message: 'Chip sayım kaydı yapıldı.',
