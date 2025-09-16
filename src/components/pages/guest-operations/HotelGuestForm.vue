@@ -221,7 +221,8 @@
                   option-value="id"
                   hide-bottom-space
                   bg-color="white"
-                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
+                  :readonly="hotelGuestFormValues.isWalkIn"
+                  clearable
                 />
               </div>
 
@@ -237,7 +238,7 @@
                   :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                   hide-bottom-space
                   bg-color="white"
-                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
+                  :readonly="hotelGuestFormValues.isWalkIn"
                 />
               </div>
 
@@ -258,7 +259,7 @@
                   option-value="value"
                   bg-color="white"
                   clearable
-                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
+                  :readonly="hotelGuestFormValues.isWalkIn"
                 />
               </div> -->
               <div class="">
@@ -356,7 +357,7 @@
                   option-label="label"
                   option-value="value"
                   bg-color="white"
-                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
+                  :readonly="hotelGuestFormValues.isWalkIn"
                 />
               </div>
               <div class=" ">
@@ -441,7 +442,7 @@
                   bg-color="white"
                   class="super-small no-spinner"
                   :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
+                  :readonly="hotelGuestFormValues.isWalkIn"
                   @input="
                     (val) => {
                       const numVal = parseFloat(val.replace(',', '.'))
@@ -786,13 +787,12 @@ const hotelGuestFormValues = ref({
 
     flightTicketPrice: 0,
     isBusiness: 0,
-    isWalkIn: false,
-    isTransfer: false,
   },
   note: '',
   remark: '',
   phone: true,
-
+  isWalkIn: false,
+  isTransfer: false,
   expenses: [],
 })
 const roomMateRef = ref({
@@ -1050,6 +1050,7 @@ const updateReservationDetails = async () => {
   isEditingReservationDetails.value = false
   let formData = {
     hotelReservationId: hotelGuestFormValues.value.id,
+    flightTicketReturnPrice: hotelGuestFormValues.value.flightTicketReturnPrice,
     hotelFlightInfo: {
       checkIn: hotelGuestFormValues.value.hotelFlightInfo.checkIn,
       checkOut: hotelGuestFormValues.value.hotelFlightInfo.checkOut,
@@ -1063,13 +1064,9 @@ const updateReservationDetails = async () => {
       ticketType: hotelGuestFormValues.value.hotelFlightInfo.ticketType,
       from: hotelGuestFormValues.value.hotelFlightInfo.from,
       to: hotelGuestFormValues.value.hotelFlightInfo.to,
-
       flightTicketPrice: hotelGuestFormValues.value.hotelFlightInfo.flightTicketPrice,
       isBusiness: hotelGuestFormValues.value.hotelFlightInfo.isBusiness === 1 ? true : false,
-      isWalkIn: hotelGuestFormValues.value.hotelFlightInfo.isWalkIn,
       expenseUse: hotelGuestFormValues.value.hotelFlightInfo.expenseUse,
-      isTransfer: hotelGuestFormValues.value.hotelFlightInfo.isTransfer,
-      flightTicketReturnPrice: hotelGuestFormValues.value.hotelFlightInfo.flightTicketReturnPrice,
     },
   }
   const response = await guestManagementStore.updateHotelFlightInfoNew(formData)
@@ -1239,13 +1236,12 @@ const setFormValues = async () => {
 
         flightTicketPrice: 0,
         isBusiness: 0,
-        isWalkIn: false,
-        isTransfer: false,
       },
       note: '',
       remark: '',
       phone: true,
-
+      isWalkIn: false,
+      isTransfer: false,
       expenses: [],
     }
     setCheckInAndCheckOutDates()
@@ -1386,11 +1382,11 @@ watch(
 )
 
 const onChangeIsWalkIn = () => {
-  if (hotelGuestFormValues.value.hotelFlightInfo.isWalkIn) {
-    hotelGuestFormValues.value.hotelFlightInfo.flight = ''
-    hotelGuestFormValues.value.hotelFlightInfo.ticketType = ''
-    hotelGuestFormValues.value.hotelFlightInfo.from = ''
-    hotelGuestFormValues.value.hotelFlightInfo.to = ''
+  if (hotelGuestFormValues.value.isWalkIn) {
+    hotelGuestFormValues.value.hotelFlightInfo.flight = null
+    hotelGuestFormValues.value.hotelFlightInfo.ticketType = null
+    hotelGuestFormValues.value.hotelFlightInfo.from = null
+    hotelGuestFormValues.value.hotelFlightInfo.to = null
 
     hotelGuestFormValues.value.hotelFlightInfo.flightTicketPrice = 0
   }
