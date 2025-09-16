@@ -531,6 +531,8 @@ export function useInspector() {
       return
     }
     if (currentPlayer.value.avgBet === 0) {
+      await onClickDefineAverageBet(true)
+    } else {
       dialogs.value.timeOutCurrentPlayer = $q
         .dialog({
           component: defineAsyncComponent(
@@ -541,10 +543,8 @@ export function useInspector() {
           },
         })
         .onOk(async () => {
-          await onClickDefineAverageBet(true)
+          await timeOutPlayerFn()
         })
-    } else {
-      await timeOutPlayerFn()
     }
   }
   const timeOutPlayerFn = async () => {
