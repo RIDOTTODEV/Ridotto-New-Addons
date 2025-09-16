@@ -1232,13 +1232,15 @@ const calculateGrandTotal = () => {
 
   return total.toFixed(2)
 }
+const setCheckInAndCheckOutDates = () => {
+  let checkInDate = new Date()
+  checkInDate.setHours(14, 0, 0, 0)
+  hotelGuestFormValues.value.hotelFlightInfo.checkIn = checkInDate
 
-watch(
-  () => props.formValues,
-  async () => {
-    setFormValues()
-  },
-)
+  let checkOutDate = new Date()
+  checkOutDate.setHours(12, 0, 0, 0)
+  hotelGuestFormValues.value.hotelFlightInfo.checkOut = checkOutDate
+}
 
 const setFormValues = async () => {
   if (!props.formValues || !props.formValues.id) {
@@ -1323,16 +1325,13 @@ const setFormValues = async () => {
   }
   await fetchReservationExpenses(props.formValues.id)
 }
-
-const setCheckInAndCheckOutDates = () => {
-  let checkInDate = new Date()
-  checkInDate.setHours(14, 0, 0, 0)
-  hotelGuestFormValues.value.hotelFlightInfo.checkIn = checkInDate
-
-  let checkOutDate = new Date()
-  checkOutDate.setHours(12, 0, 0, 0)
-  hotelGuestFormValues.value.hotelFlightInfo.checkOut = checkOutDate
-}
+watch(
+  () => props.formValues,
+  async () => {
+    setFormValues()
+  },
+  { immediate: true },
+)
 
 const onSelectCheckInAndCheckOut = () => {
   const dateDiff = date.getDateDiff(

@@ -52,7 +52,7 @@ const onCopyHotelGuest = (row) => {
       roomTypeId: row.roomTypeId,
       roomType: row.roomType,
       roomNo: row.roomNo,
-      boardType: row.boardType || 'BB',
+      boardType: row.boardType,
       roomPrice: row.roomPrice,
       roomTotalPrice: row.dayCount * row.roomPrice,
       expenseUse: row.expenseUse || true,
@@ -60,7 +60,6 @@ const onCopyHotelGuest = (row) => {
       ticketType: row.ticketType || 'Casino',
       from: row.from,
       to: row.to,
-      to2: row.to2,
       pnr: row.pnr,
       pnr2: row.pnr2,
       flightTicketPrice: row.flightTicketPrice,
@@ -69,9 +68,8 @@ const onCopyHotelGuest = (row) => {
     note: row.note,
     remark: row.remark,
     phone: row.phone !== false,
-    minibar: row.minibar !== false,
-    spa: row.spa !== false,
-    fb: row.fb !== false,
+    isWalkIn: row.isWalkIn,
+    isTransfer: row.isTransfer,
     expenses: [],
     players: [],
     status: 'Pending',
@@ -436,7 +434,6 @@ const onSaveStatus = async (id) => {
                 <q-menu
                   transition-show="flip-right"
                   transition-hide="flip-left"
-                  persistent
                   @show="
                     () => {
                       hotelGuestFormValues.status = props.row.status
