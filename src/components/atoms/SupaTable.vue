@@ -372,11 +372,11 @@ onMounted(async () => {
   await fetchData()
 })
 
-const fetchData = async () => {
+const fetchData = async (filterParams = null) => {
   tableLoading.value = true
   removeSelectedRowClass()
   try {
-    response.value = await props.getDataFn(getTableFilterParams())
+    response.value = await props.getDataFn(getTableFilterParams(filterParams))
     initResponseData(response.value)
   } catch (error) {
     console.error('Error fetching data:', error)
@@ -401,7 +401,15 @@ const initResponseData = (response) => {
   tableRows.value = data
   copiedData.value = data
 }
-const getTableFilterParams = () => {
+const getTableFilterParams = (filterParams = null) => {
+  if (filterParams) {
+    return {
+      ...filterParams,
+      maxResultCount: pagination.value.rowsPerPage,
+      skipCount: (pagination.value.page - 1) * pagination.value.rowsPerPage,
+      cashDeskId: props.useCurrentCashDesk ? getSelectedCashDesk.value.Id : null,
+    }
+  }
   return {
     ...tableFilterParams.value,
     maxResultCount: pagination.value.rowsPerPage,
@@ -411,6 +419,7 @@ const getTableFilterParams = () => {
 }
 const initColumns = async () => {
   const columns = generateColumns(props.columns)
+
   const userColumns = getUserTableColumns.value(props.tableName, columns)
   tableColumns.value = userColumns.columns
   visibleColumnOptions.value = userColumns.visibleColumns

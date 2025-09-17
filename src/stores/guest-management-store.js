@@ -20,6 +20,7 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
     visitorCategories: [],
     flightTicketTypes: [],
     boardTypes: [],
+    hotelGuestListWidgets: {},
   }),
   getters: {},
   actions: {
@@ -176,6 +177,17 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
       }
       const { data } = await hotelReservationService.getAll(payload)
       this.hotelGuestList = data.data
+
+      // call fetchHotelReservationsWidgets
+      await this.fetchHotelReservationsWidgets({
+        StartDate: params.StartDate || params.checkInDate,
+        EndDate: params.EndDate || params.checkOutDate,
+      })
+      return data
+    },
+    async fetchHotelReservationsWidgets(params) {
+      const { data } = await hotelReservationService.getHotelReservationWidgetCountReport(params)
+      this.hotelGuestListWidgets = data
       return data
     },
     async deleteHotelReservation(params) {

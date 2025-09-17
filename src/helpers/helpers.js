@@ -170,3 +170,36 @@ export const fireNotify = (message, group = 'created', duration = 180000, type =
     },
   })
 }
+export function formatMissingKey(key) {
+  // First handle cases like "last1Year" or "last15minutes"
+  const timePattern = /(last)(\d+)(year|month|week|day|hour|minute|second)s?/i
+  const match = key.match(timePattern)
+
+  if (match) {
+    const [, prefix, number, unit] = match
+    return `${prefix.charAt(0).toUpperCase()}${prefix.slice(1)} ${number} ${unit.charAt(0).toUpperCase()}${unit.slice(1)}`
+  }
+
+  // Handle regular camelCase
+  const spaced = key.replace(/([a-z])([A-Z])/g, '$1 $2')
+  return spaced.replace(/\b\w/g, (char) => char.toUpperCase())
+}
+export const removeEmptySpaces = (str) => {
+  // First trim and normalize spaces
+  const normalized = str.trim().replace(/\s+/g, ' ')
+
+  // Split into words
+  const words = normalized.split(' ')
+
+  // Convert to camelCase
+  return words
+    .map((word, index) => {
+      // Convert first word to lowercase
+      if (index === 0) {
+        return word.toLowerCase()
+      }
+      // Capitalize first letter of subsequent words
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    })
+    .join('')
+}

@@ -1,22 +1,67 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useQuasar } from 'quasar'
+import { storeToRefs } from 'pinia'
 import { useGuestManagementStore } from 'src/stores/guest-management-store'
 import CreateHotelGuest from 'src/components/pages/guest-operations/HotelGuestForm.vue'
 import ExpenseSettingsDialog from 'src/components/pages/guest-operations/ExpenseSettingsDialog.vue'
-import { formatPrice } from 'src/helpers/helpers'
+import { formatPrice, removeEmptySpaces } from 'src/helpers/helpers'
 const guestManagementStore = useGuestManagementStore()
+const { hotelGuestListWidgets, expenseParameters } = storeToRefs(guestManagementStore)
+
 const $q = useQuasar()
 const statuses = ref([])
-onMounted(() => {
-  guestManagementStore.fetchVisitorCategories()
-  guestManagementStore.fetchFlightTicketTypes()
-  guestManagementStore.fetchBoardTypes()
-  guestManagementStore.fetchRoomTypes()
-  guestManagementStore.fetchExpenseParameters()
-  guestManagementStore.getHotelReservationStatuses().then((res) => {
+const expenseColumnNames = ref(['totalExpense'])
+const showTable = ref(false)
+onMounted(async () => {
+  await guestManagementStore.fetchVisitorCategories()
+  await guestManagementStore.fetchFlightTicketTypes()
+  await guestManagementStore.fetchBoardTypes()
+  await guestManagementStore.fetchRoomTypes()
+  await guestManagementStore.fetchExpenseParameters()
+  await guestManagementStore.getHotelReservationStatuses().then((res) => {
     statuses.value = res
   })
+  if (expenseParameters.value.length) {
+    columns.value.push({
+      field: 'expenses',
+      name: 'totalExpense',
+      label: 'Total Expense',
+      fieldType: 'custom',
+      customFormat: (value) => {
+        return formatPrice(value.reduce((sum, expense) => sum + parseFloat(expense.amount || 0), 0))
+      },
+      defaultVisible: false,
+      visible: false,
+    })
+
+    expenseParameters.value.forEach((element) => {
+      if (element.isVisible) {
+        expenseColumnNames.value.push(removeEmptySpaces(element.name))
+        columns.value.push({
+          field: 'expenses',
+          label: element.name,
+          name: removeEmptySpaces(element.name),
+          fieldType: 'custom',
+          defaultVisible: false,
+          visible: false,
+          class: 'bg-orange-1',
+          customFormat: (value) => {
+            const findExpenses = value.filter((expense) => expense.expenseTypeId === element.id)
+            const price = findExpenses.reduce(
+              (sum, expense) => sum + parseFloat(expense.amount || 0),
+              0,
+            )
+            return formatPrice(price)
+          },
+        })
+      }
+    })
+    columns.value.push({
+      field: 'Action',
+    })
+    showTable.value = true
+  }
 })
 
 const onCliclOpenExpenseSettingsDialog = async () => {
@@ -118,7 +163,9 @@ const onDeleteHotelGuest = async (params) => {
 }
 
 const creatingHotelGuest = ref(false)
-const hotelGuestListTableRef = ref(null)
+const hotelGuestListTableRef = ref({
+  selectedRow: {},
+})
 const showHotelGuestForm = ref(false)
 const hotelGuestFormParams = ref(null)
 const onClickShowHotelGuestForm = (params) => {
@@ -153,9 +200,6 @@ const columns = ref([
     field: 'status',
   },
 
-  {
-    field: 'expenses',
-  },
   {
     field: 'checkIn',
     fieldType: 'date',
@@ -238,26 +282,21 @@ const columns = ref([
   {
     field: 'updatedByName',
   },
-  {
-    field: 'expenses',
-    name: 'totalExpense',
-    label: 'Total Expense',
-    fieldType: 'custom',
-    customFormat: (value) => {
-      return formatPrice(value.reduce((sum, expense) => sum + parseFloat(expense.amount || 0), 0))
-    },
-    defaultVisible: true,
-  },
-  {
-    field: 'Action',
-  },
 ])
-const hotelGuestListFilterParams = ref({})
+const hotelGuestListFilterParams = ref({
+  isDeleted: false,
+  showByRecordDate: false,
+  checkInDate: null,
+  checkOutDate: null,
+})
 
-const toggleHideColumns = ref(true)
+const toggleHideColumns = ref(false)
 const onHideColumns = () => {
   toggleHideColumns.value = !toggleHideColumns.value
-  hotelGuestListTableRef.value.toggleShowHideColumns(['totalExpense'], toggleHideColumns.value)
+  hotelGuestListTableRef.value.toggleShowHideColumns(
+    expenseColumnNames.value,
+    toggleHideColumns.value,
+  )
 }
 const onClose = async () => {
   hotelGuestFormParams.value = null
@@ -285,6 +324,50 @@ const onSaveStatus = async (id) => {
   }
   hotelGuestListTableRef.value.fetchData()
 }
+
+const dateFilterParams = ref({})
+const onSubmitFilter = () => {
+  let params = {}
+  if (hotelGuestListFilterParams.value.showByRecordDate) {
+    params = {
+      isDeleted: hotelGuestListFilterParams.value.isDeleted,
+      StartDate: dateFilterParams.value.StartDate,
+      EndDate: dateFilterParams.value.EndDate,
+      showByRecordDate: hotelGuestListFilterParams.value.showByRecordDate,
+    }
+    hotelGuestListFilterParams.value = { ...params }
+  } else {
+    params = {
+      isDeleted: hotelGuestListFilterParams.value.isDeleted,
+      checkInDate: dateFilterParams.value.StartDate,
+      checkOutDate: dateFilterParams.value.EndDate,
+      showByRecordDate: hotelGuestListFilterParams.value.showByRecordDate,
+    }
+    hotelGuestListFilterParams.value = { ...params }
+  }
+  hotelGuestListTableRef.value.fetchData(hotelGuestListFilterParams.value)
+}
+const showRoomMates = ref(false)
+const roomMates = ref([])
+watch(showRoomMates, (newVal) => {
+  if (newVal && hotelGuestListTableRef.value.selectedRow?.players.length > 0) {
+    roomMates.value = [...hotelGuestListTableRef.value.selectedRow.players]
+  } else {
+    roomMates.value = []
+  }
+})
+
+watch(
+  () => hotelGuestListTableRef.value.selectedRow,
+  (value) => {
+    if (value?.players?.length > 0 && showRoomMates.value) {
+      roomMates.value = [...value.players]
+    } else {
+      roomMates.value = []
+    }
+  },
+  { deep: true, immediate: true },
+)
 </script>
 
 <template>
@@ -345,9 +428,200 @@ const onSaveStatus = async (id) => {
         <CreateHotelGuest @close="onClose" :formValues="hotelGuestFormParams" />
       </q-card-section>
     </q-card>
-    <q-card v-show="!showHotelGuestForm" class="no-box-shadow">
+    <q-card v-show="!showHotelGuestForm" class="no-box-shadow bg-transparent">
+      <q-card-section class="q-pa-none">
+        <div class="row flex justify-start items-start">
+          <div class="col-3">
+            <fieldset class="fieldset">
+              <legend class="text-subtitle2">{{ $t('Totals') }}</legend>
+              <q-markup-table dense separator="cell" bordered flat>
+                <thead>
+                  <tr>
+                    <th class="text-center bg-blue-grey-2 text-subtitle2" colspan="2">
+                      {{ $t('Counts Report') }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-green-1">
+                    <td class="text-left" width="50%">
+                      <div class="flex content-center items-center q-ml-sm">
+                        <q-icon name="fas fa-circle" size="17px" color="green-8" />
+                        <span class="text-subtitle2 q-ml-sm">
+                          {{ $t('total') }}
+                        </span>
+                      </div>
+                    </td>
+                    <td class="text-left" width="50%">
+                      <span class="text-subtitle2 q-ml-sm">
+                        {{ hotelGuestListWidgets?.totalCount }}
+                      </span>
+                    </td>
+                  </tr>
+                  <tr class="bg-orange-1">
+                    <td class="text-left" width="50%">
+                      <div class="flex content-center items-center q-ml-sm">
+                        <q-icon name="fas fa-circle" size="17px" color="grey-8" />
+
+                        <span class="text-subtitle2 q-ml-sm">
+                          {{ $t('other') }}
+                        </span>
+                      </div>
+                    </td>
+                    <td class="text-left" width="50%">
+                      <span class="text-subtitle2 q-ml-sm">
+                        {{ hotelGuestListWidgets?.otherCount }}
+                      </span>
+                    </td>
+                  </tr>
+                  <tr class="bg-red-1">
+                    <td class="text-left" width="50%">
+                      <div class="flex content-center items-center q-ml-sm">
+                        <q-icon name="fas fa-circle" size="17px" color="red-8" />
+                        <span class="text-subtitle2 q-ml-sm">
+                          {{ $t('todayC/O') }}
+                        </span>
+                      </div>
+                    </td>
+                    <td class="text-left" width="50%">
+                      <span class="text-subtitle2 q-ml-sm">
+                        {{ hotelGuestListWidgets?.todayCheckOutCount }}
+                      </span>
+                    </td>
+                  </tr>
+                  <tr class="">
+                    <td class="text-left" width="50%">
+                      <span class="text-subtitle2 q-ml-sm">
+                        {{ toggleHideColumns ? $t('hideExpenses') : $t('showExpenses') }}
+                      </span>
+                    </td>
+                    <td width="50%">
+                      <q-btn
+                        size="12px"
+                        dense
+                        unelevated
+                        no-caps
+                        :icon="toggleHideColumns ? 'o_visibility' : 'o_visibility_off'"
+                        @click="onHideColumns"
+                        class="q-ml-sm"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </q-markup-table>
+            </fieldset>
+          </div>
+          <div class="col-3">
+            <fieldset class="fieldset row">
+              <legend class="text-subtitle2">{{ $t('filter') }}</legend>
+              <div class="row full-width">
+                <date-time-picker
+                  btnClass="col-12 full-width"
+                  class="col-12 full-width"
+                  @selected-date="
+                    (val) => (
+                      (dateFilterParams = {
+                        ...dateFilterParams,
+                        ...val,
+                      }),
+                      (hotelGuestListFilterParams = {
+                        ...hotelGuestListFilterParams,
+                        checkInDate: val.StartDate,
+                        checkOutDate: val.EndDate,
+                      })
+                    )
+                  "
+                />
+                <div class="col-12">
+                  <q-checkbox
+                    v-model="hotelGuestListFilterParams.showByRecordDate"
+                    :label="$t('showByRecordDate')"
+                    color="primary"
+                  />
+                </div>
+                <div class="col-12">
+                  <q-checkbox
+                    v-model="hotelGuestListFilterParams.isDeleted"
+                    :label="$t('showDeletedRecords')"
+                    color="primary"
+                  />
+                </div>
+                <div class="col-12 q-mt-xs">
+                  <q-btn
+                    type="button"
+                    :label="$t('filter')"
+                    icon="tune"
+                    color="grey-1"
+                    text-color="dark"
+                    size="13px"
+                    unelevated
+                    no-caps
+                    @click="onSubmitFilter"
+                    class="q-ml-sm"
+                  />
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div class="col">
+            <fieldset class="fieldset row">
+              <legend class="text-subtitle2">
+                <q-checkbox
+                  v-model="showRoomMates"
+                  :label="$t('showRoomMates')"
+                  color="primary"
+                  dense
+                />
+              </legend>
+              <div class="masonry-grid">
+                <div class="masonry-item" v-for="(roomMate, index) in roomMates" :key="index">
+                  <q-img
+                    :src="$playerPhotoUrl + roomMate.playerId"
+                    class="player-photo"
+                    fit="cover"
+                    error-src="/assets/no-photo.png"
+                  >
+                    <div class="absolute" style="top: 0px; right: 0px; padding: 0px !important">
+                      <q-btn
+                        dense
+                        unelevated
+                        color="positive"
+                        icon="done"
+                        size="9px"
+                        square
+                        v-if="roomMate.roomOwner"
+                      />
+                    </div>
+                    <div
+                      class="absolute-bottom"
+                      style="
+                        max-height: 20px !important;
+                        padding: 0px !important;
+                        background-color: rgba(0, 0, 0, 0.5) !important;
+                      "
+                    >
+                      <div class="text-caption text-center text-capitalize">
+                        {{ roomMate.playerFullName }}
+                      </div>
+                    </div>
+                  </q-img>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-2">
+            <fieldset class="fieldset">
+              <legend class="text-subtitle2">{{ $t('roomCount') }}</legend>
+              <div class="col-12 full-width full-height flex flex-center">
+                <div class="room-count-box cursor-pointer">1</div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </q-card-section>
       <q-card-section class="q-pa-none">
         <SupaTable
+          v-if="showTable"
           tableName="hotelReservations"
           :getDataFn="guestManagementStore.fetchHotelReservations"
           :filterParams="hotelGuestListFilterParams"
@@ -364,6 +638,34 @@ const onSaveStatus = async (id) => {
         >
           <template v-slot:body-cell-Action="{ props }">
             <q-td key="Action" align="center">
+              <q-btn
+                icon="o_info"
+                size="12px"
+                color="grey-2"
+                text-color="dark"
+                no-caps
+                unelevated
+                flat
+              >
+                <q-tooltip class="q-card bg-white">
+                  <q-markup-table spellcheck="cell" dense square bordered>
+                    <thead>
+                      <tr>
+                        <th class="text-center bg-grey-2">Expense</th>
+                        <th class="text-center bg-grey-2">Amount</th>
+                        <th class="text-center bg-grey-2">Is Deleted</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="expense in props.row.expenses" :key="expense.id">
+                        <td class="text-center">{{ expense.expenseTypeName }}</td>
+                        <td class="text-center">{{ formatPrice(expense.amount) }}</td>
+                        <td class="text-center">{{ expense.isDeleted ? 'Yes' : 'No' }}</td>
+                      </tr>
+                    </tbody>
+                  </q-markup-table>
+                </q-tooltip>
+              </q-btn>
               <q-btn
                 unelevated
                 dense
@@ -488,77 +790,6 @@ const onSaveStatus = async (id) => {
               </div>
             </q-td>
           </template>
-          <template v-slot:headerFilterSlots="{ props }">
-            <div class="col q-pl-sm q-mr-sm flex row justify-start">
-              <div class="q-pa-xs flex items-end">
-                <date-time-picker
-                  @selected-date="
-                    (val) =>
-                      (hotelGuestListFilterParams = {
-                        ...hotelGuestListFilterParams,
-                        ...val,
-                      })
-                  "
-                />
-
-                <q-btn
-                  type="button"
-                  :label="$t('filter')"
-                  icon="tune"
-                  color="grey-2"
-                  text-color="dark"
-                  size="13px"
-                  unelevated
-                  no-caps
-                  @click="props.reload"
-                  class="q-ml-sm"
-                />
-                <q-btn
-                  unelevated
-                  color="grey-2"
-                  text-color="dark"
-                  size="13px"
-                  :icon="toggleHideColumns ? 'o_visibility' : 'o_visibility_off'"
-                  class="q-ml-sm"
-                  no-caps
-                  :label="toggleHideColumns ? $t('showExpenses') : $t('hideExpenses')"
-                  @click="onHideColumns"
-                />
-              </div>
-            </div>
-          </template>
-          <template v-slot:body-cell-expenses="{ props }">
-            <q-td key="expenses" align="center">
-              <q-btn
-                icon="o_info"
-                size="12px"
-                color="grey-2"
-                text-color="dark"
-                no-caps
-                unelevated
-                flat
-              >
-                <q-tooltip class="q-card bg-white">
-                  <q-markup-table spellcheck="cell" dense square bordered>
-                    <thead>
-                      <tr>
-                        <th class="text-center bg-grey-2">Expense</th>
-                        <th class="text-center bg-grey-2">Amount</th>
-                        <th class="text-center bg-grey-2">Is Deleted</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="expense in props.row.expenses" :key="expense.id">
-                        <td class="text-center">{{ expense.expenseTypeName }}</td>
-                        <td class="text-center">{{ formatPrice(expense.amount) }}</td>
-                        <td class="text-center">{{ expense.isDeleted ? 'Yes' : 'No' }}</td>
-                      </tr>
-                    </tbody>
-                  </q-markup-table>
-                </q-tooltip>
-              </q-btn>
-            </q-td>
-          </template>
         </SupaTable>
       </q-card-section>
     </q-card>
@@ -631,5 +862,38 @@ fieldset {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.room-count-box {
+  background-color: $negative;
+  height: 80px;
+  width: 80px;
+  border-radius: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+}
+.fieldset {
+  border: 1px solid #4b4f52 !important;
+  border-radius: 5px;
+  height: 190px;
+}
+
+.masonry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-gap: 4px;
+  padding: 4px;
+  width: 100%;
+  max-height: 160px;
+}
+
+.masonry-item {
+  break-inside: avoid;
+  aspect-ratio: 1;
+  width: 100%;
 }
 </style>

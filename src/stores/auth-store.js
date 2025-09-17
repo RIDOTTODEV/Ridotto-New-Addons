@@ -92,6 +92,13 @@ export const useAuthStore = defineStore('authStore', {
               const userColumn = userSavedColumns.find(
                 (defaultColumn) => defaultColumn[0] === column.colId,
               )
+              if (userColumn === undefined) {
+                return {
+                  ...column,
+                  visible: column.visible,
+                  orderColumn: column.orderColumn,
+                }
+              }
               return {
                 ...column,
                 visible: userColumn[2] === 1,

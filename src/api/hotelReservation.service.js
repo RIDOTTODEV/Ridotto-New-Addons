@@ -8,7 +8,7 @@ export const hotelReservationService = {
    *
    * @param {object} [data]
    * @param {undefined} [data.status] - Status
-   * @param {undefined} [data.gamingDateId] - Gaming Date Id
+   * @param {undefined} [data.isDeleted] - Is Deleted
    * @param {undefined} [data.startDate] - Start Date
    * @param {undefined} [data.endDate] - End Date
    * @param {undefined} [data.checkInDate] - Check In Date
@@ -41,6 +41,19 @@ export const hotelReservationService = {
    */
   copyReservation(data = {}, options = {}) {
     return api.post('/api/HotelReservation/CopyReservation', data, options)
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Copy Bulk Reservation Hotel Reservation
+   *
+   * @param {object} [data]
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  copyBulkReservation(data = {}, options = {}) {
+    return api.post('/api/HotelReservation/CopyBulkReservation', data, options)
       .then((response) => response)
       .catch((error) => error)
   },
@@ -255,6 +268,50 @@ export const hotelReservationService = {
    */
   getHotelPlayer(data = {}, options = {}) {
     return api.get('/api/HotelReservation/GetHotelPlayer', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Get Hotel Reservation Widget Count Report Hotel Reservation
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.startDate] - Start Date
+   * @param {undefined} [data.endDate] - End Date
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getHotelReservationWidgetCountReport(data = {}, options = {}) {
+    return api.get('/api/HotelReservation/GetHotelReservationWidgetCountReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Get Room Count By Days Hotel Reservation
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.startDate] - Start Date
+   * @param {undefined} [data.endDate] - End Date
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getRoomCountByDays(data = {}, options = {}) {
+    return api.get('/api/HotelReservation/GetRoomCountByDays', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Find Hotel Guest By Player Id Hotel Reservation
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.playerId] - Player Id
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  findHotelGuestByPlayerId(data = {}, options = {}) {
+    return api.get('/api/HotelReservation/FindHotelGuestByPlayerId', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },

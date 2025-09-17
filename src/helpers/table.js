@@ -47,9 +47,10 @@ export const generateColumns = (columnConfigs) => {
         : formatValue(value, config.fieldType, config.customFormat),
     sortable: config.sortable || sortableFields.includes(config.field) || false,
     sort: config.sort,
-    visible: config.visible || true,
+    visible: config.visible === false ? false : true,
     colId: config.colId || index,
     orderColumn: config.orderColumn || index,
     defaultVisible: config.defaultVisible || false,
+    classes: config.class || '',
   }))
 }
