@@ -329,7 +329,7 @@ const filterMethod = (request) => {
   tableRows.value = [...filteredData]
 }
 
-watch(
+/* watch(
   visibleColumns,
   () => {
     const visibleColumnsMap = visibleColumns.value?.reduce((acc, curr, index) => {
@@ -346,7 +346,7 @@ watch(
   {
     immediate: true,
   },
-)
+) */
 
 watch(
   visibleColumnOptions,
@@ -481,12 +481,26 @@ const showTheJsonDetail = (jsonValues) => {
   })
 }
 const onSelectVisibleColumn = async (val) => {
-  const index = visibleColumns.value.indexOf(val)
+  const colByName = tableColumns.value.find((column) => column.name === val)
+  colByName.visible = !colByName.visible
+  const newVisibleColumns = tableColumns.value
+    .filter((column) => column.visible)
+    .map((column) => column.name)
+  visibleColumns.value = newVisibleColumns
+  const formattedColumns = tableColumns.value.map((column, index) => {
+    return [column.colId, index, visibleColumns.value.includes(column.name) ? 1 : 0]
+  })
+  let formattedTable = {
+    columns: formattedColumns,
+    rowsPerPage: pagination.value.rowsPerPage,
+  }
+  await authStore.saveUserTableColumnsFormatted(props.tableName, formattedTable)
+  /*   const index = visibleColumns.value.indexOf(val)
   if (index === -1) {
     visibleColumns.value.push(val)
   } else {
     visibleColumns.value.splice(index, 1)
-  }
+  } */
   /*   const columns = tableColumns.value.map((column, index) => {
     return [column.colId, index, visibleColumns.value.includes(column.name) ? 1 : 0]
   })
@@ -495,7 +509,7 @@ const onSelectVisibleColumn = async (val) => {
     rowsPerPage: pagination.value.rowsPerPage,
   }
   console.log('formattedTable', formattedTable) */
-  await saveUserColumn()
+  //await saveUserColumn()
 }
 const saveUserColumn = async () => {
   const tableColumnsSortByVisibleColumns = tableColumns.value.sort((a, b) => {

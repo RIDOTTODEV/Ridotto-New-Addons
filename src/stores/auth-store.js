@@ -98,8 +98,9 @@ export const useAuthStore = defineStore('authStore', {
                 orderColumn: userColumn[1],
               }
             }) || []
-          console.log('userColumns', userColumns)
-          //userColumns = userColumns.sort((a, b) => a.orderColumn - b.orderColumn)
+
+          userColumns = userColumns.sort((a, b) => a.orderColumn - b.orderColumn)
+
           return {
             columns: userColumns,
             visibleColumns: userColumns
