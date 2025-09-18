@@ -21,6 +21,7 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
     flightTicketTypes: [],
     boardTypes: [],
     hotelGuestListWidgets: {},
+    roomCountTotal: 0,
   }),
   getters: {},
   actions: {
@@ -178,11 +179,12 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
       const { data } = await hotelReservationService.getAll(payload)
       this.hotelGuestList = data.data
 
-      // call fetchHotelReservationsWidgets
-      await this.fetchHotelReservationsWidgets({
+      const filterParams = {
         StartDate: params.StartDate || params.checkInDate,
         EndDate: params.EndDate || params.checkOutDate,
-      })
+      }
+      await this.fetchHotelReservationsWidgets(filterParams)
+      await this.fetchRoomCountByDays(filterParams)
       return data
     },
     async fetchHotelReservationsWidgets(params) {
@@ -233,7 +235,11 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
     },
     async fetchRoomCountByDays(params) {
       const { data } = await hotelReservationService.getRoomCountByDays(params)
+      this.roomCountTotal = data.data.reduce((acc, curr) => acc + curr.roomCount, 0)
       return data
+    },
+    async copyBulkReservation(params) {
+      return await hotelReservationService.copyBulkReservation(params)
     },
   },
 })

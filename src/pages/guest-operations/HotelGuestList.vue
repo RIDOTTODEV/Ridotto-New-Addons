@@ -7,9 +7,11 @@ import { useAuthStore } from 'src/stores/auth-store'
 import CreateHotelGuest from 'src/components/pages/guest-operations/HotelGuestForm.vue'
 import ExpenseSettingsDialog from 'src/components/pages/guest-operations/ExpenseSettingsDialog.vue'
 import RoomCountDialog from 'src/components/pages/guest-operations/RoomCountDialog.vue'
+import CopyHotelReservationDialog from 'src/components/pages/guest-operations/CopyHotelReservationDialog.vue'
 import { formatPrice, removeEmptySpaces } from 'src/helpers/helpers'
 const guestManagementStore = useGuestManagementStore()
-const { hotelGuestListWidgets, expenseParameters } = storeToRefs(guestManagementStore)
+const { hotelGuestListWidgets, expenseParameters, roomCountTotal } =
+  storeToRefs(guestManagementStore)
 const authStore = useAuthStore()
 const { defaultCurrency } = storeToRefs(authStore)
 const $q = useQuasar()
@@ -100,38 +102,13 @@ const onCliclOpenExpenseSettingsDialog = async () => {
 }
 
 const onCopyHotelGuest = (row) => {
-  showHotelGuestForm.value = {
-    hotelFlightInfo: {
-      //expenseDirection: 1,
-      checkIn: row.checkIn,
-      checkOut: row.checkOut,
-      dayCount: row.dayCount,
-      roomTypeId: row.roomTypeId,
-      roomType: row.roomType,
-      roomNo: row.roomNo,
-      boardType: row.boardType,
-      roomPrice: row.roomPrice,
-      roomTotalPrice: row.dayCount * row.roomPrice,
-      expenseUse: row.expenseUse || true,
-      flight: row.flight,
-      ticketType: row.ticketType || 'Casino',
-      from: row.from,
-      to: row.to,
-      pnr: row.pnr,
-      pnr2: row.pnr2,
-      flightTicketPrice: row.flightTicketPrice,
-      isBusiness: row.isBusiness === true ? 1 : 0,
+  $q.dialog({
+    component: CopyHotelReservationDialog,
+    componentProps: {
+      hotelReservationId: row.id,
+      actionFn: guestManagementStore.copyBulkReservation,
     },
-    note: row.note,
-    remark: row.remark,
-    phone: row.phone !== false,
-    isWalkIn: row.isWalkIn,
-    isTransfer: row.isTransfer,
-    expenses: [],
-    players: [],
-    status: 'Pending',
-    isCopy: true,
-  }
+  })
 }
 
 const onDeleteHotelGuest = async (params) => {
@@ -191,14 +168,6 @@ const columns = ref([
     label: 'Id',
   },
   {
-    field: 'createdAt',
-    fieldType: 'date',
-  },
-  {
-    field: 'playerCategoryName',
-    label: 'Category',
-  },
-  {
     field: 'players',
     label: 'Guest',
     name: 'guest',
@@ -209,39 +178,42 @@ const columns = ref([
     name: 'roomMate',
   },
   {
+    field: 'playerCategoryName',
+    label: 'Category',
+  },
+
+  {
+    field: 'roomNo',
+  },
+  {
     field: 'status',
   },
 
   {
     field: 'checkIn',
     fieldType: 'date',
+    label: 'C/In',
   },
   {
     field: 'checkOut',
     fieldType: 'date',
+    label: 'C/Out',
   },
   {
     field: 'dayCount',
+    label: 'Day',
   },
   {
     field: 'roomType',
+    label: 'R.Type',
   },
   {
-    field: 'roomNo',
+    field: 'ticketType',
+    label: 'Tic',
   },
   {
     field: 'roomPrice',
     fieldType: 'price',
-  },
-  {
-    field: 'boardType',
-  },
-
-  {
-    field: 'flight',
-  },
-  {
-    field: 'ticketType',
   },
   {
     field: 'from',
@@ -252,47 +224,47 @@ const columns = ref([
 
   {
     field: 'pnr',
+    visible: false,
   },
   {
     field: 'pnr2',
+    visible: false,
   },
   {
     field: 'flightTicketPrice',
     fieldType: 'price',
+    visible: false,
   },
   {
     field: 'isBusiness',
     fieldType: 'boolean',
+    visible: false,
   },
   {
     field: 'note',
+    visible: false,
   },
   {
     field: 'remark',
+    visible: false,
   },
   {
-    field: 'phone',
+    field: 'createdAt',
+    fieldType: 'date',
+    visible: false,
   },
-  {
-    field: 'minibar',
-  },
-  {
-    field: 'spa',
-  },
-  {
-    field: 'isDeleted',
-    fieldType: 'boolean',
-  },
-
   {
     field: 'createdByName',
+    visible: false,
   },
   {
     field: 'updatedAt',
     fieldType: 'date',
+    visible: false,
   },
   {
     field: 'updatedByName',
+    visible: false,
   },
 ])
 const hotelGuestListFilterParams = ref({
@@ -361,8 +333,8 @@ const onSubmitFilter = () => {
 }
 const showRoomMates = ref(false)
 const roomMates = ref([])
-watch(showRoomMates, (newVal) => {
-  if (newVal && hotelGuestListTableRef.value.selectedRow?.players.length > 0) {
+watch(showRoomMates, () => {
+  if (hotelGuestListTableRef.value.selectedRow.players.length > 0) {
     roomMates.value = [...hotelGuestListTableRef.value.selectedRow.players]
   } else {
     roomMates.value = []
@@ -372,7 +344,7 @@ watch(showRoomMates, (newVal) => {
 watch(
   () => hotelGuestListTableRef.value.selectedRow,
   (value) => {
-    if (value?.players?.length > 0 && showRoomMates.value) {
+    if (value?.players?.length > 0) {
       roomMates.value = [...value.players]
     } else {
       roomMates.value = []
@@ -545,8 +517,8 @@ const onSelectDate = (val) => {
               <legend class="text-subtitle2">{{ $t('filter') }}</legend>
               <div class="row full-width">
                 <date-time-picker
-                  btnClass="col-12 full-width"
-                  class="col-12 full-width"
+                  btnClass="col-12 q-ml-sm"
+                  class="col-12"
                   @selected-date="onSelectDate"
                 />
                 <div class="col-12">
@@ -591,12 +563,53 @@ const onSelectDate = (val) => {
                 />
               </legend>
               <div class="masonry-grid">
-                <div class="masonry-item" v-for="(roomMate, index) in roomMates" :key="index">
+                <div
+                  class="masonry-item"
+                  v-for="(roomMate, index) in roomMates.filter((p) => p.roomOwner === true)"
+                  :key="index"
+                >
                   <q-img
                     :src="$playerPhotoUrl + roomMate.playerId"
                     class="player-photo"
                     fit="cover"
                     error-src="/assets/no-photo.png"
+                  >
+                    <div class="absolute" style="top: 0px; right: 0px; padding: 0px !important">
+                      <q-btn
+                        dense
+                        unelevated
+                        color="positive"
+                        icon="done"
+                        size="9px"
+                        square
+                        v-if="roomMate.roomOwner"
+                      />
+                    </div>
+                    <div
+                      class="absolute-bottom"
+                      style="
+                        max-height: 20px !important;
+                        padding: 0px !important;
+                        background-color: rgba(0, 0, 0, 0.5) !important;
+                      "
+                    >
+                      <div class="text-caption text-center text-capitalize">
+                        {{ roomMate.playerFullName }}
+                      </div>
+                    </div>
+                  </q-img>
+                </div>
+                <div
+                  class="masonry-item"
+                  v-for="(roomMate, index) in roomMates.filter((p) => p.roomOwner === false)"
+                  :key="index"
+                >
+                  <q-img
+                    :src="$playerPhotoUrl + roomMate.playerId"
+                    class="player-photo"
+                    fit="cover"
+                    error-src="/assets/no-photo.png"
+                    v-if="showRoomMates"
                   >
                     <div class="absolute" style="top: 0px; right: 0px; padding: 0px !important">
                       <q-btn
@@ -631,7 +644,7 @@ const onSelectDate = (val) => {
               <legend class="text-subtitle2">{{ $t('roomCount') }}</legend>
               <div class="col-12 full-width full-height flex flex-center">
                 <div class="room-count-box cursor-pointer" @click="onCliclOpenRoomCountDialog">
-                  1
+                  {{ roomCountTotal }}
                 </div>
               </div>
             </fieldset>

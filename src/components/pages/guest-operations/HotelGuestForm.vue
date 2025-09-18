@@ -116,10 +116,10 @@
                 </div>
                 <q-input
                   dense
-                  type="text"
+                  type="textarea"
+                  autogrow
                   v-model="hotelGuestFormValues.note"
                   outlined
-                  class="super-small"
                   bg-color="white"
                   :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                 />
@@ -130,10 +130,10 @@
                 </div>
                 <q-input
                   dense
-                  type="text"
+                  type="textarea"
+                  autogrow
                   v-model="hotelGuestFormValues.remark"
                   outlined
-                  class="super-small"
                   bg-color="white"
                   :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                 />
@@ -304,6 +304,7 @@
                   option-value="value"
                   bg-color="white"
                   :readonly="hotelGuestFormValues.isWalkIn"
+                  clearable
                 />
               </div>
               <div class="">
@@ -584,13 +585,6 @@
                       ({{ expense.currencyName }})
                       <span class="q-ml-sm">{{ expense.expenseTypeName }} <span>*</span></span>
                     </div>
-                    <div
-                      class="col-6 text-right text-subtitle2 text-grey-8 flex content-center items-center justify-end"
-                      v-if="expense.playerName"
-                    >
-                      <q-icon name="o_person" size="16px" color="grey-8" />
-                      {{ expense.playerName }}
-                    </div>
                   </div>
                   <div class="row q-gutter-x-sm">
                     <div class="col">
@@ -663,10 +657,13 @@
             <div class="q-mt-sm bg-grey-1" style="border-top: 1px solid #e0e0e0">
               <div class="text-right q-pa-sm">
                 <div
-                  class="text-subtitle1 text-weight-bold text-green-8 flex content-center items-center justify-end"
+                  class="text-subtitle1 text-weight-bold flex content-center items-center justify-end"
                 >
-                  {{ $t('totalAmount') }}:
-                  <span class="q-ml-sm">{{ formatPrice(calculateGrandTotal()) }}</span>
+                  <span class="text-green-8">
+                    {{ $t('totalAmount') }}:
+                    <span class="q-ml-sm q-mr-xs">{{ formatPrice(calculateGrandTotal) }}</span>
+                  </span>
+                  <span class="text-grey-8"> ({{ getDefaultCurrency.name }})</span>
                 </div>
               </div>
             </div>
@@ -703,8 +700,11 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue'
+import { computedAsync } from '@vueuse/core'
+
 import { storeToRefs } from 'pinia'
 import { useGuestManagementStore } from 'src/stores/guest-management-store'
+import { useCurrencyStore } from 'src/stores/currency-store'
 import { date, useQuasar } from 'quasar'
 import { formatPrice } from 'src/helpers/helpers'
 const emits = defineEmits(['close'])
@@ -717,6 +717,8 @@ const props = defineProps({
 })
 
 const guestManagementStore = useGuestManagementStore()
+const currencyStore = useCurrencyStore()
+const { getDefaultCurrency } = storeToRefs(currencyStore)
 const { flightTicketTypes, roomTypes, visitorCategories, expenseParameters } =
   storeToRefs(guestManagementStore)
 const $q = useQuasar()
@@ -1201,15 +1203,21 @@ const onDeleteExpense = async (expense, index) => {
   }
 }
 
-const calculateGrandTotal = () => {
-  if (!hotelGuestFormValues.value.expenses?.length) return '0.00'
-
-  const total = hotelGuestFormValues.value.expenses.reduce((sum, expense) => {
-    return sum + parseFloat(expense.amount || 0)
+const calculateGrandTotal = computedAsync(async () => {
+  const totalAmountInCasinoCurrency = hotelGuestFormValues.value.expenses.reduce((sum, expense) => {
+    return sum + parseFloat(expense.amountInCasinoCurrency || 0)
   }, 0)
-
-  return total.toFixed(2)
-}
+  let exchangeTotal = 0
+  for (let index = 0; index < hotelGuestFormValues.value.expenses.length; index++) {
+    const convertedAmount = await currencyStore.getConvertedAmount(
+      hotelGuestFormValues.value.expenses[index].currencyId,
+      getDefaultCurrency.value.id,
+      hotelGuestFormValues.value.expenses[index].amount,
+    )
+    exchangeTotal += convertedAmount
+  }
+  return hotelGuestFormValues.value?.id ? totalAmountInCasinoCurrency : exchangeTotal
+})
 const setCheckInAndCheckOutDates = () => {
   let checkInDate = new Date()
   checkInDate.setHours(14, 0, 0, 0)

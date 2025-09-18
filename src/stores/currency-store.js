@@ -403,7 +403,6 @@ export const useCurrencyStore = defineStore('currencyStore', {
         amount,
       }
       const { data } = await exchangeRateService.getConvertedAmount(payload)
-
       return data
     },
     async getLatestRates(fromCurrencyId) {
