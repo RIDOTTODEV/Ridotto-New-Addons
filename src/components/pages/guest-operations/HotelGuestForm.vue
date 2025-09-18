@@ -1,9 +1,9 @@
 <template>
   <div class="col-12">
-    <q-form @submit="onSubmit" class="row">
-      <div class="col-3 q-pa-sm">
+    <q-form @submit="onSubmit" class="row q-mb-lg">
+      <div class="col-3 q-pa-sm flex flex-col justify-evenly">
         <fieldset name="Player" class="full-width">
-          <legend class="flex content-center items-center text-subtitle2 text-grey-9">
+          <legend class="flex content-center items-center text-subtitle2 text-grey-9 q-ml-sm">
             <q-icon name="o_person" size="xs" color="grey-9" class="q-mr-sm" />
             {{ $t('guestName') }}
           </legend>
@@ -19,32 +19,8 @@
             />
           </div>
         </fieldset>
-
-        <fieldset name="VisitorCategory" class="q-mt-sm">
-          <legend class="flex content-center items-center text-subtitle2 text-grey-9">
-            <q-icon name="o_category" size="xs" color="grey-9" class="q-mr-sm" />
-            {{ $t('visitorCategory') }}
-          </legend>
-          <div class="row">
-            <div class="col-12 q-pa-sm">
-              <q-select
-                v-model="hotelGuestFormValues.players[0].playerCategoryId"
-                outlined
-                dense
-                class="super-small"
-                :options="visitorCategories"
-                map-options
-                emit-value
-                option-label="name"
-                option-value="id"
-                @update:model-value="onSelectVisitorCategory"
-              />
-            </div>
-          </div>
-        </fieldset>
-
-        <fieldset name="RoomMate" class="q-mt-sm">
-          <legend class="flex content-center items-center text-subtitle2 text-grey-9">
+        <fieldset name="RoomMate" class="full-width">
+          <legend class="flex content-center items-center text-subtitle2 text-grey-9 q-ml-sm">
             <q-icon name="o_person" size="xs" color="grey-9" class="q-mr-sm" />
             {{ $t('roomMate') }}
           </legend>
@@ -66,62 +42,56 @@
               />
             </div>
             <div
-              class="col-12 q-mt-sm"
+              class="col-12 q-pa-sm"
               v-if="hotelGuestFormValues.players.filter((p) => !p.roomOwner)?.length >= 1"
             >
               <q-list bordered separator>
-                <div
+                <q-item
                   v-for="player in hotelGuestFormValues.players.filter((p) => !p.roomOwner)"
                   :key="player.playerId"
+                  class="q-py-none q-px-sm bg-white"
+                  dense
                 >
-                  <q-item v-if="player.playerId" class="q-py-sm q-px-sm bg-white">
-                    <q-item-section>
-                      {{ player.playerFullName }}
-                    </q-item-section>
-                    <q-item-section side>
-                      <q-btn
-                        flat
-                        dense
-                        round
-                        color="negative"
-                        icon="o_delete_forever"
-                        @click="deleteRoomMate(player)"
-                      />
-                    </q-item-section>
-                  </q-item>
-                </div>
+                  <q-item-section v-if="player.playerId">
+                    {{ player.playerFullName }}
+                  </q-item-section>
+                  <q-item-section side v-if="player.playerId">
+                    <q-btn
+                      flat
+                      dense
+                      round
+                      color="negative"
+                      icon="o_delete_forever"
+                      @click="deleteRoomMate(player)"
+                    />
+                  </q-item-section>
+                </q-item>
               </q-list>
             </div>
           </div>
         </fieldset>
-        <!--         <fieldset name="Others" class="q-mt-sm">
-          <legend class="flex content-center items-center text-subtitle2 text-grey-9">
-            <q-icon name="o_settings" size="xs" color="grey-9" class="q-mr-sm" />
-            {{ $t('otherOptions') }}
-          </legend>
-
-          <div class="row">
-            <q-checkbox v-model="hotelGuestFormValues.phone" :label="$t('phone')" class="col-6" />
-            <q-checkbox
-              v-model="hotelGuestFormValues.minibar"
-              :label="$t('minibar')"
-              class="col-6"
-            />
-            <q-checkbox v-model="hotelGuestFormValues.spa" :label="$t('spa')" class="col-6" />
-            <q-checkbox v-model="hotelGuestFormValues.fb" :label="$t('fb')" class="col-6" />
-            <q-checkbox
-              v-model="hotelGuestFormValues.hotelFlightInfo.expenseUse"
-              :label="$t('expenseUse')"
-              class="col-12"
-            />
-          </div>
-        </fieldset> -->
-        <fieldset name="Status" class="q-mt-sm">
-          <legend class="flex content-center items-center text-subtitle2 text-grey-9">
-            <q-icon name="o_done" size="xs" color="grey-9" class="q-mr-sm" />
-            {{ $t('status') }}
+        <fieldset name="baseForm" class="full-width">
+          <legend class="flex content-center items-center text-subtitle2 text-grey-9 q-ml-sm">
+            <q-icon name="o_category" size="xs" color="grey-9" class="q-mr-sm" />
+            {{ $t('Details') }}
           </legend>
           <div class="row">
+            <div class="col-12 q-pa-sm">
+              <q-select
+                v-model="hotelGuestFormValues.playerCategoryId"
+                outlined
+                dense
+                class="super-small"
+                :options="visitorCategories"
+                map-options
+                emit-value
+                option-label="name"
+                option-value="id"
+                @update:model-value="onSelectVisitorCategory"
+                clearable
+                :label="$t('visitorCategory')"
+              />
+            </div>
             <div class="col-12 q-pa-sm">
               <q-select
                 v-model="hotelGuestFormValues.status"
@@ -134,14 +104,47 @@
                 outlined
                 dense
                 bg-color="white"
+                hide-bottom-space
+                class="super-small"
+                :label="$t('status')"
               />
+            </div>
+            <div class="row">
+              <div class="col-12 q-pa-sm">
+                <div class="text-subtitle2 text-grey-8 flex content-center items-center">
+                  {{ $t('note') }}
+                </div>
+                <q-input
+                  dense
+                  type="text"
+                  v-model="hotelGuestFormValues.note"
+                  outlined
+                  class="super-small"
+                  bg-color="white"
+                  :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
+                />
+              </div>
+              <div class="col-12 q-pa-sm">
+                <div class="text-subtitle2 text-grey-8 flex content-center items-center">
+                  {{ $t('remark') }}
+                </div>
+                <q-input
+                  dense
+                  type="text"
+                  v-model="hotelGuestFormValues.remark"
+                  outlined
+                  class="super-small"
+                  bg-color="white"
+                  :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
+                />
+              </div>
             </div>
           </div>
         </fieldset>
       </div>
       <div class="col-5 q-pa-sm">
-        <fieldset name="ReservationDetails" class="reservation-details-fieldset">
-          <legend class="flex content-center items-center text-subtitle2 text-grey-9">
+        <fieldset name="ReservationDetails" class="reservation-details-fieldset full-height">
+          <legend class="flex content-center items-center text-subtitle2 text-grey-9 q-ml-md">
             <q-icon name="o_hotel" size="sm" color="grey-9" class="q-mr-sm" />
             {{ $t('reservationDetails') }}
             <q-btn
@@ -186,7 +189,7 @@
               </div>
 
               <div class="">
-                <div class="text-subtitle2 q-mb-xs text-grey-8 flex content-center items-center">
+                <div class="text-subtitle2 text-grey-8 flex content-center items-center">
                   <q-icon name="o_calendar_month" size="xs" color="grey-9" />
                   {{ $t('checkOut') }}
                 </div>
@@ -241,27 +244,6 @@
                   :readonly="hotelGuestFormValues.isWalkIn"
                 />
               </div>
-
-              <!--               <div class="">
-                <div class="text-subtitle2 text-grey-8 flex content-center items-center">
-                  {{ $t('boardType') }}
-                </div>
-                <q-select
-                  v-model="hotelGuestFormValues.hotelFlightInfo.boardType"
-                  :options="boardTypes"
-                  outlined
-                  dense
-                  class="super-small"
-                  :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                  map-options
-                  emit-value
-                  option-label="label"
-                  option-value="value"
-                  bg-color="white"
-                  clearable
-                  :readonly="hotelGuestFormValues.isWalkIn"
-                />
-              </div> -->
               <div class="">
                 <div class="row">
                   <div class="col-12 q-pa-xs flex justify-start content-center items-center">
@@ -304,43 +286,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-6 q-pa-sm q-gutter-sm q-mt-md">
-              <div class="flex items-center content-center justify-between">
-                <div class="row items-center content-center">
-                  <q-checkbox
-                    v-model="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
-                    dense
-                    outlined
-                    class="super-small"
-                    :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                    hide-bottom-space
-                    bg-color="white"
-                    :true-value="true"
-                    :false-value="false"
-                    @update:model-value="onChangeIsWalkIn"
-                  />
-                  <div class="text-subtitle2 text-grey-8 q-ml-sm">
-                    {{ $t('isWalkIn') }}
-                  </div>
-                </div>
-                <div class="row items-center content-center">
-                  <q-checkbox
-                    v-model="hotelGuestFormValues.hotelFlightInfo.isTransfer"
-                    dense
-                    outlined
-                    class="super-small"
-                    :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                    hide-bottom-space
-                    bg-color="white"
-                    :true-value="true"
-                    :false-value="false"
-                    @update:model-value="onChangeIsWalkIn"
-                  />
-                  <div class="text-subtitle2 text-grey-8 q-ml-sm">
-                    {{ $t('isTransfer') }}
-                  </div>
-                </div>
-              </div>
+            <div class="col-6 q-pa-sm q-gutter-sm">
               <div class="">
                 <div class="text-subtitle2 text-grey-8 flex content-center items-center">
                   {{ $t('ticketType') }}
@@ -360,9 +306,25 @@
                   :readonly="hotelGuestFormValues.isWalkIn"
                 />
               </div>
-              <div class=" ">
-                <div class="row q-gutter-x-sm">
-                  <div class="col">
+              <div class="">
+                <div class="text-subtitle2 text-grey-8 flex content-center items-center">
+                  {{ $t('ticketPrice') }}
+                </div>
+                <q-input
+                  v-model.number="hotelGuestFormValues.hotelFlightInfo.flightTicketPrice"
+                  type="number"
+                  dense
+                  outlined
+                  class="super-small"
+                  :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
+                  hide-bottom-space
+                  bg-color="white"
+                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
+                />
+              </div>
+              <div class="q-gutter-sm">
+                <div class="row">
+                  <div class="col q-mr-xs">
                     <div class="text-subtitle2 text-grey-8 flex content-center items-center">
                       {{ $t('from') }}
                     </div>
@@ -377,7 +339,7 @@
                       :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                     />
                   </div>
-                  <div class="col">
+                  <div class="col q-ml-xs">
                     <div class="text-subtitle2 text-grey-8 flex content-center items-center">
                       {{ $t('to') }}
                     </div>
@@ -393,8 +355,8 @@
                     />
                   </div>
                 </div>
-                <div class="row q-gutter-x-sm">
-                  <div class="col">
+                <div class="row">
+                  <div class="col q-mr-xs">
                     <div class="text-subtitle2 text-grey-8 flex content-center items-center">
                       {{ $t('pnr') }}
                     </div>
@@ -409,7 +371,7 @@
                       :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                     />
                   </div>
-                  <div class="col">
+                  <div class="col q-ml-xs">
                     <div class="text-subtitle2 text-grey-8 flex content-center items-center">
                       {{ $t('pnr2') }}
                     </div>
@@ -427,39 +389,46 @@
                 </div>
               </div>
 
-              <div class="">
-                <div class="text-subtitle2 text-grey-8 flex content-center items-center">
-                  {{ $t('flightTicketPrice') }}
-                </div>
-                <q-input
-                  v-model.number="hotelGuestFormValues.hotelFlightInfo.flightTicketPrice"
-                  type="number"
-                  dense
-                  outlined
-                  class="super-small"
-                  :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                  hide-bottom-space
-                  bg-color="white"
-                  :readonly="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
-                />
-              </div>
-              <div class="flex items-center content-center">
-                <div class="row items-center content-center q-mt-sm">
-                  <q-rating
-                    v-model="hotelGuestFormValues.hotelFlightInfo.isBusiness"
-                    :max="1"
-                    icon="star_border"
-                    color="deep-purple"
-                    class="super-small q-mr-sm"
-                    icon-selected="star"
-                    size="24px"
+              <div class="flex items-center content-center justify-between">
+                <div class="row items-center content-center">
+                  <q-checkbox
+                    v-model="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
+                    class="super-small"
                     :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                     hide-bottom-space
                     bg-color="white"
+                    :true-value="true"
+                    :false-value="false"
+                    @update:model-value="onChangeIsWalkIn"
                   />
-                  <div class="text-subtitle2 text-grey-8">
-                    {{ $t('isBusiness') }}
+                  <div class="text-subtitle2 text-grey-8 q-ml-sm">
+                    {{ $t('walkIn') }}
                   </div>
+                </div>
+                <div class="row items-center content-center">
+                  <q-checkbox
+                    v-model="hotelGuestFormValues.hotelFlightInfo.isTransfer"
+                    class="super-small"
+                    :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
+                    hide-bottom-space
+                    bg-color="white"
+                    :true-value="true"
+                    :false-value="false"
+                    @update:model-value="onChangeIsWalkIn"
+                  />
+                  <div class="text-subtitle2 text-grey-8 q-ml-sm">
+                    {{ $t('transfer') }}
+                  </div>
+                </div>
+              </div>
+              <div class="row items-center content-center q-mt-sm">
+                <q-toggle
+                  v-model="hotelGuestFormValues.hotelFlightInfo.isBusiness"
+                  color="green"
+                  :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
+                />
+                <div class="text-subtitle2 text-grey-8">
+                  {{ $t('isBusiness') }}
                 </div>
               </div>
               <div class="q-mb-sm" v-if="isEditingReservationDetails && hotelGuestFormValues.id">
@@ -483,39 +452,6 @@
                       }
                     }
                   "
-                />
-              </div>
-            </div>
-
-            <div class="col-12 row">
-              <div class="col-6 q-pa-sm">
-                <div class="text-subtitle2 text-grey-8 flex content-center items-center">
-                  {{ $t('note') }}
-                </div>
-                <q-input
-                  v-model="hotelGuestFormValues.note"
-                  outlined
-                  class="custom-textarea"
-                  type="textarea"
-                  rows="6"
-                  autogrow
-                  bg-color="white"
-                  :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
-                />
-              </div>
-              <div class="col-6 q-pa-sm">
-                <div class="text-subtitle2 text-grey-8 flex content-center items-center">
-                  {{ $t('remark') }}
-                </div>
-                <q-input
-                  v-model="hotelGuestFormValues.remark"
-                  outlined
-                  class="custom-textarea"
-                  type="textarea"
-                  rows="6"
-                  autogrow
-                  bg-color="white"
-                  :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                 />
               </div>
             </div>
@@ -547,15 +483,14 @@
         </fieldset>
       </div>
       <div class="col-4 q-pa-sm">
-        <fieldset name="ExpenseParameters" class="expense-parameters-fieldset">
-          <legend class="flex content-center items-center text-subtitle2 text-grey-9">
+        <fieldset name="ExpenseParameters" class="expense-parameters-fieldset full-height">
+          <legend class="flex content-center items-center text-subtitle2 text-grey-9 q-ml-md">
             <q-icon name="o_receipt" size="sm" color="grey-9" />
             {{ $t('expenseParameters') }}
           </legend>
-
-          <div class="q-pa-sm">
+          <div class="q-pa-sm bg-grey-1 shadow-1 q-ma-xs">
             <div class="row">
-              <div class="col-8">
+              <div class="col-12">
                 <div class="text-subtitle2 text-grey-8 flex content-center items-center">
                   {{ $t('expenseParameter') }}
                 </div>
@@ -568,29 +503,14 @@
                   option-label="name"
                   clearable
                   @update:model-value="onSelectExpenseParameter"
+                  bg-color="white"
                 />
               </div>
-              <div class="col-4 flex content-end items-end">
-                <q-btn
-                  dense
-                  icon="add"
-                  color="blue-grey-8"
-                  size="14px"
-                  :label="$t('addExpense')"
-                  outline
-                  @click="addExpenseToList"
-                  unelevated
-                  no-caps
-                  no-wrap
-                  class="q-ml-sm"
-                >
-                </q-btn>
-              </div>
             </div>
-            <div class="row q-gutter-x-sm">
-              <div class="col">
+            <div class="row q-gutter-x-sm q-mt-sm">
+              <div class="col-1">
                 <div class="text-subtitle2 text-grey-8 flex content-center items-center">
-                  {{ $t('quantity') }}
+                  {{ $t('qty') }}
                 </div>
                 <q-input
                   v-model.number="newExpenseEntry.quantity"
@@ -599,6 +519,7 @@
                   outlined
                   class="super-small"
                   min="1"
+                  bg-color="white"
                 />
               </div>
               <div class="col">
@@ -612,6 +533,8 @@
                   dense
                   outlined
                   class="super-small"
+                  bg-color="white"
+                  :prepend="newExpenseEntry.currencyName"
                 />
               </div>
               <div class="col">
@@ -632,17 +555,34 @@
                       }
                     }
                   "
+                  :prepend="newExpenseEntry.currencyName"
+                  bg-color="white"
                 />
+              </div>
+              <div class="col-2 flex content-end items-end">
+                <q-btn
+                  dense
+                  icon="add"
+                  color="green-8"
+                  size="14px"
+                  :label="$t('save')"
+                  @click="addExpenseToList"
+                  unelevated
+                  no-caps
+                  no-wrap
+                >
+                </q-btn>
               </div>
             </div>
           </div>
-          <q-scroll-area style="height: 500px; width: 100%">
+          <q-scroll-area style="height: 300px; width: 100%">
             <div class="row" v-for="(expense, index) in hotelGuestFormValues.expenses" :key="index">
               <div class="row q-pa-sm">
                 <div class="bg-grey-1 q-card--bordered q-pa-xs">
                   <div class="row">
                     <div class="col-6 text-subtitle2 text-negative" v-if="expense.expenseTypeName">
-                      {{ expense.expenseTypeName }} <span>*</span>
+                      ({{ expense.currencyName }})
+                      <span class="q-ml-sm">{{ expense.expenseTypeName }} <span>*</span></span>
                     </div>
                     <div
                       class="col-6 text-right text-subtitle2 text-grey-8 flex content-center items-center justify-end"
@@ -720,8 +660,8 @@
             </div>
           </q-scroll-area>
           <div v-if="hotelGuestFormValues.expenses?.length">
-            <div class="q-mt-sm q-pa-sm rounded-borders">
-              <div class="text-right">
+            <div class="q-mt-sm bg-grey-1" style="border-top: 1px solid #e0e0e0">
+              <div class="text-right q-pa-sm">
                 <div
                   class="text-subtitle1 text-weight-bold text-green-8 flex content-center items-center justify-end"
                 >
@@ -733,7 +673,17 @@
           </div>
         </fieldset>
       </div>
-      <div class="col-12 q-mt-md text-right">
+      <div class="col-12 q-pa-sm text-left q-mt-sm">
+        <q-btn
+          unelevated
+          icon="save"
+          :color="hotelGuestFormValues.id ? 'primary' : 'deep-purple'"
+          size="md"
+          :label="hotelGuestFormValues.id ? $t('update') : $t('save')"
+          class="col-12"
+          type="submit"
+          no-caps
+        />
         <q-btn
           unelevated
           icon="close"
@@ -745,16 +695,6 @@
           flat
           no-caps
           @click="emits('close')"
-        />
-        <q-btn
-          unelevated
-          icon="save"
-          color="deep-purple"
-          size="md"
-          :label="$t('save')"
-          class="col-12"
-          type="submit"
-          no-caps
         />
       </div>
     </q-form>
@@ -777,13 +717,8 @@ const props = defineProps({
 })
 
 const guestManagementStore = useGuestManagementStore()
-const {
-  flightTicketTypes,
-  // boardTypes,
-  roomTypes,
-  visitorCategories,
-  expenseParameters,
-} = storeToRefs(guestManagementStore)
+const { flightTicketTypes, roomTypes, visitorCategories, expenseParameters } =
+  storeToRefs(guestManagementStore)
 const $q = useQuasar()
 const statuses = ref([])
 onMounted(async () => {
@@ -792,40 +727,42 @@ onMounted(async () => {
   })
 })
 const hotelGuestFormValues = ref({
+  id: null,
   players: [
     {
       hotelReservationId: 0,
       playerId: null,
       playerFullName: '',
-      playerCategoryId: null,
       playerCategoryName: null,
       roomOwner: false,
     },
   ],
-  status: 'Pending',
   hotelFlightInfo: {
-    checkIn: '',
-    checkOut: '',
+    isWalkIn: false,
+    isTransfer: false,
+    expenseDirection: 'OneForAll',
+    checkIn: null,
+    checkOut: null,
     dayCount: 1,
     roomTypeId: null,
-    roomType: '',
+    roomType: null,
     roomNo: null,
-    boardType: 'BB',
+    boardType: null,
     roomPrice: 0,
     roomTotalPrice: 0,
-    ticketType: 'Casino',
-    from: '',
-    to: '',
-    pnr: '',
-    pnr2: '',
+    flight: null,
+    ticketType: null,
+    from: null,
+    to: null,
+    pnr: null,
+    pnr2: null,
     flightTicketPrice: 0,
-    isBusiness: 0,
+    isBusiness: false,
   },
+  playerCategoryId: null,
+  status: 'Pending',
   note: '',
   remark: '',
-  phone: true,
-  isWalkIn: false,
-  isTransfer: false,
   expenses: [],
 })
 const roomMateRef = ref({
@@ -835,26 +772,38 @@ const roomMateRef = ref({
 const isEditingReservationDetails = ref(false)
 const onSubmit = async () => {
   let data = { ...hotelGuestFormValues.value }
-  data.hotelFlightInfo.isBusiness = data.hotelFlightInfo.isBusiness === 1 ? true : false
+  /*   if (hotelGuestFormValues.value.hotelFlightInfo.isWalkIn) {
+    data.hotelFlightInfo.flight = null
+    data.hotelFlightInfo.ticketType = null
+    data.hotelFlightInfo.from = null
+    data.hotelFlightInfo.to = null
+    data.hotelFlightInfo.flightTicketPrice = 0
+  } */
   if (!data.id) {
     const response = await guestManagementStore.createHotelReservation(data)
-    if (response) {
+    if (response.status === 200) {
       $q.notify({
         message: 'Rezervasyon başarıyla oluşturuldu',
         color: 'positive',
       })
       emits('close')
+    } else {
+      $q.notify({
+        message: 'Rezervasyon oluşturulurken bir hata oluştu',
+        color: 'negative',
+      })
     }
   } else {
+    const visitorCategory = visitorCategories.value.find(
+      (item) => item.id === data?.playerCategoryId,
+    )
     const updateData = {
       hotelReservationId: data.id,
       status: data.status || 'Pending',
       note: data.note || '',
       remark: data.remark || '',
-      phone: data.phone || false,
-      minibar: data.minibar || false,
-      spa: data.spa || false,
-      fb: data.fb || false,
+      playerCategoryName: visitorCategory?.name || '',
+      playerCategoryId: visitorCategory?.id || null,
     }
     const response = await guestManagementStore.updateHotelReservation(updateData)
     if (response) {
@@ -948,11 +897,16 @@ const onClearGuest = async () => {
 }
 
 const onSelectVisitorCategory = (args) => {
-  const category = visitorCategories.value.find((item) => +item.id === +args)
-  if (hotelGuestFormValues.value.players && hotelGuestFormValues.value.players.length) {
-    hotelGuestFormValues.value.players.forEach((player) => {
-      player.playerCategoryName = category.name || ''
-      player.playerCategoryId = category.id || null
+  if (args) {
+    const category = visitorCategories.value.find((item) => +item.id === +args)
+    if (hotelGuestFormValues.value.players && hotelGuestFormValues.value.players.length) {
+      hotelGuestFormValues.value.players.forEach((player) => {
+        player.playerCategoryName = category.name || ''
+      })
+    }
+  } else {
+    hotelGuestFormValues.value.players.map((player) => {
+      player.playerCategoryName = null
     })
   }
 }
@@ -1085,6 +1039,9 @@ const updateReservationDetails = async () => {
     hotelReservationId: hotelGuestFormValues.value.id,
     flightTicketReturnPrice: hotelGuestFormValues.value.flightTicketReturnPrice,
     hotelFlightInfo: {
+      isWalkIn: hotelGuestFormValues.value.hotelFlightInfo.isWalkIn,
+      isTransfer: hotelGuestFormValues.value.hotelFlightInfo.isTransfer,
+      expenseDirection: hotelGuestFormValues.value.hotelFlightInfo.expenseDirection,
       checkIn: hotelGuestFormValues.value.hotelFlightInfo.checkIn,
       checkOut: hotelGuestFormValues.value.hotelFlightInfo.checkOut,
       dayCount: hotelGuestFormValues.value.hotelFlightInfo.dayCount,
@@ -1101,9 +1058,15 @@ const updateReservationDetails = async () => {
       pnr2: hotelGuestFormValues.value.hotelFlightInfo.pnr2,
       flightTicketPrice: hotelGuestFormValues.value.hotelFlightInfo.flightTicketPrice,
       isBusiness: hotelGuestFormValues.value.hotelFlightInfo.isBusiness === 1 ? true : false,
-      expenseUse: hotelGuestFormValues.value.hotelFlightInfo.expenseUse,
     },
   }
+  /*   if (hotelGuestFormValues.value.hotelFlightInfo.isWalkIn) {
+    formData.hotelFlightInfo.flight = null
+    formData.hotelFlightInfo.ticketType = null
+    formData.hotelFlightInfo.from = null
+    formData.hotelFlightInfo.to = null
+    formData.hotelFlightInfo.flightTicketPrice = 0
+  } */
   const response = await guestManagementStore.updateHotelFlightInfoNew(formData)
   if (response) {
     fetchReservationExpenses(hotelGuestFormValues.value.id)
@@ -1113,6 +1076,13 @@ const updateReservationDetails = async () => {
       type: 'positive',
       position: 'bottom-right',
     })
+    /*     if (hotelGuestFormValues.value.hotelFlightInfo.isWalkIn) {
+      hotelGuestFormValues.value.hotelFlightInfo.flight = null
+      hotelGuestFormValues.value.hotelFlightInfo.ticketType = null
+      hotelGuestFormValues.value.hotelFlightInfo.from = null
+      hotelGuestFormValues.value.hotelFlightInfo.to = null
+      hotelGuestFormValues.value.hotelFlightInfo.flightTicketPrice = 0
+    } */
   } else {
     $q.loading.hide()
     $q.notify({
@@ -1121,7 +1091,7 @@ const updateReservationDetails = async () => {
       position: 'bottom-right',
     })
   }
-  //emits('close')
+  emits('close')
 }
 
 const selectedExpenseParameter = ref(null)
@@ -1130,6 +1100,8 @@ const newExpenseEntry = ref({
   quantity: 1,
   value: 0,
   amount: 0,
+  currencyName: '',
+  currencyId: null,
 })
 
 const addExpenseToList = async () => {
@@ -1150,6 +1122,8 @@ const addExpenseToList = async () => {
         quantity: newExpenseEntry.value.quantity,
         value: newExpenseEntry.value.value,
         amount: newExpenseEntry.value.amount,
+        currencyName: newExpenseEntry.value.currencyName,
+        currencyId: newExpenseEntry.value.currencyId,
       },
     }
 
@@ -1183,11 +1157,15 @@ const addExpenseToList = async () => {
       quantity: newExpenseEntry.value.quantity,
       value: newExpenseEntry.value.value,
       amount: newExpenseEntry.value.amount,
+      currencyName: newExpenseEntry.value.currencyName,
+      currencyId: newExpenseEntry.value.currencyId,
     })
     newExpenseEntry.value.quantity = 1
     newExpenseEntry.value.value = 0
     newExpenseEntry.value.amount = 0
     selectedExpenseParameter.value = null
+    newExpenseEntry.value.currencyId = null
+    newExpenseEntry.value.currencyName = ''
   }
 }
 
@@ -1250,35 +1228,36 @@ const setFormValues = async () => {
           hotelReservationId: 0,
           playerId: null,
           playerFullName: '',
-          playerCategoryId: null,
           playerCategoryName: null,
           roomOwner: false,
         },
       ],
-      status: 'Pending',
       hotelFlightInfo: {
-        checkIn: '',
-        checkOut: '',
+        isWalkIn: false,
+        isTransfer: false,
+        expenseDirection: 'OneForAll',
+        checkIn: null,
+        checkOut: null,
         dayCount: 1,
         roomTypeId: null,
-        roomType: '',
+        roomType: null,
         roomNo: null,
-        boardType: 'BB',
+        boardType: null,
         roomPrice: 0,
         roomTotalPrice: 0,
-        ticketType: 'Casino',
-        from: '',
-        to: '',
-        pnr: '',
-        pnr2: '',
+        flight: null,
+        ticketType: null,
+        from: null,
+        to: null,
+        pnr: null,
+        pnr2: null,
         flightTicketPrice: 0,
-        isBusiness: 0,
+        isBusiness: false,
       },
+      playerCategoryId: null,
+      status: 'Pending',
       note: '',
       remark: '',
-      phone: true,
-      isWalkIn: false,
-      isTransfer: false,
       expenses: [],
     }
     setCheckInAndCheckOutDates()
@@ -1314,14 +1293,37 @@ const setFormValues = async () => {
         },
         ...props.formValues.players,
       ]
+
   hotelGuestFormValues.value = {
-    ...hotelGuestFormValues.value,
-    ...props.formValues,
-    players: players,
+    id: props.formValues.id,
     hotelFlightInfo: {
-      ...props.formValues,
-      isBusiness: props.formValues.isBusiness === true ? 1 : 0,
+      isWalkIn: props.formValues.isWalkIn,
+      isTransfer: props.formValues.isTransfer,
+      expenseDirection: props.formValues.expenseDirection,
+      checkIn: props.formValues.checkIn,
+      checkOut: props.formValues.checkOut,
+      dayCount: props.formValues.dayCount,
+      roomTypeId: props.formValues.roomTypeId,
+      roomType: props.formValues.roomType,
+      roomNo: props.formValues.roomNo,
+      boardType: props.formValues.boardType,
+      roomPrice: props.formValues.roomPrice,
+      roomTotalPrice: props.formValues.roomTotalPrice,
+      flight: props.formValues.flight,
+      ticketType: props.formValues.ticketType,
+      from: props.formValues.from,
+      to: props.formValues.to,
+      pnr: props.formValues.pnr,
+      pnr2: props.formValues.pnr2,
+      flightTicketPrice: props.formValues.flightTicketPrice,
+      isBusiness: props.formValues.isBusiness,
     },
+    playerCategoryId: props.formValues.playerCategoryId,
+    status: props.formValues.status,
+    note: props.formValues.note,
+    remark: props.formValues.remark,
+    players: players,
+    expenses: [],
   }
   await fetchReservationExpenses(props.formValues.id)
 }
@@ -1385,6 +1387,8 @@ const onSelectExpenseParameter = () => {
     newExpenseEntry.value.quantity = 1
     newExpenseEntry.value.value = selectedExpenseParameter.value.amount
     newExpenseEntry.value.amount = selectedExpenseParameter.value.amount
+    newExpenseEntry.value.currencyName = selectedExpenseParameter.value.currencyName
+    newExpenseEntry.value.currencyId = selectedExpenseParameter.value.currencyId
   }
 }
 
@@ -1415,16 +1419,7 @@ watch(
   },
 )
 
-const onChangeIsWalkIn = () => {
-  if (hotelGuestFormValues.value.isWalkIn) {
-    hotelGuestFormValues.value.hotelFlightInfo.flight = null
-    hotelGuestFormValues.value.hotelFlightInfo.ticketType = null
-    hotelGuestFormValues.value.hotelFlightInfo.from = null
-    hotelGuestFormValues.value.hotelFlightInfo.to = null
-
-    hotelGuestFormValues.value.hotelFlightInfo.flightTicketPrice = 0
-  }
-}
+const onChangeIsWalkIn = () => {}
 </script>
 
 <style scoped lang="scss">

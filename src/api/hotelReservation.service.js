@@ -32,19 +32,6 @@ export const hotelReservationService = {
       .catch((error) => error)
   },
   /**
-   * Copy Reservation Hotel Reservation
-   *
-   * @param {object} [data]
-   * @param {object} [options] - Axios Options
-   * @param {object} [options.headers] - Request Headers
-   * @param {string} [options.responseType] - Response Type
-   */
-  copyReservation(data = {}, options = {}) {
-    return api.post('/api/HotelReservation/CopyReservation', data, options)
-      .then((response) => response)
-      .catch((error) => error)
-  },
-  /**
    * Copy Bulk Reservation Hotel Reservation
    *
    * @param {object} [data]

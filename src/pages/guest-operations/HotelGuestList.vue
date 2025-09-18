@@ -389,6 +389,14 @@ const onCliclOpenRoomCountDialog = () => {
     },
   })
 }
+const onSelectDate = (val) => {
+  dateFilterParams.value = { ...val }
+  hotelGuestListFilterParams.value = {
+    ...hotelGuestListFilterParams.value,
+    checkInDate: val.StartDate,
+    checkOutDate: val.EndDate,
+  }
+}
 </script>
 
 <template>
@@ -438,7 +446,7 @@ const onCliclOpenRoomCountDialog = () => {
     <q-card class="q-mr-sm q-mb-md" v-show="showHotelGuestForm">
       <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
         <div class="text-subtitle2">
-          {{ $t('createHotelGuest') }}
+          {{ hotelGuestFormParams?.id ? $t('editHotelGuest') : $t('createHotelGuest') }}
         </div>
         <q-space />
         <q-btn dense flat icon="close" v-close-popup @click="onClose">
@@ -539,19 +547,7 @@ const onCliclOpenRoomCountDialog = () => {
                 <date-time-picker
                   btnClass="col-12 full-width"
                   class="col-12 full-width"
-                  @selected-date="
-                    (val) => (
-                      (dateFilterParams = {
-                        ...dateFilterParams,
-                        ...val,
-                      }),
-                      (hotelGuestListFilterParams = {
-                        ...hotelGuestListFilterParams,
-                        checkInDate: val.StartDate,
-                        checkOutDate: val.EndDate,
-                      })
-                    )
-                  "
+                  @selected-date="onSelectDate"
                 />
                 <div class="col-12">
                   <q-checkbox

@@ -18,7 +18,7 @@
   >
     <!--  bunu nerde kullandın kontrol et  {{  :debounce="debounce"}}-->
     <template v-slot:prepend>
-      <div class="text-subtitle1" v-if="prepend !== ''">
+      <div class="text-subtitle2" v-if="prepend !== ''">
         {{ prepend }}
       </div>
     </template>
