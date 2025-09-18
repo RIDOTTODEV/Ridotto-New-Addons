@@ -231,6 +231,10 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
     async updateHotelReservationStatus(params) {
       return await hotelReservationService.updateHotelReservationStatus(params)
     },
+    async fetchRoomCountByDays(params) {
+      const { data } = await hotelReservationService.getRoomCountByDays(params)
+      return data
+    },
   },
 })
 

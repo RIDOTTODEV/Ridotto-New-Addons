@@ -3,12 +3,15 @@ import { onMounted, ref, watch } from 'vue'
 import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
 import { useGuestManagementStore } from 'src/stores/guest-management-store'
+import { useAuthStore } from 'src/stores/auth-store'
 import CreateHotelGuest from 'src/components/pages/guest-operations/HotelGuestForm.vue'
 import ExpenseSettingsDialog from 'src/components/pages/guest-operations/ExpenseSettingsDialog.vue'
+import RoomCountDialog from 'src/components/pages/guest-operations/RoomCountDialog.vue'
 import { formatPrice, removeEmptySpaces } from 'src/helpers/helpers'
 const guestManagementStore = useGuestManagementStore()
 const { hotelGuestListWidgets, expenseParameters } = storeToRefs(guestManagementStore)
-
+const authStore = useAuthStore()
+const { defaultCurrency } = storeToRefs(authStore)
 const $q = useQuasar()
 const statuses = ref([])
 const expenseColumnNames = ref(['totalExpense'])
@@ -23,18 +26,6 @@ onMounted(async () => {
     statuses.value = res
   })
   if (expenseParameters.value.length) {
-    columns.value.push({
-      field: 'expenses',
-      name: 'totalExpense',
-      label: 'Total Expense',
-      fieldType: 'custom',
-      customFormat: (value) => {
-        return formatPrice(value.reduce((sum, expense) => sum + parseFloat(expense.amount || 0), 0))
-      },
-      defaultVisible: false,
-      visible: false,
-    })
-
     expenseParameters.value.forEach((element) => {
       if (element.isVisible) {
         expenseColumnNames.value.push(removeEmptySpaces(element.name))
@@ -49,13 +40,34 @@ onMounted(async () => {
           customFormat: (value) => {
             const findExpenses = value.filter((expense) => expense.expenseTypeId === element.id)
             const price = findExpenses.reduce(
-              (sum, expense) => sum + parseFloat(expense.amount || 0),
+              (sum, expense) => sum + parseFloat(expense.amountInCasinoCurrency || 0),
               0,
             )
             return formatPrice(price)
           },
         })
       }
+    })
+    columns.value.push({
+      field: 'expenses',
+      name: 'totalExpense',
+      label: 'Total Expense',
+      fieldType: 'custom',
+      class: 'bg-orange-1',
+      customFormat: (value) => {
+        return (
+          formatPrice(
+            value.reduce(
+              (sum, expense) => sum + parseFloat(expense.amountInCasinoCurrency || 0),
+              0,
+            ),
+          ) +
+          ' ' +
+          defaultCurrency.value.name
+        )
+      },
+      defaultVisible: false,
+      visible: false,
     })
     columns.value.push({
       field: 'Action',
@@ -368,6 +380,15 @@ watch(
   },
   { deep: true, immediate: true },
 )
+
+const onCliclOpenRoomCountDialog = () => {
+  $q.dialog({
+    component: RoomCountDialog,
+    componentProps: {
+      date: dateFilterParams.value,
+    },
+  })
+}
 </script>
 
 <template>
@@ -613,7 +634,9 @@ watch(
             <fieldset class="fieldset">
               <legend class="text-subtitle2">{{ $t('roomCount') }}</legend>
               <div class="col-12 full-width full-height flex flex-center">
-                <div class="room-count-box cursor-pointer">1</div>
+                <div class="room-count-box cursor-pointer" @click="onCliclOpenRoomCountDialog">
+                  1
+                </div>
               </div>
             </fieldset>
           </div>
