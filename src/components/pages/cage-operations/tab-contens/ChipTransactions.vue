@@ -426,7 +426,7 @@ const cashDeskChipTransferHistoryData = ref(null)
 const filterFields = ref({
   CashdeskId: getSelectedCashDeskId.value,
   TransactionType: null,
-  GamingDateId: selectedCashDesk?.value?.gamingDateId || 1,
+  //GamingDateId: selectedCashDesk?.value?.gamingDateId || 1,
   TransType: null,
   TransactionCodeId: null,
   CurrencyId: null,

@@ -7,19 +7,17 @@
             <div class="">
               <q-card class="q-mb-md no-box-shadow col-12 q-mt-xl">
                 <q-card-section class="text-center q-pb-none">
-                  <div class="text-subtitle1 text-bold">
+                  <div class="text-subtitle1 text-bold text-grey-8">
                     <q-icon name="remove" />
-                    {{ $t('searchUsers') }}
-                  </div>
-                  <div class="text-subtitle2">
-                    {{ $t('searchUserDesc') }}
+                    {{ $t('searchPlayers') }}
+                    <q-icon name="remove" />
                   </div>
                 </q-card-section>
                 <q-card-actions>
                   <q-select
                     dense
                     autofocus
-                    :placeholder="selectedPlayer === null ? $t('searchUsers') : ''"
+                    :placeholder="selectedPlayer === null ? $t('...') : ''"
                     outlined
                     use-input
                     clearable

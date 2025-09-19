@@ -71,6 +71,12 @@ const handleInputFocusOut = () => {
     isInputFocused.value = false
   }
 }
+
+const onEnter = () => {
+  if (options.value.length === 1) {
+    onSelected(options.value[0].id)
+  }
+}
 </script>
 
 <template>
@@ -101,6 +107,7 @@ const handleInputFocusOut = () => {
     @focus="handleInputFocus"
     @focusout="handleInputFocusOut"
     class="super-small"
+    @keydown.enter="onEnter"
   >
     <template v-slot:no-option>
       <q-item v-if="searchLoading">

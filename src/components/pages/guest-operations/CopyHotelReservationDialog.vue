@@ -22,17 +22,20 @@
 
       <q-card-section class="q-pa-md">
         <div class="row">
-          <div class="col-6">
-            <div class="text-subtitle1">
-              {{ $t('copiedReservationId') }} :
-              <span class="text-bold">{{ formValues.hotelReservationId }}</span>
+          <div class="col-6 flex justify-start">
+            <div class="text-subtitle2">
+              {{
+                $t(
+                  `Room: ${detail.roomNo} - ${detail?.players.find((p) => p.roomOwner)?.playerFullName} kaydından kopyalanıyor.`,
+                )
+              }}
             </div>
           </div>
           <div class="col-6 text-right q-mb-sm">
             <q-btn
               color="primary"
               no-caps
-              :label="$t('addRoom')"
+              :label="$t('addReservation')"
               icon="add"
               unelevated
               dense
@@ -154,11 +157,12 @@
         <div class="col-12 text-right">
           <q-btn
             flat
-            color="grey"
+            color="negative"
             :label="$t('cancel')"
             class="q-mr-sm"
             type="button"
             no-caps
+            icon="close"
             @click="onDialogCancel"
           />
           <q-btn
@@ -190,6 +194,11 @@ const props = defineProps({
     type: Function,
     required: true,
     default: () => null,
+  },
+  detail: {
+    type: Object,
+    required: true,
+    default: () => ({}),
   },
 })
 
@@ -273,7 +282,7 @@ const onSelectRoomMate = async (player, reservationIndex) => {
 }
 
 const onClickAddReservation = () => {
-  formValues.value.reservations.push({
+  formValues.value.reservations.unshift({
     roomNo: null,
     players: [{}],
   })

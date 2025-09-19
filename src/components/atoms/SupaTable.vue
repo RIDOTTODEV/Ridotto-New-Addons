@@ -66,12 +66,12 @@
                 v-for="(column, index) in tableColumns"
                 :key="index"
                 :class="{
-                  'text-primary': visibleColumns.includes(column.name),
+                  'text-grey-6': !visibleColumns.includes(column.name),
                 }"
                 @click="onSelectVisibleColumn(column.name)"
                 :disable="column.required"
               >
-                <q-item-section class="text-capitalize text-caption">
+                <q-item-section class="text-capitalize text-caption text-bold">
                   {{ column.label }}
                 </q-item-section>
               </q-item>
@@ -372,11 +372,11 @@ onMounted(async () => {
   await fetchData()
 })
 
-const fetchData = async (filterParams = null) => {
+const fetchData = async () => {
   tableLoading.value = true
   removeSelectedRowClass()
   try {
-    response.value = await props.getDataFn(getTableFilterParams(filterParams))
+    response.value = await props.getDataFn(getTableFilterParams())
     initResponseData(response.value)
   } catch (error) {
     console.error('Error fetching data:', error)
@@ -401,15 +401,7 @@ const initResponseData = (response) => {
   tableRows.value = data
   copiedData.value = data
 }
-const getTableFilterParams = (filterParams = null) => {
-  if (filterParams) {
-    return {
-      ...filterParams,
-      maxResultCount: pagination.value.rowsPerPage,
-      skipCount: (pagination.value.page - 1) * pagination.value.rowsPerPage,
-      cashDeskId: props.useCurrentCashDesk ? getSelectedCashDesk.value.Id : null,
-    }
-  }
+const getTableFilterParams = () => {
   return {
     ...tableFilterParams.value,
     maxResultCount: pagination.value.rowsPerPage,
@@ -419,7 +411,6 @@ const getTableFilterParams = (filterParams = null) => {
 }
 const initColumns = async () => {
   const columns = generateColumns(props.columns)
-
   const userColumns = getUserTableColumns.value(props.tableName, columns)
   tableColumns.value = userColumns.columns
   visibleColumnOptions.value = userColumns.visibleColumns

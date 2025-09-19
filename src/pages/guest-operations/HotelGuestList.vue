@@ -107,7 +107,10 @@ const onCopyHotelGuest = (row) => {
     componentProps: {
       hotelReservationId: row.id,
       actionFn: guestManagementStore.copyBulkReservation,
+      detail: { ...row },
     },
+  }).onOk(() => {
+    hotelGuestListTableRef.value.fetchData()
   })
 }
 
@@ -329,7 +332,10 @@ const onSubmitFilter = () => {
     }
     hotelGuestListFilterParams.value = { ...params }
   }
-  hotelGuestListTableRef.value.fetchData(hotelGuestListFilterParams.value)
+
+  setTimeout(() => {
+    hotelGuestListTableRef.value.requestServerInteraction()
+  }, 100)
 }
 const showRoomMates = ref(false)
 const roomMates = ref([])
@@ -535,7 +541,7 @@ const onSelectDate = (val) => {
                     color="primary"
                   />
                 </div>
-                <div class="col-12 q-mt-xs">
+                <div class="col-12 q-mt-xs flex justify-between">
                   <q-btn
                     type="button"
                     :label="$t('filter')"
@@ -548,11 +554,21 @@ const onSelectDate = (val) => {
                     @click="onSubmitFilter"
                     class="q-ml-sm"
                   />
+                  <q-btn
+                    type="button"
+                    :label="$t('roomCount') + ' (' + roomCountTotal + ')'"
+                    color="negative"
+                    text-color="white"
+                    size="13px"
+                    unelevated
+                    no-caps
+                    @click="onCliclOpenRoomCountDialog"
+                  />
                 </div>
               </div>
             </fieldset>
           </div>
-          <div class="col">
+          <div class="col-4">
             <fieldset class="fieldset row">
               <legend class="text-subtitle2">
                 <q-checkbox
@@ -639,7 +655,7 @@ const onSelectDate = (val) => {
               </div>
             </fieldset>
           </div>
-          <div class="col-2">
+          <!--           <div class="col-2">
             <fieldset class="fieldset">
               <legend class="text-subtitle2">{{ $t('roomCount') }}</legend>
               <div class="col-12 full-width full-height flex flex-center">
@@ -648,7 +664,7 @@ const onSelectDate = (val) => {
                 </div>
               </div>
             </fieldset>
-          </div>
+          </div> -->
         </div>
       </q-card-section>
       <q-card-section class="q-pa-none">
