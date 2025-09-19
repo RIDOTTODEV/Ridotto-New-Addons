@@ -28,18 +28,10 @@ export function usePlayerSearch() {
     }
     playerStore.setLastSearchedPlayer(selectedPlayer.value)
 
-    const currentRoute = router.currentRoute.value.name
-    if (currentRoute === 'playerOperations') {
-      router.push({
-        name: 'playerDetail',
-        params: { playerId: selectedPlayer.value.id },
-      })
-    } else {
-      router.push({
-        name: 'customerInformation',
-        query: { playerId: selectedPlayer.value.id },
-      })
-    }
+    router.push({
+      name: 'playerDetail',
+      params: { playerId: selectedPlayer.value.id },
+    })
   }
 
   const onSearchPlayer = async (val, update) => {
@@ -53,7 +45,7 @@ export function usePlayerSearch() {
     const needle = val.toLowerCase()
     searchPlayerLoading.value = true
     const data = await playerStore.searchPlayer(needle)
-    console.log('data', data)
+
     update(() => {
       searchedPlayerOptions.value = data
     })
@@ -66,22 +58,6 @@ export function usePlayerSearch() {
       }, 1000)
     }
   }
-
-  // listen to the hub for player search
-  /*   signalR.on('CardInserted', async (payload) => {
-    if (router.currentRoute.value.name === 'players') {
-      const needle = payload?.assistId
-      const player = await playerStore.searchPlayer(needle)
-      if (player) {
-        // playerStore.setLastSearchedPlayer(player[0])
-
-        await router.push({
-          name: 'customerInformation',
-          query: { playerId: player[0].id },
-        })
-      }
-    }
-  }) */
 
   watch(selectedPlayer, (val) => {
     if (val === null) return

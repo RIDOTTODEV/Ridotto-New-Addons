@@ -708,6 +708,49 @@
               </q-markup-table>
             </div>
           </fieldset>
+          <fieldset class="row" v-if="!props.filterParams.playerId">
+            <legend class="q-pa-sm text-subtitle2">Player Notes / Friends</legend>
+            <div class="col-6 q-pa-sm">
+              <PlayerFriends
+                v-if="getInOutPlayerDetailFilter.playerId"
+                :player="selectedPlayer"
+                :player-id="getInOutPlayerDetailFilter.playerId"
+                :show-friends-permission="'Addon.Operations.CustomerInformation.ShowFriends'"
+                :reload-friends-permission="'Addon.Operations.CustomerInformation.ReloadFriends'"
+              />
+              <PlayerLinkedPlayers
+                v-if="getInOutPlayerDetailFilter.playerId"
+                :player="selectedPlayer"
+                :player-id="getInOutPlayerDetailFilter.playerId"
+                :show-linked-players-permission="'Addon.Operations.CustomerInformation.ShowLinkedPlayers'"
+                :reload-linked-players-permission="'Addon.Operations.CustomerInformation.ReloadLinkedPlayers'"
+                class="q-mt-sm"
+              />
+            </div>
+            <div class="col-6 q-pa-sm">
+              <PlayerNote
+                v-if="selectedPlayer.playerId"
+                :player-id="getInOutPlayerDetailFilter.playerId"
+                :note-source="'General'"
+                :show-note-permission="'Addon.CashlessOperations.MetaDetail.ShowNotes'"
+                :create-note-permission="'Addon.CashlessOperations.MetaDetail.CreateNote'"
+                :reload-notes-permission="'Addon.CashlessOperations.MetaDetail.ReloadNotes'"
+                :min-height="100"
+                :title="$t('generalNotes')"
+              />
+              <PlayerNote
+                v-if="selectedPlayer.playerId"
+                :player-id="getInOutPlayerDetailFilter.playerId"
+                :note-source="'PublicRelations'"
+                :show-note-permission="'Addon.CashlessOperations.MetaDetail.ShowNotes'"
+                :create-note-permission="'Addon.CashlessOperations.MetaDetail.CreateNote'"
+                :reload-notes-permission="'Addon.CashlessOperations.MetaDetail.ReloadNotes'"
+                :min-height="60"
+                :title="$t('publicRelationsNotes')"
+                class="q-mt-sm"
+              />
+            </div>
+          </fieldset>
         </div>
       </q-card-section>
     </q-card>
@@ -772,6 +815,9 @@
 
 <script setup>
 import SearchPlayerInput from 'components/atoms/SearchPlayerInput.vue'
+import PlayerNote from 'src/components/pages/player-operations/meta-detail/PlayerNote.vue'
+import PlayerFriends from 'src/components/pages/player-operations/meta-detail/PlayerFriends.vue'
+import PlayerLinkedPlayers from 'src/components/pages/player-operations/meta-detail/LinkedPlayers.vue'
 import { ref, onMounted, onBeforeMount, watch } from 'vue'
 import { useReportStore } from 'src/stores/report-store'
 import { useAuthStore } from 'src/stores/auth-store'
@@ -1219,11 +1265,13 @@ const selectedPlayer = ref({
   class: null,
 })
 const onSelectPlayer = async (player) => {
-  selectedPlayer.value.playerId = player.id
-  selectedPlayer.value.playerName = player.value
-  getInOutPlayerDetailFilter.value.playerId = player.id
+  selectedPlayer.value.playerId = player?.id || null
+  selectedPlayer.value.playerName = player?.value || null
+  getInOutPlayerDetailFilter.value.playerId = player?.id || null
 
-  await filter()
+  if (player?.id) {
+    await filter()
+  }
 }
 const onClearPlayer = () => {
   selectedPlayer.value.playerId = null
