@@ -7,6 +7,7 @@ export const hotelReservationService = {
    * Get All Hotel Reservation
    *
    * @param {object} [data]
+   * @param {undefined} [data.id] - Id
    * @param {undefined} [data.status] - Status
    * @param {undefined} [data.isDeleted] - Is Deleted
    * @param {undefined} [data.startDate] - Start Date
@@ -28,6 +29,20 @@ export const hotelReservationService = {
       data.skipCount = 0
     }
     return api.get('/api/HotelReservation/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Get Hotel Reservation
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.id] - Id
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  get(data = {}, options = {}) {
+    return api.get('/api/HotelReservation/Get', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },
@@ -279,11 +294,20 @@ export const hotelReservationService = {
    * @param {object} [data]
    * @param {undefined} [data.startDate] - Start Date
    * @param {undefined} [data.endDate] - End Date
+   * @param {undefined} [data.sorting] - Sorting
+   * @param {undefined} [data.maxResultCount] - Max Result Count
+   * @param {undefined} [data.skipCount] - Skip Count
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type
    */
   getRoomCountByDays(data = {}, options = {}) {
+    if (!data.maxResultCount) {
+      data.maxResultCount = 999
+    }
+    if (!data.skipCount) {
+      data.skipCount = 0
+    }
     return api.get('/api/HotelReservation/GetRoomCountByDays', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)

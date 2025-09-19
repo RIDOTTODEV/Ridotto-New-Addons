@@ -241,6 +241,10 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
     async copyBulkReservation(params) {
       return await hotelReservationService.copyBulkReservation(params)
     },
+    async fetchHotelReservation(params) {
+      const { data } = await hotelReservationService.get(params)
+      return data
+    },
   },
 })
 

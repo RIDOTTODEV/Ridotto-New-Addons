@@ -1062,29 +1062,17 @@ const updateReservationDetails = async () => {
       isBusiness: hotelGuestFormValues.value.hotelFlightInfo.isBusiness,
     },
   }
-  /*   if (hotelGuestFormValues.value.hotelFlightInfo.isWalkIn) {
-    formData.hotelFlightInfo.flight = null
-    formData.hotelFlightInfo.ticketType = null
-    formData.hotelFlightInfo.from = null
-    formData.hotelFlightInfo.to = null
-    formData.hotelFlightInfo.flightTicketPrice = 0
-  } */
+
   const response = await guestManagementStore.updateHotelFlightInfoNew(formData)
   if (response) {
     fetchReservationExpenses(hotelGuestFormValues.value.id)
+    await setFormValues()
     $q.loading.hide()
     $q.notify({
       message: 'Rezervasyon başarıyla güncellendi',
       type: 'positive',
       position: 'bottom-right',
     })
-    /*     if (hotelGuestFormValues.value.hotelFlightInfo.isWalkIn) {
-      hotelGuestFormValues.value.hotelFlightInfo.flight = null
-      hotelGuestFormValues.value.hotelFlightInfo.ticketType = null
-      hotelGuestFormValues.value.hotelFlightInfo.from = null
-      hotelGuestFormValues.value.hotelFlightInfo.to = null
-      hotelGuestFormValues.value.hotelFlightInfo.flightTicketPrice = 0
-    } */
   } else {
     $q.loading.hide()
     $q.notify({
@@ -1093,7 +1081,7 @@ const updateReservationDetails = async () => {
       position: 'bottom-right',
     })
   }
-  emits('close')
+  // emits('close')
 }
 
 const selectedExpenseParameter = ref(null)
@@ -1207,6 +1195,9 @@ const calculateGrandTotal = computedAsync(async () => {
   const totalAmountInCasinoCurrency = hotelGuestFormValues.value.expenses.reduce((sum, expense) => {
     return sum + parseFloat(expense.amountInCasinoCurrency || 0)
   }, 0)
+  if (totalAmountInCasinoCurrency > 0) {
+    return totalAmountInCasinoCurrency
+  }
   let exchangeTotal = 0
   for (let index = 0; index < hotelGuestFormValues.value.expenses.length; index++) {
     const convertedAmount = await currencyStore.getConvertedAmount(
@@ -1272,23 +1263,19 @@ const setFormValues = async () => {
     isEditingReservationDetails.value = false
     return
   }
-  if (props.formValues.isCopy) {
-    hotelGuestFormValues.value = {
-      ...props.formValues,
-    }
-    return
-  }
-
+  const data = await guestManagementStore.fetchHotelReservation({
+    id: props.formValues.id,
+  })
   let category = null
-  const ownerPlayer = props.formValues.players.find((item) => item.roomOwner === true)
+  const ownerPlayer = data.players.find((item) => item.roomOwner === true)
   if (!ownerPlayer) {
-    const somePlayerCategoryId = props.formValues.players.find(
+    const somePlayerCategoryId = data.players.find(
       (item) => item.roomOwner === false,
     )?.playerCategoryId
     category = { ...visitorCategories.value.find((item) => item.id === somePlayerCategoryId) }
   }
   const players = ownerPlayer
-    ? [...props.formValues.players].sort((a) => {
+    ? [...data.players].sort((a) => {
         return a.roomOwner ? -1 : 1
       })
     : [
@@ -1299,41 +1286,41 @@ const setFormValues = async () => {
           playerCategoryId: category?.id || null,
           playerCategoryName: category?.name || null,
         },
-        ...props.formValues.players,
+        ...data.players,
       ]
 
   hotelGuestFormValues.value = {
-    id: props.formValues.id,
+    id: data.id,
     hotelFlightInfo: {
-      isWalkIn: props.formValues.isWalkIn,
-      isTransfer: props.formValues.isTransfer,
-      expenseDirection: props.formValues.expenseDirection,
-      checkIn: props.formValues.checkIn,
-      checkOut: props.formValues.checkOut,
-      dayCount: props.formValues.dayCount,
-      roomTypeId: props.formValues.roomTypeId,
-      roomType: props.formValues.roomType,
-      roomNo: props.formValues.roomNo,
-      boardType: props.formValues.boardType,
-      roomPrice: props.formValues.roomPrice,
-      roomTotalPrice: props.formValues.roomTotalPrice,
-      flight: props.formValues.flight,
-      ticketType: props.formValues.ticketType,
-      from: props.formValues.from,
-      to: props.formValues.to,
+      isWalkIn: data.isWalkIn,
+      isTransfer: data.isTransfer,
+      expenseDirection: data.expenseDirection,
+      checkIn: data.checkIn,
+      checkOut: data.checkOut,
+      dayCount: data.dayCount,
+      roomTypeId: data.roomTypeId,
+      roomType: data.roomType,
+      roomNo: data.roomNo,
+      boardType: data.boardType,
+      roomPrice: data.roomPrice,
+      roomTotalPrice: data.roomPrice * data.dayCount,
+      flight: data.flight,
+      ticketType: data.ticketType,
+      from: data.from,
+      to: data.to,
       pnr: props.formValues.pnr,
-      pnr2: props.formValues.pnr2,
-      flightTicketPrice: props.formValues.flightTicketPrice,
-      isBusiness: props.formValues.isBusiness,
+      pnr2: data.pnr2,
+      flightTicketPrice: data.flightTicketPrice,
+      isBusiness: data.isBusiness,
     },
-    playerCategoryId: props.formValues.playerCategoryId,
-    status: props.formValues.status,
-    note: props.formValues.note,
-    remark: props.formValues.remark,
+    playerCategoryId: data.playerCategoryId,
+    status: data.status,
+    note: data.note,
+    remark: data.remark,
     players: players,
     expenses: [],
   }
-  await fetchReservationExpenses(props.formValues.id)
+  await fetchReservationExpenses(data.id)
 }
 watch(
   () => props.formValues,
