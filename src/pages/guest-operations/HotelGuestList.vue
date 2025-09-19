@@ -1,6 +1,9 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
-import { useQuasar } from 'quasar'
+import {
+  useQuasar,
+  /* date */
+} from 'quasar'
 import { storeToRefs } from 'pinia'
 import { useGuestManagementStore } from 'src/stores/guest-management-store'
 import { useAuthStore } from 'src/stores/auth-store'
@@ -18,6 +21,7 @@ const $q = useQuasar()
 const statuses = ref([])
 const expenseColumnNames = ref(['totalExpense'])
 const showTable = ref(false)
+
 onMounted(async () => {
   guestManagementStore.fetchVisitorCategories()
   guestManagementStore.fetchFlightTicketTypes()
@@ -76,8 +80,16 @@ onMounted(async () => {
     })
     showTable.value = true
   }
+  /*   defaultDateParams()
+  console.log(dateFilterParams.value) */
 })
-
+/* const defaultDateParams = () => {
+  const today = new Date()
+  console.log(date)
+  const before1Week = date.extractDate(today, { weeks: 1 })
+  const after1Week = date.addToDate(today, { weeks: 1 })
+  console.log(before1Week, after1Week)
+} */
 const onCliclOpenExpenseSettingsDialog = async () => {
   $q.loading.show({
     message: 'Yükleniyor...',
@@ -508,7 +520,7 @@ const onSelectDate = (val) => {
                         dense
                         unelevated
                         no-caps
-                        :icon="toggleHideColumns ? 'o_visibility' : 'o_visibility_off'"
+                        :icon="toggleHideColumns ? 'o_visibility_off' : 'o_visibility'"
                         @click="onHideColumns"
                         class="q-ml-sm"
                       />
@@ -655,16 +667,6 @@ const onSelectDate = (val) => {
               </div>
             </fieldset>
           </div>
-          <!--           <div class="col-2">
-            <fieldset class="fieldset">
-              <legend class="text-subtitle2">{{ $t('roomCount') }}</legend>
-              <div class="col-12 full-width full-height flex flex-center">
-                <div class="room-count-box cursor-pointer" @click="onCliclOpenRoomCountDialog">
-                  {{ roomCountTotal }}
-                </div>
-              </div>
-            </fieldset>
-          </div> -->
         </div>
       </q-card-section>
       <q-card-section class="q-pa-none">

@@ -39,13 +39,13 @@ export const useMainStore = defineStore('main', {
         type: 'menu',
         permission: 'Addon.TableOperations',
       },
-      {
+      /*       {
         title: 'ticketOperations',
         type: 'menu',
         icon: 'fa-solid fa-arrow-right',
         routeName: 'ticketOperations',
         permission: 'Addon.TicketOperations',
-      },
+      }, */
       {
         title: 'operations',
         type: 'dropdown',
