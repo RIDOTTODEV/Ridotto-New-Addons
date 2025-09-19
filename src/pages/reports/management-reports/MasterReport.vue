@@ -201,13 +201,11 @@ const onSubmitFilter = async () => {
             </tbody>
           </q-markup-table>
         </div>
-
         <div class="row">
           <div class="col-12">
             <q-separator class="q-my-md" size="3px" />
           </div>
         </div>
-
         <div class="row">
           <div
             class="text-h6 q-mt-sm text-blue-8 text-bold flex items-center content-center"

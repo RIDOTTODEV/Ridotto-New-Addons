@@ -227,7 +227,7 @@ export const useReportStore = defineStore('reportStore', {
         balanceCurrencyId: authStore.getDefaultCurrencyId,
         ...params,
       }
-      const { data } = await api.get('/api/Report/GetBalanceReport', {
+      const { data } = await api.get('/api/Export/GetBalanceReport', {
         params: payload,
         responseType: 'blob',
       })
@@ -248,10 +248,11 @@ export const useReportStore = defineStore('reportStore', {
       }
 
       /*  const { data } = await reportService.exportMasterReport(payload) */
-      const { data } = await api.get('/api/Report/GetMasterReport', {
+      const { data } = await api.get('/api/Export/GetMasterReport', {
         params: payload,
         responseType: 'blob',
       })
+      console.log(data)
       let extension = params.ExportFileType === 'Excel' ? 'xlsx' : 'pdf'
       let fileName = `master-report-${params.Date}.${extension}`
       let blob = data
