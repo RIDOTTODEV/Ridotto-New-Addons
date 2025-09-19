@@ -19,12 +19,12 @@ const statuses = ref([])
 const expenseColumnNames = ref(['totalExpense'])
 const showTable = ref(false)
 onMounted(async () => {
-  await guestManagementStore.fetchVisitorCategories()
-  await guestManagementStore.fetchFlightTicketTypes()
-  await guestManagementStore.fetchBoardTypes()
-  await guestManagementStore.fetchRoomTypes()
+  guestManagementStore.fetchVisitorCategories()
+  guestManagementStore.fetchFlightTicketTypes()
+  guestManagementStore.fetchBoardTypes()
+  guestManagementStore.fetchRoomTypes()
   await guestManagementStore.fetchExpenseParameters()
-  await guestManagementStore.getHotelReservationStatuses().then((res) => {
+  guestManagementStore.getHotelReservationStatuses().then((res) => {
     statuses.value = res
   })
   if (expenseParameters.value.length) {
