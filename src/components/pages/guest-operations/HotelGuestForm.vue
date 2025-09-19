@@ -429,7 +429,7 @@
                   :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
                 />
                 <div class="text-subtitle2 text-grey-8">
-                  {{ $t('isBusiness') }}
+                  {{ $t('business') }}
                 </div>
               </div>
               <div class="q-mb-sm" v-if="isEditingReservationDetails && hotelGuestFormValues.id">
@@ -1059,7 +1059,7 @@ const updateReservationDetails = async () => {
       pnr: hotelGuestFormValues.value.hotelFlightInfo.pnr,
       pnr2: hotelGuestFormValues.value.hotelFlightInfo.pnr2,
       flightTicketPrice: hotelGuestFormValues.value.hotelFlightInfo.flightTicketPrice,
-      isBusiness: hotelGuestFormValues.value.hotelFlightInfo.isBusiness === 1 ? true : false,
+      isBusiness: hotelGuestFormValues.value.hotelFlightInfo.isBusiness,
     },
   }
   /*   if (hotelGuestFormValues.value.hotelFlightInfo.isWalkIn) {

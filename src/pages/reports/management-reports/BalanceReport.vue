@@ -216,8 +216,8 @@ onMounted(async () => {
           </q-form>
         </q-card-section>
       </q-card>
-      <q-card class="no-box-shadow col-12">
-        <div class="row">
+      <q-card class="no-box-shadow col-12 q-mt-sm">
+        <div class="row q-mt-sm">
           <q-markup-table class="no-box-shadow col-12" dense>
             <thead>
               <tr>
@@ -324,7 +324,7 @@ onMounted(async () => {
         </div>
         <div class="row">
           <div class="col-12">
-            <q-separator class="q-my-md" />
+            <q-separator class="q-my-md" size="3px" />
           </div>
         </div>
         <div class="row">
@@ -410,7 +410,7 @@ onMounted(async () => {
         </div>
         <div class="row">
           <div class="col-12">
-            <q-separator class="q-my-md" />
+            <q-separator class="q-my-md" size="3px" />
           </div>
         </div>
         <div class="row">
@@ -516,7 +516,7 @@ onMounted(async () => {
         </div>
         <div class="row">
           <div class="col-12">
-            <q-separator class="q-my-md" />
+            <q-separator class="q-my-md" size="3px" />
           </div>
         </div>
         <div class="row">
@@ -580,7 +580,7 @@ onMounted(async () => {
         </div>
         <div class="row">
           <div class="col-12">
-            <q-separator class="q-my-md" />
+            <q-separator class="q-my-md" size="3px" />
           </div>
         </div>
         <div class="row">
@@ -651,7 +651,7 @@ onMounted(async () => {
         </div>
         <div class="row">
           <div class="col-12">
-            <q-separator class="q-my-md" />
+            <q-separator class="q-my-md" size="3px" />
           </div>
         </div>
         <div class="row">
@@ -733,7 +733,7 @@ onMounted(async () => {
         </div>
         <div class="row">
           <div class="col-12">
-            <q-separator class="q-my-md" />
+            <q-separator class="q-my-md" size="3px" />
           </div>
         </div>
         <div class="row">
@@ -750,7 +750,7 @@ onMounted(async () => {
               Slot Revenues
             </div>
           </div>
-          <div class="col-6 text-right">
+          <div class="col-6 text-right flex items-end content-end justify-end">
             <span class="q-ml-md text-bold text-subtitle1 text-deep-orange-10">
               {{ getDefaultCurrencyName }}
               <span class="q-mr-xs">Net :</span>
@@ -894,23 +894,10 @@ onMounted(async () => {
         </div>
         <div class="row">
           <div class="col-12">
-            <q-separator class="q-my-md" />
+            <q-separator class="q-my-md" size="3px" />
           </div>
         </div>
         <div class="row">
-          <!--           <div class="col-12">
-            <div class="text-subtitle1 text-bold">
-              <q-icon name="o_info" class="cursor-pointer q-mr-xs" color="orange" size="20px">
-                <q-tooltip class="bg-white q-pa-none text-dark">
-                  <Information
-                    class="full-width q-pa-sm"
-                    content="Bir önceki günün ve güncel kur bilgilerini verir."
-                  />
-                </q-tooltip>
-              </q-icon>
-              Exchange Rates
-            </div>
-          </div> -->
           <div class="col-6 q-pa-md">
             <div class="text-subtitle1 text-bold text-center">
               Exchange Rates (Day Date)
@@ -959,7 +946,7 @@ onMounted(async () => {
         </div>
         <div class="row">
           <div class="col-12">
-            <q-separator class="q-my-md" />
+            <q-separator class="q-my-md" size="3px" />
           </div>
         </div>
         <div class="row">
@@ -1010,7 +997,7 @@ onMounted(async () => {
         </div>
         <div class="row">
           <div class="col-12">
-            <q-separator class="q-my-md" />
+            <q-separator class="q-my-md" size="3px" />
           </div>
         </div>
         <div class="row">
@@ -1118,7 +1105,7 @@ onMounted(async () => {
         </div>
         <div class="row">
           <div class="col-12">
-            <q-separator class="q-my-md" />
+            <q-separator class="q-my-md" size="3px" />
           </div>
         </div>
         <q-card-section>
