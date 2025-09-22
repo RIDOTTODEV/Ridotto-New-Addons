@@ -130,94 +130,100 @@ onMounted(async () => {
 </script>
 
 <template>
-  <q-page class="q-pa-md app-cart grey-card">
-    <q-card class="no-box-shadow col-12 app-cart-grey">
+  <q-page class="q-pa-md">
+    <q-card class="no-box-shadow col-12 bg-transparent">
       <q-card-section class="q-pa-none">
-        <div class="text-h6">
-          {{ $t('balanceReport') }}
-        </div>
-        <div class="text-subtitle1 text-capitalize">
-          Lefkoşa Balance Financal Report
-          <span class="text-bold">({{ date.formatDate(new Date(), 'DD/MM/YYYY') }})</span>
+        <div class="row">
+          <div class="col-4">
+            <div class="text-h6">
+              {{ $t('balanceReport') }}
+            </div>
+            <div class="text-subtitle1 text-capitalize">
+              Lefkoşa Balance Financal Report
+              <span class="text-bold">({{ date.formatDate(formValues.date, 'DD.MM.YYYY') }})</span>
+            </div>
+          </div>
+          <div class="col-8">
+            <q-form class="row" @submit="onSubmitFilter">
+              <div class="col-12 row flex content-center items-center no-wrap">
+                <div class="col q-pa-xs flex justify-end content-end items-end">
+                  <q-select-box
+                    v-model="formValues.cashdeskId"
+                    :options="cashdesks"
+                    option-label="name"
+                    option-value="id"
+                    class="super-small q-mr-sm"
+                    hide-bottom-space
+                    :label="'Select ' + $t('cashDesk')"
+                    style="max-width: 200px"
+                    outlined
+                    dense
+                    bg-color="white"
+                  />
+                  <el-date-picker
+                    v-model="formValues.date"
+                    type="date"
+                    placeholder="Date"
+                    :size="'default'"
+                    value-format="YYYY-MM-DD"
+                  />
+                  <q-btn
+                    type="submit"
+                    :label="$t('filter')"
+                    icon="tune"
+                    color="grey-1"
+                    text-color="dark"
+                    size="13px"
+                    unelevated
+                    class="q-ml-sm"
+                    no-caps
+                  />
+                  <q-btn
+                    type="button"
+                    label="Pdf"
+                    icon="o_file_download"
+                    color="grey-1"
+                    text-color="dark"
+                    size="13px"
+                    unelevated
+                    class="q-ml-sm"
+                    @click="
+                      reportStore.exportBalanceReport({
+                        CashdeskId: formValues.cashdeskId,
+                        Date: date.formatDate(formValues.date, 'YYYY-MM-DD'),
+                        ExportFileType: 'Pdf',
+                      })
+                    "
+                  />
+                  <q-btn
+                    type="button"
+                    label="Excel"
+                    icon="o_file_download"
+                    color="grey-1"
+                    text-color="dark"
+                    size="13px"
+                    unelevated
+                    class="q-ml-sm"
+                    @click="
+                      reportStore.exportBalanceReport({
+                        CashdeskId: formValues.cashdeskId,
+                        Date: date.formatDate(formValues.date, 'YYYY-MM-DD'),
+                        ExportFileType: 'Excel',
+                      })
+                    "
+                  />
+                </div>
+              </div>
+            </q-form>
+          </div>
         </div>
       </q-card-section>
     </q-card>
-    <div class="row grey-card q-mt-md">
-      <q-card class="no-box-shadow col-12 app-cart">
-        <q-card-section class="q-pt-xs q-pb-xs">
-          <q-form class="row" @submit="onSubmitFilter">
-            <div class="col-12 row flex content-center items-center">
-              <div class="col q-pa-xs flex justify-end content-end items-end">
-                <q-select-box
-                  v-model="formValues.cashdeskId"
-                  :options="cashdesks"
-                  option-label="name"
-                  option-value="id"
-                  class="super-small q-mr-sm"
-                  hide-bottom-space
-                  :label="'Select ' + $t('cashDesk')"
-                  style="min-width: 150px"
-                />
 
-                <el-date-picker
-                  v-model="formValues.date"
-                  type="date"
-                  placeholder="Date"
-                  :size="'default'"
-                  value-format="YYYY-MM-DD"
-                />
-                <q-btn
-                  type="submit"
-                  :label="$t('filter')"
-                  icon="tune"
-                  color="grey-2"
-                  text-color="dark"
-                  size="13px"
-                  unelevated
-                  class="q-ml-sm"
-                  no-caps
-                />
-                <q-btn
-                  type="button"
-                  label="Pdf"
-                  icon="o_file_download"
-                  color="grey-2"
-                  text-color="dark"
-                  size="13px"
-                  unelevated
-                  class="q-ml-sm"
-                  @click="
-                    reportStore.exportBalanceReport({
-                      CashdeskId: formValues.cashdeskId,
-                      Date: date.formatDate(formValues.date, 'YYYY-MM-DD'),
-                      ExportFileType: 'Pdf',
-                    })
-                  "
-                />
-                <q-btn
-                  type="button"
-                  label="Excel"
-                  icon="o_file_download"
-                  color="grey-2"
-                  text-color="dark"
-                  size="13px"
-                  unelevated
-                  class="q-ml-sm"
-                  @click="
-                    reportStore.exportBalanceReport({
-                      CashdeskId: formValues.cashdeskId,
-                      Date: date.formatDate(formValues.date, 'YYYY-MM-DD'),
-                      ExportFileType: 'Excel',
-                    })
-                  "
-                />
-              </div>
-            </div>
-          </q-form>
-        </q-card-section>
-      </q-card>
-      <q-card class="no-box-shadow col-12 q-mt-sm">
-        <div class="row q-mt-sm">
+    <div class="row grey-card q-mt-md">
+      <q-card class="no-box-shadow col-12">
+        <div class="q-my-md"></div>
+        <div class="row">
           <q-markup-table class="no-box-shadow col-12" dense>
             <thead>
               <tr>
@@ -225,7 +231,12 @@ onMounted(async () => {
                   <div
                     class="text-subtitle1 text-bold text-capitalize flex content-center items-center"
                   >
-                    <q-icon name="o_info" class="cursor-pointer q-mr-xs" color="orange" size="20px">
+                    <q-icon
+                      name="o_info"
+                      class="cursor-pointer q-mr-xs"
+                      color="orange-8"
+                      size="22px"
+                    >
                       <q-tooltip class="bg-white q-pa-none text-dark">
                         <Information
                           class="full-width q-pa-sm"
@@ -333,7 +344,12 @@ onMounted(async () => {
               <tr>
                 <th colspan="2">
                   <div class="text-subtitle1 text-bold flex content-center items-center">
-                    <q-icon name="o_info" class="cursor-pointer q-mr-xs" color="orange" size="20px">
+                    <q-icon
+                      name="o_info"
+                      class="cursor-pointer q-mr-xs"
+                      color="orange-8"
+                      size="22px"
+                    >
                       <q-tooltip class="bg-white q-pa-none text-dark">
                         <Information
                           class="full-width q-pa-sm"
@@ -419,7 +435,12 @@ onMounted(async () => {
               <tr>
                 <th colspan="4">
                   <div class="text-subtitle1 text-bold flex content-center items-center">
-                    <q-icon name="o_info" class="cursor-pointer q-mr-xs" color="orange" size="20px">
+                    <q-icon
+                      name="o_info"
+                      class="cursor-pointer q-mr-xs"
+                      color="orange-8"
+                      size="22px"
+                    >
                       <q-tooltip class="bg-white q-pa-none text-dark">
                         <Information
                           class="full-width q-pa-sm"
@@ -525,7 +546,12 @@ onMounted(async () => {
               <tr>
                 <th colspan="2">
                   <div class="text-subtitle1 text-bold flex content-center items-center">
-                    <q-icon name="o_info" class="cursor-pointer q-mr-xs" color="orange" size="20px">
+                    <q-icon
+                      name="o_info"
+                      class="cursor-pointer q-mr-xs"
+                      color="orange-8"
+                      size="22px"
+                    >
                       <q-tooltip class="bg-white q-pa-none text-dark">
                         <Information
                           class="full-width q-pa-sm"
@@ -589,7 +615,12 @@ onMounted(async () => {
               <tr>
                 <th colspan="3">
                   <div class="text-subtitle1 text-bold flex content-center items-center">
-                    <q-icon name="o_info" class="cursor-pointer q-mr-xs" color="orange" size="20px">
+                    <q-icon
+                      name="o_info"
+                      class="cursor-pointer q-mr-xs"
+                      color="orange-8"
+                      size="22px"
+                    >
                       <q-tooltip class="bg-white q-pa-none text-dark">
                         <Information
                           class="full-width q-pa-sm"
@@ -660,7 +691,12 @@ onMounted(async () => {
               <tr>
                 <th colspan="4">
                   <div class="text-subtitle1 text-bold flex content-center items-center">
-                    <q-icon name="o_info" class="cursor-pointer q-mr-xs" color="orange" size="20px">
+                    <q-icon
+                      name="o_info"
+                      class="cursor-pointer q-mr-xs"
+                      color="orange-8"
+                      size="22px"
+                    >
                       <q-tooltip class="bg-white q-pa-none text-dark">
                         <Information
                           class="full-width q-pa-sm"
@@ -738,8 +774,8 @@ onMounted(async () => {
         </div>
         <div class="row">
           <div class="col-6">
-            <div class="text-subtitle1 text-bold flex content-center items-center">
-              <q-icon name="o_info" class="cursor-pointer q-mr-xs" color="orange" size="20px">
+            <div class="text-subtitle1 text-bold flex content-center items-center q-pl-md">
+              <q-icon name="o_info" class="cursor-pointer q-mr-xs" color="orange-8" size="22px">
                 <q-tooltip class="bg-white q-pa-none text-dark">
                   <Information
                     class="full-width q-pa-sm"
@@ -966,7 +1002,12 @@ onMounted(async () => {
               <div class="row full-width">
                 <div class="col-8">
                   <div class="text-subtitle1 text-bold flex content-center items-center">
-                    <q-icon name="o_info" class="cursor-pointer q-mr-xs" color="orange" size="20px">
+                    <q-icon
+                      name="o_info"
+                      class="cursor-pointer q-mr-xs"
+                      color="orange-8"
+                      size="22px"
+                    >
                       <q-tooltip class="bg-white q-pa-none text-dark">
                         <Information
                           class="full-width q-pa-sm"
@@ -1005,8 +1046,15 @@ onMounted(async () => {
             <thead>
               <tr>
                 <th colspan="3" class="text-left">
-                  <div class="text-subtitle1 text-bold text-capitalize">
-                    <q-icon name="o_info" class="cursor-pointer q-mr-xs" color="orange" size="20px">
+                  <div
+                    class="text-subtitle1 text-bold text-capitalize flex content-center items-center"
+                  >
+                    <q-icon
+                      name="o_info"
+                      class="cursor-pointer q-mr-xs"
+                      color="orange-8"
+                      size="22px"
+                    >
                       <q-tooltip class="bg-white q-pa-none text-dark">
                         <Information
                           class="full-width q-pa-sm"
