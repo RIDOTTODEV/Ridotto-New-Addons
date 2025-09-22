@@ -500,6 +500,7 @@ const showLiveGameResult = (value) => {
                       {{ item.tableName }}
                     </th>
                     <th class="text-center">Avg Bet</th>
+                    <th class="text-center">T.Drop</th>
                     <th class="text-center">Result</th>
                   </tr>
                 </thead>
@@ -508,6 +509,9 @@ const showLiveGameResult = (value) => {
                     <td class="text-center text-capitalize">{{ player.playerName }}</td>
                     <td class="text-center">
                       {{ priceAbsFormatted(player.avgBet) }}
+                    </td>
+                    <td class="text-center">
+                      {{ priceAbsFormatted(player.totalDrop) }}
                     </td>
                     <td class="text-center bg-orange-1 cursor-pointer">
                       {{ priceAbsFormatted(player.result) }}

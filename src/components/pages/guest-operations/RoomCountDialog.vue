@@ -24,7 +24,7 @@
 
       <q-card-section class="q-pa-md">
         <SupaTable
-          tableName="hotelReservations"
+          tableName="hotelReservationsRoomCountByDays"
           :getDataFn="guestManagementStore.fetchRoomCountByDays"
           :filterParams="filterParams"
           :columns="columns"

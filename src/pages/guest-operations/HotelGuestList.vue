@@ -709,7 +709,9 @@ const onSelectDate = (val) => {
                     <tbody>
                       <tr v-for="expense in props.row.expenses" :key="expense.id">
                         <td class="text-center">{{ expense.expenseTypeName }}</td>
-                        <td class="text-center">{{ formatPrice(expense.amount) }}</td>
+                        <td class="text-center">
+                          {{ formatPrice(expense.amountInCasinoCurrency) }}
+                        </td>
                         <td class="text-center">{{ expense.isDeleted ? 'Yes' : 'No' }}</td>
                       </tr>
                     </tbody>

@@ -10,7 +10,7 @@ const columns = ref([
   },
   {
     field: 'gamingDate',
-    fieldType: 'date',
+    /*  fieldType: 'date', */
   },
   {
     field: 'currencyName',
