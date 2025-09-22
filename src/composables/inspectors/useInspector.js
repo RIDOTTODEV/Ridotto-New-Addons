@@ -593,7 +593,7 @@ export function useInspector() {
         () => import('../../pages/inspector/components/PlayerPhotoDialog.vue'),
       ),
       componentProps: {
-        photo: player?.playerImage,
+        playerId: player?.playerId,
       },
     })
   }

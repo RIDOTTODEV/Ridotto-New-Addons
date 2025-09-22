@@ -44,7 +44,7 @@ const showLiveGameResult = (value) => {
   <q-page class="q-pa-sm" style="background-color: #bac6da">
     <q-card class="no-box-shadow bg-transparent">
       <q-card-section class="q-pa-none row">
-        <div class="col-7">
+        <div class="col-6">
           <div class="row">
             <div class="col-6 q-pa-xs">
               <q-expansion-item
@@ -477,7 +477,7 @@ const showLiveGameResult = (value) => {
             </div>
           </div>
         </div>
-        <div class="col-5 q-pa-sm">
+        <div class="col-6 q-pa-sm">
           <div class="col-12">
             <span class="text-subtitle2"
               >Active Tables

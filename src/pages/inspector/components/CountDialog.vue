@@ -262,6 +262,7 @@ onMounted(async () => {
     .sort((a, b) => a.chipDenom - b.chipDenom)
 
   SelectedTableFloatDenom.value = tableFloatDenoms.value[0]
+  chipSaveLockCount.value = tableCount.chipSaveLock ? 'Count' : 'Balance'
 })
 
 const latestClickedDenomInputIndex = ref(0)

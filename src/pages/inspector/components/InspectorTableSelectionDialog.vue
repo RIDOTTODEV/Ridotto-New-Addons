@@ -68,7 +68,7 @@
                 <div class=" ">
                   <q-btn
                     text-color="grey-5"
-                    class="q-mr-md app-cart full-height"
+                    class="app-cart full-height q-ma-sm"
                     @click="onClickTable(props.row)"
                     style="width: 170px !important; height: 140px !important"
                     push

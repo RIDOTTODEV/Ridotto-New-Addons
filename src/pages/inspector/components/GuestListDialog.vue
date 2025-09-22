@@ -46,11 +46,12 @@
                   <td class="text-center">{{ customer.playerCategory }}</td>
                   <td class="text-center">
                     <q-img
-                      :src="customerImagePath + customer.playerId"
+                      :src="$playerPhotoUrl + customer.playerId"
                       style="width: 50px; height: 50px"
                       :img-style="{ borderRadius: '3px' }"
                       error-src="/assets/no-photo.png"
                       @click="onClickPlayerPhoto(customer)"
+                      class="cursor-pointer"
                     />
                   </td>
                   <td class="text-center">
@@ -80,29 +81,13 @@
       </q-card-section>
     </q-card>
   </q-dialog>
-
-  <q-dialog v-model="showPlayerPhotoDialog" transition-show="slide-up" transition-hide="slide-down">
-    <q-card square style="min-width: 300px">
-      <q-card-section class="q-pa-none">
-        <q-img
-          class="q-pa-xs"
-          :src="customerImagePath + currentPlayer.playerId"
-          style="width: 300px; height: 300px"
-          :img-style="{ borderRadius: '3px' }"
-          error-src="/assets/no-photo.png"
-        />
-      </q-card-section>
-    </q-card>
-  </q-dialog>
 </template>
 
 <script setup>
-import { onMounted, ref /* watch */ } from 'vue'
-import { useDialogPluginComponent } from 'quasar'
-/* import { useInspectorStore } from "stores/inspector-store"; */
-/* const inspectorStore = useInspectorStore();
- */
-const customerImagePath = process.env.API_URL + ':5050/api/Player/GetPhotoAsJpeg?id='
+import { onMounted, ref, defineAsyncComponent } from 'vue'
+import { useDialogPluginComponent, useQuasar } from 'quasar'
+
+const $q = useQuasar()
 const props = defineProps({
   fetchFn: {
     type: Function,
@@ -126,10 +111,6 @@ defineEmits([...useDialogPluginComponent.emits])
 
 const { dialogRef, onDialogHide, onDialogOK /* onDialogCancel */ } = useDialogPluginComponent()
 
-/* const onOKClick = async () => {
-  onDialogOK({});
-}; */
-
 onMounted(async () => {
   await props.fetchFn().then((res) => {
     currentTableCustomers.value = res
@@ -137,12 +118,13 @@ onMounted(async () => {
 })
 const currentTableCustomers = ref([])
 
-const showPlayerPhotoDialog = ref(false)
-const currentPlayer = ref(null)
-
 const onClickPlayerPhoto = (player) => {
-  currentPlayer.value = player
-  showPlayerPhotoDialog.value = true
+  $q.dialog({
+    component: defineAsyncComponent(() => import('./PlayerPhotoDialog.vue')),
+    componentProps: {
+      playerId: player?.playerId,
+    },
+  })
 }
 const onClickTimeIn = async (player) => {
   if (props.currentTableId) {

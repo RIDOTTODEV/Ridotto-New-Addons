@@ -118,7 +118,7 @@ const onBeforeShow = () => {
     icon="currency_exchange"
   >
     <q-popup-proxy style="margin-top: 10px" breakpoint="700" @before-show="onBeforeShow">
-      <q-card style="max-width: 720px">
+      <q-card style="min-width: 820px !important">
         <q-card-section class="row q-pa-xs">
           <div class="col-8 q-pa-sm">
             <div class="row">
