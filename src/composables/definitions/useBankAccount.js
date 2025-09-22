@@ -114,7 +114,7 @@ export function useBankAccount() {
       },
     }).onOk(async () => {
       Loading.show()
-      await bankAccountStore.deleteBankAccount(props.id)
+      await bankAccountStore.deleteBankAccount({ id: props.id })
       Loading.hide()
       refTable.value.requestServerInteraction()
     })

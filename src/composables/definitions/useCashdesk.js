@@ -93,12 +93,14 @@ export function useCashdesk() {
       cashdeskStore.updateCashDesk({ ...form }).then(() => {
         dialog.value = false
         resetFormValues()
+        cashdeskTableRef.value.requestServerInteraction()
       })
     } else {
       delete form.id
       cashdeskStore.createCashDesk({ ...form }).then(() => {
         dialog.value = false
         resetFormValues()
+        cashdeskTableRef.value.requestServerInteraction()
       })
     }
   }
@@ -132,6 +134,7 @@ export function useCashdesk() {
       Loading.show()
       await cashdeskStore.deleteCashDesk(props.id)
       Loading.hide()
+      cashdeskTableRef.value.requestServerInteraction()
     })
   }
   onMounted(async () => {

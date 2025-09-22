@@ -24,6 +24,7 @@
       :rowsPerPage="10"
       tableName="definitionTransactionCodes"
       :slotNames="['body-cell-actions']"
+      ref="transactionCodeRefTable"
     >
       <template v-slot:body-cell-actions="{ props }">
         <q-td key="Action" align="center">
@@ -121,72 +122,48 @@
             <div class="col-4 q-mt-md">
               <q-checkbox
                 v-model="formValues.isDaily"
-                color="deep-purple"
-                :label="
-                  formValues.isDaily
-                    ? $t('isDaily') + '- ' + $t('yes')
-                    : $t('isDaily') + '- ' + $t('no')
-                "
+                color="primary"
+                :label="$t('Daily')"
                 data-cy="isDaily"
               />
             </div>
             <div class="col-4 q-mt-md">
               <q-checkbox
                 v-model="formValues.gamingExpenses"
-                color="deep-purple"
-                :label="
-                  formValues.gamingExpenses
-                    ? $t('gamingExpenses') + '- ' + $t('yes')
-                    : $t('gamingExpenses') + '- ' + $t('no')
-                "
+                color="primary"
+                :label="$t('gamingExpenses')"
                 data-cy="isDaily"
               />
             </div>
             <div class="col-4 q-mt-md">
               <q-checkbox
                 v-model="formValues.toBeCollected"
-                color="deep-purple"
-                :label="
-                  formValues.toBeCollected
-                    ? $t('toBeCollected') + '- ' + $t('yes')
-                    : $t('toBeCollected') + '- ' + $t('no')
-                "
+                color="primary"
+                :label="$t('toBeCollected')"
                 data-cy="isDaily"
               />
             </div>
             <div class="col-4 q-mt-md">
               <q-checkbox
                 v-model="formValues.authorizeByRequired"
-                color="deep-purple"
-                :label="
-                  formValues.authorizeByRequired
-                    ? $t('authorizeByRequired') + '- ' + $t('yes')
-                    : $t('authorizeByRequired') + '- ' + $t('no')
-                "
+                color="primary"
+                :label="$t('authorizeByRequired')"
                 data-cy="authorizeByRequired"
               />
             </div>
             <div class="col-4 q-mt-md">
               <q-checkbox
                 v-model="formValues.dueDateRequired"
-                color="deep-purple"
-                :label="
-                  formValues.dueDateRequired
-                    ? $t('dueDateRequired') + '- ' + $t('yes')
-                    : $t('dueDateRequired') + '- ' + $t('no')
-                "
+                color="primary"
+                :label="$t('dueDateRequired')"
                 data-cy="dueDateRequired"
               />
             </div>
             <div class="col-4 q-mt-md">
               <q-checkbox
                 v-model="formValues.defaultIsInOut"
-                color="deep-purple"
-                :label="
-                  formValues.defaultIsInOut
-                    ? $t('playerDefaultIsInOut') + '- ' + $t('yes')
-                    : $t('playerDefaultIsInOut') + '- ' + $t('no')
-                "
+                color="primary"
+                :label="$t('playerDefaultIsInOut')"
                 data-cy="defaultIsInOut"
               />
             </div>
@@ -239,5 +216,6 @@ const {
   transactionCodeTypes,
   transTypes,
   transactionCodeGroupTypes,
+  transactionCodeRefTable,
 } = useTransactionCode()
 </script>

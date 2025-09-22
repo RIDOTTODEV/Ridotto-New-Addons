@@ -87,7 +87,7 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
       return data
     },
     async deleteCashDesk(id) {
-      const { data } = await cashdeskService.delete(id)
+      const { data } = await cashdeskService.delete({ id })
       this.cashdesks = data
       return data
     },

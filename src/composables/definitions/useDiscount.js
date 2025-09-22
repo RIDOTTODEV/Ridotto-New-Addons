@@ -58,13 +58,14 @@ export function useDiscount() {
     },
   ])
 
-  const onSubmitForm = () => {
+  const onSubmitForm = async () => {
     const form = { ...discountSettingFormValues.value }
-    discountStore.updateDiscount({ ...form }).then(() => {
+    discountStore.updateDiscount({ ...form }).then(async () => {
       discountStore.updateDiscountSetting({
         name: 'DiscountSettings',
         value: JSON.stringify(form),
       })
+      await getDiscountSetting()
     })
   }
   const deleteDiscountLevel = (index) => {
@@ -85,11 +86,15 @@ export function useDiscount() {
     })
   }
   onMounted(async () => {
+    await getDiscountSetting()
+  })
+
+  const getDiscountSetting = async () => {
     const discountSetting = await discountStore.getDiscountSetting({
       name: 'DiscountSettings',
     })
     discountSettingFormValues.value = JSON.parse(discountSetting.value)
-  })
+  }
   return {
     discountStore,
     discountSettingFormValues,

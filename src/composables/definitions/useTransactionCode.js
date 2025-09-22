@@ -6,6 +6,7 @@ import { i18n } from 'src/boot/i18n'
 import { Dialog, Loading } from 'quasar'
 export const useTransactionCode = () => {
   const transactionCodeStore = useTransactionCodeStore()
+  const transactionCodeRefTable = ref(null)
   const {
     transactionCodes,
     transactionCodeTypes,
@@ -113,12 +114,14 @@ export const useTransactionCode = () => {
       transactionCodeStore.updateTransactionCode({ ...form }).then(() => {
         dialog.value = false
         resetFormValues()
+        transactionCodeRefTable.value.requestServerInteraction()
       })
     } else {
       delete form.id
       transactionCodeStore.createTransactionCode({ ...form }).then(() => {
         dialog.value = false
         resetFormValues()
+        transactionCodeRefTable.value.requestServerInteraction()
       })
     }
   }
@@ -138,7 +141,6 @@ export const useTransactionCode = () => {
       })
   }
   const deleteForm = (props) => {
-    Loading.show()
     Dialog.create({
       title: i18n.global.t('delete'),
       message: i18n.global.t('deleteMessage', {
@@ -160,8 +162,10 @@ export const useTransactionCode = () => {
         class: 'text-capitalize',
       },
     }).onOk(async () => {
+      Loading.show()
       await transactionCodeStore.deleteTransactionCode(props.id)
       Loading.hide()
+      transactionCodeRefTable.value.requestServerInteraction()
     })
   }
   onMounted(async () => {
@@ -184,5 +188,6 @@ export const useTransactionCode = () => {
     transactionCodeGroupTypes,
     transTypes,
     getTransactionCodesByTransType,
+    transactionCodeRefTable,
   }
 }

@@ -65,7 +65,7 @@ export const useTransactionCodeStore = defineStore('transactionCodeStore', {
       return response
     },
     async deleteTransactionCode(id) {
-      const { data: response } = await transactionCodeService.delete(id)
+      const { data: response } = await transactionCodeService.delete({ id })
       return response
     },
     async fetchTransactionCodeTypes() {
