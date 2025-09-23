@@ -45,7 +45,8 @@
               :name="tab.name"
               :label="$t(tab.label)"
               :icon="tab.icon"
-              :class="index === 0 ? 'q-card--bordered' : 'q-card--bordered q-ml-sm'"
+              class="bg-white q-card--bordered"
+              :class="index === 0 ? '' : 'q-ml-sm'"
             />
           </q-tabs>
         </div>

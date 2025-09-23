@@ -102,7 +102,9 @@ const showCcPosAndCcSlipId = ref(false)
         </div>
         <q-space />
         <q-btn dense flat icon="close" v-close-popup>
-          <q-tooltip class="text-subtitle1 bg-blue-grey-8">{{ $t('close') }}</q-tooltip>
+          <q-tooltip class="text-subtitle2 text-bold bg-grey-1 text-dark">{{
+            $t('close')
+          }}</q-tooltip>
         </q-btn>
       </q-bar>
       <q-card-section>
@@ -263,6 +265,8 @@ const showCcPosAndCcSlipId = ref(false)
               flat
               :label="$t('cancel')"
               @click="onDialogCancel"
+              no-wrap
+              no-caps
             />
             <q-btn
               data-cy="submit"
@@ -272,6 +276,8 @@ const showCcPosAndCcSlipId = ref(false)
               unelevated
               :label="$t('save')"
               icon="save"
+              no-wrap
+              no-caps
             />
           </div>
         </q-form>

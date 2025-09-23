@@ -179,7 +179,9 @@ watch(
         </div>
         <q-space />
         <q-btn dense flat icon="close" v-close-popup>
-          <q-tooltip class="text-subtitle1 bg-blue-grey-8">{{ $t('close') }}</q-tooltip>
+          <q-tooltip class="text-subtitle2 text-bold bg-grey-1 text-dark">{{
+            $t('close')
+          }}</q-tooltip>
         </q-btn>
       </q-bar>
       <q-card-section>
@@ -221,23 +223,16 @@ watch(
           </div>
           <div class="row">
             <div class="col-4 q-pa-xs">
-              <q-select
+              <q-select-box
                 :label="$t('transType')"
                 v-model="formValues.transType"
-                outlined
-                dense
                 :options="transTypes"
                 option-value="value"
                 option-label="label"
-                emit-value
-                map-options
                 :rules="[(val) => !!val || $t('requiredField')]"
-                clearable
-                hide-bottom-space
                 class="super-small"
                 popup-content-class="height-400"
                 data-cy="transactionCode"
-                behavior="menu"
               />
             </div>
             <div class="col-4 q-pa-xs">
@@ -318,7 +313,7 @@ watch(
             <div class="col-3 q-pa-xs text-left">
               <q-checkbox
                 v-model="formValues.inOut"
-                color="deep-purple"
+                color="primary"
                 :label="
                   formValues.inOut ? $t('inOut') + '-' + $t('yes') : $t('inOut') + '-' + $t('no')
                 "
@@ -436,6 +431,8 @@ watch(
               flat
               :label="$t('cancel')"
               @click="onDialogCancel"
+              no-caps
+              no-wrap
             />
             <q-btn
               data-cy="submit"
@@ -445,6 +442,8 @@ watch(
               unelevated
               :label="$t('save')"
               icon="save"
+              no-wrap
+              no-caps
             />
           </div>
         </q-form>

@@ -121,7 +121,7 @@ const emits = defineEmits(['savedCageChipTransaction', 'cancel'])
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12 q-pa-sm">
               <q-input
-                :label="$t('playerTransaction.playerId')"
+                :label="$t('playerId')"
                 v-model="cashDeskPlayerChipTransferTabFormValues.playerId"
                 outlined
                 dense

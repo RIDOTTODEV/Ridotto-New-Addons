@@ -110,6 +110,7 @@ const onSubmitInOutTabForm = async () => {
               :precision="2"
               data-cy="amount"
               :label="$t('amount')"
+              hide-bottom-space
             />
           </div>
           <div class="col-6 q-pa-md">

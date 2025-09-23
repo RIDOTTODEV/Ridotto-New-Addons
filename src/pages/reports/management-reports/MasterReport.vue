@@ -34,9 +34,9 @@ const onSubmitFilter = async () => {
             </div>
             <div class="text-subtitle1 text-capitalize">
               Lefkoşa Financal Report ({{
-                date.formatDate(dateFilterValue.StartDate, 'DD.MM.YYYY') +
+                date.formatDate(dateFilterValue?.StartDate, 'DD.MM.YYYY') +
                 ' - ' +
-                date.formatDate(dateFilterValue.EndDate, 'DD.MM.YYYY')
+                date.formatDate(dateFilterValue?.EndDate, 'DD.MM.YYYY')
               }})
             </div>
           </div>

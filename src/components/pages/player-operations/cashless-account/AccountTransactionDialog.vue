@@ -120,7 +120,9 @@ const showCcPosAndCcSlipId = ref(false)
           :label="formValues.accountType"
         />
         <q-btn dense flat icon="close" v-close-popup>
-          <q-tooltip class="text-subtitle1 bg-primary">{{ $t('close') }}</q-tooltip>
+          <q-tooltip class="text-subtitle2 text-bold bg-grey-1 text-dark">{{
+            $t('close')
+          }}</q-tooltip>
         </q-btn>
       </q-bar>
       <q-card-section>
