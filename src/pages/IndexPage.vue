@@ -1,9 +1,9 @@
 <template>
-  <q-page class="flex flex-center">
-    <ActiveFloorInfoReport />
+  <q-page class="q-pa-xs">
+    <Dashboard />
   </q-page>
 </template>
 
 <script setup>
-import ActiveFloorInfoReport from 'src/pages/reports/management-reports/ActiveFloorInfoReport.vue'
+import Dashboard from 'src/components/pages/Dashboard.vue'
 </script>

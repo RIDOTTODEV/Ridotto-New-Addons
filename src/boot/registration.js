@@ -8,9 +8,12 @@ export const getWindowHeight = () => {
 
 // directives
 import qDraggableTable from 'quasar-ui-q-draggable-table'
+import VueGridLayout from 'vue-grid-layout-v3'
+
 import 'quasar-ui-q-draggable-table/dist/index.css'
 import Permission from 'src/directive/Permission'
 import createPlayerDetailDirective from 'src/directive/PlayerDetail'
+
 // components
 import SupaTable from '../components/atoms/SupaTable.vue'
 import Sidebar from 'src/components/layout/Sidebar.vue'
@@ -27,8 +30,10 @@ import Confirm from 'src/components/ui/Confirm.vue'
 export default defineBoot(async ({ app, router }) => {
   // directives
   app.use(qDraggableTable)
+  app.use(VueGridLayout)
   app.directive('el-perms', Permission)
   app.directive('player-detail', createPlayerDetailDirective(router))
+
   // components
   app.component('SupaTable', SupaTable)
   app.component('Sidebar', Sidebar)
