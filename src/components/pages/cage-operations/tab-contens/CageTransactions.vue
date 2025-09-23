@@ -105,6 +105,69 @@
       </q-card-section>
 
       <q-card-section class="q-pa-none" v-else>
+        <q-card
+          class="no-box-shadow q-mb-md"
+          v-if="cageTransactionsTable?.response?.totals?.length > 0"
+        >
+          <q-card-section class="q-pa-none">
+            <div class="row bg-grey-2 q-card--bordered">
+              <div class="col-1 text-center">
+                <div class="text-subtitle2">#</div>
+              </div>
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ $t('currencyName') }}
+                </div>
+              </div>
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ $t('deposit') }}
+                </div>
+              </div>
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ $t('withdrawal') }}
+                </div>
+              </div>
+              <div class="col text-center">
+                <div class="text-subtitle2">
+                  {{ $t('result') }}
+                </div>
+              </div>
+            </div>
+            <div
+              class="row q-card--bordered"
+              v-for="(total, index) in cageTransactionsTable?.response?.totals"
+              :key="index"
+            >
+              <div class="col-1 text-center bg-grey-2">
+                <div class="text-subtitle2">
+                  {{ index + 1 }}
+                </div>
+              </div>
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ total.currencyName }}
+                </div>
+              </div>
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ priceAbsFormatted(total.deposit) }}
+                </div>
+              </div>
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ priceAbsFormatted(total.withdrawal) }}
+                </div>
+              </div>
+              <div class="col text-center">
+                <div class="text-subtitle2">
+                  {{ priceAbsFormatted(total.result) }}
+                </div>
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
         <SupaTable
           :columns="columns"
           :getDataFn="cashdeskStore.fetchCashdeskTransactions"
@@ -317,6 +380,7 @@ import ExchangeTransfer from '../cage-transaction-tabs/ExchangeTransfer.vue'
 import OthersTransfer from '../cage-transaction-tabs/OthersTransfer.vue'
 import BankTransfer from '../cage-transaction-tabs/BankTransfer.vue'
 import { LocalStorage } from 'quasar'
+import { priceAbsFormatted } from 'src/helpers/helpers'
 const cashdeskStore = useCashdeskStore()
 const {
   getSelectedCashDeskId,
@@ -427,4 +491,11 @@ const onSavedCageTransaction = () => {
   createNewTransaction.value = false
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.b-t-1 {
+  border-top: 1px solid #e0e0e0;
+}
+.border-right-1 {
+  border-right: 2px solid #e0e0e0;
+}
+</style>

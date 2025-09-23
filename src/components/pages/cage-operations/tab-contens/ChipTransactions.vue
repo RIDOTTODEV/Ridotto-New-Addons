@@ -105,6 +105,91 @@
         </q-tab-panels>
       </q-card-section>
       <q-card-section class="q-pa-none" v-else>
+        <q-card
+          class="no-box-shadow q-mb-md"
+          v-if="chipTransactionTableRef?.response?.totals?.length > 0"
+        >
+          <q-card-section class="q-pa-none">
+            <div class="row bg-grey-2 q-card--bordered">
+              <div class="col-1 text-center">
+                <div class="text-subtitle2">#</div>
+              </div>
+
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ $t('chipType') }}
+                </div>
+              </div>
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ $t('chipName') }}
+                </div>
+              </div>
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ $t('currencyName') }}
+                </div>
+              </div>
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ $t('deposit') }}
+                </div>
+              </div>
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ $t('withdrawal') }}
+                </div>
+              </div>
+              <div class="col text-center">
+                <div class="text-subtitle2">
+                  {{ $t('result') }}
+                </div>
+              </div>
+            </div>
+            <div
+              class="row q-card--bordered"
+              v-for="(total, index) in chipTransactionTableRef?.response?.totals"
+              :key="index"
+            >
+              <div class="col-1 text-center bg-grey-2">
+                <div class="text-subtitle2">
+                  {{ index + 1 }}
+                </div>
+              </div>
+
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ total.chipType }}
+                </div>
+              </div>
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ total.chipName }}
+                </div>
+              </div>
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ total.chipCurrencyName }}
+                </div>
+              </div>
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ priceAbsFormatted(total.deposit) }}
+                </div>
+              </div>
+              <div class="col text-center border-right-1">
+                <div class="text-subtitle2">
+                  {{ priceAbsFormatted(total.withdrawal) }}
+                </div>
+              </div>
+              <div class="col text-center">
+                <div class="text-subtitle2">
+                  {{ priceAbsFormatted(total.result) }}
+                </div>
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
         <SupaTable
           ref="chipTransactionTableRef"
           :filterParams="filterFields"
@@ -378,6 +463,7 @@ import TableFloatFill from '../chip-transaction-tabs/TableFloatFill.vue'
 import { formatPrice } from 'src/helpers/helpers'
 import { LocalStorage } from 'quasar'
 import Information from 'src/components/ui/Information.vue'
+import { priceAbsFormatted } from 'src/helpers/helpers'
 const cashDeskStore = useCashdeskStore()
 const {
   getSelectedCashDeskId,
@@ -517,4 +603,8 @@ const currencyStore = useCurrencyStore()
 const { getCurrenciesWithFlags } = storeToRefs(currencyStore)
 </script>
 
-<style scoped></style>
+<style scoped>
+.border-right-1 {
+  border-right: 1px solid #e0e0e0;
+}
+</style>

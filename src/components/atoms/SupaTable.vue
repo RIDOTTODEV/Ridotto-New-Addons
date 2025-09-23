@@ -125,6 +125,30 @@
         </q-th>
       </q-tr>
     </template>
+    <template v-slot:body-cell-actions="props">
+      <q-td :props="props" class="text-right">
+        <q-btn
+          icon="data_object"
+          dense
+          size="13px"
+          unelevated
+          @click="showTheJsonDetail(props.row.detail)"
+          v-if="props.row?.detail && props.row?.detail !== null"
+          class="q-mr-xs"
+        />
+        <q-btn
+          v-for="(action, index) in tableBodyActions"
+          :key="index"
+          :icon="action.icon"
+          :color="action.color"
+          @click="action.fn(props.row[action.args], filter)"
+          dense
+          size="13px"
+          unelevated
+          flat
+        />
+      </q-td>
+    </template>
     <template v-slot:bottom>
       <div
         class="full-width q-mt-xs q-mb-xs row col-12 flex content-center items-center justify-end"
@@ -163,30 +187,7 @@
         />
       </div>
     </template>
-    <template v-slot:body-cell-actions="props">
-      <q-td :props="props" class="text-right">
-        <q-btn
-          icon="data_object"
-          dense
-          size="13px"
-          unelevated
-          @click="showTheJsonDetail(props.row.detail)"
-          v-if="props.row?.detail && props.row?.detail !== null"
-          class="q-mr-xs"
-        />
-        <q-btn
-          v-for="(action, index) in tableBodyActions"
-          :key="index"
-          :icon="action.icon"
-          :color="action.color"
-          @click="action.fn(props.row[action.args], filter)"
-          dense
-          size="13px"
-          unelevated
-          flat
-        />
-      </q-td>
-    </template>
+
     <template v-for="slotName in slotNames" v-slot:[slotName]="props">
       <slot :name="slotName" v-bind="{ props }"></slot>
     </template>

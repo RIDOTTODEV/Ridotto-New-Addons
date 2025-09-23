@@ -47,9 +47,9 @@ const state = ref({
   layout: [
     { x: 0, y: 0, w: 6, h: 8, i: '0', component: 'ActiveFloorInfo' },
     { x: 6, y: 0, w: 6, h: 8, i: '1', component: 'GetTimeInOut' },
-    { x: 4, y: 0, w: 6, h: 8, i: '2', component: 'GetTimeInOutByPlayer' },
+    /*     { x: 4, y: 0, w: 6, h: 8, i: '2', component: 'GetTimeInOutByPlayer' },
     { x: 6, y: 0, w: 6, h: 8, i: '3', component: 'GetTimeInOutByTable' },
-    { x: 8, y: 0, w: 6, h: 8, i: '4', component: 'GetTableFloats' },
+    { x: 8, y: 0, w: 6, h: 8, i: '4', component: 'GetTableFloats' }, */
   ],
   draggable: true,
   resizable: true,
@@ -62,7 +62,7 @@ const components = {
   GetTimeInOut: defineAsyncComponent(
     () => import('src/components/pages/reports/reports/GetTimeInOutReport.vue'),
   ),
-  GetTimeInOutByPlayer: defineAsyncComponent(
+  /*   GetTimeInOutByPlayer: defineAsyncComponent(
     () => import('src/components/pages/reports/reports/GetTimeInOutByPlayerReport.vue'),
   ),
   GetTimeInOutByTable: defineAsyncComponent(
@@ -70,7 +70,7 @@ const components = {
   ),
   GetTableFloats: defineAsyncComponent(
     () => import('src/components/pages/reports/reports/GetTableFloatsReport.vue'),
-  ),
+  ), */
 }
 </script>
 
@@ -93,7 +93,7 @@ const components = {
 
 .vue-grid-item:not(.vue-grid-placeholder) {
   background: #fff;
-  border: 1px solid rgb(130, 130, 130);
+  border: 1px solid rgb(195, 195, 195);
   height: 100%;
   width: 100%;
   overflow: auto;
@@ -102,7 +102,7 @@ const components = {
 
 .layoutJSON {
   background: #ddd;
-  border: 1px solid rgb(130, 130, 130);
+  border: 1px solid rgb(182, 182, 182);
   margin-top: 10px;
   padding: 10px;
 }
