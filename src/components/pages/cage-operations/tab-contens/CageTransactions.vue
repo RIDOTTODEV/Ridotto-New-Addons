@@ -110,62 +110,26 @@
           v-if="cageTransactionsTable?.response?.totals?.length > 0"
         >
           <q-card-section class="q-pa-none">
-            <div class="row bg-grey-2 q-card--bordered">
-              <div class="col-1 text-center">
-                <div class="text-subtitle2">#</div>
-              </div>
-              <div class="col text-center border-right-1">
-                <div class="text-subtitle2">
-                  {{ $t('currencyName') }}
-                </div>
-              </div>
-              <div class="col text-center border-right-1">
-                <div class="text-subtitle2">
-                  {{ $t('deposit') }}
-                </div>
-              </div>
-              <div class="col text-center border-right-1">
-                <div class="text-subtitle2">
-                  {{ $t('withdrawal') }}
-                </div>
-              </div>
-              <div class="col text-center">
-                <div class="text-subtitle2">
-                  {{ $t('result') }}
-                </div>
-              </div>
-            </div>
-            <div
-              class="row q-card--bordered"
-              v-for="(total, index) in cageTransactionsTable?.response?.totals"
-              :key="index"
-            >
-              <div class="col-1 text-center bg-grey-2">
-                <div class="text-subtitle2">
-                  {{ index + 1 }}
-                </div>
-              </div>
-              <div class="col text-center border-right-1">
-                <div class="text-subtitle2">
-                  {{ total.currencyName }}
-                </div>
-              </div>
-              <div class="col text-center border-right-1">
-                <div class="text-subtitle2">
-                  {{ priceAbsFormatted(total.deposit) }}
-                </div>
-              </div>
-              <div class="col text-center border-right-1">
-                <div class="text-subtitle2">
-                  {{ priceAbsFormatted(total.withdrawal) }}
-                </div>
-              </div>
-              <div class="col text-center">
-                <div class="text-subtitle2">
-                  {{ priceAbsFormatted(total.result) }}
-                </div>
-              </div>
-            </div>
+            <q-markup-table dense separator="cell" bordered class="no-box-shadow">
+              <thead>
+                <tr>
+                  <th class="text-center q-custom-table">#</th>
+                  <th class="text-center q-custom-table">Currency</th>
+                  <th class="text-center q-custom-table">Deposit</th>
+                  <th class="text-center q-custom-table">Withdrawal</th>
+                  <th class="text-center q-custom-table">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(total, index) in cageTransactionsTable?.response?.totals" :key="index">
+                  <td class="text-center q-custom-table">{{ index + 1 }}</td>
+                  <td class="text-center">{{ total.currencyName }}</td>
+                  <td class="text-center">{{ priceAbsFormatted(total.deposit) }}</td>
+                  <td class="text-center">{{ priceAbsFormatted(total.withdrawal) }}</td>
+                  <td class="text-center">{{ priceAbsFormatted(total.result) }}</td>
+                </tr>
+              </tbody>
+            </q-markup-table>
           </q-card-section>
         </q-card>
         <SupaTable

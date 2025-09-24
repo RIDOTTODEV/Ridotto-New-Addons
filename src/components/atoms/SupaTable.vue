@@ -149,7 +149,11 @@
         />
       </q-td>
     </template>
+    <template v-slot:bottom-row="props">
+      <slot name="bottomRow" v-bind="{ ...props, rows: refTable?.computedRows || [] }"></slot>
+    </template>
     <template v-slot:bottom>
+      <slot name="bottomSlots" v-bind="{ rows: refTable?.computedRows || [] }"></slot>
       <div
         class="full-width q-mt-xs q-mb-xs row col-12 flex content-center items-center justify-end"
       >
@@ -618,5 +622,9 @@ defineExpose({
 // Add selected row styling
 .supa-table tbody tr.selected-row {
   background-color: rgba(255, 0, 0, 0.1) !important;
+}
+
+.q-table__bottom {
+  padding: 0px !important;
 }
 </style>

@@ -46,6 +46,73 @@
           </div>
         </div>
       </template>
+      <template v-slot:bottomRow="props">
+        <q-tr :props="props">
+          <q-td name="tableName" align="center" colspan="2">
+            <div class="text-subtitle2">Total</div>
+          </q-td>
+          <q-td
+            name="totalAvgBet"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalAvgBet, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalAvgBet, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalAvgBet, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            name="totalCashDrop"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalCashDrop, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalCashDrop, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalCashDrop, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            name="totalChipDrop"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalChipDrop, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalChipDrop, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalChipDrop, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            name="totalResult"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalResult, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalResult, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalResult, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            name="totalOut"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalOut, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalOut, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalOut, 0)) }}
+            </div>
+          </q-td>
+        </q-tr>
+      </template>
     </SupaTable>
   </q-page>
 </template>
@@ -55,6 +122,7 @@ import { ref } from 'vue'
 import { useReportStore } from 'src/stores/report-store'
 import { useTableStore } from 'src/stores/table-store'
 import { storeToRefs } from 'pinia'
+import { priceAbsFormatted } from 'src/helpers/helpers'
 const reportStore = useReportStore()
 const tableStore = useTableStore()
 const { tables } = storeToRefs(tableStore)

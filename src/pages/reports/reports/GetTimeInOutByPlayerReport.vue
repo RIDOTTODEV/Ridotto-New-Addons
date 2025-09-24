@@ -75,6 +75,78 @@
           />
         </q-td>
       </template>
+      <template v-slot:bottomRow="props">
+        <q-tr :props="props">
+          <q-td name="playerId" align="center" colspan="3">
+            <div class="text-subtitle2">Total</div>
+          </q-td>
+          <q-td
+            name="totalAvgBet"
+            align="center"
+            v-if="props.cols.find((col) => col.name === 'totalAvgBet')?.visible"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalAvgBet, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalAvgBet, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalAvgBet, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            name="totalCashDrop"
+            align="center"
+            v-if="props.cols.find((col) => col.name === 'totalCashDrop')?.visible"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalCashDrop, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalCashDrop, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalCashDrop, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            name="totalChipDrop"
+            align="center"
+            v-if="props.cols.find((col) => col.name === 'totalChipDrop')?.visible"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalChipDrop, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalChipDrop, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalChipDrop, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            name="totalResult"
+            align="center"
+            v-if="props.cols.find((col) => col.name === 'totalResult')?.visible"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalResult, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalResult, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalResult, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            name="totalOut"
+            align="center"
+            v-if="props.cols.find((col) => col.name === 'totalOut')?.visible"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalOut, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalOut, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalOut, 0)) }}
+            </div>
+          </q-td>
+        </q-tr>
+      </template>
     </SupaTable>
 
     <q-dialog
@@ -158,6 +230,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useReportStore } from 'src/stores/report-store'
+import { priceAbsFormatted } from 'src/helpers/helpers'
 const reportStore = useReportStore()
 const filterValues = ref({
   PlayerId: null,

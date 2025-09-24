@@ -1,5 +1,6 @@
 <template>
-  <div class="col-12 text-right">
+  <ActiveFloorInfo />
+  <!--   <div class="col-12 text-right">
     <q-btn
       v-el-perms="'Addon.Dashboard.Settings'"
       icon="fas fa-edit"
@@ -37,32 +38,33 @@
         <component :is="components[item.component]" />
       </GridItem>
     </GridLayout>
-  </div>
+  </div> -->
 </template>
 
 <script setup>
-import { GridLayout, GridItem } from 'vue-grid-layout-v3'
-import { ref, defineAsyncComponent } from 'vue'
-const state = ref({
+import ActiveFloorInfo from 'src/pages/reports/management-reports/ActiveFloorInfoReport.vue'
+//import { GridLayout, GridItem } from 'vue-grid-layout-v3'
+//import { ref, defineAsyncComponent } from 'vue'
+/* const state = ref({
   layout: [
     { x: 0, y: 0, w: 6, h: 8, i: '0', component: 'ActiveFloorInfo' },
     { x: 6, y: 0, w: 6, h: 8, i: '1', component: 'GetTimeInOut' },
-    /*     { x: 4, y: 0, w: 6, h: 8, i: '2', component: 'GetTimeInOutByPlayer' },
+      { x: 4, y: 0, w: 6, h: 8, i: '2', component: 'GetTimeInOutByPlayer' },
     { x: 6, y: 0, w: 6, h: 8, i: '3', component: 'GetTimeInOutByTable' },
-    { x: 8, y: 0, w: 6, h: 8, i: '4', component: 'GetTableFloats' }, */
+    { x: 8, y: 0, w: 6, h: 8, i: '4', component: 'GetTableFloats' },
   ],
   draggable: true,
   resizable: true,
   responsive: true,
-})
-const components = {
+}) */
+/* const components = {
   ActiveFloorInfo: defineAsyncComponent(
     () => import('src/components/pages/reports/reports/GetPlayerResultReport.vue'),
   ),
   GetTimeInOut: defineAsyncComponent(
     () => import('src/components/pages/reports/reports/GetTimeInOutReport.vue'),
   ),
-  /*   GetTimeInOutByPlayer: defineAsyncComponent(
+    GetTimeInOutByPlayer: defineAsyncComponent(
     () => import('src/components/pages/reports/reports/GetTimeInOutByPlayerReport.vue'),
   ),
   GetTimeInOutByTable: defineAsyncComponent(
@@ -70,8 +72,8 @@ const components = {
   ),
   GetTableFloats: defineAsyncComponent(
     () => import('src/components/pages/reports/reports/GetTableFloatsReport.vue'),
-  ), */
-}
+  ),
+} */
 </script>
 
 <style scoped>

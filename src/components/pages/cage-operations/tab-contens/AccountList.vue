@@ -1,66 +1,6 @@
 <template>
   <div class="row">
     <div class="col-12">
-      <q-card class="no-box-shadow q-mb-md" v-if="cashAccountsTotalsGroupedByCurrency().length > 0">
-        <q-card-section class="q-pa-none">
-          <div class="row bg-grey-2 q-card--bordered">
-            <div class="col-1 text-center">
-              <div class="text-subtitle2">#</div>
-            </div>
-            <div class="col text-center border-right-1">
-              <div class="text-subtitle2">
-                {{ $t('currencyName') }}
-              </div>
-            </div>
-            <div class="col text-center border-right-1">
-              <div class="text-subtitle2">
-                {{ $t('totalIn') }}
-              </div>
-            </div>
-            <div class="col text-center border-right-1">
-              <div class="text-subtitle2">
-                {{ $t('totalOut') }}
-              </div>
-            </div>
-            <div class="col text-center">
-              <div class="text-subtitle2">
-                {{ $t('result') }}
-              </div>
-            </div>
-          </div>
-          <div
-            class="row q-card--bordered"
-            v-for="(total, index) in cashAccountsTotalsGroupedByCurrency()"
-            :key="index"
-          >
-            <div class="col-1 text-center bg-grey-2">
-              <div class="text-subtitle2">
-                {{ index + 1 }}
-              </div>
-            </div>
-            <div class="col text-center border-right-1">
-              <div class="text-subtitle2">
-                {{ total.currencyName }}
-              </div>
-            </div>
-            <div class="col text-center border-right-1">
-              <div class="text-subtitle2">
-                {{ priceAbsFormatted(total.totalIn) }}
-              </div>
-            </div>
-            <div class="col text-center border-right-1">
-              <div class="text-subtitle2">
-                {{ priceAbsFormatted(total.totalOut) }}
-              </div>
-            </div>
-            <div class="col text-center">
-              <div class="text-subtitle2">
-                {{ priceAbsFormatted(total.result) }}
-              </div>
-            </div>
-          </div>
-        </q-card-section>
-      </q-card>
       <SupaTable
         :columns="cashAccountColumns"
         :getDataFn="cashdeskStore.fetchCashdeskAccounts"
@@ -96,69 +36,48 @@
             />
           </q-td>
         </template>
+        <template v-slot:bottomSlots>
+          <div class="full-width flex justify-end">
+            <q-card
+              class="no-box-shadow q-mb-md full-width q-mt-md q-pl-sm q-pr-sm"
+              v-if="cashAccountsTotalsGroupedByCurrency().length > 0"
+            >
+              <q-card-section class="q-pa-none">
+                <div class="text-subtitle2 text-bold">
+                  Totals <span class="text-negative">*</span>
+                </div>
+              </q-card-section>
+              <q-card-section class="q-pa-none">
+                <q-markup-table dense separator="cell" square class="no-box-shadow" bordered>
+                  <thead>
+                    <tr>
+                      <th class="text-center">#</th>
+                      <th class="text-center">Currency</th>
+                      <th class="text-center">Total In</th>
+                      <th class="text-center">Total Out</th>
+                      <th class="text-center">Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="(total, index) in cashAccountsTotalsGroupedByCurrency()"
+                      :key="index"
+                    >
+                      <td class="text-center">{{ index + 1 }}</td>
+                      <td class="text-center">{{ total.currencyName }}</td>
+                      <td class="text-center">{{ priceAbsFormatted(total.totalIn) }}</td>
+                      <td class="text-center">{{ priceAbsFormatted(total.totalOut) }}</td>
+                      <td class="text-center">{{ priceAbsFormatted(total.result) }}</td>
+                    </tr>
+                  </tbody>
+                </q-markup-table>
+              </q-card-section>
+            </q-card>
+          </div>
+        </template>
       </SupaTable>
     </div>
     <div class="col-12 q-mt-md">
-      <q-card class="no-box-shadow q-mb-md" v-if="chipAccountsTotalsGroupedByCurrency().length > 0">
-        <q-card-section class="q-pa-none">
-          <div class="row bg-grey-2 q-card--bordered">
-            <div class="col-1 text-center">
-              <div class="text-subtitle2">#</div>
-            </div>
-            <div class="col text-center border-right-1">
-              <div class="text-subtitle2">
-                {{ $t('currencyName') }}
-              </div>
-            </div>
-            <div class="col text-center border-right-1">
-              <div class="text-subtitle2">
-                {{ $t('totalIn') }}
-              </div>
-            </div>
-            <div class="col text-center border-right-1">
-              <div class="text-subtitle2">
-                {{ $t('totalOut') }}
-              </div>
-            </div>
-            <div class="col text-center">
-              <div class="text-subtitle2">
-                {{ $t('result') }}
-              </div>
-            </div>
-          </div>
-          <div
-            class="row q-card--bordered"
-            v-for="(total, index) in chipAccountsTotalsGroupedByCurrency()"
-            :key="index"
-          >
-            <div class="col-1 text-center bg-grey-2">
-              <div class="text-subtitle2">
-                {{ index + 1 }}
-              </div>
-            </div>
-            <div class="col text-center border-right-1">
-              <div class="text-subtitle2">
-                {{ total.currencyName }}
-              </div>
-            </div>
-            <div class="col text-center border-right-1">
-              <div class="text-subtitle2">
-                {{ priceAbsFormatted(total.totalIn) }}
-              </div>
-            </div>
-            <div class="col text-center border-right-1">
-              <div class="text-subtitle2">
-                {{ priceAbsFormatted(total.totalOut) }}
-              </div>
-            </div>
-            <div class="col text-center">
-              <div class="text-subtitle2">
-                {{ priceAbsFormatted(total.result) }}
-              </div>
-            </div>
-          </div>
-        </q-card-section>
-      </q-card>
       <SupaTable
         :columns="chipAccountColumns"
         :getDataFn="cashdeskStore.fetchCashdeskAccounts"
@@ -193,6 +112,45 @@
               data-cy="editData"
             />
           </q-td>
+        </template>
+        <template v-slot:bottomSlots>
+          <div class="full-width flex justify-end">
+            <q-card
+              class="no-box-shadow q-mb-md full-width q-mt-md q-pl-sm q-pr-sm"
+              v-if="chipAccountsTotalsGroupedByCurrency().length > 0"
+            >
+              <q-card-section class="q-pa-none">
+                <div class="text-subtitle2 text-bold">
+                  Totals <span class="text-negative">*</span>
+                </div>
+              </q-card-section>
+              <q-card-section class="q-pa-none">
+                <q-markup-table dense separator="cell" square bordered class="no-box-shadow">
+                  <thead>
+                    <tr>
+                      <th class="text-center">#</th>
+                      <th class="text-left">Currency</th>
+                      <th class="text-right">Total In</th>
+                      <th class="text-right">Total Out</th>
+                      <th class="text-right">Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="(total, index) in chipAccountsTotalsGroupedByCurrency()"
+                      :key="index"
+                    >
+                      <td class="text-center">{{ index + 1 }}</td>
+                      <td class="text-left">{{ total.currencyName }}</td>
+                      <td class="text-right">{{ priceAbsFormatted(total.totalIn) }}</td>
+                      <td class="text-right">{{ priceAbsFormatted(total.totalOut) }}</td>
+                      <td class="text-right">{{ priceAbsFormatted(total.result) }}</td>
+                    </tr>
+                  </tbody>
+                </q-markup-table>
+              </q-card-section>
+            </q-card>
+          </div>
         </template>
       </SupaTable>
     </div>

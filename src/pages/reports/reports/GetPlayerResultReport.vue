@@ -88,6 +88,79 @@
           />
         </q-td>
       </template>
+      <template v-slot:bottomRow="props">
+        <q-tr :props="props">
+          <q-td name="playerFullName" align="center">
+            <div class="text-subtitle2">Total</div>
+          </q-td>
+          <q-td
+            v-if="props.cols.find((col) => col.name === 'buyedChips')?.visible"
+            name="buyedChips"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.buyedChips, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.buyedChips, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.buyedChips, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            v-if="props.cols.find((col) => col.name === 'drop')?.visible"
+            name="drop"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.drop, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.drop, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.drop, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            v-if="props.cols.find((col) => col.name === 'out')?.visible"
+            name="out"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.out, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.out, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.out, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            v-if="props.cols.find((col) => col.name === 'chipsInPocket')?.visible"
+            name="chipsInPocket"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.chipsInPocket, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.chipsInPocket, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.chipsInPocket, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            v-if="props.cols.find((col) => col.name === 'usedChips')?.visible"
+            name="usedChips"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.usedChips, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.usedChips, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.usedChips, 0)) }}
+            </div>
+          </q-td>
+          <q-td name="chipDetails" align="center" colspan="2"></q-td>
+        </q-tr>
+      </template>
     </SupaTable>
 
     <q-dialog
@@ -254,7 +327,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useReportStore } from 'src/stores/report-store'
-import { formatPrice } from 'src/helpers/helpers'
+import { formatPrice, priceAbsFormatted } from 'src/helpers/helpers'
 const reportStore = useReportStore()
 const filterValues = ref({
   playerId: null,

@@ -75,6 +75,80 @@
           </span>
         </q-td>
       </template>
+      <template v-slot:bottomRow="props">
+        <q-tr :props="props">
+          <q-td name="playerId" align="center" colspan="6">
+            <div class="text-subtitle2">Total</div>
+          </q-td>
+
+          <q-td
+            v-if="props.cols.find((col) => col.name === 'avgBet')?.visible"
+            name="avgBet"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.avgBet, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.avgBet, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.avgBet, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            v-if="props.cols.find((col) => col.name === 'cashDrop')?.visible"
+            name="cashDrop"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.cashDrop, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.cashDrop, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.cashDrop, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            v-if="props.cols.find((col) => col.name === 'chipDrop')?.visible"
+            name="chipDrop"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.chipDrop, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.chipDrop, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.chipDrop, 0)) }}
+            </div>
+          </q-td>
+          <q-td
+            v-if="props.cols.find((col) => col.name === 'out')?.visible"
+            name="out"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.out, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.out, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.out, 0)) }}
+            </div>
+          </q-td>
+
+          <q-td
+            v-if="props.cols.find((col) => col.name === 'result')?.visible"
+            name="result"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.result, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.result, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.result, 0)) }}
+            </div>
+          </q-td>
+        </q-tr>
+      </template>
     </SupaTable>
   </q-page>
 </template>
@@ -84,6 +158,7 @@ import { ref } from 'vue'
 import { useReportStore } from 'src/stores/report-store'
 import { useTableStore } from 'src/stores/table-store'
 import { storeToRefs } from 'pinia'
+import { priceAbsFormatted } from 'src/helpers/helpers'
 const reportStore = useReportStore()
 const tableStore = useTableStore()
 const { tables } = storeToRefs(tableStore)

@@ -27,6 +27,25 @@
           </div>
         </q-td>
       </template>
+      <template v-slot:bottomRow="props">
+        <q-tr :props="props">
+          <q-td name="tableName" align="center" colspan="3">
+            <div class="text-subtitle2">Total</div>
+          </q-td>
+          <q-td
+            name="total"
+            align="center"
+            :class="{
+              'bg-red-1': props.rows.reduce((acc, item) => acc + item.total, 0) < 0,
+              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.total, 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2">
+              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.total, 0)) }}
+            </div>
+          </q-td>
+        </q-tr>
+      </template>
     </SupaTable>
   </q-page>
 </template>
@@ -34,7 +53,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useReportStore } from 'src/stores/report-store'
-
+import { priceAbsFormatted } from 'src/helpers/helpers'
 const reportStore = useReportStore()
 
 const filterValues = ref({})
