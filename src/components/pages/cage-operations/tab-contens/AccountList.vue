@@ -1,158 +1,278 @@
 <template>
   <div class="row">
     <div class="col-12">
-      <SupaTable
-        :columns="cashAccountColumns"
-        :getDataFn="cashdeskStore.fetchCashdeskAccounts"
-        :rowsPerPage="10"
-        tableName="cashAccountColumns"
-        :filterParams="filterParams"
-        :slotNames="['body-cell-action']"
-        ref="cashAccountTable"
-        dataKey="cashAccountList"
-      >
-        <template v-slot:headerFilterSlots>
-          <div class="col flex content-center text-center">
-            <div class="text-subtitle2 q-ml-sm">
-              {{ $t('cashAccounts') }}
-            </div>
-            <q-space />
-          </div>
-        </template>
-        <template v-slot:body-cell-action="{ props }">
-          <q-td key="action" align="center">
-            <q-btn
-              unelevated
-              dense
-              color="grey-2"
-              text-color="dark"
-              no-caps
-              size="12px"
-              icon="search"
-              class="q-mr-md"
-              @click="onClickShowDetailAccount(props.row, 'cage')"
-              v-el-perms="'Addon.Definitions.Cashdesk.Update'"
-              data-cy="editData"
-            />
-          </q-td>
-        </template>
-        <template v-slot:bottomSlots>
-          <div class="full-width flex justify-end">
-            <q-card
-              class="no-box-shadow q-mb-md full-width q-mt-md q-pl-sm q-pr-sm"
-              v-if="cashAccountsTotalsGroupedByCurrency().length > 0"
-            >
+      <div>
+        <q-card
+          class="no-box-shadow q-mb-md q-ma-xs"
+          v-if="cashAccountsTotalsGroupedByCurrency().length > 0 && showSummaryCashCard === false"
+        >
+          <q-card-section class="q-pa-none">
+            <q-markup-table dense separator="cell" bordered class="no-box-shadow" square>
+              <thead>
+                <tr>
+                  <th class="text-center">Currency</th>
+                  <th class="text-center">Deposit</th>
+                  <th class="text-center">Withdrawal</th>
+                  <th class="text-center">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(total, index) in cashAccountsTotalsGroupedByCurrency()" :key="index">
+                  <td class="text-center">{{ total.currencyName }}</td>
+                  <td class="text-center">{{ priceAbsFormatted(total.deposit) }}</td>
+                  <td class="text-center">{{ priceAbsFormatted(total.withdrawal) }}</td>
+                  <td class="text-center">{{ priceAbsFormatted(total.result) }}</td>
+                </tr>
+              </tbody>
+            </q-markup-table>
+          </q-card-section>
+        </q-card>
+        <div
+          class="row"
+          v-if="cashAccountsTotalsGroupedByCurrency().length > 0 && showSummaryCashCard === true"
+        >
+          <div
+            class="col-4 text-center q-pa-xs"
+            v-for="total in cashAccountsTotalsGroupedByCurrency()"
+            :key="total.currencyName"
+          >
+            <q-card flat class="app-cart-grey">
               <q-card-section class="q-pa-none">
-                <div class="text-subtitle2 text-bold">
-                  Totals <span class="text-negative">*</span>
+                <div class="text-h6">{{ total.currencyName }}</div>
+                <div class="row">
+                  <div class="col-4">
+                    <div class="text-caption">{{ $t('withdrawal') }}</div>
+                  </div>
+                  <div class="col-4">
+                    <div class="text-caption">{{ $t('deposit') }}</div>
+                  </div>
+                  <div class="col-4">
+                    <div class="text-caption">{{ $t('result') }}</div>
+                  </div>
                 </div>
-              </q-card-section>
-              <q-card-section class="q-pa-none">
-                <q-markup-table dense separator="cell" square class="no-box-shadow" bordered>
-                  <thead>
-                    <tr>
-                      <th class="text-center">#</th>
-                      <th class="text-center">Currency</th>
-                      <th class="text-center">Total In</th>
-                      <th class="text-center">Total Out</th>
-                      <th class="text-center">Result</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(total, index) in cashAccountsTotalsGroupedByCurrency()"
-                      :key="index"
+                <div class="row">
+                  <div class="col-4">
+                    <div
+                      class="text-h6"
+                      :class="{
+                        'text-green-8': total.withdrawal > 0,
+                        'text-negative': total.withdrawal < 0,
+                      }"
                     >
-                      <td class="text-center">{{ index + 1 }}</td>
-                      <td class="text-center">{{ total.currencyName }}</td>
-                      <td class="text-center">{{ priceAbsFormatted(total.totalIn) }}</td>
-                      <td class="text-center">{{ priceAbsFormatted(total.totalOut) }}</td>
-                      <td class="text-center">{{ priceAbsFormatted(total.result) }}</td>
-                    </tr>
-                  </tbody>
-                </q-markup-table>
+                      {{ priceAbsFormatted(total.withdrawal) }}
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div
+                      class="text-h6"
+                      :class="{
+                        'text-green-8': total.deposit > 0,
+                        'text-negative': total.deposit < 0,
+                      }"
+                    >
+                      {{ priceAbsFormatted(total.deposit) }}
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div
+                      class="text-h6"
+                      :class="{
+                        'text-green-8': total.result > 0,
+                        'text-negative': total.result < 0,
+                      }"
+                    >
+                      {{ priceAbsFormatted(total.result) }}
+                    </div>
+                  </div>
+                </div>
               </q-card-section>
             </q-card>
           </div>
-        </template>
-      </SupaTable>
+        </div>
+      </div>
+      <div class="q-pa-xs">
+        <SupaTable
+          :columns="cashAccountColumns"
+          :getDataFn="cashdeskStore.fetchCashdeskAccounts"
+          :rowsPerPage="10"
+          tableName="cashAccountColumns"
+          :filterParams="filterParams"
+          :slotNames="['body-cell-action']"
+          ref="cashAccountTable"
+          dataKey="cashAccountList"
+          :hideFields="{
+            showVisibleColumns: true,
+            showReloadButton: true,
+            showScreenModeButton: true,
+            showSearchInput: true,
+            switchSummaryCard: true,
+          }"
+          @switchSummaryCard="showSummaryCashCard = !showSummaryCashCard"
+        >
+          <template v-slot:headerFilterSlots>
+            <div class="col flex content-center text-center">
+              <div class="text-subtitle2 q-ml-sm">
+                {{ $t('cashAccounts') }}
+              </div>
+              <q-space />
+            </div>
+          </template>
+          <template v-slot:body-cell-action="{ props }">
+            <q-td key="action" align="center">
+              <q-btn
+                unelevated
+                dense
+                color="grey-2"
+                text-color="dark"
+                no-caps
+                size="12px"
+                icon="search"
+                class="q-mr-md"
+                @click="onClickShowDetailAccount(props.row, 'cage')"
+                v-el-perms="'Addon.Definitions.Cashdesk.Update'"
+                data-cy="editData"
+              />
+            </q-td>
+          </template>
+        </SupaTable>
+      </div>
     </div>
     <div class="col-12 q-mt-md">
-      <SupaTable
-        :columns="chipAccountColumns"
-        :getDataFn="cashdeskStore.fetchCashdeskAccounts"
-        :rowsPerPage="10"
-        tableName="chipAccountColumns"
-        :filterParams="filterParams"
-        :slotNames="['body-cell-action']"
-        ref="chipAccountTable"
-        dataKey="chipAccountList"
-      >
-        <template v-slot:headerFilterSlots>
-          <div class="col flex content-center text-center">
-            <div class="text-subtitle2 q-ml-sm">
-              {{ $t('chipAccounts') }}
-            </div>
-            <q-space />
-          </div>
-        </template>
-        <template v-slot:body-cell-action="{ props }">
-          <q-td key="action" align="center">
-            <q-btn
-              unelevated
-              dense
-              color="grey-2"
-              text-color="dark"
-              no-caps
-              size="12px"
-              icon="search"
-              class="q-mr-md"
-              @click="onClickShowDetailAccount(props.row, 'chip')"
-              v-el-perms="'Addon.Definitions.Cashdesk.Update'"
-              data-cy="editData"
-            />
-          </q-td>
-        </template>
-        <template v-slot:bottomSlots>
-          <div class="full-width flex justify-end">
-            <q-card
-              class="no-box-shadow q-mb-md full-width q-mt-md q-pl-sm q-pr-sm"
-              v-if="chipAccountsTotalsGroupedByCurrency().length > 0"
-            >
+      <div>
+        <q-card
+          class="no-box-shadow q-mb-md q-ma-xs"
+          v-if="chipAccountsTotalsGroupedByCurrency().length > 0 && showSummaryChipCard === false"
+        >
+          <q-card-section class="q-pa-none">
+            <q-markup-table dense separator="cell" bordered class="no-box-shadow" square>
+              <thead>
+                <tr>
+                  <th class="text-center">Currency</th>
+                  <th class="text-center">Deposit</th>
+                  <th class="text-center">Withdrawal</th>
+                  <th class="text-center">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(total, index) in chipAccountsTotalsGroupedByCurrency()" :key="index">
+                  <td class="text-center">{{ total.currencyName }}</td>
+                  <td class="text-center">{{ priceAbsFormatted(total.deposit) }}</td>
+                  <td class="text-center">{{ priceAbsFormatted(total.withdrawal) }}</td>
+                  <td class="text-center">{{ priceAbsFormatted(total.result) }}</td>
+                </tr>
+              </tbody>
+            </q-markup-table>
+          </q-card-section>
+        </q-card>
+        <div
+          class="row"
+          v-if="chipAccountsTotalsGroupedByCurrency().length > 0 && showSummaryChipCard === true"
+        >
+          <div
+            class="col-4 text-center q-pa-xs"
+            v-for="total in chipAccountsTotalsGroupedByCurrency()"
+            :key="total.currencyName"
+          >
+            <q-card flat class="app-cart-grey">
               <q-card-section class="q-pa-none">
-                <div class="text-subtitle2 text-bold">
-                  Totals <span class="text-negative">*</span>
+                <div class="text-h6">{{ total.currencyName }}</div>
+                <div class="row">
+                  <div class="col-4">
+                    <div class="text-caption">{{ $t('withdrawal') }}</div>
+                  </div>
+                  <div class="col-4">
+                    <div class="text-caption">{{ $t('deposit') }}</div>
+                  </div>
+                  <div class="col-4">
+                    <div class="text-caption">{{ $t('result') }}</div>
+                  </div>
                 </div>
-              </q-card-section>
-              <q-card-section class="q-pa-none">
-                <q-markup-table dense separator="cell" square bordered class="no-box-shadow">
-                  <thead>
-                    <tr>
-                      <th class="text-center">#</th>
-                      <th class="text-left">Currency</th>
-                      <th class="text-right">Total In</th>
-                      <th class="text-right">Total Out</th>
-                      <th class="text-right">Result</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(total, index) in chipAccountsTotalsGroupedByCurrency()"
-                      :key="index"
+                <div class="row">
+                  <div class="col-4">
+                    <div
+                      class="text-h6"
+                      :class="{
+                        'text-green-8': total.withdrawal > 0,
+                        'text-negative': total.withdrawal < 0,
+                      }"
                     >
-                      <td class="text-center">{{ index + 1 }}</td>
-                      <td class="text-left">{{ total.currencyName }}</td>
-                      <td class="text-right">{{ priceAbsFormatted(total.totalIn) }}</td>
-                      <td class="text-right">{{ priceAbsFormatted(total.totalOut) }}</td>
-                      <td class="text-right">{{ priceAbsFormatted(total.result) }}</td>
-                    </tr>
-                  </tbody>
-                </q-markup-table>
+                      {{ priceAbsFormatted(total.withdrawal) }}
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div
+                      class="text-h6"
+                      :class="{
+                        'text-green-8': total.deposit > 0,
+                        'text-negative': total.deposit < 0,
+                      }"
+                    >
+                      {{ priceAbsFormatted(total.deposit) }}
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div
+                      class="text-h6"
+                      :class="{
+                        'text-green-8': total.result > 0,
+                        'text-negative': total.result < 0,
+                      }"
+                    >
+                      {{ priceAbsFormatted(total.result) }}
+                    </div>
+                  </div>
+                </div>
               </q-card-section>
             </q-card>
           </div>
-        </template>
-      </SupaTable>
+        </div>
+      </div>
+      <div class="q-pa-xs">
+        <SupaTable
+          :columns="chipAccountColumns"
+          :getDataFn="cashdeskStore.fetchCashdeskAccounts"
+          :rowsPerPage="10"
+          tableName="chipAccountColumns"
+          :filterParams="filterParams"
+          :slotNames="['body-cell-action']"
+          ref="chipAccountTable"
+          dataKey="chipAccountList"
+          :hideFields="{
+            showVisibleColumns: true,
+            showReloadButton: true,
+            showScreenModeButton: true,
+            showSearchInput: true,
+            switchSummaryCard: true,
+          }"
+          @switchSummaryCard="showSummaryChipCard = !showSummaryChipCard"
+        >
+          <template v-slot:headerFilterSlots>
+            <div class="col flex content-center text-center">
+              <div class="text-subtitle2 q-ml-sm">
+                {{ $t('chipAccounts') }}
+              </div>
+              <q-space />
+            </div>
+          </template>
+          <template v-slot:body-cell-action="{ props }">
+            <q-td key="action" align="center">
+              <q-btn
+                unelevated
+                dense
+                color="grey-2"
+                text-color="dark"
+                no-caps
+                size="12px"
+                icon="search"
+                class="q-mr-md"
+                @click="onClickShowDetailAccount(props.row, 'chip')"
+                v-el-perms="'Addon.Definitions.Cashdesk.Update'"
+                data-cy="editData"
+              />
+            </q-td>
+          </template>
+        </SupaTable>
+      </div>
     </div>
   </div>
 </template>
@@ -284,6 +404,9 @@ const chipAccountsTotalsGroupedByCurrency = () => {
   })
   return groupedData
 }
+
+const showSummaryCashCard = ref(true)
+const showSummaryChipCard = ref(true)
 </script>
 
 <style scoped></style>

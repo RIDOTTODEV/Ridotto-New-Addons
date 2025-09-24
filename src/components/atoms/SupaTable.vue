@@ -98,6 +98,18 @@
             padding="xs"
           />
           <q-btn
+            v-if="hideFields && hideFields.switchSummaryCard"
+            color="grey-3"
+            text-color="grey-10"
+            unelevated
+            dense
+            icon="o_toc"
+            @click="switchSummaryCard"
+            size="13px"
+            class="q-ml-xs q-mr-xs"
+            padding="xs"
+          />
+          <q-btn
             v-if="hideFields && hideFields.showScreenModeButton"
             color="grey-3"
             text-color="grey-10"
@@ -257,6 +269,7 @@ const props = defineProps({
         showScreenModeButton: true,
         showSearchInput: true,
         useCol12: false,
+        switchSummaryCard: false,
       }
     },
   },
@@ -586,6 +599,10 @@ const onRowDoubleClick = (evt, row) => {
   }) */
 }
 
+const emits = defineEmits(['switchSummaryCard'])
+const switchSummaryCard = () => {
+  emits('switchSummaryCard')
+}
 // Expose public methods and properties
 defineExpose({
   fetchData,

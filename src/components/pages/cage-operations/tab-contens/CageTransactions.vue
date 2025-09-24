@@ -105,229 +105,305 @@
       </q-card-section>
 
       <q-card-section class="q-pa-none" v-else>
-        <q-card
-          class="no-box-shadow q-mb-md"
-          v-if="cageTransactionsTable?.response?.totals?.length > 0"
-        >
-          <q-card-section class="q-pa-none">
-            <q-markup-table dense separator="cell" bordered class="no-box-shadow">
-              <thead>
-                <tr>
-                  <th class="text-center q-custom-table">#</th>
-                  <th class="text-center q-custom-table">Currency</th>
-                  <th class="text-center q-custom-table">Deposit</th>
-                  <th class="text-center q-custom-table">Withdrawal</th>
-                  <th class="text-center q-custom-table">Result</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(total, index) in cageTransactionsTable?.response?.totals" :key="index">
-                  <td class="text-center q-custom-table">{{ index + 1 }}</td>
-                  <td class="text-center">{{ total.currencyName }}</td>
-                  <td class="text-center">{{ priceAbsFormatted(total.deposit) }}</td>
-                  <td class="text-center">{{ priceAbsFormatted(total.withdrawal) }}</td>
-                  <td class="text-center">{{ priceAbsFormatted(total.result) }}</td>
-                </tr>
-              </tbody>
-            </q-markup-table>
-          </q-card-section>
-        </q-card>
-        <SupaTable
-          :columns="columns"
-          :getDataFn="cashdeskStore.fetchCashdeskTransactions"
-          :rowsPerPage="10"
-          tableName="cageTransactionsColumns"
-          :filterParams="filterFields"
-          :slotNames="['body-cell-action']"
-          ref="cageTransactionsTable"
-          :useCol12="true"
-        >
-          <template v-slot:headerFilterSlots>
-            <div class="col-12 flex row justify-start q-py-xs">
-              <div class="row full-width flex justify-start">
-                <div class="col-2 q-pa-xs">
-                  <q-select-box
-                    v-model="filterFields.CashdeskId"
-                    :options="cashdesks"
-                    option-value="id"
-                    option-label="name"
-                    :label="$t('cashdesk')"
-                    :fetchFn="cashdeskStore.fetchCashdesks"
-                  />
-                </div>
-                <div class="col-2 q-pa-xs">
-                  <q-select-box
-                    v-model="filterFields.CashdeskTransactionType"
-                    :options="cashdeskTransactionTypes"
-                    option-value="value"
-                    option-label="label"
-                    :label="$t('cashdeskTransactionType')"
-                    :fetchFn="cashdeskStore.fetchCashdeskTransactionTypes"
-                  />
-                </div>
-                <div class="col-2 q-pa-xs">
-                  <q-select-box
-                    v-model="filterFields.TransType"
-                    :options="transTypes"
-                    option-value="value"
-                    option-label="label"
-                    :label="$t('transType')"
-                    :fetchFn="cashdeskStore.fetchTransTypes"
-                  />
-                </div>
-                <div class="col-2 q-pa-xs">
-                  <q-select-box
-                    v-model="filterFields.TransactionCodeId"
-                    :options="
-                      getTransactionCodeTransactionCodeTypeAndGroupTypes(
-                        filterFields.TransType,
-                        filterFields.CashdeskTransactionType,
-                      )
-                    "
-                    option-value="id"
-                    option-label="name"
-                    :label="$t('transactionCode')"
-                  />
-                </div>
-                <div class="col-2 q-pa-xs">
-                  <q-select
-                    v-model="filterFields.TransactionType"
-                    :options="cageTransactionTypes"
-                    option-value="value"
-                    option-label="label"
-                    :label="$t('transactionType')"
-                    class="super-small full-width"
-                    dense
-                    outlined
-                    clearable
-                    options-dense
-                    emit-value
-                    map-options
-                    behavior="menu"
-                    style="width: 170px"
-                  />
-                </div>
-                <div class="col-2 q-pa-xs">
-                  <q-select
-                    :label="$t('currency')"
-                    v-model="filterFields.CurrencyId"
-                    outlined
-                    dense
-                    :options="getCurrenciesWithFlags"
-                    option-value="id"
-                    :option-label="
-                      (val) => val.fullName + ' ' + val.name + ' ' + ' - ' + val.symbol
-                    "
-                    emit-value
-                    map-options
-                    :rules="[(val) => !!val || $t('requiredField')]"
-                    clearable
-                    class="super-small"
-                    hide-bottom-space
-                    behavior="menu"
+        <div>
+          <q-card
+            class="no-box-shadow q-mb-md"
+            v-if="cageTransactionsTable?.response?.totals?.length > 0 && showSummaryCard === false"
+          >
+            <q-card-section class="q-pa-none">
+              <q-markup-table dense separator="cell" bordered class="no-box-shadow" square>
+                <thead>
+                  <tr>
+                    <th class="text-center">Currency</th>
+                    <th class="text-center">Deposit</th>
+                    <th class="text-center">Withdrawal</th>
+                    <th class="text-center">Result</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(total, index) in cageTransactionsTable?.response?.totals"
+                    :key="index"
                   >
-                    <template v-slot:option="scope">
-                      <q-item v-bind="scope.itemProps">
-                        <q-item-section>
-                          <q-item-label>
-                            <q-img
-                              :src="scope.opt.flag"
-                              fit="contain"
-                              width="20px"
-                              height="20px"
-                              class="q-mr-sm"
-                            />
-                            {{ scope.opt.fullName }} - {{ scope.opt.symbol }}
-                          </q-item-label>
-                        </q-item-section>
-                      </q-item>
-                    </template>
-                    <template v-slot:selected-item="scope">
-                      <div class="text-subtitle2 q-mt-xs">
-                        <q-img
-                          :src="scope.opt.flag"
-                          fit="contain"
-                          width="20px"
-                          height="20px"
-                          class="q-mr-sm"
-                        />
-                        {{ scope.opt.fullName }} - {{ scope.opt.symbol }}
+                    <td class="text-center">{{ total.currencyName }}</td>
+                    <td class="text-center">{{ priceAbsFormatted(total.deposit) }}</td>
+                    <td class="text-center">{{ priceAbsFormatted(total.withdrawal) }}</td>
+                    <td class="text-center">{{ priceAbsFormatted(total.result) }}</td>
+                  </tr>
+                </tbody>
+              </q-markup-table>
+            </q-card-section>
+          </q-card>
+          <div
+            class="row"
+            v-if="cageTransactionsTable?.response?.totals?.length > 0 && showSummaryCard === true"
+          >
+            <div
+              class="col-4 text-center q-pa-xs"
+              v-for="total in cageTransactionsTable?.response?.totals"
+              :key="total.currencyName"
+            >
+              <q-card flat class="app-cart-grey">
+                <q-card-section class="q-pa-none">
+                  <div class="text-h6">{{ total.currencyName }}</div>
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="text-caption">{{ $t('withdrawal') }}</div>
+                    </div>
+                    <div class="col-4">
+                      <div class="text-caption">{{ $t('deposit') }}</div>
+                    </div>
+                    <div class="col-4">
+                      <div class="text-caption">{{ $t('result') }}</div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <div
+                        class="text-h6"
+                        :class="{
+                          'text-green-8': total.withdrawal > 0,
+                          'text-negative': total.withdrawal < 0,
+                        }"
+                      >
+                        {{ priceAbsFormatted(total.withdrawal) }}
                       </div>
-                    </template>
-                  </q-select>
-                </div>
-                <div class="col-2 q-pa-xs">
-                  <q-input
-                    v-model="filterFields.MinAmount"
-                    :label="$t('minAmount')"
-                    class="super-small"
-                    dense
-                    outlined
-                    clearable
-                  />
-                </div>
-                <div class="col-2 q-pa-xs">
-                  <q-input
-                    v-model="filterFields.MaxAmount"
-                    :label="$t('maxAmount')"
-                    class="super-small"
-                    dense
-                    outlined
-                    clearable
-                  />
-                </div>
-                <div class="col-2 q-pa-xs">
-                  <q-input
-                    v-model="filterFields.CashdeskAccountId"
-                    :label="$t('cashdeskAccount')"
-                    class="super-small"
-                    dense
-                    outlined
-                    clearable
-                  />
-                </div>
-                <div class="col q-pa-xs flex justify-start">
-                  <search-player-input
-                    v-model="filterFields.PlayerId"
-                    :optionLabel="'value'"
-                    :displayedValue="filterFields.PlayerName"
-                    @onSelectPlayer="
-                      (args) => {
-                        filterFields.PlayerId = args?.id
-                        filterFields.PlayerName = args?.value
-                      }
-                    "
-                    :label="$t('playerName')"
-                    class="super-small"
-                  />
-                  <date-time-picker
-                    class="q-ml-sm"
-                    @selected-date="
-                      (val) => {
-                        filterFields = {
-                          ...filterFields,
-                          ...val,
+                    </div>
+                    <div class="col-4">
+                      <div
+                        class="text-h6"
+                        :class="{
+                          'text-green-8': total.deposit > 0,
+                          'text-negative': total.deposit < 0,
+                        }"
+                      >
+                        {{ priceAbsFormatted(total.deposit) }}
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div
+                        class="text-h6"
+                        :class="{
+                          'text-green-8': total.result > 0,
+                          'text-negative': total.result < 0,
+                        }"
+                      >
+                        {{ priceAbsFormatted(total.result) }}
+                      </div>
+                    </div>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+          </div>
+        </div>
+        <div class="q-pa-xs">
+          <SupaTable
+            :columns="columns"
+            :getDataFn="cashdeskStore.fetchCashdeskTransactions"
+            :rowsPerPage="10"
+            tableName="cageTransactionsColumns"
+            :filterParams="filterFields"
+            :slotNames="['body-cell-action']"
+            ref="cageTransactionsTable"
+            :useCol12="true"
+            :hideFields="{
+              showVisibleColumns: true,
+              showReloadButton: true,
+              showScreenModeButton: true,
+              showSearchInput: true,
+              useCol12: false,
+              switchSummaryCard: true,
+            }"
+            @switchSummaryCard="showSummaryCard = !showSummaryCard"
+          >
+            <template v-slot:headerFilterSlots>
+              <div class="col-12 flex row justify-start q-py-xs">
+                <div class="row full-width flex justify-start">
+                  <div class="col-2 q-pa-xs">
+                    <q-select-box
+                      v-model="filterFields.CashdeskId"
+                      :options="cashdesks"
+                      option-value="id"
+                      option-label="name"
+                      :label="$t('cashdesk')"
+                      :fetchFn="cashdeskStore.fetchCashdesks"
+                    />
+                  </div>
+                  <div class="col-2 q-pa-xs">
+                    <q-select-box
+                      v-model="filterFields.CashdeskTransactionType"
+                      :options="cashdeskTransactionTypes"
+                      option-value="value"
+                      option-label="label"
+                      :label="$t('cashdeskTransactionType')"
+                      :fetchFn="cashdeskStore.fetchCashdeskTransactionTypes"
+                    />
+                  </div>
+                  <div class="col-2 q-pa-xs">
+                    <q-select-box
+                      v-model="filterFields.TransType"
+                      :options="transTypes"
+                      option-value="value"
+                      option-label="label"
+                      :label="$t('transType')"
+                      :fetchFn="cashdeskStore.fetchTransTypes"
+                    />
+                  </div>
+                  <div class="col-2 q-pa-xs">
+                    <q-select-box
+                      v-model="filterFields.TransactionCodeId"
+                      :options="
+                        getTransactionCodeTransactionCodeTypeAndGroupTypes(
+                          filterFields.TransType,
+                          filterFields.CashdeskTransactionType,
+                        )
+                      "
+                      option-value="id"
+                      option-label="name"
+                      :label="$t('transactionCode')"
+                    />
+                  </div>
+                  <div class="col-2 q-pa-xs">
+                    <q-select
+                      v-model="filterFields.TransactionType"
+                      :options="cageTransactionTypes"
+                      option-value="value"
+                      option-label="label"
+                      :label="$t('transactionType')"
+                      class="super-small full-width"
+                      dense
+                      outlined
+                      clearable
+                      options-dense
+                      emit-value
+                      map-options
+                      behavior="menu"
+                      style="width: 170px"
+                    />
+                  </div>
+                  <div class="col-2 q-pa-xs">
+                    <q-select
+                      :label="$t('currency')"
+                      v-model="filterFields.CurrencyId"
+                      outlined
+                      dense
+                      :options="getCurrenciesWithFlags"
+                      option-value="id"
+                      :option-label="
+                        (val) => val.fullName + ' ' + val.name + ' ' + ' - ' + val.symbol
+                      "
+                      emit-value
+                      map-options
+                      :rules="[(val) => !!val || $t('requiredField')]"
+                      clearable
+                      class="super-small"
+                      hide-bottom-space
+                      behavior="menu"
+                    >
+                      <template v-slot:option="scope">
+                        <q-item v-bind="scope.itemProps">
+                          <q-item-section>
+                            <q-item-label>
+                              <q-img
+                                :src="scope.opt.flag"
+                                fit="contain"
+                                width="20px"
+                                height="20px"
+                                class="q-mr-sm"
+                              />
+                              {{ scope.opt.fullName }} - {{ scope.opt.symbol }}
+                            </q-item-label>
+                          </q-item-section>
+                        </q-item>
+                      </template>
+                      <template v-slot:selected-item="scope">
+                        <div class="text-subtitle2 q-mt-xs">
+                          <q-img
+                            :src="scope.opt.flag"
+                            fit="contain"
+                            width="20px"
+                            height="20px"
+                            class="q-mr-sm"
+                          />
+                          {{ scope.opt.fullName }} - {{ scope.opt.symbol }}
+                        </div>
+                      </template>
+                    </q-select>
+                  </div>
+                  <div class="col-2 q-pa-xs">
+                    <q-input
+                      v-model="filterFields.MinAmount"
+                      :label="$t('minAmount')"
+                      class="super-small"
+                      dense
+                      outlined
+                      clearable
+                    />
+                  </div>
+                  <div class="col-2 q-pa-xs">
+                    <q-input
+                      v-model="filterFields.MaxAmount"
+                      :label="$t('maxAmount')"
+                      class="super-small"
+                      dense
+                      outlined
+                      clearable
+                    />
+                  </div>
+                  <div class="col-2 q-pa-xs">
+                    <q-input
+                      v-model="filterFields.CashdeskAccountId"
+                      :label="$t('cashdeskAccount')"
+                      class="super-small"
+                      dense
+                      outlined
+                      clearable
+                    />
+                  </div>
+                  <div class="col q-pa-xs flex justify-start">
+                    <search-player-input
+                      v-model="filterFields.PlayerId"
+                      :optionLabel="'value'"
+                      :displayedValue="filterFields.PlayerName"
+                      @onSelectPlayer="
+                        (args) => {
+                          filterFields.PlayerId = args?.id
+                          filterFields.PlayerName = args?.value
                         }
-                      }
-                    "
-                  />
-                  <q-btn
-                    type="button"
-                    :label="$t('filter')"
-                    icon="tune"
-                    color="grey-2"
-                    text-color="dark"
-                    size="13px"
-                    unelevated
-                    no-caps
-                    class="q-ml-sm"
-                    @click="cageTransactionsTable.fetchData()"
-                  />
+                      "
+                      :label="$t('playerName')"
+                      class="super-small"
+                    />
+                    <date-time-picker
+                      class="q-ml-sm"
+                      @selected-date="
+                        (val) => {
+                          filterFields = {
+                            ...filterFields,
+                            ...val,
+                          }
+                        }
+                      "
+                    />
+                    <q-btn
+                      type="button"
+                      :label="$t('filter')"
+                      icon="tune"
+                      color="grey-2"
+                      text-color="dark"
+                      size="13px"
+                      unelevated
+                      no-caps
+                      class="q-ml-sm"
+                      @click="cageTransactionsTable.fetchData()"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          </template>
-        </SupaTable>
+            </template>
+          </SupaTable>
+        </div>
       </q-card-section>
     </transition>
   </q-card>
@@ -454,6 +530,7 @@ onMounted(() => {
 const onSavedCageTransaction = () => {
   createNewTransaction.value = false
 }
+const showSummaryCard = ref(true)
 </script>
 <style lang="scss" scoped>
 .b-t-1 {
