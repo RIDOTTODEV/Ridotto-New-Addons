@@ -49,6 +49,27 @@
           </span>
         </q-td>
       </template>
+      <template v-slot:bottomRow="props">
+        <q-tr :props="props" class="bg-grey-1">
+          <q-td
+            v-for="(col, index) in [...props.cols.sort((a, b) => a.orderColumn - b.orderColumn)]"
+            :key="index"
+            :name="col.name"
+            align="center"
+            :class="{
+              'bg-red-1':
+                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) < 0,
+              'bg-green-1':
+                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2" v-if="col.showTotal">
+              {{ col.format(props.rows.reduce((acc, item) => acc + item[col.field], 0)) }}
+            </div>
+            <div class="text-subtitle2" v-else>-</div>
+          </q-td>
+        </q-tr>
+      </template>
     </SupaTable>
   </q-page>
 </template>
@@ -76,35 +97,44 @@ const columns = ref([
   {
     field: 'totalLgResult',
     label: 'Total LG Result',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'totalSlotResult',
     label: 'Total Slot Result',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'totalResult',
     label: 'Total Result',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'gamingExpense',
     label: 'Gaming Expense',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'documents',
     label: 'Documents',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'gamingLoss',
     label: 'Gaming Loss',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'netCash',
     label: 'Net Cash',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 ])
 </script>

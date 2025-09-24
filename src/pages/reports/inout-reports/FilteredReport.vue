@@ -49,6 +49,27 @@
           </span>
         </q-td>
       </template>
+      <template v-slot:bottomRow="props">
+        <q-tr :props="props" class="bg-grey-1">
+          <q-td
+            v-for="(col, index) in [...props.cols.sort((a, b) => a.orderColumn - b.orderColumn)]"
+            :key="index"
+            :name="col.name"
+            align="center"
+            :class="{
+              'bg-red-1':
+                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) < 0,
+              'bg-green-1':
+                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2" v-if="col.showTotal">
+              {{ col.format(props.rows.reduce((acc, item) => acc + item[col.field], 0)) }}
+            </div>
+            <div class="text-subtitle2" v-else>-</div>
+          </q-td>
+        </q-tr>
+      </template>
     </SupaTable>
   </q-page>
 </template>
@@ -93,40 +114,48 @@ const columns = ref([
   {
     field: 'totalDrop',
     label: 'Total Drop',
-    fieldType: 'price',
+    showTotal: true,
+    fieldType: 'priceAbs',
   },
   {
     field: 'totalResult',
     label: 'Total Result',
-    fieldType: 'price',
+    showTotal: true,
+    fieldType: 'priceAbs',
   },
   {
     field: 'avgDrop',
     label: 'Avg Drop',
-    fieldType: 'price',
+    showTotal: true,
+    fieldType: 'priceAbs',
   },
   {
     field: 'avgResult',
     label: 'Avg Result',
-    fieldType: 'price',
+    showTotal: true,
+    fieldType: 'priceAbs',
   },
   {
     field: 'totalSlotResult',
     label: 'Total Slot Result',
-    fieldType: 'price',
+    showTotal: true,
+    fieldType: 'priceAbs',
   },
   {
     field: 'totalLgResult',
     label: 'Total LG Result',
-    fieldType: 'price',
+    showTotal: true,
+    fieldType: 'priceAbs',
   },
   {
     field: 'lgPlayDays',
     label: 'LG Play Days',
+    showTotal: true,
   },
   {
     field: 'slotPlayDays',
     label: 'Slot Play Days',
+    showTotal: true,
   },
 ])
 </script>

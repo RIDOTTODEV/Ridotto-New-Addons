@@ -90,75 +90,23 @@
       </template>
       <template v-slot:bottomRow="props">
         <q-tr :props="props">
-          <q-td name="playerFullName" align="center">
-            <div class="text-subtitle2">Total</div>
-          </q-td>
           <q-td
-            v-if="props.cols.find((col) => col.name === 'buyedChips')?.visible"
-            name="buyedChips"
+            v-for="(col, index) in [...props.cols.sort((a, b) => a.orderColumn - b.orderColumn)]"
+            :key="index"
+            :name="col.name"
             align="center"
             :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.buyedChips, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.buyedChips, 0) > 0,
+              'bg-red-1':
+                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) < 0,
+              'bg-green-1':
+                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) > 0,
             }"
           >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.buyedChips, 0)) }}
+            <div class="text-subtitle2" v-if="col.showTotal">
+              {{ col.format(props.rows.reduce((acc, item) => acc + item[col.field], 0)) }}
             </div>
+            <div class="text-subtitle2" v-else>-</div>
           </q-td>
-          <q-td
-            v-if="props.cols.find((col) => col.name === 'drop')?.visible"
-            name="drop"
-            align="center"
-            :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.drop, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.drop, 0) > 0,
-            }"
-          >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.drop, 0)) }}
-            </div>
-          </q-td>
-          <q-td
-            v-if="props.cols.find((col) => col.name === 'out')?.visible"
-            name="out"
-            align="center"
-            :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.out, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.out, 0) > 0,
-            }"
-          >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.out, 0)) }}
-            </div>
-          </q-td>
-          <q-td
-            v-if="props.cols.find((col) => col.name === 'chipsInPocket')?.visible"
-            name="chipsInPocket"
-            align="center"
-            :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.chipsInPocket, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.chipsInPocket, 0) > 0,
-            }"
-          >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.chipsInPocket, 0)) }}
-            </div>
-          </q-td>
-          <q-td
-            v-if="props.cols.find((col) => col.name === 'usedChips')?.visible"
-            name="usedChips"
-            align="center"
-            :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.usedChips, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.usedChips, 0) > 0,
-            }"
-          >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.usedChips, 0)) }}
-            </div>
-          </q-td>
-          <q-td name="chipDetails" align="center" colspan="2"></q-td>
         </q-tr>
       </template>
     </SupaTable>
@@ -327,7 +275,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useReportStore } from 'src/stores/report-store'
-import { formatPrice, priceAbsFormatted } from 'src/helpers/helpers'
+import { formatPrice } from 'src/helpers/helpers'
 const reportStore = useReportStore()
 const filterValues = ref({
   playerId: null,
@@ -351,23 +299,28 @@ const columns = ref([
   },
   {
     field: 'buyedChips',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'drop',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'out',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'chipsInPocket',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'usedChips',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'chipDetails',

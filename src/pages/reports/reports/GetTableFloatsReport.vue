@@ -29,20 +29,22 @@
       </template>
       <template v-slot:bottomRow="props">
         <q-tr :props="props">
-          <q-td name="tableName" align="center" colspan="3">
-            <div class="text-subtitle2">Total</div>
-          </q-td>
           <q-td
-            name="total"
+            v-for="(col, index) in [...props.cols.sort((a, b) => a.orderColumn - b.orderColumn)]"
+            :key="index"
+            :name="col.name"
             align="center"
             :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.total, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.total, 0) > 0,
+              'bg-red-1':
+                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) < 0,
+              'bg-green-1':
+                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) > 0,
             }"
           >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.total, 0)) }}
+            <div class="text-subtitle2" v-if="col.showTotal">
+              {{ col.format(props.rows.reduce((acc, item) => acc + item[col.field], 0)) }}
             </div>
+            <div class="text-subtitle2" v-else>-</div>
           </q-td>
         </q-tr>
       </template>
@@ -53,7 +55,6 @@
 <script setup>
 import { ref } from 'vue'
 import { useReportStore } from 'src/stores/report-store'
-import { priceAbsFormatted } from 'src/helpers/helpers'
 const reportStore = useReportStore()
 
 const filterValues = ref({})
@@ -75,7 +76,8 @@ const columns = ref([
   {
     field: 'total',
     label: 'Total',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 ])
 </script>

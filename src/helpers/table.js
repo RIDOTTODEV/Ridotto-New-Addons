@@ -45,6 +45,7 @@ export const generateColumns = (columnConfigs) => {
       config.format
         ? config.format(value)
         : formatValue(value, config.fieldType, config.customFormat),
+    showTotal: config.showTotal || false,
     sortable: config.sortable || sortableFields.includes(config.field) || false,
     sort: config.sort,
     visible: config.visible === false ? false : true,

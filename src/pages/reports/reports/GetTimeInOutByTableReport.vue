@@ -48,68 +48,22 @@
       </template>
       <template v-slot:bottomRow="props">
         <q-tr :props="props">
-          <q-td name="tableName" align="center" colspan="2">
-            <div class="text-subtitle2">Total</div>
-          </q-td>
           <q-td
-            name="totalAvgBet"
+            v-for="(col, index) in [...props.cols.sort((a, b) => a.orderColumn - b.orderColumn)]"
+            :key="index"
+            :name="col.name"
             align="center"
             :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalAvgBet, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalAvgBet, 0) > 0,
+              'bg-red-1':
+                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) < 0,
+              'bg-green-1':
+                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) > 0,
             }"
           >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalAvgBet, 0)) }}
+            <div class="text-subtitle2" v-if="col.showTotal">
+              {{ col.format(props.rows.reduce((acc, item) => acc + item[col.field], 0)) }}
             </div>
-          </q-td>
-          <q-td
-            name="totalCashDrop"
-            align="center"
-            :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalCashDrop, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalCashDrop, 0) > 0,
-            }"
-          >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalCashDrop, 0)) }}
-            </div>
-          </q-td>
-          <q-td
-            name="totalChipDrop"
-            align="center"
-            :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalChipDrop, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalChipDrop, 0) > 0,
-            }"
-          >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalChipDrop, 0)) }}
-            </div>
-          </q-td>
-          <q-td
-            name="totalResult"
-            align="center"
-            :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalResult, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalResult, 0) > 0,
-            }"
-          >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalResult, 0)) }}
-            </div>
-          </q-td>
-          <q-td
-            name="totalOut"
-            align="center"
-            :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.totalOut, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.totalOut, 0) > 0,
-            }"
-          >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.totalOut, 0)) }}
-            </div>
+            <div class="text-subtitle2" v-else>-</div>
           </q-td>
         </q-tr>
       </template>
@@ -122,7 +76,6 @@ import { ref } from 'vue'
 import { useReportStore } from 'src/stores/report-store'
 import { useTableStore } from 'src/stores/table-store'
 import { storeToRefs } from 'pinia'
-import { priceAbsFormatted } from 'src/helpers/helpers'
 const reportStore = useReportStore()
 const tableStore = useTableStore()
 const { tables } = storeToRefs(tableStore)
@@ -150,27 +103,32 @@ const columns = ref([
   {
     field: 'totalAvgBet',
     label: 'Avg Bet',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'totalCashDrop',
     label: 'Cash Drop',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'totalChipDrop',
     label: 'Chip Drop',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'totalResult',
     label: 'Result',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'totalOut',
     label: 'Out',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 ])
 </script>

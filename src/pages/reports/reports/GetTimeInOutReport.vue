@@ -77,75 +77,22 @@
       </template>
       <template v-slot:bottomRow="props">
         <q-tr :props="props">
-          <q-td name="playerId" align="center" colspan="6">
-            <div class="text-subtitle2">Total</div>
-          </q-td>
-
           <q-td
-            v-if="props.cols.find((col) => col.name === 'avgBet')?.visible"
-            name="avgBet"
+            v-for="(col, index) in [...props.cols.sort((a, b) => a.orderColumn - b.orderColumn)]"
+            :key="index"
+            :name="col.name"
             align="center"
             :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.avgBet, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.avgBet, 0) > 0,
+              'bg-red-1':
+                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) < 0,
+              'bg-green-1':
+                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) > 0,
             }"
           >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.avgBet, 0)) }}
+            <div class="text-subtitle2" v-if="col.showTotal">
+              {{ col.format(props.rows.reduce((acc, item) => acc + item[col.field], 0)) }}
             </div>
-          </q-td>
-          <q-td
-            v-if="props.cols.find((col) => col.name === 'cashDrop')?.visible"
-            name="cashDrop"
-            align="center"
-            :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.cashDrop, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.cashDrop, 0) > 0,
-            }"
-          >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.cashDrop, 0)) }}
-            </div>
-          </q-td>
-          <q-td
-            v-if="props.cols.find((col) => col.name === 'chipDrop')?.visible"
-            name="chipDrop"
-            align="center"
-            :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.chipDrop, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.chipDrop, 0) > 0,
-            }"
-          >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.chipDrop, 0)) }}
-            </div>
-          </q-td>
-          <q-td
-            v-if="props.cols.find((col) => col.name === 'out')?.visible"
-            name="out"
-            align="center"
-            :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.out, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.out, 0) > 0,
-            }"
-          >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.out, 0)) }}
-            </div>
-          </q-td>
-
-          <q-td
-            v-if="props.cols.find((col) => col.name === 'result')?.visible"
-            name="result"
-            align="center"
-            :class="{
-              'bg-red-1': props.rows.reduce((acc, item) => acc + item.result, 0) < 0,
-              'bg-grey-1': props.rows.reduce((acc, item) => acc + item.result, 0) > 0,
-            }"
-          >
-            <div class="text-subtitle2">
-              {{ priceAbsFormatted(props.rows.reduce((acc, item) => acc + item.result, 0)) }}
-            </div>
+            <div class="text-subtitle2" v-else>-</div>
           </q-td>
         </q-tr>
       </template>
@@ -158,7 +105,6 @@ import { ref } from 'vue'
 import { useReportStore } from 'src/stores/report-store'
 import { useTableStore } from 'src/stores/table-store'
 import { storeToRefs } from 'pinia'
-import { priceAbsFormatted } from 'src/helpers/helpers'
 const reportStore = useReportStore()
 const tableStore = useTableStore()
 const { tables } = storeToRefs(tableStore)
@@ -200,27 +146,32 @@ const columns = ref([
   {
     field: 'avgBet',
     label: 'Avg Bet',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'cashDrop',
     label: 'Cash Drop',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'chipDrop',
     label: 'Chip Drop',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'out',
     label: 'Out',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'result',
     label: 'Result',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 ])
 </script>

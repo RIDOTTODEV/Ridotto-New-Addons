@@ -49,6 +49,27 @@
           </span>
         </q-td>
       </template>
+      <template v-slot:bottomRow="props">
+        <q-tr :props="props">
+          <q-td
+            v-for="(col, index) in [...props.cols.sort((a, b) => a.orderColumn - b.orderColumn)]"
+            :key="index"
+            :name="col.name"
+            align="center"
+            :class="{
+              'bg-red-1':
+                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) < 0,
+              'bg-green-1':
+                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) > 0,
+            }"
+          >
+            <div class="text-subtitle2" v-if="col.showTotal">
+              {{ col.format(props.rows.reduce((acc, item) => acc + item[col.field], 0)) }}
+            </div>
+            <div class="text-subtitle2" v-else>-</div>
+          </q-td>
+        </q-tr>
+      </template>
     </SupaTable>
   </q-page>
 </template>
@@ -67,104 +88,122 @@ const columns = ref([
   {
     field: 'creditIn',
     label: 'Cr In',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'creditOut',
     label: 'Cr Out',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'depositIn',
     label: 'Dep In',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'depositOut',
     label: 'Dep Out',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 
   {
     field: 'creditCardIn',
     label: 'Cc In',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 
   {
     field: 'creditCardOut',
     label: 'Cc Out',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 
   {
     field: 'slotResult',
     label: 'Sl Result',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 
   {
     field: 'complimentaryLiveGameIn',
     label: 'Cm Lg In',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 
   {
     field: 'complimentaryLiveGameOut',
     label: 'Cm Lg Out',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 
   {
     field: 'complimentarySlotIn',
     label: 'Cm Sl In',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'complimentarySlotOut',
     label: 'Cm Sl Out',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 
   {
     field: 'lgCashDrop',
     label: 'Lg Cash D',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 
   {
     field: 'lgChipDrop',
     label: 'Lg Chip D',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 
   {
     field: 'lgTotalOut',
     label: 'Lg T Out',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 
   {
     field: 'lgResult',
     label: 'Lg Result',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 
   {
     field: 'cashIn',
     label: 'Cash In',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 
   {
     field: 'cashOut',
     label: 'Cash Out',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     field: 'tableDrop',
     label: 'Table D',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
 ])
 </script>
