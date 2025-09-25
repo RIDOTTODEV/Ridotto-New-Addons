@@ -59,7 +59,7 @@
         <q-td :props="props">
           <span class="text-capitalize">
             {{ props.row.playerName }}
-            <q-menu>
+            <q-menu ref="playerNameMenu">
               <q-list dense style="min-width: 100px">
                 <q-item clickable dense>
                   <q-item-section>
@@ -72,7 +72,7 @@
                     <q-icon name="arrow_right" />
                   </q-item-section>
 
-                  <q-menu anchor="top end" self="top start">
+                  <q-menu anchor="top right" self="top left">
                     <q-list>
                       <q-item clickable dense @click="onClickTransactions(props, false)">
                         <q-item-section>
@@ -509,6 +509,8 @@ const onClickLgTableResult = async (props) => {
     },
   })
 }
+
+const playerNameMenu = ref(null)
 </script>
 
 <style scoped></style>

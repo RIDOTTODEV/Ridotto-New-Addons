@@ -86,7 +86,7 @@ const isPitbossPwd = ref(true)
 const isSuccess = ref(false)
 const onSubmit = async () => {
   const result = await tableStore.tableCountChipSaveEditCheck(values.value)
-  if (result.status === 200) {
+  if (result.data === true) {
     isSuccess.value = true
     setTimeout(() => {
       isSuccess.value = false

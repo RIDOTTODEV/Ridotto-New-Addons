@@ -35,6 +35,7 @@
                 :val="type.value"
                 :label="type.label"
                 size="lg"
+                :disable="currentTableIsAnyoneSit"
               />
             </div>
             <div class="row" v-for="(denom, index) in tableFloatDenoms" :key="index">
@@ -211,6 +212,11 @@ const props = defineProps({
     type: Number,
     required: false,
   },
+  currentTableIsAnyoneSit: {
+    type: Boolean,
+    required: false,
+    default: () => false,
+  },
 })
 const tableFloatDenoms = ref([])
 const SelectedTableFloatDenom = ref()
@@ -263,6 +269,9 @@ onMounted(async () => {
 
   SelectedTableFloatDenom.value = tableFloatDenoms.value[0]
   chipSaveLockCount.value = tableCount.chipSaveLock ? 'Count' : 'Balance'
+  if (props.currentTableIsAnyoneSit) {
+    chipSaveLockCount.value = 'Balance'
+  }
 })
 
 const latestClickedDenomInputIndex = ref(0)

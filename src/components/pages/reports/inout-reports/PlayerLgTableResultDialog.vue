@@ -140,6 +140,10 @@ const columns = ref([
     label: 'Player',
   },
   {
+    field: 'playerCategory',
+    label: 'Category',
+  },
+  {
     field: 'cashDrop',
     label: 'Cash Drop',
     fieldType: 'priceAbs',
@@ -157,8 +161,13 @@ const columns = ref([
   },
 
   {
-    field: 'totalOut',
-    label: 'Total Out',
+    field: 'chipIn',
+    label: 'Chip In',
+    fieldType: 'priceAbs',
+  },
+  {
+    field: 'chipOut',
+    label: 'Chip Out',
     fieldType: 'priceAbs',
   },
 
@@ -175,11 +184,6 @@ const columns = ref([
   },
 
   {
-    field: 'chipsInPocketDetails',
-    label: 'Chips In Pocket Details',
-  },
-
-  {
     field: 'usedChips',
     label: 'Used Chips',
     fieldType: 'priceAbs',
@@ -191,7 +195,7 @@ const columns = ref([
     fieldType: 'priceAbs',
   },
 
-  {
+  /*   {
     field: 'playTime',
     label: 'Play Time',
     fieldType: 'priceAbs',
@@ -201,7 +205,7 @@ const columns = ref([
     field: 'marker',
     label: 'Marker',
     fieldType: 'priceAbs',
-  },
+  }, */
 ])
 </script>
 

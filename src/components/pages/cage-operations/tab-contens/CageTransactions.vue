@@ -139,13 +139,15 @@
             v-if="cageTransactionsTable?.response?.totals?.length > 0 && showSummaryCard === true"
           >
             <div
-              class="col-4 text-center q-pa-xs"
+              class="col text-center q-pa-xs"
               v-for="total in cageTransactionsTable?.response?.totals"
               :key="total.currencyName"
             >
               <q-card flat class="app-cart-grey">
                 <q-card-section class="q-pa-none">
-                  <div class="text-h6">{{ total.currencyName }}</div>
+                  <div class="text-h6">
+                    {{ total.currencyName }}
+                  </div>
                   <div class="row">
                     <div class="col-4">
                       <div class="text-caption">{{ $t('withdrawal') }}</div>
@@ -160,10 +162,11 @@
                   <div class="row">
                     <div class="col-4">
                       <div
-                        class="text-h6"
                         :class="{
                           'text-green-8': total.withdrawal > 0,
                           'text-negative': total.withdrawal < 0,
+                          'text-subtitle2': cageTransactionsTable?.response?.totals.length > 2,
+                          'text-h6': cageTransactionsTable?.response?.totals.length <= 2,
                         }"
                       >
                         {{ priceAbsFormatted(total.withdrawal) }}
@@ -171,10 +174,11 @@
                     </div>
                     <div class="col-4">
                       <div
-                        class="text-h6"
                         :class="{
                           'text-green-8': total.deposit > 0,
                           'text-negative': total.deposit < 0,
+                          'text-subtitle2': cageTransactionsTable?.response?.totals.length > 2,
+                          'text-h6': cageTransactionsTable?.response?.totals.length <= 2,
                         }"
                       >
                         {{ priceAbsFormatted(total.deposit) }}
@@ -182,10 +186,11 @@
                     </div>
                     <div class="col-4">
                       <div
-                        class="text-h6"
                         :class="{
                           'text-green-8': total.result > 0,
                           'text-negative': total.result < 0,
+                          'text-subtitle2': cageTransactionsTable?.response?.totals.length > 2,
+                          'text-h6': cageTransactionsTable?.response?.totals.length <= 2,
                         }"
                       >
                         {{ priceAbsFormatted(total.result) }}

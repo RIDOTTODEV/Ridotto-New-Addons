@@ -132,7 +132,7 @@
                   <div class="row">
                     <div class="col-4">
                       <div
-                        class="text-h6"
+                        class="subtitle2"
                         :class="{
                           'text-green-8': total.withdrawal > 0,
                           'text-negative': total.withdrawal < 0,
@@ -143,7 +143,7 @@
                     </div>
                     <div class="col-4">
                       <div
-                        class="text-h6"
+                        class="subtitle2"
                         :class="{
                           'text-green-8': total.deposit > 0,
                           'text-negative': total.deposit < 0,
@@ -154,7 +154,7 @@
                     </div>
                     <div class="col-4">
                       <div
-                        class="text-h6"
+                        class="subtitle2"
                         :class="{
                           'text-green-8': total.result > 0,
                           'text-negative': total.result < 0,

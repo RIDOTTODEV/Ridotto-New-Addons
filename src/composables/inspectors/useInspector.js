@@ -77,6 +77,10 @@ export function useInspector() {
   const currentTableChipSaveLock = computed(() => {
     return currentTable.value?.chipSaveLock
   })
+
+  const currentTableIsAnyoneSit = computed(() => {
+    return currentTable.value?.isAnyoneSit
+  })
   const upFunctionCards = ref([
     {
       title: 'Search',
@@ -640,6 +644,7 @@ export function useInspector() {
         componentProps: {
           table: currentTable.value,
           totalDrop: response?.totalDrop,
+          currentTableIsAnyoneSit: currentTableIsAnyoneSit.value,
         },
       })
       .onOk(async (payload) => {

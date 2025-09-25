@@ -48,10 +48,7 @@
                       <div class="text-bold">Chip Count</div>
                     </th>
                     <th class="text-center app-cart-grey">
-                      <div class="text-bold">Cashier Count</div>
-                    </th>
-                    <th class="text-center app-cart-grey">
-                      <div class="text-bold">Pitboss Count</div>
+                      <div class="text-bold">Cash Count</div>
                     </th>
                   </tr>
                 </thead>
@@ -131,21 +128,58 @@
                       }}
                     </td>
                     <td class="text-center">
-                      <q-icon
-                        :class="item?.chipSaveLock ? 'cursor-pointer' : 'text-negative'"
-                        :name="item?.chipSaveLock ? 'lock' : 'lock_open'"
-                        :color="item?.chipSaveLock ? 'positive' : 'negative'"
-                        size="20px"
-                        @click="
-                          () => {
-                            if (item?.chipSaveLock) {
-                              onClickTableCountChipSaveEditCheck(item)
+                      <div class="flex justify-center content-center items-center q-mt-xs">
+                        <q-icon
+                          :class="item?.chipSaveLock ? 'cursor-pointer' : 'text-negative'"
+                          :name="item?.chipSaveLock ? 'lock' : 'lock_open'"
+                          :color="item?.chipSaveLock ? 'positive' : 'negative'"
+                          size="17px"
+                          @click="
+                            () => {
+                              if (item?.chipSaveLock) {
+                                onClickTableCountChipSaveEditCheck(item)
+                              }
                             }
-                          }
-                        "
-                      />
+                          "
+                        />
+                        <span>{{ $t('pitboss') }}</span>
+                      </div>
                     </td>
                     <td class="text-center">
+                      <div class="flex justify-center content-center items-center">
+                        <q-icon
+                          :class="item?.cashSaveLockCashier ? 'cursor-pointer' : ''"
+                          :name="item?.cashSaveLockCashier ? 'lock' : 'lock_open'"
+                          :color="item?.cashSaveLockCashier ? 'positive' : 'negative'"
+                          size="17px"
+                          @click="
+                            () => {
+                              if (item?.cashSaveLockCashier) {
+                                onEditSavedCount(item, 'cashSaveLockCashier')
+                              }
+                            }
+                          "
+                        />
+                        <span>{{ $t('cashier') }}</span>
+                      </div>
+
+                      <div class="flex justify-center content-center items-center q-mt-xs">
+                        <q-icon
+                          :class="item?.cashSaveLockPitBoss ? 'cursor-pointer' : ''"
+                          :name="item?.cashSaveLockPitBoss ? 'lock' : 'lock_open'"
+                          :color="item?.cashSaveLockPitBoss ? 'positive' : 'negative'"
+                          size="17px"
+                          @click="
+                            () => {
+                              if (item?.cashSaveLockPitBoss) {
+                                onEditSavedCount(item, 'cashSaveLockPitBoss')
+                              }
+                            }
+                          "
+                        />
+                        <span>{{ $t('pitboss') }}</span>
+                      </div>
+                      <!--
                       <q-icon
                         :class="item?.cashSaveLockCashier ? 'cursor-pointer' : ''"
                         :name="item?.cashSaveLockCashier ? 'lock' : 'lock_open'"
@@ -159,8 +193,7 @@
                           }
                         "
                       />
-                    </td>
-                    <td class="text-center">
+
                       <q-icon
                         :class="item?.cashSaveLockPitBoss ? 'cursor-pointer' : ''"
                         :name="item?.cashSaveLockPitBoss ? 'lock' : 'lock_open'"
@@ -173,7 +206,7 @@
                             }
                           }
                         "
-                      />
+                      /> -->
                     </td>
                   </tr>
                   <tr>
@@ -397,7 +430,7 @@
                             borderless
                             standout
                             :disable="
-                              selectedTableCount?.cashSaveLockCashier &&
+                              selectedTableCount?.cashSaveLockCashier ||
                               selectedTableCount?.cashSaveLockPitBoss
                             "
                             @update:model-value="
@@ -426,7 +459,7 @@
                                 pattern="[0-9]+([\.,][0-9]+)?"
                                 v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
                                 :disabled="
-                                  selectedTableCount?.cashSaveLockCashier &&
+                                  selectedTableCount?.cashSaveLockCashier ||
                                   selectedTableCount?.cashSaveLockPitBoss
                                 "
                               />
@@ -927,17 +960,18 @@ const onEditSavedCount = async (tableCount, type) => {
     },
   }).onOk(async (payload) => {
     if (payload === true) {
-      /*       console.log(selectedTableCount.value)
       await tableStore.fetchTableCounts()
       const latestTableCount = tableStore.tableCounts.find(
         (tableCount) => tableCount.id === selectedTableCount.value.id,
       )
-      selectedTableCount.value = { ...latestTableCount } */
-      selectedTableCount.value = {
+      selectedTableCount.value = null
+      await onSelectTableCount(latestTableCount)
+
+      /*       selectedTableCount.value = {
         ...selectedTableCount.value,
         [type]: false,
       }
-      tableCount[type] = false
+      tableCount[type] = false */
     }
   })
 }
@@ -955,6 +989,7 @@ const onClickTableCountChipSaveEditCheck = (tableCount) => {
   }).onOk(async (payload) => {
     if (payload === true) {
       tableStore.fetchTableCounts()
+      selectedTableCount.value = null
     }
   })
 }

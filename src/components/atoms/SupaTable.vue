@@ -694,7 +694,7 @@ defineExpose({
     tr:first-child {
       th {
         &.frozen-column {
-          background-color: $grey-3;
+          background-color: $blue-grey-2;
           position: sticky;
           z-index: 1;
         }
@@ -704,9 +704,15 @@ defineExpose({
 
   td {
     &.frozen-column {
-      background-color: $grey-3;
+      background-color: $blue-grey-2;
       position: sticky;
       z-index: 1;
+    }
+  }
+
+  tbody tr.selected-row {
+    td.frozen-column {
+      background-color: rgba(255, 0, 0, 0.1);
     }
   }
 }
