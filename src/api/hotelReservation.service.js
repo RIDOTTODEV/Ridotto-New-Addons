@@ -14,6 +14,7 @@ export const hotelReservationService = {
    * @param {undefined} [data.endDate] - End Date
    * @param {undefined} [data.checkInDate] - Check In Date
    * @param {undefined} [data.checkOutDate] - Check Out Date
+   * @param {undefined} [data.check] - Check
    * @param {undefined} [data.sorting] - Sorting
    * @param {undefined} [data.maxResultCount] - Max Result Count
    * @param {undefined} [data.skipCount] - Skip Count
@@ -323,6 +324,62 @@ export const hotelReservationService = {
    */
   findHotelGuestByPlayerId(data = {}, options = {}) {
     return api.get('/api/HotelReservation/FindHotelGuestByPlayerId', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Get Active Guests Hotel Reservation
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.maxResultCount] - Max Result Count
+   * @param {undefined} [data.skipCount] - Skip Count
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getActiveGuests(data = {}, options = {}) {
+    if (!data.maxResultCount) {
+      data.maxResultCount = 999
+    }
+    if (!data.skipCount) {
+      data.skipCount = 0
+    }
+    return api.get('/api/HotelReservation/GetActiveGuests', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Get Pending Guests Hotel Reservation
+   *
+   * @param {object} [data]
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getPendingGuests(data = {}, options = {}) {
+    return api.get('/api/HotelReservation/GetPendingGuests', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Get Guest Transfer List Hotel Reservation
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.hour] - Hour
+   * @param {undefined} [data.maxResultCount] - Max Result Count
+   * @param {undefined} [data.skipCount] - Skip Count
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getGuestTransferList(data = {}, options = {}) {
+    if (!data.maxResultCount) {
+      data.maxResultCount = 999
+    }
+    if (!data.skipCount) {
+      data.skipCount = 0
+    }
+    return api.get('/api/HotelReservation/GetGuestTransferList', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },

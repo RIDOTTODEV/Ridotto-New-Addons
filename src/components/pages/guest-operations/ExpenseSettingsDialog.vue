@@ -87,6 +87,20 @@
             />
           </div>
 
+          <div>
+            <div class="text-caption text-grey-7 q-mb-xs">
+              <q-icon name="o_dashboard_customize" size="xs" class="q-mr-xs" />
+              {{ $t('fixExpense') }}
+            </div>
+            <q-input
+              v-model="localSettings.FixExpense"
+              outlined
+              dense
+              :label="$t('fixExpense')"
+              :rules="[(val) => !!val || $t('requiredField')]"
+            />
+          </div>
+
           <!-- Action Buttons -->
           <div class="row q-mt-lg">
             <q-space />

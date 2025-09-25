@@ -4,6 +4,20 @@ import { api } from 'src/boot/axios'
 export const expenseService = {
   name: 'Expense',
   /**
+   * Get Player Expenses Expense
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.playerId] - Player Id
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getPlayerExpenses(data = {}, options = {}) {
+    return api.get('/api/Expense/GetPlayerExpenses', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
    * Get Expense
    *
    * @param {object} [data]

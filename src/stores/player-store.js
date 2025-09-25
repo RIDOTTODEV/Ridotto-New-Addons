@@ -13,6 +13,7 @@ import {
   playerInfoService,
   playerLinkService,
   playerAttachmentService,
+  playerLgReportService,
 } from 'src/api'
 import { LocalStorage } from 'quasar'
 import { useAuthStore } from 'src/stores/auth-store'
@@ -244,6 +245,14 @@ export const usePlayerStore = defineStore('playerStore', {
     },
     async fetchPlayerAttechments(params) {
       const { data } = await playerAttachmentService.getAllByPlayer(params)
+      return data
+    },
+    async fetchPlayerTransactions(params) {
+      const { data } = await playerService.getPlayerTransactions(params)
+      return data
+    },
+    async fetchPlayerLgTableResult(params) {
+      const { data } = await playerLgReportService.getPlayerLgTableResult(params)
       return data
     },
   },

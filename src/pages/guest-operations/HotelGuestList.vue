@@ -101,6 +101,7 @@ const onCliclOpenExpenseSettingsDialog = async () => {
     HotelExpenseTypeId: null,
     FlightExpenseTypeId: null,
     FlightReturnTicketExpenseTypeId: null,
+    FixExpense: null,
   }
 
   $q.dialog({

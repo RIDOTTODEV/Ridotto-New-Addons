@@ -311,6 +311,15 @@ const {
                     </div>
                   </q-tooltip>
                 </q-badge>
+
+                <div class="absolute-top-left q-ml-xs" v-if="props.row.isGuest === true">
+                  <q-icon name="o_hotel" size="xs" color="negative" />
+                  <q-tooltip class="q-card--bordered app-cart-grey text-dark">
+                    <div class="text-subtitle2">
+                      {{ $t('guest') }}
+                    </div>
+                  </q-tooltip>
+                </div>
               </q-td>
               <q-td
                 auto-width
@@ -349,6 +358,31 @@ const {
                 style="padding-right: 0 !important"
                 v-el-perms="'Addon.Inspector.Player.TimePauseOrResume'"
               >
+                <!-- <q-btn
+                  color="grey-2"
+                  unelevated
+                  class="q-mr-sm"
+                  text-color="dark"
+                  no-wrap
+                  no-caps
+                  @click="
+                    () => {
+                      ;(onClickPlayer(props.row), onClickPlayerTimePauseOrResume(props.row))
+                    }
+                  "
+                  padding="0px"
+                >
+                  <q-img
+                    src="/inspectors/icons8-4-star-hotel-100.png"
+                    width="35px"
+                    class="q-mr-xs"
+                  />
+
+                  <q-tooltip class="q-card--bordered app-cart-grey text-dark">
+                    {{ $t('guest') }}
+                  </q-tooltip>
+                </q-btn> -->
+
                 <q-btn
                   color="grey-2"
                   unelevated

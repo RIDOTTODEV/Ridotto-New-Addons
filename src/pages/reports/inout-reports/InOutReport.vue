@@ -24,6 +24,7 @@
         'body-cell-depositIn',
         'body-cell-depositOut',
       ]"
+      :frozenColumns="['id', 'lgDrop', 'realCashIn']"
     >
       <template v-slot:headerFilterSlots>
         <div class="col-6 flex row justify-start">
@@ -56,12 +57,53 @@
       </template>
       <template v-slot:body-cell-playerName="{ props }">
         <q-td :props="props">
-          <span
-            v-player-detail="props.row.playerId"
-            :label="props.row.playerName"
-            class="onHoverPlayerName"
-          >
+          <span class="text-capitalize">
             {{ props.row.playerName }}
+            <q-menu>
+              <q-list dense style="min-width: 100px">
+                <q-item clickable dense>
+                  <q-item-section>
+                    <div class="flex row justify-start items-center content-center">
+                      <q-icon name="o_groups" size="20px" class="q-mr-sm" color="green-8" />
+                      <span class="text-capitalize">{{ props.row.playerName }}</span>
+                    </div>
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-icon name="arrow_right" />
+                  </q-item-section>
+
+                  <q-menu anchor="top end" self="top start">
+                    <q-list>
+                      <q-item clickable dense @click="onClickTransactions(props, false)">
+                        <q-item-section>
+                          <div class="flex row justify-start items-center content-center">
+                            <q-icon name="functions" size="20px" class="q-mr-sm" color="primary" />
+                            <span class="text-capitalize">{{ $t('playerTransactions') }}</span>
+                          </div>
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item clickable dense @click="onClickLgTableResult(props)">
+                        <q-item-section>
+                          <div class="flex row justify-start items-center content-center">
+                            <q-icon name="bar_chart" size="20px" class="q-mr-sm" color="primary" />
+                            <span class="text-capitalize">{{ $t('playerLgTableResult') }}</span>
+                          </div>
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-item>
+                <q-item clickable dense @click="onClickTransactions(props, true)">
+                  <q-item-section>
+                    <div class="flex row justify-start items-center content-center">
+                      <q-icon name="functions" size="20px" class="q-mr-sm" color="primary" />
+                      <span class="text-capitalize">{{ $t('allTransactions') }}</span>
+                    </div>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
           </span>
         </q-td>
       </template>
@@ -144,10 +186,8 @@
             :name="col.name"
             align="center"
             :class="{
-              'bg-red-1':
-                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) < 0,
-              'bg-green-1':
-                col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) > 0,
+              'bg-red-1': col.showTotal && inOutReportTable?.response[col.totalField] < 0,
+              'bg-green-1': col.showTotal && inOutReportTable?.response[col.totalField] > 0,
             }"
           >
             <div class="text-subtitle2" v-if="col.showTotal">
@@ -208,10 +248,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, defineAsyncComponent } from 'vue'
 import { formatPrice } from 'src/helpers/helpers'
 import { useReportStore } from 'src/stores/report-store'
-import { date } from 'quasar'
+import { date, useQuasar } from 'quasar'
+const $q = useQuasar()
 const reportStore = useReportStore()
 const filterValues = ref(null)
 const inOutReportTable = ref(null)
@@ -231,96 +272,112 @@ const columns = ref([
     label: 'Slot Result',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalSlotResult',
   },
   {
     field: 'lgDrop',
     label: 'LG Drop',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalLgDrop',
   },
   {
     field: 'lgResult',
     label: 'LG Result',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalLgResult',
   },
   {
     field: 'creditIn',
     label: 'Credit In',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalCreditIn',
   },
   {
     field: 'creditOut',
     label: 'Credit Out',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalCreditOut',
   },
   {
     field: 'discountIn',
     label: 'Discount In',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalDiscountIn',
   },
   {
     field: 'discountOut',
     label: 'Discount Out',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalDiscountOut',
   },
   {
     field: 'compIn',
     label: 'Comp In',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalCompIn',
   },
   {
     field: 'compOut',
     label: 'Comp Out',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalCompOut',
   },
   {
     field: 'tableCashDrop',
     label: 'Table Cash Drop',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalTableCashDrop',
   },
   {
     field: 'cashIn',
     label: 'Cash In',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalCashIn',
   },
   {
     field: 'cashOut',
     label: 'Cash Out',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalCashOut',
   },
   {
     field: 'realCashIn',
     label: 'R.Cash In',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalRealCashIn',
   },
   {
     field: 'realCashOut',
     label: 'R.Cash Out',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalRealCashOut',
   },
   {
     field: 'slotIn',
     label: 'Slot In',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalSlotIn',
   },
   {
     field: 'slotOut',
     label: 'Slot Out',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalSlotOut',
   },
   {
     field: 'slotPlayTime',
@@ -335,60 +392,70 @@ const columns = ref([
     label: 'Missing Chip Total',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalMissingChipTotal',
   },
   {
     field: 'missingPlaqueTotal',
     label: 'Missing Plaque Total',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalMissingPlaqueTotal',
   },
   {
     field: 'activeDeposit',
     label: 'Active Deposit',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalActiveDeposit',
   },
   {
     field: 'slotTurnover',
     label: 'Slot Turnover',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalSlotTurnover',
   },
   {
     field: 'lgCashout',
     label: 'LG Cashout',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalLgCashout',
   },
   {
     field: 'creditCardIn',
     label: 'Credit Card In',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalCreditCardIn',
   },
   {
     field: 'creditCardOut',
     label: 'Credit Card Out',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalCreditCardOut',
   },
   {
     field: 'marker',
     label: 'Marker',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalMarker',
   },
   {
     field: 'depositIn',
     label: 'Deposit In',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalDepositIn',
   },
   {
     field: 'depositOut',
     label: 'Deposit Out',
     fieldType: 'priceAbs',
     showTotal: true,
+    totalField: 'totalDepositOut',
   },
 ])
 
@@ -417,6 +484,30 @@ const onClickCell = async (props, transType, transactionType) => {
   getCellDataFilterFields.value.TransactionType = transactionType
   getCellDataFilterFields.value.playerName = props.row.playerName
   await getCellData()
+}
+
+const onClickTransactions = async (props, allTransactions = null) => {
+  $q.dialog({
+    component: defineAsyncComponent(
+      () => import('src/components/pages/reports/inout-reports/InOutTransactionsDialog.vue'),
+    ),
+    componentProps: {
+      playerId: allTransactions ? null : props.row.playerId,
+      playerName: allTransactions ? null : props.row.playerName,
+    },
+  })
+}
+
+const onClickLgTableResult = async (props) => {
+  $q.dialog({
+    component: defineAsyncComponent(
+      () => import('src/components/pages/reports/inout-reports/PlayerLgTableResultDialog.vue'),
+    ),
+    componentProps: {
+      playerId: props.row.playerId,
+      playerName: props.row.playerName,
+    },
+  })
 }
 </script>
 

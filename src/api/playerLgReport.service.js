@@ -113,6 +113,25 @@ export const playerLgReportService = {
       .catch((error) => error)
   },
   /**
+   * Get Player Lg Table Result Player Lg Report
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.playerId] - Player Id
+   * @param {undefined} [data.balanceCurrencyId] - Balance Currency Id
+   * @param {undefined} [data.queryType] - Query Type
+   * @param {undefined} [data.gamingDateId] - Gaming Date Id
+   * @param {undefined} [data.startDate] - Start Date
+   * @param {undefined} [data.endDate] - End Date
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getPlayerLgTableResult(data = {}, options = {}) {
+    return api.get('/api/PlayerLgReport/GetPlayerLgTableResult', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
    * Get Active Floor Info Player Lg Report
    *
    * @param {object} [data]

@@ -87,15 +87,28 @@ export const tableCountService = {
       .catch((error) => error)
   },
   /**
-   * Table Count Plaque And Cash Edit Check Table Count
+   * Table Count Plaque And Cash Edit Cashier Password Table Count
    *
    * @param {object} [data]
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type
    */
-  tableCountPlaqueAndCashEditCheck(data = {}, options = {}) {
-    return api.post('/api/TableCount/TableCountPlaqueAndCashEditCheck', data, options)
+  tableCountPlaqueAndCashEditCashierPassword(data = {}, options = {}) {
+    return api.post('/api/TableCount/TableCountPlaqueAndCashEditCashierPassword', data, options)
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Table Count Plaque And Cash Edit Pit Boss Password Table Count
+   *
+   * @param {object} [data]
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  tableCountPlaqueAndCashEditPitBossPassword(data = {}, options = {}) {
+    return api.post('/api/TableCount/TableCountPlaqueAndCashEditPitBossPassword', data, options)
       .then((response) => response)
       .catch((error) => error)
   },

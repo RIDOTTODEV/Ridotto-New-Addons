@@ -48,7 +48,10 @@
                       <div class="text-bold">Chip Count</div>
                     </th>
                     <th class="text-center app-cart-grey">
-                      <div class="text-bold">Cash Count</div>
+                      <div class="text-bold">Cashier Count</div>
+                    </th>
+                    <th class="text-center app-cart-grey">
+                      <div class="text-bold">Pitboss Count</div>
                     </th>
                   </tr>
                 </thead>
@@ -59,7 +62,7 @@
                     :class="[
                       item.id === selectedTableCount?.id
                         ? 'bg-red-2'
-                        : item.cashSaveLock
+                        : item.cashSaveLockCashier && item.cashSaveLockPitBoss
                           ? 'bg-green-1'
                           : '',
                     ]"
@@ -144,14 +147,29 @@
                     </td>
                     <td class="text-center">
                       <q-icon
-                        :class="item?.cashSaveLock ? 'cursor-pointer' : ''"
-                        :name="item?.cashSaveLock ? 'lock' : 'lock_open'"
-                        :color="item?.cashSaveLock ? 'positive' : 'negative'"
+                        :class="item?.cashSaveLockCashier ? 'cursor-pointer' : ''"
+                        :name="item?.cashSaveLockCashier ? 'lock' : 'lock_open'"
+                        :color="item?.cashSaveLockCashier ? 'positive' : 'negative'"
                         size="20px"
                         @click="
                           () => {
-                            if (item?.cashSaveLock) {
-                              onEditSavedCount(item)
+                            if (item?.cashSaveLockCashier) {
+                              onEditSavedCount(item, 'cashSaveLockCashier')
+                            }
+                          }
+                        "
+                      />
+                    </td>
+                    <td class="text-center">
+                      <q-icon
+                        :class="item?.cashSaveLockPitBoss ? 'cursor-pointer' : ''"
+                        :name="item?.cashSaveLockPitBoss ? 'lock' : 'lock_open'"
+                        :color="item?.cashSaveLockPitBoss ? 'positive' : 'negative'"
+                        size="20px"
+                        @click="
+                          () => {
+                            if (item?.cashSaveLockPitBoss) {
+                              onEditSavedCount(item, 'cashSaveLockPitBoss')
                             }
                           }
                         "
@@ -378,7 +396,10 @@
                             hide-bottom-space
                             borderless
                             standout
-                            :disable="selectedTableCount?.cashSaveLock"
+                            :disable="
+                              selectedTableCount?.cashSaveLockCashier &&
+                              selectedTableCount?.cashSaveLockPitBoss
+                            "
                             @update:model-value="
                               (value) => {
                                 denom = {
@@ -404,7 +425,10 @@
                                 @change="(e) => emitValue(e.target.value)"
                                 pattern="[0-9]+([\.,][0-9]+)?"
                                 v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
-                                :disabled="selectedTableCount?.cashSaveLock"
+                                :disabled="
+                                  selectedTableCount?.cashSaveLockCashier &&
+                                  selectedTableCount?.cashSaveLockPitBoss
+                                "
                               />
                             </template>
                           </q-field>
@@ -486,7 +510,10 @@
                             class="q-pa-none myInput flex justify-center content-center items-center"
                             lazy-rules
                             @focus="(e) => (e.target.select ? e.target.select() : null)"
-                            :disable="selectedTableCount?.cashSaveLock"
+                            :disable="
+                              selectedTableCount?.cashSaveLockCashier &&
+                              selectedTableCount?.cashSaveLockPitBoss
+                            "
                           >
                             <template v-slot:control="{ id, modelValue, emitValue }">
                               <input
@@ -497,7 +524,10 @@
                                 @change="(e) => emitValue(e.target.value)"
                                 pattern="[0-9]+([\.,][0-9]+)?"
                                 v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
-                                :disabled="selectedTableCount?.cashSaveLock"
+                                :disabled="
+                                  selectedTableCount?.cashSaveLockCashier &&
+                                  selectedTableCount?.cashSaveLockPitBoss
+                                "
                               />
                             </template>
                           </q-field>
@@ -879,9 +909,9 @@ const onClickUpdateTableCounts = async (table) => {
   $q.loading.hide()
 }
 
-const onEditSavedCount = (tableCount) => {
+const onEditSavedCount = async (tableCount, type) => {
   if (!selectedTableCount.value) {
-    onSelectTableCount(tableCount)
+    await onSelectTableCount(tableCount)
   }
   $q.dialog({
     component: defineAsyncComponent(
@@ -889,6 +919,11 @@ const onEditSavedCount = (tableCount) => {
     ),
     componentProps: {
       tableCountId: selectedTableCount.value.id,
+      type: type,
+      actionFn:
+        type === 'cashSaveLockCashier'
+          ? tableStore.tableCountPlaqueAndCashEditCashierPassword
+          : tableStore.tableCountPlaqueAndCashEditPitBossPassword,
     },
   }).onOk(async (payload) => {
     if (payload === true) {
@@ -900,9 +935,9 @@ const onEditSavedCount = (tableCount) => {
       selectedTableCount.value = { ...latestTableCount } */
       selectedTableCount.value = {
         ...selectedTableCount.value,
-        cashSaveLock: false,
+        [type]: false,
       }
-      tableCount.cashSaveLock = false
+      tableCount[type] = false
     }
   })
 }

@@ -131,12 +131,34 @@
           v-for="col in props.cols"
           :key="col.name"
           :props="props"
-          class="text-center q-custom-table"
+          :class="[
+            'text-center q-custom-table',
+            { 'frozen-column': frozenColumns.includes(col.name) },
+          ]"
+          :style="
+            frozenColumns.includes(col.name)
+              ? { left: getFrozenColumnPosition(col.name) + 'px' }
+              : {}
+          "
         >
           {{ col.label }}
         </q-th>
       </q-tr>
     </template>
+    <template v-slot:body-cell="props">
+      <q-td
+        :props="props"
+        :class="{ 'frozen-column': frozenColumns.includes(props.col.name) }"
+        :style="
+          frozenColumns.includes(props.col.name)
+            ? { left: getFrozenColumnPosition(props.col.name) + 'px' }
+            : {}
+        "
+      >
+        {{ props.value }}
+      </q-td>
+    </template>
+
     <template v-slot:body-cell-actions="props">
       <q-td :props="props" class="text-right">
         <q-btn
@@ -165,7 +187,12 @@
       <slot name="bottomRow" v-bind="{ ...props, rows: refTable?.computedRows || [] }"></slot>
     </template>
     <template v-slot:bottom>
-      <slot name="bottomSlots" v-bind="{ rows: refTable?.computedRows || [] }"></slot>
+      <slot
+        name="bottomSlots"
+        v-bind="{
+          rows: refTable?.computedRows || [],
+        }"
+      ></slot>
       <div
         class="full-width q-mt-xs q-mb-xs row col-12 flex content-center items-center justify-end"
       >
@@ -292,6 +319,11 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: () => false,
+  },
+  frozenColumns: {
+    type: Array,
+    required: false,
+    default: () => ['id'],
   },
 })
 
@@ -603,6 +635,22 @@ const emits = defineEmits(['switchSummaryCard'])
 const switchSummaryCard = () => {
   emits('switchSummaryCard')
 }
+
+const getFrozenColumnPosition = (columnName) => {
+  let position = 0
+  const columnIndex = props.frozenColumns.indexOf(columnName)
+
+  if (columnIndex > 0) {
+    // Calculate position based on previous frozen columns' widths
+    for (let i = 0; i < columnIndex; i++) {
+      const prevColumn = tableColumns.value.find((col) => col.name === props.frozenColumns[i])
+      // Use a default width if not specified, or calculate based on content
+      position += prevColumn?.width || 100
+    }
+  }
+
+  return position
+}
 // Expose public methods and properties
 defineExpose({
   fetchData,
@@ -628,10 +676,6 @@ defineExpose({
   display: none !important;
 }
 
-.supa-table tbody tr td,
-.supa-table tbody tr td div {
-  // font-size: 12px !important;
-}
 .q-table--dense .q-table tbody td {
   padding: 1px 3px !important;
 }
@@ -643,5 +687,27 @@ defineExpose({
 
 .q-table__bottom {
   padding: 0px !important;
+}
+
+.supa-table {
+  thead {
+    tr:first-child {
+      th {
+        &.frozen-column {
+          background-color: $grey-3;
+          position: sticky;
+          z-index: 1;
+        }
+      }
+    }
+  }
+
+  td {
+    &.frozen-column {
+      background-color: $grey-3;
+      position: sticky;
+      z-index: 1;
+    }
+  }
 }
 </style>

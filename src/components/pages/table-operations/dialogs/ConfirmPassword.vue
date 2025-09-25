@@ -1,7 +1,6 @@
 <template>
   <q-dialog
     ref="dialogRef"
-    @hide="onDialogHide"
     persistent
     square
     transition-show="slide-up"
@@ -10,22 +9,26 @@
     <q-card style="min-width: 400px">
       <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
         <div class="text-subtitle2">
-          {{ $t('confirmPassword') }}
+          {{ $t('confirmPassword') }} -
+          <span class="text-capitalize text-negative">{{
+            type === 'cashSaveLockCashier' ? $t('cashier') : $t('pitboss')
+          }}</span>
         </div>
         <q-space />
         <q-btn dense flat icon="close" v-close-popup>
           <q-tooltip class="text-subtitle1 bg-blue-grey-8">{{ $t('close') }}</q-tooltip>
         </q-btn>
       </q-bar>
-      <q-card-section class="q-pa-sm flex justify-center">
+
+      <q-card-section class="q-pa-md">
         <q-form @submit="onSubmit" class="row" v-if="!isSuccess">
           <div class="col-12">
             <q-input
               outlined
               dense
               class="super-input"
-              v-model="values.cashierPassword"
-              :label="$t('cashierPassword')"
+              v-model="values.password"
+              :label="$t('password')"
               :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
               :type="isPwd ? 'password' : 'text'"
             >
@@ -38,26 +41,6 @@
               </template>
             </q-input>
           </div>
-          <div class="col-12">
-            <q-input
-              outlined
-              dense
-              class="super-input"
-              v-model="values.pitbossPassword"
-              :label="$t('pitbossPassword')"
-              :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
-              :type="isPitbossPwd ? 'password' : 'text'"
-            >
-              <template v-slot:append>
-                <q-icon
-                  :name="isPitbossPwd ? 'o_visibility' : 'o_visibility_off'"
-                  @click="isPitbossPwd = !isPitbossPwd"
-                  class="cursor-pointer"
-                />
-              </template>
-            </q-input>
-          </div>
-
           <q-btn
             type="submit"
             :label="$t('submit')"
@@ -79,33 +62,39 @@
 </template>
 
 <script setup>
-import { useTableStore } from 'src/stores/table-store'
 import SuccessNotify from 'src/components/ui/SuccessNotify.vue'
 import { useDialogPluginComponent, Notify } from 'quasar'
 import { ref } from 'vue'
 
-const tableStore = useTableStore()
 defineEmits([...useDialogPluginComponent.emits])
 
-const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
+const { dialogRef, onDialogOK } = useDialogPluginComponent()
 const props = defineProps({
   tableCountId: {
     type: Number,
     required: true,
     default: () => 0,
   },
+  actionFn: {
+    type: Function,
+    required: true,
+    default: () => () => {},
+  },
+  type: {
+    type: String,
+    required: true,
+    default: () => '',
+  },
 })
 const values = ref({
-  cashierPassword: '12345',
-  pitbossPassword: '54321',
+  password: '',
   tableCountId: props.tableCountId,
 })
 const isPwd = ref(true)
-const isPitbossPwd = ref(true)
 
 const isSuccess = ref(false)
 const onSubmit = async () => {
-  const result = await tableStore.tableCountPlaqueAndCashEditCheck({ ...values.value })
+  const result = await props.actionFn({ ...values.value })
   if (result.data === true) {
     isSuccess.value = true
     setTimeout(() => {

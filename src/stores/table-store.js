@@ -175,6 +175,12 @@ export const useTableStore = defineStore('tableStore', {
         name: 'TableOperationsSettings',
       })
     },
+    async tableCountPlaqueAndCashEditCashierPassword(params) {
+      return await tableCountService.tableCountPlaqueAndCashEditCashierPassword(params)
+    },
+    async tableCountPlaqueAndCashEditPitBossPassword(params) {
+      return await tableCountService.tableCountPlaqueAndCashEditPitBossPassword(params)
+    },
   },
 })
 

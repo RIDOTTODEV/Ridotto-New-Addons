@@ -416,7 +416,21 @@ const showLiveGameResult = (value) => {
                   </thead>
                   <tbody>
                     <tr v-for="(item, index) in activeFloorInfo?.lgSitPlayers" :key="index">
-                      <td class="text-center">{{ item.playerName }}</td>
+                      <td class="text-center">
+                        <div class="flex items-center items-center justify-center">
+                          {{ item.playerName }}
+                          <q-chip
+                            v-if="item.isGuest"
+                            square
+                            :label="$t('guest')"
+                            color="warning"
+                            size="xs"
+                            icon="o_hotel"
+                            dense
+                            style="margin: 0 !important"
+                          />
+                        </div>
+                      </td>
                       <td class="text-center">{{ item.tableName }}</td>
                       <td class="text-center bg-orange-1">
                         {{ priceAbsFormatted(item.avgBet) }}
@@ -506,7 +520,24 @@ const showLiveGameResult = (value) => {
                 </thead>
                 <tbody>
                   <tr v-for="(player, index) in item.players" :key="index">
-                    <td class="text-center text-capitalize">{{ player.playerName }}</td>
+                    <td class="text-center text-capitalize">
+                      <div
+                        class="flex items-center items-center justify-center"
+                        style="flex-direction: column"
+                      >
+                        {{ player.playerName }}
+                        <q-chip
+                          v-if="player.isGuest"
+                          square
+                          :label="$t('guest')"
+                          color="warning"
+                          size="xs"
+                          icon="o_hotel"
+                          dense
+                          style="margin: 0 !important"
+                        />
+                      </div>
+                    </td>
                     <td class="text-center">
                       {{ priceAbsFormatted(player.avgBet) }}
                     </td>
