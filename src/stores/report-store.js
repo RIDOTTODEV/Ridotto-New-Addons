@@ -9,6 +9,8 @@ import {
   playerService,
   cashdeskTransactionService,
   tableCountService,
+  gmAftInService,
+  gmAftOutService,
 } from 'src/api'
 import { useAuthStore } from 'src/stores/auth-store'
 import { priceAbsFormatted } from 'src/helpers/helpers'
@@ -297,6 +299,14 @@ export const useReportStore = defineStore('reportStore', {
     },
     async getPlayerTransactions(params) {
       const { data } = await playerService.getPlayerTransactions(params)
+      return data
+    },
+    async getGmAftIns(params) {
+      const { data } = await gmAftInService.getGmAftIns(params)
+      return data
+    },
+    async getGmAftOuts(params) {
+      const { data } = await gmAftOutService.getGmAftOuts(params)
       return data
     },
     async getLiveGameFloorResult(params) {

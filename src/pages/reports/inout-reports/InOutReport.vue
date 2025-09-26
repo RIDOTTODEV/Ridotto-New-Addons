@@ -174,12 +174,12 @@
                           <span class="text-capitalize">{{ $t('Cash Out') }}</span>
                         </q-item-section>
                       </q-item>
-                      <q-item clickable dense @click="onClickCell(props, 'Slot', 'Deposit')">
+                      <q-item clickable dense @click="onClickCellSlot(props, 'Slot', 'Deposit')">
                         <q-item-section>
                           <span class="text-capitalize">{{ $t('Slot In') }}</span>
                         </q-item-section>
                       </q-item>
-                      <q-item clickable dense @click="onClickCell(props, 'Slot', 'Withdrawal')">
+                      <q-item clickable dense @click="onClickCellSlot(props, 'Slot', 'Withdrawal')">
                         <q-item-section>
                           <span class="text-capitalize">{{ $t('Slot Out') }}</span>
                         </q-item-section>
@@ -252,12 +252,12 @@
         </q-td>
       </template>
       <template v-slot:body-cell-slotIn="{ props }">
-        <q-td :props="props" @click="onClickCell(props, 'Slot', 'Deposit')">
+        <q-td :props="props" @click="onClickCellSlot(props, 'Slot', 'Deposit')">
           {{ formatPrice(props.row.slotIn) }}
         </q-td>
       </template>
       <template v-slot:body-cell-slotOut="{ props }">
-        <q-td :props="props" @click="onClickCell(props, 'Slot', 'Withdrawal')">
+        <q-td :props="props" @click="onClickCellSlot(props, 'Slot', 'Withdrawal')">
           {{ formatPrice(props.row.slotOut) }}
         </q-td>
       </template>
@@ -305,8 +305,8 @@
     <q-card flat class="q-mt-md bg-transparent" v-if="cellData.length > 0">
       <q-card-section class="row q-pa-none">
         <div class="col-10">
-          <fieldset style="border: 1px solid rgb(166 166 166) !important; padding: 10px !important">
-            <legend>
+          <fieldset class="fieldset-border">
+            <legend class="text-capitalize">
               {{ getCellDataFilterFields.playerName }} - {{ cellData.length }} Transactions
             </legend>
             <q-markup-table dense separator="cell" square>
@@ -347,11 +347,25 @@
         </div>
       </q-card-section>
     </q-card>
+
+    <q-card flat class="q-mt-md bg-transparent" v-if="showSlotData">
+      <q-card-section class="row q-pa-none">
+        <div class="col-12">
+          <fieldset class="fieldset-border">
+            <legend class="text-capitalize text-subtitle1">
+              {{ slotDataFilterFields.playerName }} - Transactions
+            </legend>
+            <GmInPlayerTransaction :filterParams="slotDataFilterFields" />
+          </fieldset>
+        </div>
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 
 <script setup>
 import { ref, defineAsyncComponent } from 'vue'
+import GmInPlayerTransaction from 'src/components/pages/reports/inout-reports/GmInPlayerTransaction.vue'
 import { formatPrice } from 'src/helpers/helpers'
 import { useReportStore } from 'src/stores/report-store'
 import { date, useQuasar } from 'quasar'
@@ -470,7 +484,6 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalRealCashIn',
-    classes: 'linked-text',
   },
   {
     field: 'realCashOut',
@@ -478,7 +491,6 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalRealCashOut',
-    classes: 'linked-text',
   },
   {
     field: 'slotIn',
@@ -600,11 +612,33 @@ const getCellData = async () => {
 }
 
 const onClickCell = async (props, transType, transactionType) => {
+  showSlotData.value = false
   getCellDataFilterFields.value.playerId = props.row.playerId
   getCellDataFilterFields.value.TransType = transType
   getCellDataFilterFields.value.TransactionType = transactionType
   getCellDataFilterFields.value.playerName = props.row.playerName
   await getCellData()
+}
+
+const slotDataFilterFields = ref({
+  playerId: null,
+  TransType: null,
+  TransactionType: null,
+  playerName: null,
+})
+const showSlotData = ref(false)
+const onClickCellSlot = async (props, transType, transactionType) => {
+  cellData.value = []
+  slotDataFilterFields.value.playerId = props.row.playerId
+  slotDataFilterFields.value.TransType = transType
+  slotDataFilterFields.value.TransactionType = transactionType
+  slotDataFilterFields.value.playerName = props.row.playerName
+
+  slotDataFilterFields.value = {
+    ...slotDataFilterFields.value,
+    ...filterValues.value,
+  }
+  showSlotData.value = true
 }
 
 const onClickTransactions = async (props, allTransactions = null) => {
@@ -635,5 +669,9 @@ const onClickLgTableResult = async (props) => {
 <style scoped>
 .menu-item {
   padding: 0 3px 0 5px !important;
+}
+.fieldset-border {
+  border: 1px solid #65676b !important;
+  padding: 10px !important;
 }
 </style>

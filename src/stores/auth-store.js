@@ -1,7 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { api } from 'boot/axios'
 import { LocalStorage } from 'quasar'
-import { applicationSettingService, gamingDateService } from 'src/api'
+import { applicationSettingService, gamingDateService, enumService } from 'src/api'
 import { useCurrencyStore } from 'src/stores/currency-store'
 
 export const useAuthStore = defineStore('authStore', {
@@ -21,6 +21,7 @@ export const useAuthStore = defineStore('authStore', {
       CashierPassword: '',
       PitbossPassword: '',
     },
+    enums: [],
   }),
   getters: {
     hasPermission: (state) => (permission) => {
@@ -72,7 +73,9 @@ export const useAuthStore = defineStore('authStore', {
         (c) => c.id === state.userAddonSettings.DefaultCurrencyId,
       )
     },
-
+    getEnumByName: (state) => (name) => {
+      return state.enums.find((e) => e.fullName === name)
+    },
     getUserTableColumns:
       (state) =>
       (tableName, defaultColumns, defaultRowsPerPage = 10) => {
@@ -237,6 +240,11 @@ export const useAuthStore = defineStore('authStore', {
             this.userAddonSettings.DefaultCurrencyId = 2
           }
         })
+    },
+    async getEnums() {
+      await enumService.getAllEnums().then((res) => {
+        this.enums = res.data.enums
+      })
     },
   },
 })

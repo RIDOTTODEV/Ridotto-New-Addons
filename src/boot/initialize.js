@@ -20,6 +20,7 @@ export const initialize = async () => {
   const transactionCodeStore = useTransactionCodeStore()
   await Promise.all([
     authStore.getUserAddonSettings(),
+    authStore.getEnums(),
     authStore.getAddonGeneralSettings(),
     authStore.fetchDefaultGamingDateInfo(),
     currencyStore.fetchCurrencies(),

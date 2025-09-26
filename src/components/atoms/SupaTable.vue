@@ -352,7 +352,7 @@ const pagination = ref({
   totalCount: 0,
   rowsNumber: 0,
 })
-const playerDirectiveColumns = ref(['playerName', 'playerFullName'])
+const playerDirectiveColumns = ref(['playerName', 'playerFullName', 'fullName'])
 const visibleColumnOptions = ref(['id'])
 const visibleColumns = ref([])
 const refTable = ref(null)

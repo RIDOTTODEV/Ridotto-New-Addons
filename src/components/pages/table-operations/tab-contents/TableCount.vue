@@ -544,7 +544,7 @@
                             lazy-rules
                             @focus="(e) => (e.target.select ? e.target.select() : null)"
                             :disable="
-                              selectedTableCount?.cashSaveLockCashier &&
+                              selectedTableCount?.cashSaveLockCashier ||
                               selectedTableCount?.cashSaveLockPitBoss
                             "
                           >
@@ -558,7 +558,7 @@
                                 pattern="[0-9]+([\.,][0-9]+)?"
                                 v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
                                 :disabled="
-                                  selectedTableCount?.cashSaveLockCashier &&
+                                  selectedTableCount?.cashSaveLockCashier ||
                                   selectedTableCount?.cashSaveLockPitBoss
                                 "
                               />
