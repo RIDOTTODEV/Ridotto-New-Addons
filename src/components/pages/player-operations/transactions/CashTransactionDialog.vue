@@ -95,6 +95,7 @@ const onsubmit = async () => {
         icon: 'fa fa-check-circle',
       })
       bus.emit('reloadCageTransactions')
+
       onDialogOK()
     }
   })

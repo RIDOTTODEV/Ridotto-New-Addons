@@ -43,7 +43,11 @@ const reloadReport = async () => {
             </thead>
             <tbody>
               <tr v-for="(item, index) in activeFloorListReport?.slotMachinePlayers" :key="index">
-                <td class="text-center">{{ item.playerFullName }}</td>
+                <td class="text-center">
+                  <div v-player-detail="item.playerId" class="onHoverPlayerName">
+                    {{ item.playerFullName }}
+                  </div>
+                </td>
                 <td class="text-center">{{ item.currencyName }}</td>
                 <td class="text-center">
                   {{ priceAbsFormatted(item.turnover) }}
@@ -77,7 +81,11 @@ const reloadReport = async () => {
             </thead>
             <tbody>
               <tr v-for="(item, index) in activeFloorListReport?.liveGamePlayers" :key="index">
-                <td class="text-center">{{ item.playerFullName }}</td>
+                <td class="text-center">
+                  <div v-player-detail="item.playerId" class="onHoverPlayerName">
+                    {{ item.playerFullName }}
+                  </div>
+                </td>
                 <td class="text-center">{{ item.tableName }}</td>
                 <td class="text-center">
                   {{ priceAbsFormatted(item.drop) }}

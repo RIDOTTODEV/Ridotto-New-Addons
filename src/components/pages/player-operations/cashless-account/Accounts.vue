@@ -10,10 +10,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, inject } from 'vue'
 import { usePlayerStore } from 'src/stores/player-store'
 import Account from './Account.vue'
 const playerStore = usePlayerStore()
+const bus = inject('bus')
 const accounts = ref([])
 const loading = ref(false)
 
@@ -42,6 +43,7 @@ watch(
     }
   },
 )
+bus.on('reloadCashlessAccounts', fetchPlayerCashlessAccounts)
 </script>
 
 <style scoped></style>

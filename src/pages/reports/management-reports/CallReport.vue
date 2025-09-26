@@ -7,7 +7,6 @@
       ref="callReportTable"
       tableName="callReportColumns"
       :filterParams="filterValues"
-      :slotNames="['body-cell-playerFullName']"
     >
       <template v-slot:headerFilterSlots>
         <div class="col-8 flex row justify-start">
@@ -65,17 +64,6 @@
             />
           </div>
         </div>
-      </template>
-      <template v-slot:body-cell-playerFullName="{ props }">
-        <q-td :props="props">
-          <span
-            v-player-detail="props.row.playerId"
-            :label="props.row.playerFullName"
-            class="onHoverPlayerName"
-          >
-            {{ props.row.playerFullName }}
-          </span>
-        </q-td>
       </template>
     </SupaTable>
   </q-page>

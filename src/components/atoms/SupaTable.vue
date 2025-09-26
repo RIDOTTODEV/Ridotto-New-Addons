@@ -155,7 +155,18 @@
             : {}
         "
       >
-        {{ props.value }}
+        <div
+          v-player-detail="
+            playerDirectiveColumns.includes(props.col.name) ? props.row.playerId : null
+          "
+          :class="
+            playerDirectiveColumns.includes(props.col.name)
+              ? 'onHoverPlayerName text-capitalize'
+              : ''
+          "
+        >
+          {{ props.value }}
+        </div>
       </q-td>
     </template>
 
@@ -341,7 +352,7 @@ const pagination = ref({
   totalCount: 0,
   rowsNumber: 0,
 })
-
+const playerDirectiveColumns = ref(['playerName', 'playerFullName'])
 const visibleColumnOptions = ref(['id'])
 const visibleColumns = ref([])
 const refTable = ref(null)
@@ -694,7 +705,7 @@ defineExpose({
     tr:first-child {
       th {
         &.frozen-column {
-          background-color: $blue-grey-2;
+          background-color: $blue-grey-1;
           position: sticky;
           z-index: 1;
         }
@@ -704,7 +715,7 @@ defineExpose({
 
   td {
     &.frozen-column {
-      background-color: $blue-grey-2;
+      background-color: $blue-grey-1;
       position: sticky;
       z-index: 1;
     }

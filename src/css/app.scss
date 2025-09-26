@@ -503,7 +503,8 @@ fieldset {
 .onHoverPlayerName {
   cursor: pointer;
   &:hover {
-    color: $primary;
+    color: rgb(33, 83, 136);
+    font-weight: 700;
   }
   // underline text on hover
   &:hover::after {
@@ -513,6 +514,14 @@ fieldset {
     left: 0;
     width: 100%;
     height: 1px;
-    background-color: $primary;
+    background-color: rgb(33, 83, 136);
+  }
+}
+.linked-text {
+  cursor: pointer;
+  &:hover {
+    color: rgb(33, 83, 136);
+    font-weight: 700;
+    text-decoration: underline;
   }
 }

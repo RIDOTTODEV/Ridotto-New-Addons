@@ -6,7 +6,7 @@
       ref="missingChipReportTable"
       tableName="missingChipReportColumns"
       :filterParams="filterValues"
-      :slotNames="['body-cell-playerFullName', 'body-cell-chips', 'body-cell-actions']"
+      :slotNames="['body-cell-chips', 'body-cell-actions']"
       dataKey="players"
     >
       <template v-slot:headerFilterSlots>
@@ -46,17 +46,7 @@
           </div>
         </div>
       </template>
-      <template v-slot:body-cell-playerFullName="{ props }">
-        <q-td :props="props" id="playerFullName">
-          <span
-            v-player-detail="props.row.playerId"
-            :label="props.row.playerFullName"
-            class="onHoverPlayerName"
-          >
-            {{ props.row.playerFullName }}
-          </span>
-        </q-td>
-      </template>
+
       <template v-slot:bottomRow="props">
         <q-tr :props="props">
           <q-td

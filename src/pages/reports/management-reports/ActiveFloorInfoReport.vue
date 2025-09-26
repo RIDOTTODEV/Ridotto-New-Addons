@@ -418,7 +418,9 @@ const showLiveGameResult = (value) => {
                     <tr v-for="(item, index) in activeFloorInfo?.lgSitPlayers" :key="index">
                       <td class="text-center">
                         <div class="flex items-center items-center justify-center">
-                          {{ item.playerName }}
+                          <div v-player-detail="item.playerId" class="onHoverPlayerName">
+                            {{ item.playerName }}
+                          </div>
                           <q-chip
                             v-if="item.isGuest"
                             square
@@ -470,7 +472,11 @@ const showLiveGameResult = (value) => {
                   </thead>
                   <tbody>
                     <tr v-for="(item, index) in activeFloorInfo?.slotSitPlayers" :key="index">
-                      <td class="text-center">{{ item.playerName }}</td>
+                      <td class="text-center">
+                        <div v-player-detail="item.playerId" class="onHoverPlayerName">
+                          {{ item.playerName }}
+                        </div>
+                      </td>
                       <td class="text-center">{{ item.turnover }}</td>
                       <td class="text-center bg-orange-1">
                         {{ priceAbsFormatted(item.avgBet) }}
@@ -525,7 +531,9 @@ const showLiveGameResult = (value) => {
                         class="flex items-center items-center justify-center"
                         style="flex-direction: column"
                       >
-                        {{ player.playerName }}
+                        <div v-player-detail="player.playerId" class="onHoverPlayerName">
+                          {{ player.playerName }}
+                        </div>
                         <q-chip
                           v-if="player.isGuest"
                           square

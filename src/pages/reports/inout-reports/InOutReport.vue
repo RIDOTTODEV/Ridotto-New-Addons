@@ -8,7 +8,7 @@
       tableName="inOutReportColumns"
       :filterParams="filterValues"
       :slotNames="[
-        'body-cell-playerName',
+        'body-cell-id',
         'body-cell-creditIn',
         'body-cell-creditOut',
         'body-cell-discountIn',
@@ -24,7 +24,7 @@
         'body-cell-depositIn',
         'body-cell-depositOut',
       ]"
-      :frozenColumns="['id', 'lgDrop', 'realCashIn']"
+      :frozenColumns="['id']"
     >
       <template v-slot:headerFilterSlots>
         <div class="col-6 flex row justify-start">
@@ -55,56 +55,160 @@
           </div>
         </div>
       </template>
-      <template v-slot:body-cell-playerName="{ props }">
-        <q-td :props="props">
-          <span class="text-capitalize">
-            {{ props.row.playerName }}
-            <q-menu ref="playerNameMenu">
-              <q-list dense style="min-width: 100px">
-                <q-item clickable dense>
-                  <q-item-section>
-                    <div class="flex row justify-start items-center content-center">
-                      <q-icon name="o_groups" size="20px" class="q-mr-sm" color="green-8" />
-                      <span class="text-capitalize">{{ props.row.playerName }}</span>
-                    </div>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-icon name="arrow_right" />
-                  </q-item-section>
 
-                  <q-menu anchor="top right" self="top left">
-                    <q-list>
-                      <q-item clickable dense @click="onClickTransactions(props, false)">
+      <template v-slot:body-cell-id="{ props }">
+        <q-td :props="props" auto-width class="frozen-column">
+          <div class="flex justify-center no-wrap content-center items-center">
+            <span class="text-capitalize">{{ props.row.id }}</span>
+            <q-icon
+              name="chevron_right"
+              size="17px"
+              @mouseover="
+                () => {
+                  // before close other all menu
+                  Object.values($refs).forEach((menu) => {
+                    if (menu && menu.hide) {
+                      menu.hide()
+                    }
+                  })
+                  // show current menu
+                  $refs['playerNameMenu' + props.row.id].show()
+                }
+              "
+            >
+              <q-menu
+                anchor="top right"
+                self="top left"
+                :ref="'playerNameMenu' + props.row.id"
+                @mouseleave="$refs['playerNameMenu' + props.row.id].hide()"
+              >
+                <q-card square>
+                  <q-card-section class="q-pa-xs" style="min-height: 200px">
+                    <q-list dense>
+                      <q-item
+                        clickable
+                        dense
+                        @click="onClickTransactions(props, false)"
+                        class="menu-item"
+                      >
                         <q-item-section>
                           <div class="flex row justify-start items-center content-center">
-                            <q-icon name="functions" size="20px" class="q-mr-sm" color="primary" />
+                            <q-icon name="o_person" size="20px" class="q-mr-sm" color="green-8" />
                             <span class="text-capitalize">{{ $t('playerTransactions') }}</span>
                           </div>
                         </q-item-section>
                       </q-item>
-
-                      <q-item clickable dense @click="onClickLgTableResult(props)">
+                      <q-item
+                        clickable
+                        dense
+                        @click="onClickLgTableResult(props)"
+                        class="menu-item"
+                      >
                         <q-item-section>
                           <div class="flex row justify-start items-center content-center">
-                            <q-icon name="bar_chart" size="20px" class="q-mr-sm" color="primary" />
+                            <q-icon name="bar_chart" size="20px" class="q-mr-sm" color="green-8" />
                             <span class="text-capitalize">{{ $t('playerLgTableResult') }}</span>
                           </div>
                         </q-item-section>
                       </q-item>
+                      <q-item
+                        clickable
+                        dense
+                        @click="onClickTransactions(props, true)"
+                        class="menu-item"
+                      >
+                        <q-item-section>
+                          <div class="flex row justify-start items-center content-center">
+                            <q-icon name="functions" size="20px" class="q-mr-sm" color="primary" />
+                            <span class="text-capitalize">{{ $t('allTransactions') }}</span>
+                          </div>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable dense @click="onClickCell(props, 'Credit', 'Deposit')">
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Credit In') }}</span>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable dense @click="onClickCell(props, 'Credit', 'Withdrawal')">
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Credit Out') }}</span>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable dense @click="onClickCell(props, 'Deposit', 'Deposit')">
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Deposit In') }}</span>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable dense @click="onClickCell(props, 'Deposit', 'Withdrawal')">
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Deposit Out') }}</span>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable dense @click="onClickCell(props, 'Discount', 'Deposit')">
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Discount In') }}</span>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable dense @click="onClickCell(props, 'Discount', 'Withdrawal')">
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Discount Out') }}</span>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable dense @click="onClickCell(props, 'Comp', 'Deposit')">
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Comp In') }}</span>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable dense @click="onClickCell(props, 'Comp', 'Withdrawal')">
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Comp Out') }}</span>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable dense @click="onClickCell(props, 'Cash', 'Deposit')">
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Cash In') }}</span>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable dense @click="onClickCell(props, 'Cash', 'Withdrawal')">
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Cash Out') }}</span>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable dense @click="onClickCell(props, 'Slot', 'Deposit')">
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Slot In') }}</span>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable dense @click="onClickCell(props, 'Slot', 'Withdrawal')">
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Slot Out') }}</span>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable dense @click="onClickCell(props, 'CreditCard', 'Deposit')">
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Credit Card In') }}</span>
+                        </q-item-section>
+                      </q-item>
+                      <q-item
+                        clickable
+                        dense
+                        @click="onClickCell(props, 'CreditCard', 'Withdrawal')"
+                      >
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Credit Card Out') }}</span>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable dense @click="onClickCell(props, 'Deposit', 'Deposit')">
+                        <q-item-section>
+                          <span class="text-capitalize">{{ $t('Deposit In') }}</span>
+                        </q-item-section>
+                      </q-item>
                     </q-list>
-                  </q-menu>
-                </q-item>
-                <q-item clickable dense @click="onClickTransactions(props, true)">
-                  <q-item-section>
-                    <div class="flex row justify-start items-center content-center">
-                      <q-icon name="functions" size="20px" class="q-mr-sm" color="primary" />
-                      <span class="text-capitalize">{{ $t('allTransactions') }}</span>
-                    </div>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
-          </span>
+                  </q-card-section>
+                </q-card>
+              </q-menu>
+            </q-icon>
+          </div>
         </q-td>
       </template>
       <template v-slot:body-cell-creditIn="{ props }">
@@ -177,7 +281,6 @@
           {{ formatPrice(props.row.depositOut) }}
         </q-td>
       </template>
-
       <template v-slot:bottomRow="props">
         <q-tr :props="props" class="bg-grey-1">
           <q-td
@@ -262,10 +365,12 @@ const columns = ref([
     field: 'id',
     label: 'Id',
     required: true,
+    classes: 'bg-grey-2',
   },
   {
     field: 'playerName',
     label: 'Player Name',
+    classes: 'text-capitalize',
   },
   {
     field: 'slotResult',
@@ -294,6 +399,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalCreditIn',
+    classes: 'linked-text',
   },
   {
     field: 'creditOut',
@@ -301,6 +407,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalCreditOut',
+    classes: 'linked-text',
   },
   {
     field: 'discountIn',
@@ -308,6 +415,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalDiscountIn',
+    classes: 'linked-text',
   },
   {
     field: 'discountOut',
@@ -315,6 +423,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalDiscountOut',
+    classes: 'linked-text',
   },
   {
     field: 'compIn',
@@ -322,6 +431,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalCompIn',
+    classes: 'linked-text',
   },
   {
     field: 'compOut',
@@ -329,6 +439,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalCompOut',
+    classes: 'linked-text',
   },
   {
     field: 'tableCashDrop',
@@ -343,6 +454,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalCashIn',
+    classes: 'linked-text',
   },
   {
     field: 'cashOut',
@@ -350,6 +462,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalCashOut',
+    classes: 'linked-text',
   },
   {
     field: 'realCashIn',
@@ -357,6 +470,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalRealCashIn',
+    classes: 'linked-text',
   },
   {
     field: 'realCashOut',
@@ -364,6 +478,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalRealCashOut',
+    classes: 'linked-text',
   },
   {
     field: 'slotIn',
@@ -371,6 +486,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalSlotIn',
+    classes: 'linked-text',
   },
   {
     field: 'slotOut',
@@ -378,6 +494,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalSlotOut',
+    classes: 'linked-text',
   },
   {
     field: 'slotPlayTime',
@@ -428,6 +545,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalCreditCardIn',
+    classes: 'linked-text',
   },
   {
     field: 'creditCardOut',
@@ -435,6 +553,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalCreditCardOut',
+    classes: 'linked-text',
   },
   {
     field: 'marker',
@@ -449,6 +568,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalDepositIn',
+    classes: 'linked-text',
   },
   {
     field: 'depositOut',
@@ -456,6 +576,7 @@ const columns = ref([
     fieldType: 'priceAbs',
     showTotal: true,
     totalField: 'totalDepositOut',
+    classes: 'linked-text',
   },
 ])
 
@@ -509,8 +630,10 @@ const onClickLgTableResult = async (props) => {
     },
   })
 }
-
-const playerNameMenu = ref(null)
 </script>
 
-<style scoped></style>
+<style scoped>
+.menu-item {
+  padding: 0 3px 0 5px !important;
+}
+</style>

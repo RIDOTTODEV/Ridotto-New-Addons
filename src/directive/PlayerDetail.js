@@ -5,11 +5,12 @@ export default function createPlayerDetailDirective(router) {
         console.warn('PlayerDetail directive requires a player ID value')
         return
       }
-      el.addEventListener('dblclick', () => {
-        router.push({
+      el.addEventListener('click', () => {
+        const { href } = router.resolve({
           name: 'playerDetail',
           params: { playerId: binding.value },
         })
+        window.open(href, '_blank')
       })
     },
   }

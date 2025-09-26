@@ -7,7 +7,7 @@
       ref="inOutReportTable"
       tableName="playerResultReportColumns"
       :filterParams="filterValues"
-      :slotNames="['body-cell-playerFullName', 'body-cell-chipDetails', 'body-cell-actions']"
+      :slotNames="['body-cell-chipDetails', 'body-cell-actions']"
       dataKey="playerLgResults"
     >
       <template v-slot:headerFilterSlots>
@@ -47,17 +47,7 @@
           </div>
         </div>
       </template>
-      <template v-slot:body-cell-playerFullName="{ props }">
-        <q-td :props="props">
-          <span
-            v-player-detail="props.row.playerId"
-            :label="props.row.playerFullName"
-            class="onHoverPlayerName"
-          >
-            {{ props.row.playerFullName }}
-          </span>
-        </q-td>
-      </template>
+
       <template v-slot:body-cell-chipDetails="{ props }">
         <q-td :props="props">
           <q-btn

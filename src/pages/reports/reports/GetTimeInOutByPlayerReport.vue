@@ -6,7 +6,7 @@
       ref="inOutReportTable"
       tableName="timeInOutByPlayerReportColumns"
       :filterParams="filterValues"
-      :slotNames="['body-cell-playerFullName', 'body-cell-actions']"
+      :slotNames="['body-cell-actions']"
       dataKey="playerLgResults"
     >
       <template v-slot:headerFilterSlots>
@@ -45,17 +45,6 @@
             />
           </div>
         </div>
-      </template>
-      <template v-slot:body-cell-playerName="{ props }">
-        <q-td :props="props">
-          <span
-            v-player-detail="props.row.playerId"
-            :label="props.row.playerName"
-            class="onHoverPlayerName"
-          >
-            {{ props.row.playerName }}
-          </span>
-        </q-td>
       </template>
 
       <template v-slot:body-cell-actions="{ props }">

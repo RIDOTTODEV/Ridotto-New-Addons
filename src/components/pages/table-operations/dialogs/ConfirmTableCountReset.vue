@@ -78,7 +78,7 @@ const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
 
 const values = ref({
   tableCountId: props.tableCountId,
-  pitbossPassword: '54321',
+  pitbossPassword: '',
 })
 
 const isPitbossPwd = ref(true)

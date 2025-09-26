@@ -7,7 +7,6 @@
       ref="inOutReportTable"
       tableName="filteredReportColumns"
       :filterParams="filterValues"
-      :slotNames="['body-cell-playerName']"
     >
       <template v-slot:headerFilterSlots>
         <div class="col-6 flex row justify-start">
@@ -38,17 +37,7 @@
           </div>
         </div>
       </template>
-      <template v-slot:body-cell-playerName="{ props }">
-        <q-td :props="props">
-          <span
-            v-player-detail="props.row.playerId"
-            :label="props.row.playerName"
-            class="onHoverPlayerName"
-          >
-            {{ props.row.playerName }}
-          </span>
-        </q-td>
-      </template>
+
       <template v-slot:bottomRow="props">
         <q-tr :props="props" class="bg-grey-1">
           <q-td
@@ -86,6 +75,7 @@ const columns = ref([
     field: 'id',
     label: 'Id',
     required: true,
+    classes: 'bg-grey-2',
   },
   {
     field: 'playerName',

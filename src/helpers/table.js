@@ -52,6 +52,6 @@ export const generateColumns = (columnConfigs) => {
     colId: config.colId || index,
     orderColumn: config.orderColumn || index,
     defaultVisible: config.defaultVisible || false,
-    classes: config.class || '',
+    classes: config.class || config.classes || '',
   }))
 }
