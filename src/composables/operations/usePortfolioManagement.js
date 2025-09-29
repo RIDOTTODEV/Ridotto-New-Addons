@@ -40,13 +40,14 @@ export const usePortfolioManagement = () => {
         responseType: 'blob',
       })
       .then((res) => {
-        let extension = portfolioManagementFilter.value.exportFileType === 'Excel' ? 'xlsx' : 'pdf'
-        let fileName = `portfolio-management-${portfolioManagementFilter.value.date}.${extension}`
-        let blob = res.data
-        let link = document.createElement('a')
-        link.href = window.URL.createObjectURL(blob)
-        link.download = fileName
-        link.click()
+        const url = window.URL.createObjectURL(res.data)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `portfolio-management-${portfolioManagementFilter.value.date}.xlsx`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        window.URL.revokeObjectURL(url)
         return true
       })
   }

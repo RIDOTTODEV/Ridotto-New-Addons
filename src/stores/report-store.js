@@ -254,7 +254,6 @@ export const useReportStore = defineStore('reportStore', {
         params: payload,
         responseType: 'blob',
       })
-      console.log(data)
       let extension = params.ExportFileType === 'Excel' ? 'xlsx' : 'pdf'
       let fileName = `master-report-${params.Date}.${extension}`
       let blob = data

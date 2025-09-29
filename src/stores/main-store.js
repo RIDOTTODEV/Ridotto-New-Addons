@@ -111,6 +111,20 @@ export const useMainStore = defineStore('main', {
         ],
       },
       {
+        title: 'slot',
+        type: 'dropdown',
+        name: 'slotOperations',
+        permission: 'Addon.SlotOperations',
+        subMenus: [
+          {
+            title: 'playersInOut',
+            icon: 'remove',
+            routeName: 'playersInOut',
+            permission: 'Addon.SlotOperations.PlayersInOut',
+          },
+        ],
+      },
+      {
         title: 'managementReports',
         type: 'dropdown',
         name: 'managementReports',

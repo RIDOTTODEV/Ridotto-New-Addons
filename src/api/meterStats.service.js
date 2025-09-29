@@ -20,6 +20,25 @@ export const meterStatsService = {
       .catch((error) => error)
   },
   /**
+   * Get Player Win Loss New Meter Stats
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.gamingDateId] - Gaming Date Id
+   * @param {undefined} [data.playerId] - Player Id
+   * @param {undefined} [data.balanceCurrencyId] - Balance Currency Id
+   * @param {undefined} [data.startDate] - Start Date
+   * @param {undefined} [data.endDate] - End Date
+   * @param {undefined} [data.queryType] - Query Type
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getPlayerWinLossNew(data = {}, options = {}) {
+    return api.get('/api/MeterStats/GetPlayerWinLossNew', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
    * Get Promo Player Win Loss Meter Stats
    *
    * @param {object} [data]
@@ -52,6 +71,27 @@ export const meterStatsService = {
    */
   getSlotWinLoss(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetSlotWinLoss', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Get Slot Win Loss New Meter Stats
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.brandId] - Brand Id
+   * @param {undefined} [data.modelId] - Model Id
+   * @param {undefined} [data.bankId] - Bank Id
+   * @param {undefined} [data.meterGroupId] - Meter Group Id
+   * @param {undefined} [data.balanceCurrencyId] - Balance Currency Id
+   * @param {undefined} [data.gamingDateId] - Gaming Date Id
+   * @param {undefined} [data.startDate] - Start Date
+   * @param {undefined} [data.endDate] - End Date
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getSlotWinLossNew(data = {}, options = {}) {
+    return api.get('/api/MeterStats/GetSlotWinLossNew', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },
@@ -174,6 +214,25 @@ export const meterStatsService = {
    */
   getPlayerSummaryByMachine(data = {}, options = {}) {
     return api.get('/api/MeterStats/GetPlayerSummaryByMachine', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Get Player Summary By Machine New Meter Stats
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.playerId] - Player Id
+   * @param {undefined} [data.slotMachineId] - Slot Machine Id
+   * @param {undefined} [data.balanceCurrencyId] - Balance Currency Id
+   * @param {undefined} [data.gamingDateId] - Gaming Date Id
+   * @param {undefined} [data.startDate] - Start Date
+   * @param {undefined} [data.endDate] - End Date
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getPlayerSummaryByMachineNew(data = {}, options = {}) {
+    return api.get('/api/MeterStats/GetPlayerSummaryByMachineNew', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },

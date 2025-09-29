@@ -269,6 +269,26 @@ const routes = [
     ],
   },
   {
+    path: '/slot-operations',
+    component: () => import('layouts/MainLayout.vue'),
+    meta: {
+      authName: mainOidc.authName,
+      requiresAuth: true,
+      groupName: 'slotOperations',
+    },
+    children: [
+      {
+        path: 'players-in-out',
+        name: 'playersInOut',
+        component: () => import('pages/slot/PlayersInOut.vue'),
+        meta: {
+          requiredPermission: 'Addon.SlotOperations.PlayersInOut',
+          requiresAuth: true,
+        },
+      },
+    ],
+  },
+  {
     path: '/reports',
     component: () => import('layouts/MainLayout.vue'),
     meta: {
