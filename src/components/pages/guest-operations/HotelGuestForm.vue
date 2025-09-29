@@ -391,7 +391,7 @@
               </div>
 
               <div class="flex items-center content-center justify-between">
-                <div class="row items-center content-center">
+                <div class="items-center content-center">
                   <q-checkbox
                     v-model="hotelGuestFormValues.hotelFlightInfo.isWalkIn"
                     class="super-small"
@@ -406,7 +406,7 @@
                     {{ $t('walkIn') }}
                   </div>
                 </div>
-                <div class="row items-center content-center">
+                <div class="items-center content-center">
                   <q-checkbox
                     v-model="hotelGuestFormValues.hotelFlightInfo.isTransfer"
                     class="super-small"
@@ -419,6 +419,20 @@
                   />
                   <div class="text-subtitle2 text-grey-8 q-ml-sm">
                     {{ $t('transfer') }}
+                  </div>
+                </div>
+                <div class="items-center content-center">
+                  <q-checkbox
+                    v-model="hotelGuestFormValues.check"
+                    class="super-small"
+                    :disable="hotelGuestFormValues.id && !isEditingReservationDetails"
+                    hide-bottom-space
+                    bg-color="white"
+                    :true-value="true"
+                    :false-value="false"
+                  />
+                  <div class="text-subtitle2 text-grey-8 q-ml-sm">
+                    {{ $t('check') }}
                   </div>
                 </div>
               </div>
@@ -766,6 +780,7 @@ const hotelGuestFormValues = ref({
   note: '',
   remark: '',
   expenses: [],
+  check: true,
 })
 const roomMateRef = ref({
   playerId: null,
@@ -774,13 +789,7 @@ const roomMateRef = ref({
 const isEditingReservationDetails = ref(false)
 const onSubmit = async () => {
   let data = { ...hotelGuestFormValues.value }
-  /*   if (hotelGuestFormValues.value.hotelFlightInfo.isWalkIn) {
-    data.hotelFlightInfo.flight = null
-    data.hotelFlightInfo.ticketType = null
-    data.hotelFlightInfo.from = null
-    data.hotelFlightInfo.to = null
-    data.hotelFlightInfo.flightTicketPrice = 0
-  } */
+
   if (!data.id) {
     const response = await guestManagementStore.createHotelReservation(data)
     if (response.status === 200) {
@@ -858,11 +867,6 @@ const onSelectGuest = async (player) => {
     hotelGuestFormValues.value.players[0].playerFullName = player.value
     hotelGuestFormValues.value.players[0].roomOwner = true
   }
-  /*   else {
-    hotelGuestFormValues.value.players[0].playerId = null
-    hotelGuestFormValues.value.players[0].playerFullName = ''
-    hotelGuestFormValues.value.players[0].roomOwner = false
-  } */
 }
 
 const onClearGuest = async () => {
@@ -1258,6 +1262,7 @@ const setFormValues = async () => {
       note: '',
       remark: '',
       expenses: [],
+      check: true,
     }
     setCheckInAndCheckOutDates()
     isEditingReservationDetails.value = false
@@ -1319,6 +1324,7 @@ const setFormValues = async () => {
     remark: data.remark,
     players: players,
     expenses: [],
+    check: data.check,
   }
   await fetchReservationExpenses(data.id)
 }

@@ -529,6 +529,11 @@ export function useInspector() {
     } else {
       currentPlayer.value = { ...player }
     }
+    if (currentPlayer.value?.isGuest === true) {
+      currentTab.value = 'currentPlayerPlayerExpenses'
+    } else {
+      currentTab.value = 'currentPlayerChipHistory'
+    }
   }
   const onClickTimeOutCurrentPLayer = async () => {
     if (!validateCurrentTable() || currentPlayer.value === null) {

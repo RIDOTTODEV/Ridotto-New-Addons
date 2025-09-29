@@ -80,16 +80,8 @@ onMounted(async () => {
     })
     showTable.value = true
   }
-  /*   defaultDateParams()
-  console.log(dateFilterParams.value) */
 })
-/* const defaultDateParams = () => {
-  const today = new Date()
-  console.log(date)
-  const before1Week = date.extractDate(today, { weeks: 1 })
-  const after1Week = date.addToDate(today, { weeks: 1 })
-  console.log(before1Week, after1Week)
-} */
+
 const onCliclOpenExpenseSettingsDialog = async () => {
   $q.loading.show({
     message: 'Yükleniyor...',

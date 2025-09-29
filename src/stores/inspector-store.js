@@ -16,6 +16,7 @@ export const useInspectorStore = defineStore('inspectorStore', {
     currentPlayer: null,
     currentPlayerChipHistory: [],
     currentPlayerCashHistory: [],
+    currentPlayerExpenses: [],
   }),
   getters: {
     getActiveTablesCount() {
@@ -339,6 +340,11 @@ export const useInspectorStore = defineStore('inspectorStore', {
         .then((res) => {
           return res.data
         })
+    },
+    async fetchCurrentPlayerExpenses(params) {
+      return await api.get('/api/Expense/GetPlayerExpenses', { params: params }).then((res) => {
+        this.currentPlayerExpenses = res.data
+      })
     },
   },
 })
