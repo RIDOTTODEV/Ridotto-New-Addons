@@ -312,13 +312,47 @@ const {
                   </q-tooltip>
                 </q-badge>
 
-                <div class="absolute-top-left q-ml-xs" v-if="props.row.isGuest === true">
-                  <q-icon name="o_hotel" size="xs" color="negative" />
-                  <q-tooltip class="q-card--bordered app-cart-grey text-dark">
-                    <div class="text-subtitle2">
-                      {{ $t('guest') }}
-                    </div>
-                  </q-tooltip>
+                <div
+                  class="absolute-top-left q-ml-xs q-gutter-xs"
+                  v-if="
+                    props.row.isGuest === true ||
+                    props.row.isHotelExpense === true ||
+                    props.row.isOtherExpense === true
+                  "
+                >
+                  <q-icon
+                    name="o_hotel"
+                    size="xs"
+                    color="negative"
+                    v-if="props.row.isGuest === true"
+                    ><q-tooltip class="q-card--bordered app-cart-grey text-dark">
+                      <div class="text-subtitle2">
+                        {{ $t('guest') }}
+                      </div>
+                    </q-tooltip></q-icon
+                  >
+                  <q-icon
+                    name="o_apartment"
+                    size="xs"
+                    color="blue"
+                    v-if="props.row.isHotelExpense === true"
+                    ><q-tooltip class="q-card--bordered app-cart-grey text-dark">
+                      <div class="text-subtitle2">
+                        {{ $t('hotelExpense') }}
+                      </div>
+                    </q-tooltip></q-icon
+                  >
+                  <q-icon
+                    name="hotel_class"
+                    size="xs"
+                    color="orange"
+                    v-if="props.row.isOtherExpense === true"
+                    ><q-tooltip class="q-card--bordered app-cart-grey text-dark">
+                      <div class="text-subtitle2">
+                        {{ $t('otherExpense') }}
+                      </div>
+                    </q-tooltip></q-icon
+                  >
                 </div>
               </q-td>
               <q-td

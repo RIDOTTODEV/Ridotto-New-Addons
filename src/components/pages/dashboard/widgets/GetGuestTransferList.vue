@@ -24,6 +24,7 @@
           option-value="value"
           option-label="label"
           emit-value
+          borderless
         />
         <q-icon
           name="cached"
