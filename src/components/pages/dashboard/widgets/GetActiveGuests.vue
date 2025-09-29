@@ -23,6 +23,15 @@
     <q-card-section class="q-pa-xs">
       <q-list data-cy="playerNotesList" v-if="activeGuests.length > 0">
         <q-item v-for="(guest, index) in activeGuests" :key="index" class="q-pa-none">
+          <q-item-section avatar>
+            <q-img
+              :src="$playerPhotoUrl + guest.playerId"
+              style="width: 30px; height: 30px"
+              :img-style="{ borderRadius: '3px' }"
+              error-src="/assets/no-photo.png"
+            />
+          </q-item-section>
+
           <q-item-section class="flex justify-start">
             <q-item-label class="text-caption wrap text-capitalize">
               <span class="text-bold q-mr-sm">{{ guest.playerFullName }}:</span>

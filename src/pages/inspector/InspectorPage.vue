@@ -296,7 +296,7 @@ const {
                 @click="onClickPlayer(props.row, true)"
                 v-el-perms="'Addon.Inspector.Player.SelectPlayer'"
               >
-                <div class="text-subtitle2">{{ props.row.playerName }}</div>
+                <div class="text-subtitle2 text-capitalize">{{ props.row.playerName }}</div>
                 <q-badge
                   v-if="props.row.marker !== 0"
                   align="top"
@@ -313,7 +313,7 @@ const {
                 </q-badge>
 
                 <div
-                  class="absolute-top-left q-ml-xs q-gutter-xs"
+                  class="absolute-top-left q-ml-xs q-gutter-sm"
                   v-if="
                     props.row.isGuest === true ||
                     props.row.isHotelExpense === true ||
