@@ -7,8 +7,13 @@ export const useSlotStore = defineStore('slotStore', {
   actions: {
     async fetchPlayersInOut(params) {
       const { data } = await slotPlayerTransactionService.getAll(params)
-
       return data
+    },
+    async createPlayersInOut(params) {
+      return await slotPlayerTransactionService.create(params)
+    },
+    async deletePlayersInOut(params) {
+      return await slotPlayerTransactionService.delete(params)
     },
   },
 })
