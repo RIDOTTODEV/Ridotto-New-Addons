@@ -3,7 +3,6 @@ import ExchangeRates from 'src/pages/inspector/components/ExchangeRates.vue'
 import { useInspector } from 'src/composables/inspectors/useInspector'
 import CurrentPlayerChipHistory from 'src/pages/inspector/components/CurrentPlayerChipHistory.vue'
 import CurrentPlayerCashHistory from 'src/pages/inspector/components/CurrentPlayerCashHistory.vue'
-import CurrentPlayerExpenses from 'src/pages/inspector/components/CurrentPlayerExpenses.vue'
 import { formatPrice } from 'src/helpers/helpers'
 
 const {
@@ -359,17 +358,6 @@ const {
                 style="padding-right: 0 !important"
                 v-el-perms="'Addon.Inspector.Player.TimePauseOrResume'"
               >
-                <q-img
-                  v-if="props.row.isGuest === true"
-                  src="/inspectors/icons8-hotel-bed-100.png"
-                  width="30px"
-                  class="q-mr-sm"
-                >
-                  <q-tooltip class="q-card--bordered app-cart-grey text-dark text-subtitle2">
-                    {{ $t('guest') }}
-                  </q-tooltip>
-                </q-img>
-
                 <q-btn
                   color="grey-2"
                   unelevated
@@ -698,14 +686,6 @@ const {
           shrink
         >
           <q-tab
-            v-if="currentPlayer?.isGuest === true"
-            name="currentPlayerPlayerExpenses"
-            class="bg-grey-1 text-dark q-card--bordered q-mr-sm"
-            :label="$t('expenses')"
-            icon="o_local_hotel"
-            v-el-perms="'Addon.Inspector.Player.PlayerExpenses'"
-          />
-          <q-tab
             name="currentPlayerChipHistory"
             class="bg-grey-1 text-dark q-card--bordered q-mr-sm"
             :label="$t('chipHistory')"
@@ -721,17 +701,6 @@ const {
           />
         </q-tabs>
         <q-tab-panels v-model="currentTab" animated class="q-mt-xs">
-          <q-tab-panel
-            name="currentPlayerPlayerExpenses"
-            class="q-pa-none"
-            v-if="currentPlayer?.isGuest === true"
-          >
-            <Information
-              class="full-width"
-              content="Seçilen oyuncunun masada player expenses bilgisini verir."
-            />
-            <current-player-expenses v-el-perms="'Addon.Inspector.Player.PlayerExpenses'" />
-          </q-tab-panel>
           <q-tab-panel name="currentPlayerChipHistory" class="q-pa-none">
             <Information
               class="full-width"

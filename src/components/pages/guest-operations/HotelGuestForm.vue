@@ -432,7 +432,7 @@
                     :false-value="false"
                   />
                   <div class="text-subtitle2 text-grey-8 q-ml-sm">
-                    {{ $t('check') }}
+                    {{ $t('cashierCheck') }}
                   </div>
                 </div>
               </div>
