@@ -5,5 +5,5 @@
 </template>
 
 <script setup>
-import Dashboard from 'src/components/pages/Dashboard.vue'
+import Dashboard from 'src/components/pages/dashboard/Dashboard.vue'
 </script>

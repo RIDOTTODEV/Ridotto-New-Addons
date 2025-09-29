@@ -22,6 +22,16 @@ export const useAuthStore = defineStore('authStore', {
       PitbossPassword: '',
     },
     enums: [],
+    userDashboardLayout: {
+      layout: [
+        { x: 0, y: 0, w: 4, h: 2, i: '0', component: 'GetActiveGuests' },
+        { x: 4, y: 0, w: 4, h: 4, i: '1', component: 'GetPendingGuests' },
+        { x: 8, y: 0, w: 4, h: 2, i: '2', component: 'GetGuestTransferList' },
+      ],
+      draggable: true,
+      resizable: true,
+      responsive: true,
+    },
   }),
   getters: {
     hasPermission: (state) => (permission) => {
@@ -245,6 +255,33 @@ export const useAuthStore = defineStore('authStore', {
       await enumService.getAllEnums().then((res) => {
         this.enums = res.data.enums
       })
+    },
+    async updateUserDashboardLayout(layout) {
+      this.userDashboardLayout = layout
+      await applicationSettingService.setUserSettings({
+        name: 'UserDashboardLayout',
+        value: JSON.stringify(this.userDashboardLayout),
+      })
+    },
+    async getUserDashboardLayout() {
+      await applicationSettingService
+        .getSettings({
+          name: 'UserDashboardLayout',
+        })
+        .then((res) => {
+          this.userDashboardLayout = res.data.value
+            ? JSON.parse(res.data.value)
+            : {
+                layout: [
+                  { x: 0, y: 0, w: 4, h: 2, i: '0', component: 'GetActiveGuests' },
+                  { x: 4, y: 0, w: 4, h: 4, i: '1', component: 'GetPendingGuests' },
+                  { x: 8, y: 0, w: 4, h: 2, i: '2', component: 'GetGuestTransferList' },
+                ],
+                draggable: true,
+                resizable: true,
+                responsive: true,
+              }
+        })
     },
   },
 })
