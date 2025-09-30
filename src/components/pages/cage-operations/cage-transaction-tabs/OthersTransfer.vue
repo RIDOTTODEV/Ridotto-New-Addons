@@ -13,8 +13,10 @@ const { currencies } = storeToRefs(currencyStore)
 const transactionCodeStore = useTransactionCodeStore()
 const { getTransactionCodesByGroups } = storeToRefs(transactionCodeStore)
 const cashdeskStore = useCashdeskStore()
-const { transactionTypes, getSelectedCashDeskId } = storeToRefs(cashdeskStore)
+const { transactionTypes, getSelectedCashDeskId, cashdeskTransactionTypes } =
+  storeToRefs(cashdeskStore)
 
+cashdeskStore.fetchCashdeskTransactionTypes()
 const othersTransferTabFormValues = ref({
   cashDeskId: getSelectedCashDeskId.value,
   amount: null,
@@ -49,6 +51,7 @@ const onSubmitOthersTransferTabForm = async () => {
 }
 const onSelectPlayer = (player) => {
   othersTransferTabFormValues.value.playerId = player.id
+  othersTransferTabFormValues.value.playerName = player.value
 }
 const onClear = () => {
   othersTransferTabFormValues.value.playerId = null
@@ -101,7 +104,7 @@ const onClear = () => {
             <q-select-box
               :label="$t('transactionCode')"
               v-model="othersTransferTabFormValues.transactionCodeId"
-              :options="getTransactionCodesByGroups(['Others'])"
+              :options="getTransactionCodesByGroups([])"
               option-value="id"
               option-label="name"
               :rules="[(val) => !!val || $t('requiredField')]"
@@ -135,30 +138,25 @@ const onClear = () => {
             />
           </div>
           <div class="col-4 q-pa-md">
-            <search-player-input
-              :label="$t('playerName')"
-              data-cy="playerId"
+            <SearchPlayerInput
               v-model="othersTransferTabFormValues.playerId"
+              :placeholder="$t('searchPlayer')"
               @onSelectPlayer="onSelectPlayer"
+              :optionLabel="'value'"
+              :displayedValue="othersTransferTabFormValues.playerName"
               @onClear="onClear"
+              class="full-width"
+              :rules="[(val) => !!val || $t('requiredField')]"
             />
           </div>
           <div class="col-4 q-pa-md">
-            <q-select
+            <q-select-box
               :label="$t('CashdeskTransactionType')"
               v-model="othersTransferTabFormValues.cashdeskTransactionType"
-              outlined
-              dense
-              :options="transactionTypes"
+              :options="cashdeskTransactionTypes"
               option-value="value"
               option-label="label"
-              emit-value
-              map-options
               :rules="[(val) => !!val || $t('requiredField')]"
-              hide-bottom-space
-              class="super-small"
-              data-cy="cashdeskTransactionType"
-              behavior="menu"
             />
           </div>
           <div class="col-4 q-pa-md" v-if="hiddenOthersTransferFields.showInOut">

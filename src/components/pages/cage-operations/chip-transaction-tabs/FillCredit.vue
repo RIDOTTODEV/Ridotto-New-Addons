@@ -24,7 +24,7 @@ const cashDeskFillCreditFormValues = ref({
 })
 
 const onSubmitCashDeskFillCreditForm = async () => {
-  const response = await cashDeskStore.createFillCreditTransaction(
+  const response = await cashDeskStore.cashdeskTableFillCreditTransaction(
     cashDeskFillCreditFormValues.value,
   )
   if (response.status === 200) {
@@ -46,6 +46,12 @@ const onSubmitCashDeskFillCreditForm = async () => {
 const emits = defineEmits(['savedCageChipTransaction', 'cancel'])
 
 tableStore.fetchTables()
+
+const tableChipCurrencyId = ref(null)
+
+const onSelectTable = (tableId) => {
+  tableChipCurrencyId.value = tables.value.find((table) => table.id === tableId)?.chipCurrencyId
+}
 </script>
 
 <template>
@@ -68,6 +74,7 @@ tableStore.fetchTables()
                 option-label="name"
                 :rules="[(val) => !!val || $t('requiredField')]"
                 hide-bottom-space
+                @update:model-value="onSelectTable"
               />
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12 q-pa-sm">
@@ -149,7 +156,11 @@ tableStore.fetchTables()
           </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12">
-          <chip-grid v-model="cashDeskFillCreditFormValues.chipInfos" class="full-width q-pa-xs" />
+          <chip-grid
+            v-model="cashDeskFillCreditFormValues.chipInfos"
+            :chipCurrencyId="tableChipCurrencyId"
+            class="full-width q-pa-xs"
+          />
         </div>
       </div>
     </q-form>

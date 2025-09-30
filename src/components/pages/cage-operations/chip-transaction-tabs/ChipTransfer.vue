@@ -21,7 +21,7 @@ const cashDeskChipTransferTabFormValues = ref({
 const cashDeskChipTransferHistoryData = ref(null)
 const cashDeskChipTransferHistoryDialog = ref(false)
 const onSubmitCashDeskChipTransferTabForm = async () => {
-  const response = await cashDeskStore.cashdeskChipInOutTransferTransaction(
+  const response = await cashDeskStore.cashdeskChipTransaction(
     cashDeskChipTransferTabFormValues.value,
   )
   if (response.status === 200) {

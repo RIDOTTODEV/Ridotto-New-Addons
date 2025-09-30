@@ -73,8 +73,8 @@
             />
           </q-tab-panel>
           <q-tab-panel
-            v-el-perms="'Addon.CageOperations.Tab.PlayerChipTransfer'"
-            name="playerChipTransfer"
+            v-el-perms="'Addon.CageOperations.Tab.PlayerChip'"
+            name="playerChip"
             class="q-card q-pa-none no-box-shadow"
           >
             <player-chip-transfer
@@ -509,10 +509,10 @@ const chipTransactionsTabs = ref([
     name: 'chipTransfer',
   },
   {
-    label: 'playerChipTransfer',
-    elPermission: 'Addon.CageOperations.Tab.PlayerChipTransfer',
+    label: 'playerChip',
+    elPermission: 'Addon.CageOperations.Tab.PlayerChip',
     icon: 'o_casino',
-    name: 'playerChipTransfer',
+    name: 'playerChip',
   },
   {
     label: 'fillCredit',

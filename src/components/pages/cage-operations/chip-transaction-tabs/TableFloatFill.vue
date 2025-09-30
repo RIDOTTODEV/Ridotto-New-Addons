@@ -49,7 +49,7 @@ const onSelectTable = async (tableId) => {
 }
 
 const onSubmitTableFloatFillForm = async () => {
-  const response = await tableStore.createTableFloatFill(tableFloatFillFormValues.value)
+  const response = await cashDeskStore.tableFloatFillTransaction(tableFloatFillFormValues.value)
   if (response.status === 200) {
     $q.notify({
       message: 'Transaction created successfully',

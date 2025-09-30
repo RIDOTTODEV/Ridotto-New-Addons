@@ -10,7 +10,13 @@ const model = defineModel({
   default: () => [],
 })
 const emit = defineEmits(['initChips'])
-
+const props = defineProps({
+  chipCurrencyId: {
+    type: Number,
+    default: () => null,
+    required: false,
+  },
+})
 const chipManagementStore = useChipManagementStore()
 
 const { chips, gamingChipTypes, getChipsGridFormatted } = storeToRefs(chipManagementStore)
@@ -24,12 +30,15 @@ onMounted(() => {
   if (gamingChipTypes.value.length === 0) {
     chipManagementStore.fetchGamingChipTypes()
   }
-  chipsFormatted.value = JSON.parse(JSON.stringify([...getChipsGridFormatted.value]))
+  chipsFormatted.value = JSON.parse(
+    JSON.stringify([...getChipsGridFormatted.value(props.chipCurrencyId)]),
+  )
   emit('initChips', chipsFormatted.value)
 })
 
 watch(getChipsGridFormatted, (value) => {
   if (value) {
+    console.log('value', value)
     chipsFormatted.value = JSON.parse(JSON.stringify([...value]))
     emit('initChips', chipsFormatted.value)
   }
@@ -64,6 +73,16 @@ watch(model, (value) => {
     chipsFormatted.value = JSON.parse(JSON.stringify([...getChipsGridFormatted.value]))
   }
 })
+
+// watch the chipCurrencyId
+watch(
+  () => props.chipCurrencyId,
+  (value) => {
+    // Yeni değer ile chipleri yeniden yükle
+    chipsFormatted.value = JSON.parse(JSON.stringify([...getChipsGridFormatted.value(value)]))
+  },
+  { immediate: true },
+)
 </script>
 
 <template>

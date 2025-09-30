@@ -28,7 +28,7 @@ const cashDeskPlayerChipTransferTabFormValues = ref({
 })
 
 const onSubmitCashDeskPlayerChipTransferTabForm = async () => {
-  const response = await cashDeskStore.createInOutTransferTransaction(
+  const response = await cashDeskStore.cashdeskChipInOutTransferTransaction(
     cashDeskPlayerChipTransferTabFormValues.value,
   )
   if (response.status === 200) {
@@ -48,6 +48,26 @@ const onSubmitCashDeskPlayerChipTransferTabForm = async () => {
   }
 }
 const emits = defineEmits(['savedCageChipTransaction', 'cancel'])
+const onUpdateTransactionCodeId = (val) => {
+  if (val) {
+    const value = getTransactionCodesByGroups.value(['CageInOut']).find((item) => item.id === val)
+    if (value) {
+      cashDeskPlayerChipTransferTabFormValues.value.inOut = value.defaultIsInOut
+    }
+  } else {
+    cashDeskPlayerChipTransferTabFormValues.value.inOut = false
+  }
+}
+const onSelectPlayer = (player) => {
+  if (player) {
+    cashDeskPlayerChipTransferTabFormValues.value.playerId = player.id
+    cashDeskPlayerChipTransferTabFormValues.value.playerName = player.value
+  }
+}
+const onClearPlayer = () => {
+  cashDeskPlayerChipTransferTabFormValues.value.playerId = null
+  cashDeskPlayerChipTransferTabFormValues.value.playerName = null
+}
 </script>
 
 <template>
@@ -117,10 +137,11 @@ const emits = defineEmits(['savedCageChipTransaction', 'cancel'])
                 popup-content-class="height-400"
                 data-cy="transactionCodeId"
                 behavior="menu"
+                @update:model-value="onUpdateTransactionCodeId"
               />
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12 q-pa-sm">
-              <q-input
+              <!--               <q-input
                 :label="$t('playerId')"
                 v-model="cashDeskPlayerChipTransferTabFormValues.playerId"
                 outlined
@@ -130,6 +151,16 @@ const emits = defineEmits(['savedCageChipTransaction', 'cancel'])
                 data-cy="playerId"
                 :rules="[(val) => !!val || $t('requiredField')]"
                 hide-bottom-space
+              /> -->
+              <SearchPlayerInput
+                v-model="cashDeskPlayerChipTransferTabFormValues.playerId"
+                :placeholder="$t('searchPlayer')"
+                @onSelectPlayer="onSelectPlayer"
+                :optionLabel="'value'"
+                :displayedValue="cashDeskPlayerChipTransferTabFormValues.playerName"
+                @onClear="onClearPlayer"
+                class="full-width"
+                :rules="[(val) => !!val || $t('requiredField')]"
               />
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12 q-pa-sm">

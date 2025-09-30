@@ -82,8 +82,8 @@
             />
           </q-tab-panel>
           <q-tab-panel
-            v-el-perms="'Addon.CageTransactions.Tab.OthersTransfer'"
-            name="othersTransfer"
+            v-el-perms="'Addon.CageTransactions.Tab.OtherTransfer'"
+            name="otherTransfer"
             class="q-card no-box-shadow q-pa-none"
           >
             <others-transfer
@@ -468,7 +468,7 @@ const columns = ref([
     label: 'Transaction Type',
     field: 'transactionType',
     customFormat: (row) => {
-      return row === 'Deposit' ? 'Paid' : 'Received'
+      return row === 'Deposit' ? 'Received' : 'Paid'
     },
   },
   {
@@ -520,10 +520,10 @@ const cageTransactionTabs = ref([
     name: 'bankTransfer',
   },
   {
-    label: 'othersTransfer',
-    elPermission: 'Addon.CageTransactions.Tab.OthersTransfer',
+    label: 'otherTransfer',
+    elPermission: 'Addon.CageTransactions.Tab.OtherTransfer',
     icon: 'o_article',
-    name: 'othersTransfer',
+    name: 'otherTransfer',
   },
 ])
 const createNewTransaction = ref(false)

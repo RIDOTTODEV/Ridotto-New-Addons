@@ -151,6 +151,14 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
       const data = await cashdeskTransactionService.cashdeskChipInOutTransferTransaction(params)
       return data
     },
+    async cashdeskChipTransaction(params) {
+      const data = await cashdeskTransactionService.cashdeskChipTransaction(params)
+      return data
+    },
+    async cashdeskBetweenChipTransferTransaction(params) {
+      const data = await cashdeskTransactionService.cashdeskBetweenChipTransferTransaction(params)
+      return data
+    },
     async createCashDeskTransferTransaction(params) {
       const data = await cashdeskTransactionService.cashdeskBetweenTransferTransaction(params)
       return data
@@ -281,6 +289,14 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
     },
     updateCashDeskGamingDate(params) {
       return cashdeskService.cashdeskChangeGamingDate(params)
+    },
+    async cashdeskTableFillCreditTransaction(params) {
+      const data = await cashdeskTransactionService.cashdeskTableFillCreditTransaction(params)
+      return data
+    },
+    async tableFloatFillTransaction(params) {
+      const data = await cashdeskTransactionService.tableFloatFillTransaction(params)
+      return data
     },
   },
 })
