@@ -305,7 +305,7 @@ export function useInspector() {
         componentProps: {
           chipTransactionType: chipTransactionType,
           player: currentPlayer.value,
-          chips: getChipsGridFormatted.value,
+          chips: getChipsGridFormatted.value(),
         },
       })
       .onOk(async (payload) => {
@@ -346,7 +346,7 @@ export function useInspector() {
         componentProps: {
           chipTransactionType: chipTransactionType,
           player: currentPlayer.value,
-          chips: getChipsGridFormatted.value,
+          chips: getChipsGridFormatted.value(),
         },
       })
       .onOk(async (payload) => {
@@ -389,7 +389,7 @@ export function useInspector() {
           ),
           defaultCurrencyId: currentTableCurrency.value.id,
           player: currentPlayer.value,
-          plaques: getChipsGridFormatted.value.filter((chip) => chip.type === 'Plaque'),
+          plaques: getChipsGridFormatted.value().filter((chip) => chip.type === 'Plaque'),
         },
       })
       .onOk(async (payload) => {
