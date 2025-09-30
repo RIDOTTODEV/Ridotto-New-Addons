@@ -578,7 +578,7 @@ const columns = ref([
     label: 'Transaction Type',
     field: 'transactionType',
     customFormat: (row) => {
-      return row.transactionType === 'Deposit' ? 'Paid' : 'Received'
+      return row === 'Deposit' ? 'Paid' : 'Received'
     },
   },
   {

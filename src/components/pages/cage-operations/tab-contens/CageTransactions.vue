@@ -465,6 +465,21 @@ const columns = ref([
     label: 'Transaction Code',
   },
   {
+    label: 'Transaction Type',
+    field: 'transactionType',
+    customFormat: (row) => {
+      return row === 'Deposit' ? 'Paid' : 'Received'
+    },
+  },
+  {
+    field: 'cashdeskName',
+    label: 'Cashdesk',
+  },
+  {
+    field: 'transType',
+    label: 'Trans Type',
+  },
+  {
     field: 'amount',
     label: 'Amount',
     fieldType: 'price',

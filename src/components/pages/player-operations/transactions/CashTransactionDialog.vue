@@ -16,7 +16,7 @@ const transactionStore = useTransactionCodeStore()
 const bankAccountStore = useBankAccountStore()
 const { currencies } = storeToRefs(currencyStore)
 const { selectedCashDesk } = storeToRefs(cashDeskStore)
-const { transactionCodes, transTypes } = storeToRefs(transactionStore)
+const { transactionCodes } = storeToRefs(transactionStore)
 const { selectedPlayer } = storeToRefs(playerStore)
 const transactionCodeOptions = ref([])
 const transactionTypes = ref([
@@ -223,7 +223,7 @@ watch(
             />
           </div>
           <div class="row">
-            <div class="col-4 q-pa-xs">
+            <!--             <div class="col-4 q-pa-xs">
               <q-select-box
                 :label="$t('transType')"
                 v-model="formValues.transType"
@@ -235,7 +235,7 @@ watch(
                 popup-content-class="height-400"
                 data-cy="transactionCode"
               />
-            </div>
+            </div> -->
             <div class="col-4 q-pa-xs">
               <q-select
                 :label="$t('transactionCode')"

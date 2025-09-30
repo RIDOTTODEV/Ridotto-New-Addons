@@ -147,6 +147,10 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
       const data = await cashdeskTransactionService.cashdeskInOutTransferTransaction(params)
       return data
     },
+    async cashdeskChipInOutTransferTransaction(params) {
+      const data = await cashdeskTransactionService.cashdeskChipInOutTransferTransaction(params)
+      return data
+    },
     async createCashDeskTransferTransaction(params) {
       const data = await cashdeskTransactionService.cashdeskBetweenTransferTransaction(params)
       return data
