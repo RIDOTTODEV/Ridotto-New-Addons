@@ -90,26 +90,27 @@ export const useChipManagementStore = defineStore('chipManagementStore', {
     getChipsGridFormatted:
       (state) =>
       (chipCurrencyId = null) => {
-        return state.chips
-          .filter((c) => c.currencyId === chipCurrencyId)
-          .map((c) => {
-            return {
-              ...c,
-              children: c.denominations.map((d) => {
-                return {
-                  chipDenomId: d.id,
-                  chipCurrencyId: c.currencyId,
-                  chipId: c.id,
-                  value: d.value,
-                  quantity: 0,
-                  label: d?.name + ' (' + d?.value + ')',
-                  amount: 0,
-                  chipDenomName: d.name,
-                  chipType: c.type,
-                }
-              }),
-            }
-          })
+        const chips = chipCurrencyId
+          ? state.chips.filter((c) => c.currencyId === chipCurrencyId)
+          : state.chips
+        return chips.map((c) => {
+          return {
+            ...c,
+            children: c.denominations.map((d) => {
+              return {
+                chipDenomId: d.id,
+                chipCurrencyId: c.currencyId,
+                chipId: c.id,
+                value: d.value,
+                quantity: 0,
+                label: d?.name + ' (' + d?.value + ')',
+                amount: 0,
+                chipDenomName: d.name,
+                chipType: c.type,
+              }
+            }),
+          }
+        })
       },
     getChipById: (state) => (id) => {
       return state.chips.find((c) => +c.id === +id)
