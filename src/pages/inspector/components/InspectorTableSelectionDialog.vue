@@ -93,9 +93,9 @@
                             <div class="text-subtitle2 text-bold">
                               {{ props.row.name }}
                             </div>
-                            <div class="text-subtitle2 text-bold q-ml-sm">
+                            <!--  <div class="text-subtitle2 text-bold q-ml-sm">
                               {{ defaultCurrency?.name }}
-                            </div>
+                            </div> -->
                           </div>
                           <div class="col-12 flex justify-center">
                             <div class="text-subtitle2 text-bold q-ml-sm text-negative">
@@ -149,7 +149,7 @@ const {
   tables,
   tablesColumn,
   filterTable,
-  defaultCurrency,
+  /*  defaultCurrency, */
   inspectorTables,
   onClickTable,
   checkTableIsSelected,
