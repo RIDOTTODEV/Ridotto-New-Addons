@@ -66,9 +66,11 @@ export const usePortfolioManagement = () => {
       },
     }).onOk(async (payload) => {
       if (payload.id) {
-        await operationStore.updateGift(payload)
+        await operationStore.updatePlayerGift(payload)
+        portfolioManagementTableRef.value.fetchData()
       } else {
-        await operationStore.createGift(payload)
+        await operationStore.createPlayerGift(payload)
+        portfolioManagementTableRef.value.fetchData()
       }
       bus.emit('playerPortfolios', {
         ...portfolioManagementFilter.value,
@@ -99,7 +101,7 @@ export const usePortfolioManagement = () => {
       },
       persistent: true,
     }).onOk(async () => {
-      await operationStore.deleteGift(row.id)
+      await operationStore.deletePlayerGift({ id: row.id })
       portfolioManagementTableRef.value.fetchData()
     })
   }
@@ -115,6 +117,7 @@ export const usePortfolioManagement = () => {
       bus.emit('playerPortfolios', {
         ...portfolioManagementFilter.value,
       })
+      portfolioManagementTableRef.value.fetchData()
     })
   }
 
@@ -213,11 +216,22 @@ export const usePortfolioManagement = () => {
     },
     {
       field: 'plannedDate',
-      fieldType: 'date',
+      fieldType: 'customFormat',
+      customFormat: (value) => {
+        return value ? date.formatDate(value, 'DD.MM.YYYY') : '-'
+      },
+    },
+    {
+      field: 'givenDate',
+      fieldType: 'customFormat',
+      customFormat: (value) => {
+        return value ? date.formatDate(value, 'DD.MM.YYYY') : '-'
+      },
     },
     {
       field: 'isDeleted',
       fieldType: 'boolean',
+      visible: false,
     },
     {
       field: 'actions',
@@ -226,8 +240,10 @@ export const usePortfolioManagement = () => {
 
   const giftListFilterParams = ref({
     playerId: null,
+    playerName: null,
     rating: null,
     topRating: null,
+    given: null,
   })
 
   return {

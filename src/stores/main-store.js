@@ -64,12 +64,12 @@ export const useMainStore = defineStore('main', {
             routeName: 'portfolioManagement',
             permission: 'Addon.Operations.PortfolioManagement',
           },
-          {
+          /*           {
             title: 'playerGifts',
             icon: 'remove',
             routeName: 'playerGifts',
             permission: 'Addon.Definitions.Gift.ShowList',
-          },
+          }, */
           {
             title: 'blackListReport',
             icon: 'remove',

@@ -95,7 +95,7 @@ const formValues = ref({
 defineEmits([...useDialogPluginComponent.emits])
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
 const onsubmit = async () => {
-  await playerStore.playerPostCashDeskCashTransaction({ ...formValues.value }).then((res) => {
+  await playerStore.playerPostCashDeskCashTransaction({ ...formValues.value }).then(async (res) => {
     if (res) {
       $q.notify({
         message: 'Transaction created successfully',
@@ -105,6 +105,10 @@ const onsubmit = async () => {
       })
       bus.emit('reloadCageTransactions')
 
+      // fetchDepositAndCredits
+      if (formValues.value.methodName === '/CashdeskTransaction/CashdeskDepositCreditTransaction') {
+        await playerStore.fetchDepositAndCredits(playerId.value)
+      }
       onDialogOK()
     }
   })
@@ -232,19 +236,6 @@ watch(
             />
           </div>
           <div class="row">
-            <!--             <div class="col-4 q-pa-xs">
-              <q-select-box
-                :label="$t('transType')"
-                v-model="formValues.transType"
-                :options="transTypes"
-                option-value="value"
-                option-label="label"
-                :rules="[(val) => !!val || $t('requiredField')]"
-                class="super-small"
-                popup-content-class="height-400"
-                data-cy="transactionCode"
-              />
-            </div> -->
             <div class="col-4 q-pa-xs">
               <q-select
                 :label="$t('transactionCode')"
@@ -328,21 +319,6 @@ watch(
                 class="super-small"
                 data-cy="inOut"
               />
-
-              <!--               {
-  "cashdeskId": 0,
-  "amount": 0,
-  "transactionCodeId": 0,
-  "transType": "Credit",
-  "transactionType": "Deposit",
-  "currencyId": 0,
-  "note": "string",
-  "playerId": 0,
-  "inOut": true,
-  "authorizedBy": "string",
-  "dueDate": "2025-10-01T06:48:14.369Z",
-  "cashdeskTransactionType": "CageInOut"
-} -->
             </div>
             <div class="col-4 q-pa-xs" v-if="showTransactionBanks">
               <q-select

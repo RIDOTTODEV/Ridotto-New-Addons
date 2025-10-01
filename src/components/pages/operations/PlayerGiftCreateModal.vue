@@ -35,6 +35,7 @@
                 }
               }
             "
+            hide-bottom-space
           />
 
           <q-field
@@ -43,6 +44,7 @@
             v-model="formValues.plannedDate"
             :label="$t('plannedDate')"
             stack-label
+            class="super-small"
           >
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
@@ -67,8 +69,8 @@
             v-model="formValues.givenDate"
             :label="$t('givenDate')"
             stack-label
-            clearable
             @clear="formValues.givenDate = null"
+            class="super-small"
           >
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">

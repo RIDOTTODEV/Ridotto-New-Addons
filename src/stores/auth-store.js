@@ -206,14 +206,20 @@ export const useAuthStore = defineStore('authStore', {
           await this.getUserAddonSettings()
         })
     },
-    async saveUserCurrency(currencyId) {
+    async saveUserCurrency(currencyId, reload = null) {
       const settings = { ...this.userAddonSettings }
       settings.DefaultCurrencyId = currencyId
       await applicationSettingService.setUserSettings({
         name: 'UserAddonSettings',
         value: JSON.stringify(settings),
       })
-      await this.getUserAddonSettings()
+      if (reload && reload === true) {
+        setTimeout(() => {
+          window.location.reload()
+        }, 100)
+      } else {
+        await this.getUserAddonSettings()
+      }
     },
     async saveAddonGeneralSettings() {
       let settings = { ...this.addonGeneralSettings }

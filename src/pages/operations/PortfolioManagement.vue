@@ -150,7 +150,7 @@
       </div>
       <div class="col-10 q-pa-sm">
         <q-card flat class="no-box-shadow">
-          <q-card-section class="q-pa-sm row">
+          <q-card-section class="q-pa-sm row justify-between">
             <q-tabs
               v-model="currentPortfolioManagementTab"
               dense
@@ -186,6 +186,18 @@
                 "
               />
             </q-tabs>
+
+            <q-btn
+              v-if="currentPortfolioManagementTab === 'giftReport'"
+              :label="$t('createGift')"
+              class="q-mr-sm"
+              color="grey-2"
+              text-color="dark"
+              unelevated
+              no-caps
+              @click="onClickCreateGift()"
+              icon="add"
+            />
           </q-card-section>
           <q-card-section class="q-pa-sm">
             <q-tab-panels v-model="currentPortfolioManagementTab" animated class="full-height">
@@ -229,8 +241,8 @@
                   rowKey="id"
                 >
                   <template v-slot:headerFilterSlots="{ props }">
-                    <div class="col q-mr-sm flex row justify-start">
-                      <div class="q-pa-xs flex items-end">
+                    <div class="col-9 q-mr-sm flex row justify-start">
+                      <div class="q-pa-xs flex items-center content-center">
                         <date-time-picker
                           @selected-date="
                             (val) => {
@@ -241,18 +253,47 @@
                             }
                           "
                         />
-                        <q-btn
-                          type="button"
-                          :label="$t('excelImport')"
-                          icon="file_upload"
-                          color="green-8"
-                          text-color="white"
-                          size="13px"
-                          unelevated
-                          no-caps
-                          @click="handlePortfolioManagementImportExcel"
+                        <SearchPlayerInput
+                          v-model="giftListFilterParams.playerId"
+                          :label="$t('player')"
+                          @onSelectPlayer="
+                            (val) => {
+                              if (val) {
+                                giftListFilterParams.playerId = val.id
+                                giftListFilterParams.playerName = val.value
+                              } else {
+                                giftListFilterParams.playerId = null
+                                giftListFilterParams.playerName = null
+                              }
+                            }
+                          "
+                          :optionLabel="'value'"
+                          :displayedValue="giftListFilterParams.playerName"
+                          @onClear="
+                            () => {
+                              giftListFilterParams.playerId = null
+                              giftListFilterParams.playerName = null
+                            }
+                          "
                           class="q-ml-sm"
                         />
+                        <!--   <q-checkbox v-model="giftListFilterParams.given" :label="$t('given')" /> -->
+                        <q-select
+                          :options="[
+                            { label: $t('given'), value: 'true' },
+                            { label: $t('notGiven'), value: 'false' },
+                            { label: $t('all'), value: null },
+                          ]"
+                          v-model="giftListFilterParams.given"
+                          dense
+                          outlined
+                          option-label="label"
+                          option-value="value"
+                          emit-value
+                          map-options
+                          class="q-ml-sm super-small"
+                        />
+
                         <q-btn
                           type="button"
                           :label="$t('filter')"
@@ -263,6 +304,19 @@
                           unelevated
                           no-caps
                           @click="props.reload"
+                          class="q-ml-sm"
+                        />
+
+                        <q-btn
+                          type="button"
+                          :label="$t('excelImport')"
+                          icon="file_upload"
+                          color="green-8"
+                          text-color="white"
+                          size="13px"
+                          unelevated
+                          no-caps
+                          @click="handlePortfolioManagementImportExcel"
                           class="q-ml-sm"
                         />
                       </div>

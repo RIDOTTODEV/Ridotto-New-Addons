@@ -42,27 +42,24 @@
                 selectedChip?.id === props.row.id ? 'bg-negative text-white' : 'cursor-pointer'
               "
             >
+              <q-td key="createdAt" :props="props">
+                {{ date.formatDate(props.row.createdAt, 'DD.MM.YYYY HH:mm:ss') }}
+              </q-td>
               <q-td key="playerName" :props="props">
                 {{ props.row.playerName }}
               </q-td>
               <q-td key="tableName" :props="props">
                 {{ props.row.tableName }}
               </q-td>
+              <q-td key="chipType" :props="props">
+                {{ props.row.chipType || 'Cash' }}
+              </q-td>
               <q-td key="amount" :props="props">
                 {{ priceAbsFormatted(props.row.amount) }}
               </q-td>
 
-              <q-td key="chipType" :props="props">
-                {{ props.row.chipType || '-' }}
-              </q-td>
-              <q-td key="operationType" :props="props">
-                {{ props.row.operationType || '-' }}
-              </q-td>
-              <q-td key="inspector" :props="props">
-                {{ props.row.inspector || '-' }}
-              </q-td>
-              <q-td key="createdAt" :props="props">
-                {{ props.cols[props.cols.length - 1].value }}
+              <q-td key="createdByName" :props="props">
+                {{ props.row.createdByName || '-' }}
               </q-td>
             </q-tr>
           </template>
@@ -95,6 +92,15 @@ const loading = ref(false)
 const { dialogRef, onDialogHide } = useDialogPluginComponent()
 const columns = ref([
   {
+    name: 'createdAt',
+    align: 'center',
+    label: 'Date',
+    field: 'createdAt',
+    sortable: false,
+    format: (val) => date.formatDate(val, 'DD.MM.YYYY HH:mm:ss'),
+    visible: true,
+  },
+  {
     name: 'playerName',
     align: 'center',
     label: 'Player Name',
@@ -111,6 +117,14 @@ const columns = ref([
     visible: true,
   },
   {
+    name: 'chipType',
+    align: 'center',
+    label: 'Drop Type',
+    field: 'chipType',
+    sortable: false,
+    visible: true,
+  },
+  {
     name: 'amount',
     align: 'center',
     label: 'Amount',
@@ -118,37 +132,13 @@ const columns = ref([
     sortable: false,
     visible: true,
   },
+
   {
-    name: 'chipType',
-    align: 'center',
-    label: 'Chip Type',
-    field: 'chipType',
-    sortable: false,
-    visible: true,
-  },
-  {
-    name: 'operationType',
-    align: 'center',
-    label: 'In/Out',
-    field: 'operationType',
-    sortable: false,
-    visible: true,
-  },
-  {
-    name: 'inspector',
+    name: 'createdByName',
     align: 'center',
     label: 'Inspector',
-    field: 'inspector',
+    field: 'createdByName',
     sortable: false,
-    visible: true,
-  },
-  {
-    name: 'createdAt',
-    align: 'center',
-    label: 'Date',
-    field: 'createdAt',
-    sortable: false,
-    format: (val) => date.formatDate(val, 'DD.MM.YYYY HH:mm:ss'),
     visible: true,
   },
 ])

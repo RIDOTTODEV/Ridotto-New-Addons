@@ -140,7 +140,7 @@ const onSubmitForm = async (payload) => {
   return res
 }
 const onClickRemove = async (props) => {
-  await operationsStore.deletePlayerGift(props.id)
+  await operationsStore.deletePlayerGift({ id: props.id })
   playerGiftsTable.value.fetchData()
 }
 

@@ -40,33 +40,34 @@
                 selectedChip?.id === props.row.id ? 'bg-negative text-white' : 'cursor-pointer'
               "
             >
+              <q-td key="createdAt" :props="props">
+                {{ date.formatDate(props.row.createdAt, 'DD.MM.YYYY HH:mm:ss') }}
+              </q-td>
               <q-td key="playerName" :props="props">
                 {{ props.row.playerName }}
               </q-td>
+
+              <q-td key="operationType" :props="props">
+                {{ props.row.operationType === 'ChipIn' ? 'Chip In' : 'Chip Out' }}
+              </q-td>
+              <!--     <q-td key="chipType" :props="props">
+                {{ props.row.chipType }}
+              </q-td> -->
               <q-td key="chipDenom" :props="props">
                 {{ props.row.chipDenom }}
               </q-td>
               <q-td key="quantity" :props="props">
                 {{ props.row.quantity }}
               </q-td>
-              <q-td key="chipCurrency" :props="props">
-                {{ props.row.chipCurrency }}
-              </q-td>
-              <q-td key="operationType" :props="props">
-                {{ props.row.operationType }}
-              </q-td>
-              <q-td key="chipType" :props="props">
-                {{ props.row.chipType }}
-              </q-td>
               <q-td key="chipAmount" :props="props">
                 {{ priceAbsFormatted(props.row.chipAmount) || '-' }}
               </q-td>
-              <q-td key="inspector" :props="props">
-                {{ props.row.inspector || '-' }}
+              <q-td key="chipCurrency" :props="props">
+                {{ props.row.chipCurrency }}
               </q-td>
-              <q-td key="createdAt" :props="props">
-                {{ props.cols[props.cols.length - 1].value }}
-              </q-td>
+              <!--  <q-td key="createdByName" :props="props">
+                {{ props.row.createdByName || '-' }}
+              </q-td> -->
             </q-tr>
           </template>
         </q-table>
@@ -103,13 +104,38 @@ const loading = ref(false)
 const { dialogRef, onDialogHide } = useDialogPluginComponent()
 const columns = ref([
   {
+    name: 'createdAt',
+    align: 'center',
+    label: 'Date',
+    field: 'createdAt',
+    sortable: false,
+    visible: true,
+  },
+  {
     name: 'playerName',
     align: 'center',
     label: 'Player Name',
     field: 'playerName',
     sortable: false,
     visible: true,
+    classes: 'text-capitalize',
   },
+  {
+    name: 'operationType',
+    align: 'center',
+    label: 'In/Out',
+    field: 'operationType',
+    sortable: false,
+    visible: true,
+  },
+  /*   {
+    name: 'chipType',
+    align: 'center',
+    label: 'Chip Type',
+    field: 'chipType',
+    sortable: false,
+    visible: true,
+  }, */
   {
     name: 'chipDenom',
     align: 'center',
@@ -127,30 +153,6 @@ const columns = ref([
     visible: true,
   },
   {
-    name: 'chipCurrency',
-    align: 'center',
-    label: 'Currency',
-    field: 'chipCurrency',
-    sortable: false,
-    visible: true,
-  },
-  {
-    name: 'operationType',
-    align: 'center',
-    label: 'In/Out',
-    field: 'operationType',
-    sortable: false,
-    visible: true,
-  },
-  {
-    name: 'chipType',
-    align: 'center',
-    label: 'Chip Type',
-    field: 'chipType',
-    sortable: false,
-    visible: true,
-  },
-  {
     name: 'chipAmount',
     align: 'center',
     label: 'Chip Amount',
@@ -160,22 +162,22 @@ const columns = ref([
     format: (val) => priceAbsFormatted(val),
   },
   {
-    name: 'inspector',
+    name: 'chipCurrency',
+    align: 'center',
+    label: 'Currency',
+    field: 'chipCurrency',
+    sortable: false,
+    visible: true,
+  },
+  /*   {
+    name: 'createdByName',
     align: 'center',
     label: 'Inspector',
-    field: 'inspector',
+    field: 'createdByName',
     sortable: false,
     visible: true,
-  },
-  {
-    name: 'createdAt',
-    align: 'center',
-    label: 'Date',
-    field: 'createdAt',
-    sortable: false,
-    format: (val) => date.formatDate(val, 'DD.MM.YYYY HH:mm:ss'),
-    visible: true,
-  },
+  }, */
+
   // {name: 'detail', align: 'center', locale: 'detail', field: 'id', sortable: false, visible: true},
 ])
 const filterFields = ref({

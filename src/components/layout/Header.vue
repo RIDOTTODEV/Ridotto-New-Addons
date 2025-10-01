@@ -173,7 +173,7 @@
                         option-value="id"
                         :option-label="(val) => val.symbol + ' ' + val.name"
                         label="Default Currency"
-                        @update:model-value="authStore.saveUserCurrency"
+                        @update:model-value="(val) => authStore.saveUserCurrency(val, true)"
                         dense
                       />
                       <q-select
