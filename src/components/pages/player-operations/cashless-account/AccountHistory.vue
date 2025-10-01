@@ -58,6 +58,11 @@
                     </span>
                   </span>
                 </div>
+                <div v-if="col.name === 'cashdeskName'">
+                  {{
+                    props.row.floorNo ? 'Floor No: ' + props.row.floorNo : props.row.cashdeskName
+                  }}
+                </div>
                 <div v-else>{{ col.value }}</div>
               </q-td>
             </q-tr>

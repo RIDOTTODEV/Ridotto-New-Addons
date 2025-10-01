@@ -9,11 +9,13 @@
     backdrop-filter="brightness(40%)"
   >
     <q-card class="" square :style="{ height: $getWindowHeight + 'px' }">
-      <q-card-section class="app-cart-grey q-pa-xs">
-        <div class="text-subtitle1 text-bold q-pl-sm">
-          {{ $t('confirm') }} <span class="text-negative">*</span>
-        </div>
-      </q-card-section>
+      <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
+        <div class="text-subtitle2"></div>
+        <q-space />
+        <q-btn dense flat icon="close" v-close-popup>
+          <q-tooltip class="text-subtitle1 bg-blue-grey-8">{{ $t('close') }}</q-tooltip>
+        </q-btn>
+      </q-bar>
       <q-card-section class="q-pa-none">
         <q-card square flat class="bg-transparent">
           <q-card-section>
@@ -93,9 +95,10 @@
                             <div class="text-subtitle2 text-bold">
                               {{ props.row.name }}
                             </div>
-                            <!--  <div class="text-subtitle2 text-bold q-ml-sm">
-                              {{ defaultCurrency?.name }}
-                            </div> -->
+                            <div class="text-subtitle2 text-bold q-ml-sm">-</div>
+                            <div class="text-subtitle2 text-bold q-ml-sm">
+                              {{ props.row.chipCurrencyName }}
+                            </div>
                           </div>
                           <div class="col-12 flex justify-center">
                             <div class="text-subtitle2 text-bold q-ml-sm text-negative">
@@ -117,15 +120,7 @@
           </q-card-section>
         </q-card>
       </q-card-section>
-      <q-card-actions align="right">
-        <q-btn
-          no-caps
-          color="negative"
-          unelevated
-          :label="$t('cancel')"
-          icon="far fa-times-circle"
-          @click="onDialogCancel"
-        />
+      <!--       <q-card-actions align="right">
         <q-btn
           no-caps
           color="positive"
@@ -134,33 +129,33 @@
           icon="far fa-check-circle"
           @click="onOKClick"
         />
-      </q-card-actions>
+      </q-card-actions> -->
     </q-card>
   </q-dialog>
 </template>
 
 <script setup>
-import { useDialogPluginComponent, useQuasar } from 'quasar'
+import { useDialogPluginComponent /* , useQuasar */ } from 'quasar'
 import { useInspectorTable } from 'src/composables/inspectors/useInspectorTable'
 import SuccessNotify from 'src/components/ui/SuccessNotify.vue'
-import { i18n } from 'boot/i18n'
+/* import { i18n } from 'boot/i18n' */
 
 const {
   tables,
   tablesColumn,
   filterTable,
   /*  defaultCurrency, */
-  inspectorTables,
+  /* inspectorTables, */
   onClickTable,
   checkTableIsSelected,
 } = useInspectorTable()
 
-const $q = useQuasar()
+/* const $q = useQuasar() */
 defineEmits([...useDialogPluginComponent.emits])
 
-const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
+const { dialogRef, onDialogHide /* onDialogOK */ } = useDialogPluginComponent()
 
-function onOKClick() {
+/* function onOKClick() {
   if (inspectorTables.value.length === 0) {
     $q.notify({
       message: i18n.global.t('inspectorTableRequired'),
@@ -173,5 +168,5 @@ function onOKClick() {
   } else {
     onDialogOK(true)
   }
-}
+} */
 </script>

@@ -428,7 +428,7 @@
           <fieldset class="row">
             <legend class="q-pa-sm text-subtitle2">Totals</legend>
             <div class="col-6 q-pa-xs row flex justify-end">
-              <div class="row flex no-wrap justify-end items-center content-center">
+              <div class="row col-12 flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">T Drop</div>
                 <q-input
                   dense
@@ -437,11 +437,11 @@
                   class="super-small q-ml-xs"
                   :bg-color="response.totalDrop > 0 ? 'green-1' : 'red-1'"
                   outlined
-                  input-class="text-dark text-subtitle2"
+                  input-class="text-dark text-subtitle2 "
                   readonly
                 />
               </div>
-              <div class="row q-mt-xs flex no-wrap justify-end items-center content-center">
+              <div class="row col-12 q-mt-xs flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">Comp</div>
                 <q-input
                   dense
@@ -454,7 +454,7 @@
                   readonly
                 />
               </div>
-              <div class="row q-mt-xs flex no-wrap justify-end items-center content-center">
+              <div class="row col-12 q-mt-xs flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">Discount</div>
                 <q-input
                   dense
@@ -467,7 +467,7 @@
                   readonly
                 />
               </div>
-              <div class="row q-mt-xs flex no-wrap justify-end items-center content-center">
+              <div class="row col-12 q-mt-xs flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">Credit</div>
                 <q-input
                   dense
@@ -482,7 +482,7 @@
               </div>
             </div>
             <div class="col-6 q-pa-xs row flex justify-end">
-              <div class="row flex no-wrap justify-end items-center content-center">
+              <div class="row col-12 flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">T Result</div>
                 <q-input
                   dense
@@ -495,7 +495,7 @@
                   readonly
                 />
               </div>
-              <div class="row q-mt-xs flex no-wrap justify-end items-center content-center">
+              <div class="row col-12 q-mt-xs flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">A Comp</div>
                 <q-input
                   dense
@@ -508,7 +508,7 @@
                   input-class="text-white text-subtitle2 text-bold"
                 />
               </div>
-              <div class="row q-mt-xs flex no-wrap justify-end items-center content-center">
+              <div class="row col-12 q-mt-xs flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">A Discount</div>
                 <q-input
                   dense
@@ -521,7 +521,7 @@
                   readonly
                 />
               </div>
-              <div class="row q-mt-xs flex no-wrap justify-end items-center content-center">
+              <div class="row col-12 q-mt-xs flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">NET CASH</div>
                 <q-input
                   dense

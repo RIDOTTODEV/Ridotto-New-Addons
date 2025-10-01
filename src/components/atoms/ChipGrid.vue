@@ -36,13 +36,15 @@ onMounted(() => {
   emit('initChips', chipsFormatted.value)
 })
 
-watch(getChipsGridFormatted, (value) => {
-  if (value) {
-    console.log('value', value)
-    chipsFormatted.value = JSON.parse(JSON.stringify([...value]))
-    emit('initChips', chipsFormatted.value)
-  }
-})
+watch(
+  () => getChipsGridFormatted.value(props.chipCurrencyId),
+  (value) => {
+    if (value) {
+      chipsFormatted.value = JSON.parse(JSON.stringify([...value]))
+      emit('initChips', chipsFormatted.value)
+    }
+  },
+)
 
 const onUpdate = (denom, value) => {
   denom.amount = +value * denom.value
@@ -70,7 +72,9 @@ const onUpdate = (denom, value) => {
 
 watch(model, (value) => {
   if (value.length === 0) {
-    chipsFormatted.value = JSON.parse(JSON.stringify([...getChipsGridFormatted.value]))
+    chipsFormatted.value = JSON.parse(
+      JSON.stringify([...getChipsGridFormatted.value(props.chipCurrencyId)]),
+    )
   }
 })
 

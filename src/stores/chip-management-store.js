@@ -92,7 +92,7 @@ export const useChipManagementStore = defineStore('chipManagementStore', {
       (chipCurrencyId = null) => {
         const chips = chipCurrencyId
           ? state.chips.filter((c) => c.currencyId === chipCurrencyId)
-          : state.chips
+          : state.chips || []
         return chips.map((c) => {
           return {
             ...c,

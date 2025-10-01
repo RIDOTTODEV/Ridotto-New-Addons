@@ -165,6 +165,9 @@ export const usePortfolioManagement = () => {
       field: 'rating',
     },
     {
+      field: 'topRating',
+    },
+    {
       field: 'slotDrop',
       fieldType: 'price',
     },

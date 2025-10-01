@@ -15,14 +15,23 @@ import { storeToRefs } from 'pinia'
 import { formatPrice } from 'src/helpers/helpers'
 const columns = ref([
   {
-    name: 'tableName',
+    name: 'createdAt',
     align: 'center',
-    label: 'Table',
-    field: 'tableName',
+    label: 'Date',
+    field: 'createdAt',
     sortable: false,
+    format: (val) => date.formatDate(val, 'DD.MM.YYYY HH:mm:ss'),
     visible: true,
   },
 
+  {
+    name: 'chipType',
+    align: 'center',
+    label: 'Drop Type',
+    field: 'chipType',
+    sortable: false,
+    visible: true,
+  },
   {
     name: 'currencyName',
     align: 'center',
@@ -37,23 +46,6 @@ const columns = ref([
     label: 'Amount',
     field: 'amount',
     sortable: false,
-    visible: true,
-  },
-  {
-    name: 'operationType',
-    align: 'center',
-    label: 'Operation Type',
-    field: 'operationType',
-    sortable: false,
-    visible: true,
-  },
-  {
-    name: 'createdAt',
-    align: 'center',
-    label: 'Date',
-    field: 'createdAt',
-    sortable: false,
-    format: (val) => date.formatDate(val, 'DD.MM.YYYY HH:mm:ss'),
     visible: true,
   },
 ])
@@ -137,21 +129,17 @@ bus.on('fetchCurrentPlayerCashHistory', () => {
               selectedRowIndex === props.rowIndex ? 'bg-red-1 text-text-dark' : 'cursor-pointer'
             "
           >
-            <q-td key="tableName" :props="props">
-              {{ props.row.tableName }}
+            <q-td key="createdAt" :props="props">
+              {{ date.formatDate(props.row.createdAt, 'DD.MM.YYYY HH:mm:ss') }}
             </q-td>
-
+            <q-td key="chipType" :props="props">
+              {{ props.row?.chipType || $t('Cash') }}
+            </q-td>
             <q-td key="currencyName" :props="props">
               {{ props.row.currencyName }}
             </q-td>
             <q-td key="amount" :props="props">
               {{ formatPrice(props.row.amount) || '-' }}
-            </q-td>
-            <q-td key="operationType" :props="props">
-              {{ props.row?.operationType || '-' }}
-            </q-td>
-            <q-td key="createdAt" :props="props">
-              {{ props.cols[props.cols.length - 1].value }}
             </q-td>
           </q-tr>
         </template>

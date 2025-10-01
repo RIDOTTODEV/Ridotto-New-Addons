@@ -39,7 +39,16 @@ const transactionTypes = ref([
     transactionTypes: ['BankInOut'],
   },
 ])
-const transactionMethods = ref(['Deposit', 'Withdrawal'])
+const transactionMethods = ref([
+  {
+    label: 'Received',
+    value: 'Deposit',
+  },
+  {
+    label: 'Paid',
+    value: 'Withdrawal',
+  },
+])
 const getSelectedTransactionByValue = (value) => {
   let obj = transactionTypes.value.find((t) => t.value === value)
   return obj ? obj.transactionTypes : []
@@ -315,12 +324,25 @@ watch(
               <q-checkbox
                 v-model="formValues.inOut"
                 color="primary"
-                :label="
-                  formValues.inOut ? $t('inOut') + '-' + $t('yes') : $t('inOut') + '-' + $t('no')
-                "
+                :label="$t('inOut')"
                 class="super-small"
                 data-cy="inOut"
               />
+
+              <!--               {
+  "cashdeskId": 0,
+  "amount": 0,
+  "transactionCodeId": 0,
+  "transType": "Credit",
+  "transactionType": "Deposit",
+  "currencyId": 0,
+  "note": "string",
+  "playerId": 0,
+  "inOut": true,
+  "authorizedBy": "string",
+  "dueDate": "2025-10-01T06:48:14.369Z",
+  "cashdeskTransactionType": "CageInOut"
+} -->
             </div>
             <div class="col-4 q-pa-xs" v-if="showTransactionBanks">
               <q-select

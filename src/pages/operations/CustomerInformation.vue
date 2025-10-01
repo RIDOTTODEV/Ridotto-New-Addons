@@ -599,7 +599,7 @@
                     />
                     <div v-else>
                       <div class="text-blue text-bold text-caption">
-                        {{ $t('playerAttechmentsList') }}
+                        {{ $t('playerAttechments') }}
                       </div>
                       <div
                         class="bg-grey-1 q-pa-md q-radius-md"
@@ -645,7 +645,7 @@
                     />
                     <div v-else>
                       <div class="text-blue text-bold text-caption">
-                        {{ $t('linkedPlayersList') }}
+                        {{ $t('linkedPlayers') }}
                       </div>
                       <div
                         class="bg-grey-1 q-pa-md q-radius-md"

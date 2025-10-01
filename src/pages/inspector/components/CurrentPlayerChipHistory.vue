@@ -17,6 +17,15 @@ import { storeToRefs } from 'pinia'
 import { formatPrice } from 'src/helpers/helpers'
 const columns = ref([
   {
+    name: 'createdAt',
+    align: 'center',
+    label: 'Date',
+    field: 'createdAt',
+    sortable: false,
+    format: (val) => date.formatDate(val, 'DD.MM.YYYY HH:mm:ss'),
+    visible: true,
+  },
+  {
     name: 'operationType',
     align: 'center',
     label: 'Operation Type',
@@ -41,15 +50,7 @@ const columns = ref([
     sortable: false,
     visible: true,
   },
-  {
-    name: 'createdAt',
-    align: 'center',
-    label: 'Date',
-    field: 'createdAt',
-    sortable: false,
-    format: (val) => date.formatDate(val, 'DD.MM.YYYY HH:mm:ss'),
-    visible: true,
-  },
+
   {
     name: 'detail',
     align: 'center',
@@ -137,8 +138,19 @@ bus.on('fetchCurrentPlayerChipHistory', () => {
             @click="onRowClick(props)"
             :class="selectedChipIndex === props.rowIndex ? ' bg-red-1 text-dark' : 'cursor-pointer'"
           >
+            <q-td key="createdAt" :props="props">
+              {{ date.formatDate(props.row.createdAt, 'DD.MM.YYYY HH:mm:ss') }}
+            </q-td>
             <q-td key="operationType" :props="props">
-              {{ props.row.operationType }}
+              <div class="flex items-center justify-center content-center">
+                <q-icon
+                  :name="props.row.operationType === 'ChipIn' ? 'arrow_downward' : 'arrow_upward'"
+                  :color="props.row.operationType === 'ChipIn' ? 'green' : 'red'"
+                  size="1.3em"
+                  class="q-mr-xs"
+                />
+                {{ props.row.operationType === 'ChipIn' ? $t('Chip In') : $t('Chip Out') }}
+              </div>
             </q-td>
             <q-td key="chipCurrency" :props="props">
               {{ props.row.chipCurrency }}
@@ -146,9 +158,7 @@ bus.on('fetchCurrentPlayerChipHistory', () => {
             <q-td key="chipAmount" :props="props">
               {{ formatPrice(props.row.chipAmount) || '-' }}
             </q-td>
-            <q-td key="createdAt" :props="props">
-              {{ props.cols[props.cols.length - 2].value }}
-            </q-td>
+
             <q-td key="detail" :props="props">
               <q-btn
                 icon="o_info"
