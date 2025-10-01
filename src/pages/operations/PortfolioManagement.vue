@@ -74,17 +74,6 @@
               </div>
             </div>
             <div class="col-12">
-              <!--         <el-date-picker
-                v-model="portfolioManagementFilter.date"
-                :disabled="!portfolioManagementFilter.findBySpecialDay"
-                type="date"
-                placeholder="Date"
-                :size="'default'"
-                value-format="YYYY-MM-DD"
-                class="no-wrap"
-                @change="onHandleDateChange"
-              /> -->
-
               <el-date-picker
                 v-model="portfolioManagementFilter.date"
                 type="date"
@@ -109,9 +98,11 @@
                   bg-color="white"
                   v-model="portfolioManagementFilter.playerId"
                   :displayedValue="portfolioManagementFilter.fullName"
-                  :placeholder="$t('searchPlayer')"
+                  :label="$t('searchPlayer')"
                   @onSelectPlayer="onSelectPlayer"
                   @onClear="clearPlayerData"
+                  optionLabel="value"
+                  class="full-width"
                 />
               </div>
               <div class="col-12 q-mt-xs">
@@ -119,7 +110,7 @@
                   outlined
                   bg-color="white"
                   v-model="portfolioManagementFilter.rating"
-                  :placeholder="$t('rating')"
+                  :label="$t('rating')"
                   dense
                   class="super-small"
                 />
@@ -129,7 +120,7 @@
                   outlined
                   bg-color="white"
                   v-model="portfolioManagementFilter.topRating"
-                  :placeholder="$t('topRating')"
+                  :label="$t('topRating')"
                   dense
                   class="super-small"
                 />
@@ -209,6 +200,7 @@
                   :filterParams="portfolioManagementFilter"
                   :columns="portfolioColumns"
                   ref="playerPortfoliosTableRef"
+                  @selected-row="(val) => (selectedPortfolioManagementRow = val)"
                 >
                   <template v-slot:headerFilterSlots>
                     <div class="col q-mr-sm flex row justify-start">
@@ -239,6 +231,7 @@
                   :slot-names="['body-cell-actions']"
                   ref="portfolioManagementTableRef"
                   rowKey="id"
+                  @selected-row="(val) => (selectedPortfolioManagementRow = val)"
                 >
                   <template v-slot:headerFilterSlots="{ props }">
                     <div class="col-9 q-mr-sm flex row justify-start">
@@ -277,7 +270,6 @@
                           "
                           class="q-ml-sm"
                         />
-                        <!--   <q-checkbox v-model="giftListFilterParams.given" :label="$t('given')" /> -->
                         <q-select
                           :options="[
                             { label: $t('given'), value: 'true' },
@@ -292,6 +284,8 @@
                           emit-value
                           map-options
                           class="q-ml-sm super-small"
+                          :label="$t('given')"
+                          style="min-width: 120px"
                         />
 
                         <q-btn
@@ -307,7 +301,7 @@
                           class="q-ml-sm"
                         />
 
-                        <q-btn
+                        <!-- <q-btn
                           type="button"
                           :label="$t('excelImport')"
                           icon="file_upload"
@@ -318,7 +312,22 @@
                           no-caps
                           @click="handlePortfolioManagementImportExcel"
                           class="q-ml-sm"
-                        />
+                        /> -->
+                        <q-btn
+                          icon="file_upload"
+                          color="green-8"
+                          text-color="white"
+                          size="13px"
+                          unelevated
+                          outlined
+                          no-caps
+                          @click="handlePortfolioManagementImportExcel"
+                          class="q-ml-sm"
+                        >
+                          <q-tooltip class="bg-grey-1 text-dark text-subtitle2">
+                            {{ $t('excelImport') }}
+                          </q-tooltip>
+                        </q-btn>
                       </div>
                     </div>
                   </template>
@@ -375,10 +384,13 @@ const {
 } = usePortfolioManagement()
 
 const onSelectPlayer = (val) => {
-  console.log(val)
-
-  portfolioManagementFilter.value.playerId = val.id
-  portfolioManagementFilter.value.fullName = val.value
+  if (val) {
+    portfolioManagementFilter.value.playerId = val.id
+    portfolioManagementFilter.value.fullName = val.value
+  } else {
+    portfolioManagementFilter.value.playerId = null
+    portfolioManagementFilter.value.fullName = null
+  }
 }
 const clearPlayerData = () => {
   portfolioManagementFilter.value.playerId = null

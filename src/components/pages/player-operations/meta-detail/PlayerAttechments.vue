@@ -8,7 +8,7 @@
           class="cursor-pointer q-ml-sm my-icon"
           color="blue-grey-8"
         />
-        | {{ $t('playerAttechmentsList') }}
+        | {{ $t('playerAttechments') }}
       </div>
       <div>
         <q-icon

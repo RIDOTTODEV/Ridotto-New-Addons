@@ -8,7 +8,7 @@
           class="cursor-pointer q-ml-sm my-icon"
           color="blue-grey-8"
         />
-        | {{ $t('friendsList') }}
+        | {{ $t('friends') }}
       </div>
       <div>
         <q-icon

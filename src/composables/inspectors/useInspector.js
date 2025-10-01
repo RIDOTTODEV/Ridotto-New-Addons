@@ -264,8 +264,8 @@ export function useInspector() {
           () => import('../../pages/inspector/components/InspectorTableSelectionDialog.vue'),
         ),
       })
-      .onOk(async (payload) => {
-        if (payload && payload === true) {
+      .onDismiss(async () => {
+        if (inspectorTables.value.length > 0) {
           await onClickSelectTable({ ...inspectorTables.value[0] })
         }
       })

@@ -14,11 +14,12 @@
             v-model="formValues.playerId"
             :label="$t('player')"
             @onSelectPlayer="onSelectedPlayer"
-            v-if="!formValues.playerId"
+            v-if="!initialValues.playerId"
             :optionLabel="'value'"
-            :displayedValue="formValues.playerName"
+            :displayedValue="formValues.playerFullName"
             @onClear="onClearPlayer"
             @onSelectedPlayer="onSelectedPlayer"
+            class="full-width"
           />
           <q-select-box
             v-model="formValues.giftId"
@@ -194,8 +195,7 @@ watch(
     if (newVal && newVal.playerId) {
       selectedPlayer.value = {
         id: newVal.playerId,
-        name: newVal.playerFullName.split(' ')[0],
-        surname: newVal.playerFullName.split(' ').slice(1).join(' '),
+        value: newVal.playerFullName,
       }
     } else {
       selectedPlayer.value = null
@@ -210,11 +210,11 @@ onMounted(() => {
 
 const onSelectedPlayer = (player) => {
   formValues.value.playerId = player.id
-  formValues.value.playerName = player.name + ' ' + player.surname
+  formValues.value.playerFullName = player.value
 }
 
 const onClearPlayer = () => {
   formValues.value.playerId = null
-  formValues.value.playerName = null
+  formValues.value.playerFullName = null
 }
 </script>

@@ -593,13 +593,14 @@ const selectedRowIndex = ref(null)
 const onRowClick = (evt, row, index) => {
   removeSelectedRowClass()
   selectedRow.value = row
-
+  emits('selectedRow', row)
   const target = evt.target
   const tr = target.closest('tr')
   if (tr) {
     if (selectedRowIndex.value === index) {
       removeSelectedRowClass()
       selectedRowIndex.value = null
+      emits('selectedRow', null)
     } else {
       tr.classList.add('selected-row')
       selectedRowIndex.value = index
@@ -642,7 +643,7 @@ const onRowDoubleClick = (evt, row) => {
   }) */
 }
 
-const emits = defineEmits(['switchSummaryCard'])
+const emits = defineEmits(['switchSummaryCard', 'selectedRow'])
 const switchSummaryCard = () => {
   emits('switchSummaryCard')
 }
