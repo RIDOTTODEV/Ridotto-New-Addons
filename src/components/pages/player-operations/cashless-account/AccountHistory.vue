@@ -107,6 +107,7 @@
                         ...val,
                       })
                   "
+                  :setDate="dateTimeFilterValues"
                 />
 
                 <q-btn

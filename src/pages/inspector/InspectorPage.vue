@@ -316,8 +316,8 @@ const {
                   class="absolute-top-left q-ml-xs q-gutter-sm"
                   v-if="
                     props.row.isGuest === true ||
-                    props.row.isHotelExpense === true ||
-                    props.row.isOtherExpense === true
+                    props.row.IsWalkIn === true ||
+                    props.row.IsWalkIn === true
                   "
                 >
                   <q-icon
@@ -335,7 +335,7 @@ const {
                     name="o_apartment"
                     size="xs"
                     color="blue"
-                    v-if="props.row.isHotelExpense === true"
+                    v-if="props.row.IsWalkIn === true"
                     ><q-tooltip class="q-card--bordered app-cart-grey text-dark">
                       <div class="text-subtitle2">
                         {{ $t('hotelExpense') }}

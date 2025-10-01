@@ -124,6 +124,16 @@
                   class="super-small"
                 />
               </div>
+              <div class="col-12 q-mt-xs">
+                <q-input
+                  outlined
+                  bg-color="white"
+                  v-model="portfolioManagementFilter.topRating"
+                  :placeholder="$t('topRating')"
+                  dense
+                  class="super-small"
+                />
+              </div>
             </div>
           </fieldset>
           <q-btn

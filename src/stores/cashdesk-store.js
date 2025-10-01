@@ -120,7 +120,7 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
         setTimeout(() => {
           Loading.hide()
           window.location.reload()
-        }, 2000)
+        }, 100)
       }
     },
 

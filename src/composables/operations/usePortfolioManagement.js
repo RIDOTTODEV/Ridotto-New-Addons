@@ -15,6 +15,7 @@ export const usePortfolioManagement = () => {
     player: null,
     playerId: null,
     rating: null,
+    topRating: null,
     withResult: false,
     birthDay: false,
     spouseBirthDay: false,
@@ -226,6 +227,7 @@ export const usePortfolioManagement = () => {
   const giftListFilterParams = ref({
     playerId: null,
     rating: null,
+    topRating: null,
   })
 
   return {

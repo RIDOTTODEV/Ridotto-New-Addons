@@ -36,16 +36,6 @@
       <q-card-section class="q-pa-xs">
         <div class="row">
           <div class="col-7">
-            <q-radio
-              v-model="selectedChip"
-              v-for="(chip, index) in casinoChips"
-              :key="index"
-              checked-icon="task_alt"
-              unchecked-icon="panorama_fish_eye"
-              :val="chip"
-              :label="chip.name"
-              size="lg"
-            />
             <div class="row">
               <div class="col-12 q-pa-xs">
                 <q-input type="number" dense v-model="form.amount" outlined square autofocus />
@@ -155,7 +145,6 @@ const props = defineProps({
   },
 })
 const casinoChips = ref([])
-const selectedChip = ref()
 const form = ref({
   amount: 0,
 })
@@ -174,7 +163,6 @@ const onOKClick = () => {
 
   onDialogOK({
     amount: form.value.amount,
-    chipType: selectedChip.value.type,
   })
 }
 
@@ -190,7 +178,6 @@ onMounted(() => {
       }),
     }
   })
-  selectedChip.value = casinoChips.value[0]
 })
 
 const onClickNumber = (number) => {

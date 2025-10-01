@@ -305,7 +305,7 @@ export function useInspector() {
         componentProps: {
           chipTransactionType: chipTransactionType,
           player: currentPlayer.value,
-          chips: getChipsGridFormatted.value(),
+          chips: getChipsGridFormatted.value(currentTable.value.chipCurrencyId),
         },
       })
       .onOk(async (payload) => {
@@ -346,18 +346,18 @@ export function useInspector() {
         componentProps: {
           chipTransactionType: chipTransactionType,
           player: currentPlayer.value,
-          chips: getChipsGridFormatted.value(),
+          chips: getChipsGridFormatted.value(currentTable.value.chipCurrencyId),
         },
       })
       .onOk(async (payload) => {
         if (payload) {
           let data = {
             playerLgTimeInOutId: currentPlayer.value.playerLgTimeInOutId,
-            playerId: currentPlayer.value.playerId,
-            tableId: currentTable.value.id,
-            gameId: currentTable.value.gameId,
+            //playerId: currentPlayer.value.playerId,
+            //tableId: currentTable.value.id,
+            // gameId: currentTable.value.gameId,
             amount: payload.amount,
-            chipType: payload.chipType,
+
             chipTransactionType: chipTransactionType === 'MarkerIn' ? 'ChipIn' : 'ChipOut',
           }
 
