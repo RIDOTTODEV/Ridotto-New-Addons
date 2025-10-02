@@ -127,6 +127,7 @@ const columns = ref([
   {
     name: 'id',
     label: 'ID',
+    field: 'id',
   },
   {
     name: 'code',
