@@ -7,7 +7,7 @@ const dateFormatFields = ['createdAt', 'updatedAt', 'creationDate']
 const numberFormatFields = ['totalAmount', 'amount', 'price', 'total']
 const requiredFields = ['id']
 
-const formatValue = (value, fieldType, customFormat) => {
+const formatValue = (value, fieldType, customFormat, _row) => {
   if (dateFormatFields.includes(value)) {
     return date.formatDate(value, 'DD.MM.YYYY HH:mm')
   }
@@ -24,7 +24,7 @@ const formatValue = (value, fieldType, customFormat) => {
     return date.formatDate(value, 'DD.MM.YYYY HH:mm')
   }
   if (customFormat) {
-    return customFormat(value)
+    return customFormat(value, _row)
   }
   return value || '-'
 }
@@ -41,10 +41,10 @@ export const generateColumns = (columnConfigs) => {
     align: config.align || defaultAlign,
     field: config.field,
     locale: config.locale || config.field,
-    format: (value) =>
+    format: (value, _row) =>
       config.format
-        ? config.format(value)
-        : formatValue(value, config.fieldType, config.customFormat),
+        ? config.format(value, _row)
+        : formatValue(value, config.fieldType, config.customFormat, _row),
     showTotal: config.showTotal || false,
     sortable: config.sortable || sortableFields.includes(config.field) || false,
     sort: config.sort,

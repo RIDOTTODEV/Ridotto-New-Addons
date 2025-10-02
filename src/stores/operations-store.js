@@ -5,10 +5,12 @@ import {
   importService,
   playerGiftService,
   playerService,
+  pettyCashCategoryService,
 } from 'src/api'
 export const useOperationsStore = defineStore('operationsStore', {
   state: () => ({
     gifts: [],
+    pettyCashCategories: [],
   }),
   getters: {},
   actions: {
@@ -60,6 +62,23 @@ export const useOperationsStore = defineStore('operationsStore', {
     },
     async deletePlayerGift(params) {
       const { data } = await playerGiftService.delete(params)
+      return data
+    },
+    async fetchPettyCashCategoryList(params) {
+      const { data } = await pettyCashCategoryService.getAll(params)
+      this.pettyCashCategories = data.data
+      return data
+    },
+    async createPettyCashCategory(params) {
+      const { data } = await pettyCashCategoryService.create(params)
+      return data
+    },
+    async updatePettyCashCategory(params) {
+      const { data } = await pettyCashCategoryService.update(params)
+      return data
+    },
+    async deletePettyCashCategory(params) {
+      const { data } = await pettyCashCategoryService.delete(params)
       return data
     },
   },

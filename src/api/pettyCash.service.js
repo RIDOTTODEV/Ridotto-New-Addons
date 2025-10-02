@@ -1,10 +1,27 @@
 import { api } from 'src/boot/axios'
 
 
-export const expenseService = {
-  name: 'Expense',
+export const pettyCashService = {
+  name: 'PettyCash',
   /**
-   * Get Expense
+   * Get Petty Cash Totals Petty Cash
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.cashdeskId] - Cashdesk Id
+   * @param {undefined} [data.gamingDateId] - Gaming Date Id
+   * @param {undefined} [data.startDate] - Start Date
+   * @param {undefined} [data.endDate] - End Date
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getPettyCashTotals(data = {}, options = {}) {
+    return api.get('/api/PettyCash/GetPettyCashTotals', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Get Petty Cash
    *
    * @param {object} [data]
    * @param {undefined} [data.id] - Id
@@ -13,17 +30,19 @@ export const expenseService = {
    * @param {string} [options.responseType] - Response Type
    */
   get(data = {}, options = {}) {
-    return api.get('/api/Expense/Get', { params: data, ...options })
+    return api.get('/api/PettyCash/Get', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Get All Expense
+   * Get All Petty Cash
    *
    * @param {object} [data]
-   * @param {undefined} [data.playerId] - Player Id
-   * @param {undefined} [data.expenseParameterId] - Expense Parameter Id
-   * @param {undefined} [data.hotelReservationId] - Hotel Reservation Id
+   * @param {undefined} [data.cashdeskId] - Cashdesk Id
+   * @param {undefined} [data.pettyCashCategoryId] - Petty Cash Category Id
+   * @param {undefined} [data.description] - Description
+   * @param {undefined} [data.transactionType] - Transaction Type
+   * @param {undefined} [data.currencyId] - Currency Id
    * @param {undefined} [data.sorting] - Sorting
    * @param {undefined} [data.maxResultCount] - Max Result Count
    * @param {undefined} [data.skipCount] - Skip Count
@@ -38,12 +57,12 @@ export const expenseService = {
     if (!data.skipCount) {
       data.skipCount = 0
     }
-    return api.get('/api/Expense/GetAll', { params: data, ...options })
+    return api.get('/api/PettyCash/GetAll', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Create Expense
+   * Create Petty Cash
    *
    * @param {object} [data]
    * @param {object} [options] - Axios Options
@@ -51,12 +70,12 @@ export const expenseService = {
    * @param {string} [options.responseType] - Response Type
    */
   create(data = {}, options = {}) {
-    return api.post('/api/Expense/Create', data, options)
+    return api.post('/api/PettyCash/Create', data, options)
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Update Expense
+   * Update Petty Cash
    *
    * @param {object} [data]
    * @param {object} [options] - Axios Options
@@ -64,12 +83,12 @@ export const expenseService = {
    * @param {string} [options.responseType] - Response Type
    */
   update(data = {}, options = {}) {
-    return api.post('/api/Expense/Update', data, options)
+    return api.post('/api/PettyCash/Update', data, options)
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Delete Expense
+   * Delete Petty Cash
    *
    * @param {object} [data]
    * @param {undefined} [data.id] - Id
@@ -78,7 +97,7 @@ export const expenseService = {
    * @param {string} [options.responseType] - Response Type
    */
   delete(data = {}, options = {}) {
-    return api.delete('/api/Expense/Delete', { params: data, ...options })
+    return api.delete('/api/PettyCash/Delete', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   }

@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import Tabs from 'components/pages/cage-operations/tab-contens/Tabs.vue'
+import Tabs from 'src/components/pages/cage-operations/Tabs.vue'
 </script>
 
 <style scoped></style>

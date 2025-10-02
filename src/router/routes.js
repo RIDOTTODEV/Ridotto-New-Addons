@@ -112,6 +112,15 @@ const routes = [
         },
       },
       {
+        path: 'petty-cash-categories',
+        name: 'pettyCashCategories',
+        component: () => import('src/pages/definitions/PettyCashCategoryPage.vue'),
+        meta: {
+          requiredPermission: 'Addon.Definitions.PettyCashCategory',
+          requiresAuth: true,
+        },
+      },
+      {
         path: 'player-classes',
         name: 'playerClasses',
         component: () => import('src/pages/definitions/PlayerClass.vue'),

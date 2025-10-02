@@ -50,6 +50,13 @@
           <AccountList />
         </q-tab-panel>
         <q-tab-panel
+          v-el-perms="'Addon.CageOperations.Tab.PettyCash'"
+          name="pettyCash"
+          class="q-pa-none no-box-shadow"
+        >
+          <petty-cash />
+        </q-tab-panel>
+        <q-tab-panel
           v-el-perms="'Addon.CageOperations.Tab.CageTransactions'"
           name="cageTransactions"
           class="q-pa-none no-box-shadow"
@@ -84,12 +91,13 @@
 
 <script setup>
 import { ref } from 'vue'
-import AccountList from './AccountList.vue'
-import CageTransactions from './CageTransactions.vue'
-import ChipTransactions from './ChipTransactions.vue'
-import ChipBalance from './ChipBalance.vue'
-import CashBalance from './CashBalance.vue'
-import Balance from './Balance.vue'
+import AccountList from 'src/components/pages/cage-operations/tab-contens/AccountList.vue'
+import CageTransactions from 'src/components/pages/cage-operations/tab-contens/CageTransactions.vue'
+import ChipTransactions from 'src/components/pages/cage-operations/tab-contens/ChipTransactions.vue'
+import ChipBalance from 'src/components/pages/cage-operations/tab-contens/ChipBalance.vue'
+import CashBalance from 'src/components/pages/cage-operations/tab-contens/CashBalance.vue'
+import Balance from 'src/components/pages/cage-operations/tab-contens/Balance.vue'
+import PettyCash from 'src/components/pages/cage-operations/tab-contens/PettyCash.vue'
 import { LocalStorage } from 'quasar'
 const cageOperationTabs = ref([
   {
@@ -97,6 +105,12 @@ const cageOperationTabs = ref([
     elPermission: 'Addon.CageOperations.Tab.ShowAccountList',
     icon: 'o_account_tree',
     name: 'accounts',
+  },
+  {
+    label: 'pettyCash',
+    elPermission: 'Addon.CageOperations.Tab.PettyCash',
+    icon: 'o_money',
+    name: 'pettyCash',
   },
   {
     label: 'cageTransactions',

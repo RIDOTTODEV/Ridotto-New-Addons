@@ -352,11 +352,19 @@ export const hotelReservationService = {
    * Get Pending Guests Hotel Reservation
    *
    * @param {object} [data]
+   * @param {undefined} [data.maxResultCount] - Max Result Count
+   * @param {undefined} [data.skipCount] - Skip Count
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type
    */
   getPendingGuests(data = {}, options = {}) {
+    if (!data.maxResultCount) {
+      data.maxResultCount = 999
+    }
+    if (!data.skipCount) {
+      data.skipCount = 0
+    }
     return api.get('/api/HotelReservation/GetPendingGuests', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)

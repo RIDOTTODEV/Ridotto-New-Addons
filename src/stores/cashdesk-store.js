@@ -6,6 +6,7 @@ import {
   cashdeskAccountService,
   cashdeskTransactionService,
   cashdeskChipCountService,
+  pettyCashService,
 } from 'src/api'
 import { useAuthStore } from 'src/stores/auth-store'
 import { date, LocalStorage, Loading, QSpinnerGears } from 'quasar'
@@ -217,7 +218,8 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
         BalanceCurrencyId: authStore.getDefaultCurrencyId,
       }
       const { data } = await cashdeskTransactionService.getTransactionTotals(payload)
-      this.currentCashDeskTotals = data[0]
+      this.currentCashDeskTotals = { ...data[0] }
+
       return data
     },
     async fetchGetCountHistoriesTotal(params) {
@@ -296,6 +298,20 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
     },
     async tableFloatFillTransaction(params) {
       const data = await cashdeskTransactionService.tableFloatFillTransaction(params)
+      return data
+    },
+    async fetchPettyCashTransactions(params) {
+      const { data } = await pettyCashService.getAll(params)
+      return data
+    },
+    async createPettyCashTransaction(params) {
+      return await pettyCashService.create(params)
+    },
+    async deletePettyCashTransaction(params) {
+      return await pettyCashService.delete(params)
+    },
+    async fetchPettyCashTotals(params) {
+      const { data } = await pettyCashService.getPettyCashTotals(params)
       return data
     },
   },

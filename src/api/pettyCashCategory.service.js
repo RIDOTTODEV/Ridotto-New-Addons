@@ -1,20 +1,26 @@
 import { api } from 'src/boot/axios'
 
 
-export const slotPlayerTransactionService = {
-  name: 'SlotPlayerTransaction',
+export const pettyCashCategoryService = {
+  name: 'PettyCashCategory',
   /**
-   * Get All Slot Player Transaction
+   * Get Petty Cash Category
    *
    * @param {object} [data]
-   * @param {undefined} [data.gamingDateId] - Gaming Date Id
-   * @param {undefined} [data.startDate] - Start Date
-   * @param {undefined} [data.endDate] - End Date
-   * @param {undefined} [data.queryType] - Query Type
-   * @param {undefined} [data.transactionCode] - Transaction Code
-   * @param {undefined} [data.playerId] - Player Id
-   * @param {undefined} [data.floorNo] - Floor No
-   * @param {undefined} [data.balanceCurrencyId] - Balance Currency Id
+   * @param {undefined} [data.id] - Id
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  get(data = {}, options = {}) {
+    return api.get('/api/PettyCashCategory/Get', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Get All Petty Cash Category
+   *
+   * @param {object} [data]
    * @param {undefined} [data.sorting] - Sorting
    * @param {undefined} [data.maxResultCount] - Max Result Count
    * @param {undefined} [data.skipCount] - Skip Count
@@ -29,12 +35,12 @@ export const slotPlayerTransactionService = {
     if (!data.skipCount) {
       data.skipCount = 0
     }
-    return api.get('/api/SlotPlayerTransaction/GetAll', { params: data, ...options })
+    return api.get('/api/PettyCashCategory/GetAll', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Create Slot Player Transaction
+   * Create Petty Cash Category
    *
    * @param {object} [data]
    * @param {object} [options] - Axios Options
@@ -42,12 +48,25 @@ export const slotPlayerTransactionService = {
    * @param {string} [options.responseType] - Response Type
    */
   create(data = {}, options = {}) {
-    return api.post('/api/SlotPlayerTransaction/Create', data, options)
+    return api.post('/api/PettyCashCategory/Create', data, options)
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Delete Slot Player Transaction
+   * Update Petty Cash Category
+   *
+   * @param {object} [data]
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  update(data = {}, options = {}) {
+    return api.post('/api/PettyCashCategory/Update', data, options)
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Delete Petty Cash Category
    *
    * @param {object} [data]
    * @param {undefined} [data.id] - Id
@@ -56,7 +75,7 @@ export const slotPlayerTransactionService = {
    * @param {string} [options.responseType] - Response Type
    */
   delete(data = {}, options = {}) {
-    return api.delete('/api/SlotPlayerTransaction/Delete', { params: data, ...options })
+    return api.delete('/api/PettyCashCategory/Delete', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   }

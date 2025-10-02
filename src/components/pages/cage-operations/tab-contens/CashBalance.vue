@@ -11,6 +11,7 @@ const cashdeskStore = useCashdeskStore()
 const { getSelectedCashDeskId, currentCashDeskTotals, currentCashDeskCountDenominations } =
   storeToRefs(cashdeskStore)
 const authStore = useAuthStore()
+const { getDefaultGamingDateId } = storeToRefs(authStore)
 
 const filterCageBalanceFields = ref({
   CashdeskId: getSelectedCashDeskId.value,
@@ -104,6 +105,25 @@ const updateDenomination = debounce(async (denomination) => {
   }
   await getTotals()
 }, 300)
+
+const filterPettyCashFields = ref({
+  cashdeskId: getSelectedCashDeskId.value,
+  gamingDateId: getDefaultGamingDateId.value,
+})
+
+const pettyCashColumns = ref([
+  {
+    name: 'amount',
+    label: 'Amount',
+    field: 'amount',
+    fieldType: 'priceAbs',
+  },
+  {
+    name: 'currencyName',
+    label: 'Currency',
+    field: 'currencyName',
+  },
+])
 </script>
 
 <template>
@@ -196,6 +216,47 @@ const updateDenomination = debounce(async (denomination) => {
               </q-markup-table>
             </div>
           </div>
+          <div class="row">
+            <div class="text-subtitle1">
+              <span class="text-negative text-bold">
+                {{ cashdeskStore.getCashDeskById(getSelectedCashDeskId)?.name }}</span
+              >
+              Petty Cash Totals
+            </div>
+            <SupaTable
+              tableName="pettyCashTable"
+              :filterParams="filterPettyCashFields"
+              :getDataFn="cashdeskStore.fetchPettyCashTotals"
+              :columns="pettyCashColumns"
+            >
+              <template v-slot:headerFilterSlots="{ props }">
+                <div class="col-5 flex row justify-start no-wrap">
+                  <date-time-picker
+                    class="q-ml-sm"
+                    @selected-date="
+                      (val) => {
+                        filterPettyCashFields = {
+                          ...filterPettyCashFields,
+                          ...val,
+                        }
+                      }
+                    "
+                  />
+                  <q-btn
+                    :label="$t('filter')"
+                    icon="tune"
+                    color="grey-2"
+                    text-color="dark"
+                    size="13px"
+                    unelevated
+                    no-caps
+                    @click="props.reload"
+                    class="q-ml-sm no-wrap"
+                  />
+                </div>
+              </template>
+            </SupaTable>
+          </div>
         </div>
         <div class="col q-pa-xs">
           <div class="text-subtitle1">
@@ -207,30 +268,39 @@ const updateDenomination = debounce(async (denomination) => {
 
           <q-card class="no-box-shadow q-mt-xs q-mb-sm" square bordered>
             <q-card-section class="row app-cart-grey q-pa-none">
-              <div class="col-4 text-center right-separator">
+              <div class="col-3 text-center right-separator">
                 <div class="text-subtitle1">Transactions</div>
               </div>
-              <div class="col-4 text-center right-separator">
+              <div class="col-3 text-center right-separator">
+                <div class="text-subtitle1">Petty Cash</div>
+              </div>
+              <div class="col-3 text-center right-separator">
                 <div class="text-subtitle1">Tickets</div>
               </div>
-              <div class="col-4 text-center right-separator">
+              <div class="col-3 text-center right-separator">
                 <div class="text-subtitle1">Cashless</div>
               </div>
             </q-card-section>
             <q-card-section class="row q-pa-none">
-              <div class="col-4 text-center right-separator">
+              <div class="col-3 text-center right-separator">
                 <div class="text-subtitle2">
                   {{ priceAbsFormatted(currentCashDeskTotals?.cashdeskTransactionTotal) }}
                   {{ authStore.getDefaultCurrencyName }}
                 </div>
               </div>
-              <div class="col-4 text-center right-separator">
+              <div class="col-3 text-center right-separator">
+                <div class="text-subtitle2">
+                  {{ priceAbsFormatted(currentCashDeskTotals?.pettyCashTotal) }}
+                  {{ authStore.getDefaultCurrencyName }}
+                </div>
+              </div>
+              <div class="col-3 text-center right-separator">
                 <div class="text-subtitle2">
                   {{ priceAbsFormatted(currentCashDeskTotals?.ticketTotal) }}
                   {{ authStore.getDefaultCurrencyName }}
                 </div>
               </div>
-              <div class="col-4 text-center right-separator">
+              <div class="col-3 text-center right-separator">
                 <div class="text-subtitle2">
                   {{ priceAbsFormatted(currentCashDeskTotals?.playerTransactionTotal) }}
                   {{ authStore.getDefaultCurrencyName }}

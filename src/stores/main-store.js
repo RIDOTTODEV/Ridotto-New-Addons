@@ -341,6 +341,12 @@ export const useMainStore = defineStore('main', {
             permission: 'Addon.Definitions.Cashdesk',
           },
           {
+            title: 'pettyCashCategories',
+            icon: 'remove',
+            routeName: 'pettyCashCategories',
+            permission: 'Addon.Definitions.PettyCashCategory',
+          },
+          {
             title: 'playerClasses',
             icon: 'remove',
             routeName: 'playerClasses',
