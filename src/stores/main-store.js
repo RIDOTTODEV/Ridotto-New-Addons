@@ -108,6 +108,12 @@ export const useMainStore = defineStore('main', {
             routeName: 'hotelGuestList',
             permission: 'Addon.GuestList.ShowHotelList',
           },
+          {
+            title: 'junketOperation',
+            icon: 'remove',
+            routeName: 'junketOperation',
+            permission: 'Addon.GuestOperations.JunketOperation',
+          },
         ],
       },
       {

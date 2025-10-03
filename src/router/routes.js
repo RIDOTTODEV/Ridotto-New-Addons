@@ -275,6 +275,15 @@ const routes = [
           requiresAuth: true,
         },
       },
+      {
+        path: 'junket-operation',
+        name: 'junketOperation',
+        component: () => import('pages/guest-operations/JunketOperation.vue'),
+        meta: {
+          requiredPermission: 'Addon.GuestOperations.JunketOperation',
+          requiresAuth: true,
+        },
+      },
     ],
   },
   {

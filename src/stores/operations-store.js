@@ -6,6 +6,7 @@ import {
   playerGiftService,
   playerService,
   pettyCashCategoryService,
+  junketOperationService,
 } from 'src/api'
 export const useOperationsStore = defineStore('operationsStore', {
   state: () => ({
@@ -79,6 +80,30 @@ export const useOperationsStore = defineStore('operationsStore', {
     },
     async deletePettyCashCategory(params) {
       const { data } = await pettyCashCategoryService.delete(params)
+      return data
+    },
+    async fetchGroupCodes(params) {
+      const { data } = await junketOperationService.getGroupCodes(params)
+      return data
+    },
+    async createGroupCode(params) {
+      return await junketOperationService.createGroupCode(params)
+    },
+    async updateGroupCode(params) {
+      return await junketOperationService.updateGroupCode(params)
+    },
+    async deleteGroupCode(params) {
+      return await junketOperationService.deleteGroupCode(params)
+    },
+    async closeGroupCode(params) {
+      return await junketOperationService.closeGroupCode(params)
+    },
+    async getNewGroupCodeString(params) {
+      const { data } = await junketOperationService.getNewGroupCodeString(params)
+      return data
+    },
+    async fetchJunketOperation(params) {
+      const { data } = await junketOperationService.getGcJunketPlayers(params)
       return data
     },
   },

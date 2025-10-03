@@ -32,6 +32,7 @@ export const cashdeskService = {
    * @param {undefined} [data.cashdeskId] - Cashdesk Id
    * @param {undefined} [data.balanceCurrencyId] - Balance Currency Id
    * @param {undefined} [data.gamingDateId] - Gaming Date Id
+   * @param {undefined} [data.includePettyCash] - Include Petty Cash
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type

@@ -16,7 +16,11 @@
     map-options
     lazy-rules
     reactive-rules
-  />
+  >
+    <template v-for="slotName in slotNames" v-slot:[slotName]="props">
+      <slot :name="slotName" v-bind="{ props }"></slot>
+    </template>
+  </q-select>
 </template>
 
 <script setup>
@@ -43,6 +47,11 @@ const props = defineProps({
     type: Function,
     required: false,
     default: () => null,
+  },
+  slotNames: {
+    type: Array,
+    required: false,
+    default: () => [],
   },
 })
 const tempOptions = ref([])
