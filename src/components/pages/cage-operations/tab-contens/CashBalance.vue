@@ -6,12 +6,12 @@ import { storeToRefs } from 'pinia'
 import { ref, onMounted, inject } from 'vue'
 import { date, Dialog, debounce } from 'quasar'
 import { i18n } from 'src/boot/i18n'
+import AllCashBalance from './AllCashBalance.vue'
 const bus = inject('bus')
 const cashdeskStore = useCashdeskStore()
 const { getSelectedCashDeskId, currentCashDeskTotals, currentCashDeskCountDenominations } =
   storeToRefs(cashdeskStore)
 const authStore = useAuthStore()
-const { getDefaultGamingDateId } = storeToRefs(authStore)
 
 const filterCageBalanceFields = ref({
   CashdeskId: getSelectedCashDeskId.value,
@@ -106,24 +106,7 @@ const updateDenomination = debounce(async (denomination) => {
   await getTotals()
 }, 300)
 
-const filterPettyCashFields = ref({
-  cashdeskId: getSelectedCashDeskId.value,
-  gamingDateId: getDefaultGamingDateId.value,
-})
-
-const pettyCashColumns = ref([
-  {
-    name: 'amount',
-    label: 'Amount',
-    field: 'amount',
-    fieldType: 'priceAbs',
-  },
-  {
-    name: 'currencyName',
-    label: 'Currency',
-    field: 'currencyName',
-  },
-])
+const showAllCagesBalance = ref(false)
 </script>
 
 <template>
@@ -132,140 +115,151 @@ const pettyCashColumns = ref([
       <q-card-section class="q-pa-none row flex content-center">
         <div class="col-md-7 q-pa-xs">
           <div class="row">
-            <div
-              class="q-pa-sm col-3"
-              v-for="(item, index) in currentCashDeskCountDenominations"
-              :key="index"
-            >
-              <div class="row">
-                <div class="col-2 text-left flex justify-start content-center items-center">
-                  <div class="text-subtitle2">{{ item.currencyName }}</div>
-                </div>
-                <div class="col-10 text-right flex justify-end content-center items-center">
-                  <div class="text-subtitle2 q-mr-sm">
-                    {{ priceAbsFormatted(item.totalAmount) }}
+            <div v-if="!showAllCagesBalance" class="row">
+              <div
+                class="q-pa-sm col-3"
+                v-for="(item, index) in currentCashDeskCountDenominations"
+                :key="index"
+              >
+                <div class="row">
+                  <div class="col-2 text-left flex justify-start content-center items-center">
+                    <div class="text-subtitle2">{{ item.currencyName }}</div>
                   </div>
-                  <q-icon
-                    name="o_delete_forever"
-                    color="primary"
-                    class="cursor-pointer my-icon"
-                    size="20px"
-                    @click="
-                      resetDenomination({
-                        ...item,
-                        cashdeskId: getSelectedCashDeskId,
-                        currencyId: item.currencyId,
-                      })
-                    "
-                    v-el-perms="'Addon.CageOperations.Tab.BalanceResetAll'"
+                  <div class="col-10 text-right flex justify-end content-center items-center">
+                    <div class="text-subtitle2 q-mr-sm">
+                      {{ priceAbsFormatted(item.totalAmount) }}
+                    </div>
+                    <q-icon
+                      name="o_delete_forever"
+                      color="primary"
+                      class="cursor-pointer my-icon"
+                      size="20px"
+                      @click="
+                        resetDenomination({
+                          ...item,
+                          cashdeskId: getSelectedCashDeskId,
+                          currencyId: item.currencyId,
+                        })
+                      "
+                      v-el-perms="'Addon.CageOperations.Tab.BalanceResetAll'"
+                    />
+                  </div>
+                </div>
+                <q-markup-table separator="cell" flat square bordered dense>
+                  <thead>
+                    <tr>
+                      <th class="grey-card text-center">Denom</th>
+                      <th class="grey-card text-center">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody class="denom-body">
+                    <tr
+                      v-for="(denom, denomIndex) in item.cashdeskCountDenominations"
+                      :key="denomIndex"
+                    >
+                      <td class="text-center cursor-not-allowed">
+                        {{ denom.denomination }}
+                      </td>
+                      <td class="text-center bg-grey-2">
+                        <q-field
+                          style="overflow: hidden"
+                          v-model="denom.quantity"
+                          hide-bottom-space
+                          borderless
+                          standout
+                          dense
+                          flat
+                          type="number"
+                          class="q-pa-none q-ma-none super-small text-center"
+                          lazy-rules
+                          @focus="(e) => (e.target.select ? e.target.select() : null)"
+                          @update:model-value="
+                            updateDenomination({
+                              ...denom,
+                              cashdeskId: getSelectedCashDeskId,
+                              currencyId: item.currencyId,
+                            })
+                          "
+                          input-class="text-center"
+                        >
+                          <template v-slot:control="{ id, modelValue, emitValue }">
+                            <input
+                              type="number"
+                              :id="id"
+                              class="q-field__input q-pa-none number-to-text text-center bg-white myInput"
+                              :value="modelValue"
+                              @change="(e) => emitValue(e.target.value)"
+                              pattern="[0-9]+([\.,][0-9]+)?"
+                              v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
+                            />
+                          </template>
+                        </q-field>
+                      </td>
+                    </tr>
+                  </tbody>
+                </q-markup-table>
+              </div>
+            </div>
+            <div v-else>
+              <div class="col-12 grey-card">
+                <div class="row flex justify-between">
+                  <div class="text-subtitle2 flex items-center">
+                    <q-icon name="o_info" class="q-mr-sm" color="negative" size="20px" />
+                    Tüm kasaların balansını kontrol ediyorsunuz.
+                  </div>
+                  <q-btn
+                    color="negative"
+                    icon="close"
+                    unelevated
+                    flat
+                    class="q-mr-xs float-right"
+                    @click="showAllCagesBalance = false"
+                    dense
                   />
                 </div>
+                <AllCashBalance />
               </div>
-              <q-markup-table separator="cell" flat square bordered dense>
-                <thead>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 q-mt-sm q-pa-sm">
+              <q-markup-table separator="cell" bordered flat dense square style="max-width: 500px">
+                <tbody>
                   <tr>
-                    <th class="grey-card text-center">Denom</th>
-                    <th class="grey-card text-center">Amount</th>
+                    <td rowspan="2" style="border-bottom: 0px !important" align="center">
+                      <div class="text-subtitle2">Petty Cash Totals</div>
+                    </td>
+                    <td class="bg-grey-1">USD</td>
+                    <td class="bg-grey-1">Euro</td>
+                    <td class="bg-grey-1">GBP</td>
                   </tr>
-                </thead>
-                <tbody class="denom-body">
-                  <tr
-                    v-for="(denom, denomIndex) in item.cashdeskCountDenominations"
-                    :key="denomIndex"
-                  >
-                    <td class="text-center cursor-not-allowed">
-                      {{ denom.denomination }}
-                    </td>
-                    <td class="text-center bg-grey-2">
-                      <q-field
-                        style="overflow: hidden"
-                        v-model="denom.quantity"
-                        hide-bottom-space
-                        borderless
-                        standout
-                        dense
-                        flat
-                        type="number"
-                        class="q-pa-none q-ma-none super-small text-center"
-                        lazy-rules
-                        @focus="(e) => (e.target.select ? e.target.select() : null)"
-                        @update:model-value="
-                          updateDenomination({
-                            ...denom,
-                            cashdeskId: getSelectedCashDeskId,
-                            currencyId: item.currencyId,
-                          })
-                        "
-                        input-class="text-center"
-                      >
-                        <template v-slot:control="{ id, modelValue, emitValue }">
-                          <input
-                            type="number"
-                            :id="id"
-                            class="q-field__input q-pa-none number-to-text text-center bg-white myInput"
-                            :value="modelValue"
-                            @change="(e) => emitValue(e.target.value)"
-                            pattern="[0-9]+([\.,][0-9]+)?"
-                            v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
-                          />
-                        </template>
-                      </q-field>
-                    </td>
+                  <tr>
+                    <td style="border-left: 1px solid rgb(211 211 211)">1111.11</td>
+                    <td>3333.33</td>
+                    <td>444.33</td>
                   </tr>
                 </tbody>
               </q-markup-table>
             </div>
           </div>
-          <div class="row">
+        </div>
+        <div class="col q-pa-xs">
+          <div class="row flex justify-between content-center items-center">
             <div class="text-subtitle1">
               <span class="text-negative text-bold">
                 {{ cashdeskStore.getCashDeskById(getSelectedCashDeskId)?.name }}</span
               >
-              Petty Cash Totals
+              Transaction Totals
             </div>
-            <SupaTable
-              tableName="pettyCashTable"
-              :filterParams="filterPettyCashFields"
-              :getDataFn="cashdeskStore.fetchPettyCashTotals"
-              :columns="pettyCashColumns"
-            >
-              <template v-slot:headerFilterSlots="{ props }">
-                <div class="col-5 flex row justify-start no-wrap">
-                  <date-time-picker
-                    class="q-ml-sm"
-                    @selected-date="
-                      (val) => {
-                        filterPettyCashFields = {
-                          ...filterPettyCashFields,
-                          ...val,
-                        }
-                      }
-                    "
-                  />
-                  <q-btn
-                    :label="$t('filter')"
-                    icon="tune"
-                    color="grey-2"
-                    text-color="dark"
-                    size="13px"
-                    unelevated
-                    no-caps
-                    @click="props.reload"
-                    class="q-ml-sm no-wrap"
-                  />
-                </div>
-              </template>
-            </SupaTable>
+            <q-btn
+              :label="$t('showAllBalance')"
+              color="grey-2"
+              text-color="dark"
+              no-caps
+              unelevated
+              @click="showAllCagesBalance = true"
+            />
           </div>
-        </div>
-        <div class="col q-pa-xs">
-          <div class="text-subtitle1">
-            <span class="text-negative text-bold">
-              {{ cashdeskStore.getCashDeskById(getSelectedCashDeskId)?.name }}</span
-            >
-            Transaction Totals
-          </div>
-
           <q-card class="no-box-shadow q-mt-xs q-mb-sm" square bordered>
             <q-card-section class="row app-cart-grey q-pa-none">
               <div class="col-3 text-center right-separator">

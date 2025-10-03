@@ -323,7 +323,11 @@ export const useCurrencyStore = defineStore('currencyStore', {
       LocalStorage.set('defaultCurrencyId', id)
     },
     async fetchCurrencyRatesById(fromCurrencyId, toCurrencyId) {
-      const { data } = await exchangeRateService.getAll({ fromCurrencyId, toCurrencyId })
+      const { data } = await exchangeRateService.getAll({
+        fromCurrencyId,
+        toCurrencyId,
+        sorting: 'id desc',
+      })
 
       return data.data || []
     },

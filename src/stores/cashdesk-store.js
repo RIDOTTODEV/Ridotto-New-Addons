@@ -314,6 +314,10 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
       const { data } = await pettyCashService.getPettyCashTotals(params)
       return data
     },
+    async fetchAllCashDeskCountDenominations(params) {
+      const { data } = await cashdeskCountService.getAllCountDenomination(params)
+      return data
+    },
   },
 })
 
