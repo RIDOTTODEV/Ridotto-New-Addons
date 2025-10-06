@@ -257,6 +257,9 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
       const { data } = await hotelReservationService.getGuestTransferList(params)
       return data
     },
+    async updateReservationGroupCode(params) {
+      return await hotelReservationService.updateReservationGroupCode(params)
+    },
   },
 })
 

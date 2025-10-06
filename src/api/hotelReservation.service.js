@@ -87,6 +87,19 @@ export const hotelReservationService = {
       .catch((error) => error)
   },
   /**
+   * Update Reservation Group Code Hotel Reservation
+   *
+   * @param {object} [data]
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  updateReservationGroupCode(data = {}, options = {}) {
+    return api.post('/api/HotelReservation/UpdateReservationGroupCode', data, options)
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
    * Delete Reservation Hotel Reservation
    *
    * @param {object} [data]

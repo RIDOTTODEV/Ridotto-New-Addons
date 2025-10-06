@@ -190,7 +190,7 @@ const columns = ref([
   },
   {
     field: 'playerCategoryName',
-    label: 'Category',
+    label: 'Junket',
   },
 
   {
@@ -200,8 +200,8 @@ const columns = ref([
     field: 'status',
   },
   {
-    field: 'status',
-    name: 'junketStatus',
+    field: 'groupCode',
+    name: 'groupCode',
   },
 
   {
@@ -394,13 +394,17 @@ const fetchGroupCodes = async () => {
 }
 const junketStatusFormValues = ref({
   status: 'Pending',
-  id: null,
+  hotelReservationId: null,
   junketId: null,
   groupCodeId: null,
+  groupCode: null,
 })
 const onSubmitJunketStatusForm = async (params) => {
-  junketStatusFormValues.value.id = params.id
-  const response = await guestManagementStore.updateJunketStatus(junketStatusFormValues.value)
+  junketStatusFormValues.value.hotelReservationId = params.id
+
+  const response = await guestManagementStore.updateReservationGroupCode(
+    junketStatusFormValues.value,
+  )
   if (response.status === 200) {
     $q.notify({
       message: 'Junket status updated successfully',
@@ -710,7 +714,7 @@ const onSubmitJunketStatusForm = async (params) => {
             'body-cell-Action',
             'body-cell-expenses',
             'body-cell-status',
-            'body-cell-junketStatus',
+            'body-cell-groupCode',
           ]"
           ref="hotelGuestListTableRef"
         >
@@ -870,18 +874,20 @@ const onSubmitJunketStatusForm = async (params) => {
               </div>
             </q-td>
           </template>
-          <template v-slot:body-cell-junketStatus="{ props }">
+          <template v-slot:body-cell-groupCode="{ props }">
             <q-td key="status" align="center">
               <div>
-                {{ props.row.status }}
+                {{ props.row.groupCode }}
                 <q-menu
                   transition-show="flip-right"
                   transition-hide="flip-left"
                   @show="
                     () => {
                       junketStatusFormValues.status = props.row.status
-                      junketStatusFormValues.junketId = null
-                      junketStatusFormValues.groupCodeId = null
+                      junketStatusFormValues.junketId = props.row.players?.find(
+                        (player) => player.roomOwner,
+                      )?.playerCategoryId
+                      junketStatusFormValues.groupCodeId = props.row.groupCodeId
                     }
                   "
                 >
@@ -910,6 +916,17 @@ const onSubmitJunketStatusForm = async (params) => {
                         option-label="code"
                         option-value="id"
                         hide-bottom-space
+                        @update:model-value="
+                          (val) => {
+                            if (val) {
+                              junketStatusFormValues.groupCode = groupeCodes.find(
+                                (code) => code.id === +val,
+                              )?.code
+                            } else {
+                              junketStatusFormValues.groupCode = null
+                            }
+                          }
+                        "
                       />
                     </q-card-section>
                     <q-card-section class="q-pa-sm">

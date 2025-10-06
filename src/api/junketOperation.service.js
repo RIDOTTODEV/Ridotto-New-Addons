@@ -19,6 +19,21 @@ export const junketOperationService = {
       .catch((error) => error)
   },
   /**
+   * Get Gc Junket Result Junket Operation
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.groupCodeId] - Group Code Id
+   * @param {undefined} [data.playerCategoryId] - Player Category Id
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getGcJunketResult(data = {}, options = {}) {
+    return api.get('/api/JunketOperation/GetGcJunketResult', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
    * Update Calculation Status Junket Operation
    *
    * @param {object} [data]
