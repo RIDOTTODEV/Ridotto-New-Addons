@@ -1,10 +1,10 @@
 import { api } from 'src/boot/axios'
 
 
-export const floorMapService = {
-  name: 'FloorMap',
+export const floorMachineService = {
+  name: 'FloorMachine',
   /**
-   * Get Heatmap By Field Floor Map
+   * Get Heatmap By Field Floor Machine
    *
    * @param {object} [data]
    * @param {undefined} [data.floor] - Floor
@@ -17,12 +17,12 @@ export const floorMapService = {
    * @param {string} [options.responseType] - Response Type
    */
   getHeatmapByField(data = {}, options = {}) {
-    return api.get('/api/FloorMap/GetHeatmapByField', { params: data, ...options })
+    return api.get('/api/FloorMachine/GetHeatmapByField', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Get Heatmap By Sit Times Floor Map
+   * Get Heatmap By Sit Times Floor Machine
    *
    * @param {object} [data]
    * @param {undefined} [data.brandId] - Brand Id
@@ -39,12 +39,12 @@ export const floorMapService = {
    * @param {string} [options.responseType] - Response Type
    */
   getHeatmapBySitTimes(data = {}, options = {}) {
-    return api.get('/api/FloorMap/GetHeatmapBySitTimes', { params: data, ...options })
+    return api.get('/api/FloorMachine/GetHeatmapBySitTimes', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Get Floors Floor Map
+   * Get Floors Floor Machine
    *
    * @param {object} [data]
    * @param {object} [options] - Axios Options
@@ -52,38 +52,38 @@ export const floorMapService = {
    * @param {string} [options.responseType] - Response Type
    */
   getFloors(data = {}, options = {}) {
-    return api.get('/api/FloorMap/GetFloors', { params: data, ...options })
+    return api.get('/api/FloorMachine/GetFloors', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Get Floor Zones Floor Map
+   * Get Floor Sections Floor Machine
    *
    * @param {object} [data]
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type
    */
-  getFloorZones(data = {}, options = {}) {
-    return api.get('/api/FloorMap/GetFloorZones', { params: data, ...options })
+  getFloorSections(data = {}, options = {}) {
+    return api.get('/api/FloorMachine/GetFloorSections', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Save Floor Map Floor Map
+   * Save Floor Machines Floor Machine
    *
    * @param {object} [data]
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type
    */
-  saveFloorMap(data = {}, options = {}) {
-    return api.post('/api/FloorMap/SaveFloorMap', data, options)
+  saveFloorMachines(data = {}, options = {}) {
+    return api.post('/api/FloorMachine/SaveFloorMachines', data, options)
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Save Floor Floor Map
+   * Save Floor Floor Machine
    *
    * @param {object} [data]
    * @param {object} [options] - Axios Options
@@ -91,25 +91,25 @@ export const floorMapService = {
    * @param {string} [options.responseType] - Response Type
    */
   saveFloor(data = {}, options = {}) {
-    return api.post('/api/FloorMap/SaveFloor', data, options)
+    return api.post('/api/FloorMachine/SaveFloor', data, options)
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Save Floor Zone Floor Map
+   * Save Floor Section Floor Machine
    *
    * @param {object} [data]
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type
    */
-  saveFloorZone(data = {}, options = {}) {
-    return api.post('/api/FloorMap/SaveFloorZone', data, options)
+  saveFloorSection(data = {}, options = {}) {
+    return api.post('/api/FloorMachine/SaveFloorSection', data, options)
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Get Floor Map
+   * Get Floor Machine
    *
    * @param {object} [data]
    * @param {undefined} [data.id] - Id
@@ -118,16 +118,16 @@ export const floorMapService = {
    * @param {string} [options.responseType] - Response Type
    */
   get(data = {}, options = {}) {
-    return api.get('/api/FloorMap/Get', { params: data, ...options })
+    return api.get('/api/FloorMachine/Get', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Get All Floor Map
+   * Get All Floor Machine
    *
    * @param {object} [data]
    * @param {undefined} [data.floorId] - Floor Id
-   * @param {undefined} [data.floorZoneId] - Floor Zone Id
+   * @param {undefined} [data.floorSectionId] - Floor Section Id
    * @param {undefined} [data.sorting] - Sorting
    * @param {undefined} [data.maxResultCount] - Max Result Count
    * @param {undefined} [data.skipCount] - Skip Count
@@ -142,12 +142,12 @@ export const floorMapService = {
     if (!data.skipCount) {
       data.skipCount = 0
     }
-    return api.get('/api/FloorMap/GetAll', { params: data, ...options })
+    return api.get('/api/FloorMachine/GetAll', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Create Floor Map
+   * Create Floor Machine
    *
    * @param {object} [data]
    * @param {object} [options] - Axios Options
@@ -155,12 +155,12 @@ export const floorMapService = {
    * @param {string} [options.responseType] - Response Type
    */
   create(data = {}, options = {}) {
-    return api.post('/api/FloorMap/Create', data, options)
+    return api.post('/api/FloorMachine/Create', data, options)
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Update Floor Map
+   * Update Floor Machine
    *
    * @param {object} [data]
    * @param {object} [options] - Axios Options
@@ -168,12 +168,12 @@ export const floorMapService = {
    * @param {string} [options.responseType] - Response Type
    */
   update(data = {}, options = {}) {
-    return api.post('/api/FloorMap/Update', data, options)
+    return api.post('/api/FloorMachine/Update', data, options)
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Delete Floor Map
+   * Delete Floor Machine
    *
    * @param {object} [data]
    * @param {undefined} [data.id] - Id
@@ -182,7 +182,7 @@ export const floorMapService = {
    * @param {string} [options.responseType] - Response Type
    */
   delete(data = {}, options = {}) {
-    return api.delete('/api/FloorMap/Delete', { params: data, ...options })
+    return api.delete('/api/FloorMachine/Delete', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   }

@@ -21,7 +21,7 @@
     @row-dblclick="onRowDoubleClick"
     @request="filterMethod"
   >
-    <template v-slot:top="">
+    <template v-slot:top="" v-if="!hideTopBar">
       <div class="flex row full-width q-pa-sm">
         <slot name="headerFilterSlots" v-bind="{ props: { ...props, reload: fetchData } }"></slot>
         <div :class="['flex row justify-end items-start', props.useCol12 ? 'col-12' : 'col']">
@@ -197,7 +197,7 @@
     <template v-slot:bottom-row="props">
       <slot name="bottomRow" v-bind="{ ...props, rows: refTable?.computedRows || [] }"></slot>
     </template>
-    <template v-slot:bottom>
+    <template v-slot:bottom v-if="!hideBottom">
       <slot
         name="bottomSlots"
         v-bind="{
@@ -335,6 +335,16 @@ const props = defineProps({
     type: Array,
     required: false,
     default: () => ['id'],
+  },
+  hideTopBar: {
+    type: Boolean,
+    required: false,
+    default: () => false,
+  },
+  hideBottom: {
+    type: Boolean,
+    required: false,
+    default: () => false,
   },
 })
 

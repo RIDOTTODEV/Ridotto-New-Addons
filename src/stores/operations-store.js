@@ -106,6 +106,22 @@ export const useOperationsStore = defineStore('operationsStore', {
       const { data } = await junketOperationService.getGcJunketPlayers(params)
       return data
     },
+    async updateJunketCalculationStatus(params) {
+      return junketOperationService.updateJunketCalculationStatus(params)
+    },
+    async updateCalculationStatus(params) {
+      return junketOperationService.updateCalculationStatus(params)
+    },
+    async getPayments(params) {
+      return junketOperationService.getPayments(params)
+    },
+    async createPayment(params) {
+      return junketOperationService.createPayment(params)
+    },
+    async getPaymentsTotal(params) {
+      const { data } = await junketOperationService.getPaymentsTotal(params)
+      return data
+    },
   },
 })
 

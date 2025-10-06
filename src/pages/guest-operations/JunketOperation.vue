@@ -38,6 +38,12 @@
                     v-model="filterFields.playerCategoryId"
                     :label="$t('Player Category')"
                     bg-color="white"
+                    @update:model-value="
+                      (val) => {
+                        filterFields.playerCategoryId = val
+                        filterFields.junketId = val
+                      }
+                    "
                   >
                   </q-select-box>
                 </div>
@@ -51,7 +57,7 @@
                     size="13px"
                     unelevated
                     no-caps
-                    @click="junketOperationRefTable.fetchData()"
+                    @click="onSubmitFilter"
                   />
                 </div>
               </div>
@@ -73,6 +79,37 @@
               </div>
             </fieldset>
           </div>
+          <div class="col-3">
+            <fieldset class="fieldset">
+              <legend class="text-subtitle2">{{ $t('Update') }}</legend>
+              <div class="row flex flex-column q-gutter-y-md">
+                <div class="col-12 text-center">
+                  <q-btn
+                    :label="$t('updateCalculationStatus')"
+                    unelevated
+                    padding="md"
+                    color="orange-8"
+                    icon="recycling"
+                    no-wrap
+                    no-caps
+                    @click="onCliclCalculationStatusUpdate"
+                  />
+                </div>
+                <div class="col-12 text-center">
+                  <q-btn
+                    :label="$t('updateJunketCalculationStatus')"
+                    unelevated
+                    padding="md"
+                    color="green-8"
+                    icon="recycling"
+                    no-wrap
+                    no-caps
+                    @click="onCliclJunketCalculationStatusUpdate"
+                  />
+                </div>
+              </div>
+            </fieldset>
+          </div>
         </div>
       </q-card-section>
       <q-card-section class="q-pa-none">
@@ -84,7 +121,7 @@
           ref="junketOperationRefTable"
           tableName="junketOperationColumns"
         >
-          <template v-slot:body-cell-action="{ props }">
+          <template v-slot:body-cell-actions="{ props }">
             <q-td key="Action" align="center">
               <q-btn
                 icon="o_info"
@@ -120,6 +157,138 @@
           </template>
         </SupaTable>
       </q-card-section>
+      <q-card-section class="q-pa-none row q-mt-md">
+        <div class="col-7 q-pa-xs">
+          <div class="text-subtitle2">{{ $t('Payments') }}</div>
+          <SupaTable
+            :columns="paymentColumns"
+            :getDataFn="operationsStore.getPayments"
+            :filterParams="filterFields"
+            :slotNames="['body-cell-actions', 'body-cell-status']"
+            ref="paymentTableRef"
+            tableName="paymentsColumns"
+            :hideTopBar="true"
+            :hideBottom="true"
+          >
+          </SupaTable>
+        </div>
+        <div class="col-5 q-pa-xs">
+          <fieldset class="fieldset">
+            <legend class="text-subtitle2">{{ $t('Create Payment') }}</legend>
+
+            <q-form @submit="onSubmitPaymentForm" class="row">
+              <!--              <div class="col-6 q-pa-xs">
+                <q-select-box
+                  :options="visitorCategories"
+                  v-model="paymentFormValues.junketId"
+                  option-value="id"
+                  option-label="name"
+                  :label="$t('Junket ')"
+                  bg-color="white"
+                  class="full-width"
+                />
+              </div>
+              <div class="col-6 q-pa-xs">
+                <q-select-box
+                  :options="visitorCategories"
+                  v-model="paymentFormValues.gcJunketId"
+                  option-value="id"
+                  option-label="name"
+                  :label="$t('GC Junket ')"
+                  bg-color="white"
+                  class="full-width"
+                />
+              </div> -->
+              <div class="col-6 q-pa-xs">
+                <q-select
+                  v-model="paymentFormValues.currencyId"
+                  outlined
+                  dense
+                  :options="getCurrenciesWithFlags"
+                  option-value="id"
+                  :option-label="(val) => val.fullName + ' ' + val.name + ' ' + ' - ' + val.symbol"
+                  emit-value
+                  map-options
+                  :rules="[(val) => !!val || $t('requiredField')]"
+                  clearable
+                  class="super-small"
+                  hide-bottom-space
+                  bg-color="white"
+                  :label="$t('currency')"
+                >
+                  <template v-slot:option="scope">
+                    <q-item v-bind="scope.itemProps">
+                      <q-item-section>
+                        <q-item-label>
+                          <q-img
+                            :src="scope.opt.flag"
+                            fit="contain"
+                            width="25px"
+                            height="25px"
+                            class="q-mr-sm"
+                          />
+                          {{ scope.opt.fullName }} - {{ scope.opt.symbol }}
+                        </q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                  <template v-slot:selected-item="scope">
+                    <div class="text-subtitle2">
+                      <q-img
+                        :src="scope.opt.flag"
+                        fit="contain"
+                        width="25px"
+                        height="25px"
+                        class="q-mr-sm"
+                      />
+                      {{ scope.opt.fullName }} - {{ scope.opt.symbol }}
+                    </div>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 q-pa-xs">
+                <q-currency-input
+                  currency="USD"
+                  v-model="paymentFormValues.amount"
+                  outlined
+                  dense
+                  :rules="[(val) => !!val || $t('requiredField')]"
+                  bg-color="white"
+                  :label="$t('amount')"
+                />
+              </div>
+              <div class="col-12 q-pa-xs">
+                <q-input
+                  v-model="paymentFormValues.note"
+                  outlined
+                  dense
+                  clearable
+                  bg-color="white"
+                  type="textarea"
+                  autogrow
+                  :rows="5"
+                  :label="$t('note')"
+                />
+              </div>
+              <div class="col-8 q-pa-xs flex content-center items-center">
+                <div class="text-subtitle2 q-ml-xs">
+                  {{ $t('Payment Total') }}: {{ priceAbsFormatted(paymentTotal) }}
+                </div>
+              </div>
+              <div class="col-4 q-pa-xs text-right">
+                <q-btn
+                  class="q-ml-sm"
+                  type="submit"
+                  :label="$t('save')"
+                  icon="save"
+                  color="primary"
+                  unelevated
+                />
+              </div>
+            </q-form>
+          </fieldset>
+        </div>
+      </q-card-section>
     </q-card>
   </q-page>
 </template>
@@ -128,8 +297,14 @@
 import { ref, defineAsyncComponent, onMounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useQuasar } from 'quasar'
+import { i18n } from 'src/boot/i18n'
 import { useOperationsStore } from 'src/stores/operations-store'
 import { useGuestManagementStore } from 'src/stores/guest-management-store'
+import { useCurrencyStore } from 'src/stores/currency-store'
+import { computedAsync } from '@vueuse/core'
+import { priceAbsFormatted } from 'src/helpers/helpers'
+const currencyStore = useCurrencyStore()
+const { getCurrenciesWithFlags, getDefaultCurrency } = storeToRefs(currencyStore)
 const operationsStore = useOperationsStore()
 const guestManagementStore = useGuestManagementStore()
 const { visitorCategories } = storeToRefs(guestManagementStore)
@@ -139,6 +314,7 @@ const groupeCodes = ref([])
 const filterFields = ref({
   groupCodeId: null,
   playerCategoryId: null,
+  junketId: null,
 })
 
 const manageGroupCode = () => {
@@ -161,7 +337,14 @@ const manageGroupCode = () => {
 onMounted(async () => {
   await fetchGroupCodes()
   await guestManagementStore.fetchVisitorCategories()
+
+  paymentFormValues.value.currencyId = getDefaultCurrency.value.id
 })
+
+const onSubmitFilter = async () => {
+  junketOperationRefTable.value.fetchData()
+  paymentTableRef.value.fetchData()
+}
 const fetchGroupCodes = async () => {
   groupeCodes.value = await operationsStore.fetchGroupCodes()
 }
@@ -179,16 +362,16 @@ const columns = ref([
   },
 
   {
-    label: 'Player Full Name',
+    label: 'Player Name',
     field: 'playerFullName',
   },
 
   {
-    label: 'Currency Name',
+    label: 'Currency',
     field: 'currencyName',
   },
   {
-    label: 'Total Result',
+    label: 'T.Result',
     field: 'totalResult',
     fieldType: 'price',
   },
@@ -215,7 +398,7 @@ const columns = ref([
   {
     label: 'Net Result',
     field: 'netResult',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
   },
   {
     label: 'Commission Percent',
@@ -225,6 +408,7 @@ const columns = ref([
   {
     label: 'Commission Amount',
     field: 'commissionAmount',
+    fieldType: 'priceAbs',
   },
   {
     label: 'Actions',
@@ -240,6 +424,181 @@ watch(
   },
   { deep: true, immediate: true },
 )
+
+const onCliclCalculationStatusUpdate = async () => {
+  if (!filterFields.value.groupCodeId) {
+    $q.notify({
+      type: 'warning',
+      position: 'bottom-right',
+      message: 'Please select a group code!',
+    })
+    return
+  }
+
+  $q.dialog({
+    title: i18n.global.t('updateCalculationStatus'),
+    message: i18n.global.t('areYouSureYouWantToUpdateCalculationStatus'),
+    persistent: true,
+    focus: 'cancel',
+    ok: {
+      flat: false,
+      color: 'green-8',
+      label: i18n.global.t('yes'),
+      class: 'text-capitalize',
+      unelevated: true,
+    },
+    cancel: {
+      flat: true,
+      color: 'negative',
+      label: i18n.global.t('no'),
+      class: 'text-capitalize',
+    },
+    transitionShow: 'slide-up',
+    transitionHide: 'slide-down',
+  }).onOk(async () => {
+    const response = await operationsStore.updateCalculationStatus({
+      groupCodeId: filterFields.value.groupCodeId,
+      status: 'Pending',
+    })
+
+    if (response.status === 200) {
+      $q.notify({
+        type: 'positive',
+        position: 'bottom-right',
+        message: i18n.global.t('calculationStatusUpdated'),
+      })
+    } else {
+      $q.notify({
+        type: 'warning',
+        position: 'bottom-right',
+        message: i18n.global.t('somethingWentWrong'),
+      })
+    }
+  })
+}
+
+const onCliclJunketCalculationStatusUpdate = async () => {
+  if (!filterFields.value.groupCodeId || !filterFields.value.junketId) {
+    $q.notify({
+      type: 'warning',
+      position: 'bottom-right',
+      message: 'Please select a group code and junket!',
+    })
+    return
+  }
+  $q.dialog({
+    title: i18n.global.t('updateJunketCalculationStatus'),
+    message: i18n.global.t('areYouSureYouWantToUpdateJunketCalculationStatus'),
+    persistent: true,
+    focus: 'cancel',
+    ok: {
+      flat: false,
+      color: 'green-8',
+      label: i18n.global.t('yes'),
+      class: 'text-capitalize',
+      unelevated: true,
+    },
+    cancel: {
+      flat: true,
+      color: 'negative',
+      label: i18n.global.t('no'),
+      class: 'text-capitalize',
+    },
+    transitionShow: 'slide-up',
+    transitionHide: 'slide-down',
+  }).onOk(async () => {
+    const response = await operationsStore.updateJunketCalculationStatus({
+      groupCodeId: filterFields.value.groupCodeId,
+      status: 'Pending',
+      junketId: filterFields.value.junketId,
+    })
+
+    if (response.status === 200) {
+      $q.notify({
+        type: 'positive',
+        position: 'bottom-right',
+        message: i18n.global.t('junketCalculationStatusUpdated'),
+      })
+    } else {
+      $q.notify({
+        type: 'warning',
+        position: 'bottom-right',
+        message: i18n.global.t('somethingWentWrong'),
+      })
+    }
+  })
+}
+
+const paymentColumns = ref([
+  {
+    field: 'id',
+  },
+  {
+    field: 'createdAt',
+    fieldType: 'date',
+  },
+  {
+    field: 'junketName',
+  },
+  {
+    field: 'currencyName',
+    label: 'currency',
+  },
+  {
+    field: 'amount',
+    fieldType: 'priceAbs',
+  },
+  {
+    field: 'defaultCurrencyAmount',
+    label: 'Currency Amount',
+    fieldType: 'priceAbs',
+  },
+  {
+    field: 'isDeleted',
+    fieldType: 'boolean',
+  },
+])
+
+const paymentTableRef = ref(null)
+const paymentFormValues = ref({
+  groupCodeId: null,
+  junketId: null,
+  currencyId: null,
+  amount: null,
+  note: null,
+})
+const onSubmitPaymentForm = async () => {
+  if (!filterFields.value.groupCodeId || !filterFields.value.junketId) {
+    $q.notify({
+      type: 'warning',
+      position: 'bottom-right',
+      message: i18n.global.t('pleaseSelectGroupCodeAndJunket'),
+    })
+    return
+  }
+  paymentFormValues.value.groupCodeId = filterFields.value.groupCodeId
+  paymentFormValues.value.junketId = filterFields.value.junketId
+  const response = await operationsStore.createPayment(paymentFormValues.value)
+  if (response) {
+    $q.notify({
+      message: 'Payment created successfully',
+      type: 'positive',
+    })
+    paymentFormValues.value = {
+      groupCodeId: null,
+      junketId: null,
+      currencyId: null,
+      amount: null,
+      note: null,
+    }
+    paymentTableRef.value.fetchData()
+    paymentTotal.value = await operationsStore.getPaymentsTotal(filterFields.value)
+  }
+}
+
+const paymentTotal = computedAsync(async () => {
+  return await operationsStore.getPaymentsTotal(filterFields.value)
+})
 </script>
 
 <style scoped lang="scss">
@@ -253,6 +612,6 @@ fieldset {
 .fieldset {
   border: 1px solid #4b4f52 !important;
   border-radius: 5px;
-  height: 190px;
+  min-height: 190px;
 }
 </style>
