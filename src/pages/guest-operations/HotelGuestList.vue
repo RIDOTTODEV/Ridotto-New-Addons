@@ -12,8 +12,10 @@ import ExpenseSettingsDialog from 'src/components/pages/guest-operations/Expense
 import RoomCountDialog from 'src/components/pages/guest-operations/RoomCountDialog.vue'
 import CopyHotelReservationDialog from 'src/components/pages/guest-operations/CopyHotelReservationDialog.vue'
 import { formatPrice, removeEmptySpaces } from 'src/helpers/helpers'
+import { useOperationsStore } from 'src/stores/operations-store'
 const guestManagementStore = useGuestManagementStore()
-const { hotelGuestListWidgets, expenseParameters, roomCountTotal } =
+const operationsStore = useOperationsStore()
+const { hotelGuestListWidgets, expenseParameters, roomCountTotal, visitorCategories } =
   storeToRefs(guestManagementStore)
 const authStore = useAuthStore()
 const { defaultCurrency } = storeToRefs(authStore)
@@ -27,6 +29,7 @@ onMounted(async () => {
   guestManagementStore.fetchFlightTicketTypes()
   guestManagementStore.fetchBoardTypes()
   guestManagementStore.fetchRoomTypes()
+  await fetchGroupCodes()
   await guestManagementStore.fetchExpenseParameters()
   guestManagementStore.getHotelReservationStatuses().then((res) => {
     statuses.value = res
@@ -195,6 +198,10 @@ const columns = ref([
   },
   {
     field: 'status',
+  },
+  {
+    field: 'status',
+    name: 'junketStatus',
   },
 
   {
@@ -379,6 +386,33 @@ const onSelectDate = (val) => {
     checkInDate: val.StartDate,
     checkOutDate: val.EndDate,
   }
+}
+
+const groupeCodes = ref([])
+const fetchGroupCodes = async () => {
+  groupeCodes.value = await operationsStore.fetchGroupCodes()
+}
+const junketStatusFormValues = ref({
+  status: 'Pending',
+  id: null,
+  junketId: null,
+  groupCodeId: null,
+})
+const onSubmitJunketStatusForm = async (params) => {
+  junketStatusFormValues.value.id = params.id
+  const response = await guestManagementStore.updateJunketStatus(junketStatusFormValues.value)
+  if (response.status === 200) {
+    $q.notify({
+      message: 'Junket status updated successfully',
+      type: 'positive',
+    })
+  } else {
+    $q.notify({
+      message: 'Junket status updated failed',
+      type: 'negative',
+    })
+  }
+  hotelGuestListTableRef.value.fetchData()
 }
 </script>
 
@@ -676,6 +710,7 @@ const onSelectDate = (val) => {
             'body-cell-Action',
             'body-cell-expenses',
             'body-cell-status',
+            'body-cell-junketStatus',
           ]"
           ref="hotelGuestListTableRef"
         >
@@ -827,6 +862,86 @@ const onSelectDate = (val) => {
                         unelevated
                         dense
                         @click="onSaveStatus(props.row.id)"
+                        v-close-popup
+                      />
+                    </q-card-actions>
+                  </q-card>
+                </q-menu>
+              </div>
+            </q-td>
+          </template>
+          <template v-slot:body-cell-junketStatus="{ props }">
+            <q-td key="status" align="center">
+              <div>
+                {{ props.row.status }}
+                <q-menu
+                  transition-show="flip-right"
+                  transition-hide="flip-left"
+                  @show="
+                    () => {
+                      junketStatusFormValues.status = props.row.status
+                      junketStatusFormValues.junketId = null
+                      junketStatusFormValues.groupCodeId = null
+                    }
+                  "
+                >
+                  <q-card style="width: 250px">
+                    <q-card-section class="q-pa-sm text-center bg-grey-2 q-card--bordered">
+                      <div class="text-subtitle2 text-negative">Update Junket Status</div>
+                    </q-card-section>
+
+                    <q-card-section class="q-pa-sm">
+                      <div class="text-subtitle2">Junket</div>
+                      <q-select-box
+                        v-model="junketStatusFormValues.junketId"
+                        :options="visitorCategories"
+                        :rules="[(val) => !!val]"
+                        option-label="name"
+                        option-value="id"
+                        hide-bottom-space
+                      />
+                    </q-card-section>
+                    <q-card-section class="q-pa-sm">
+                      <div class="text-subtitle2">Group Code</div>
+                      <q-select-box
+                        v-model="junketStatusFormValues.groupCodeId"
+                        :options="groupeCodes"
+                        :rules="[(val) => !!val]"
+                        option-label="code"
+                        option-value="id"
+                        hide-bottom-space
+                      />
+                    </q-card-section>
+                    <q-card-section class="q-pa-sm">
+                      <div class="text-subtitle2">Status</div>
+                      <q-select-box
+                        v-model="junketStatusFormValues.status"
+                        :options="statuses"
+                        :rules="[(val) => !!val]"
+                        option-label="label"
+                        option-value="value"
+                        hide-bottom-space
+                      />
+                    </q-card-section>
+                    <q-card-actions class="q-pa-sm" align="right">
+                      <q-btn
+                        :label="$t('cancel')"
+                        icon="o_close"
+                        no-caps
+                        color="negative"
+                        unelevated
+                        dense
+                        flat
+                        v-close-popup
+                      />
+                      <q-btn
+                        :label="$t('save')"
+                        icon="o_save"
+                        no-caps
+                        color="primary"
+                        unelevated
+                        dense
+                        @click="onSubmitJunketStatusForm(props.row)"
                         v-close-popup
                       />
                     </q-card-actions>

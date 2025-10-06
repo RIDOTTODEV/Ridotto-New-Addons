@@ -81,30 +81,48 @@
           </div>
           <div class="col-3">
             <fieldset class="fieldset">
-              <legend class="text-subtitle2">{{ $t('Update') }}</legend>
+              <legend class="text-subtitle2">{{ $t('Calculation') }}</legend>
               <div class="row flex flex-column q-gutter-y-md">
                 <div class="col-12 text-center">
                   <q-btn
-                    :label="$t('updateCalculationStatus')"
+                    :label="$t('reCalculateForGroupCode')"
                     unelevated
-                    padding="md"
-                    color="orange-8"
-                    icon="recycling"
+                    padding="xs"
+                    color="grey-3"
+                    text-color="dark"
+                    icon="o_functions"
                     no-wrap
                     no-caps
                     @click="onCliclCalculationStatusUpdate"
+                    class="full-width"
                   />
                 </div>
                 <div class="col-12 text-center">
                   <q-btn
-                    :label="$t('updateJunketCalculationStatus')"
+                    :label="$t('reCalculateForJunket')"
                     unelevated
-                    padding="md"
-                    color="green-8"
-                    icon="recycling"
+                    padding="xs"
+                    color="grey-3"
+                    text-color="dark"
+                    icon="o_calculate"
                     no-wrap
                     no-caps
                     @click="onCliclJunketCalculationStatusUpdate"
+                    class="full-width"
+                  />
+                </div>
+                <div class="col-12 text-center">
+                  <q-btn
+                    :label="$t('closeGroupCode')"
+                    unelevated
+                    padding="xs"
+                    color="grey-3"
+                    text-color="dark"
+                    icon="o_close"
+                    no-wrap
+                    no-caps
+                    @click="onClickCloseGroupCode"
+                    class="full-width"
                   />
                 </div>
               </div>
@@ -177,28 +195,6 @@
             <legend class="text-subtitle2">{{ $t('Create Payment') }}</legend>
 
             <q-form @submit="onSubmitPaymentForm" class="row">
-              <!--              <div class="col-6 q-pa-xs">
-                <q-select-box
-                  :options="visitorCategories"
-                  v-model="paymentFormValues.junketId"
-                  option-value="id"
-                  option-label="name"
-                  :label="$t('Junket ')"
-                  bg-color="white"
-                  class="full-width"
-                />
-              </div>
-              <div class="col-6 q-pa-xs">
-                <q-select-box
-                  :options="visitorCategories"
-                  v-model="paymentFormValues.gcJunketId"
-                  option-value="id"
-                  option-label="name"
-                  :label="$t('GC Junket ')"
-                  bg-color="white"
-                  class="full-width"
-                />
-              </div> -->
               <div class="col-6 q-pa-xs">
                 <q-select
                   v-model="paymentFormValues.currencyId"
@@ -474,6 +470,9 @@ const onCliclCalculationStatusUpdate = async () => {
         message: i18n.global.t('somethingWentWrong'),
       })
     }
+    junketOperationRefTable.value.fetchData()
+    paymentTableRef.value.fetchData()
+    paymentTotal.value = await operationsStore.getPaymentsTotal(filterFields.value)
   })
 }
 
@@ -526,6 +525,10 @@ const onCliclJunketCalculationStatusUpdate = async () => {
         message: i18n.global.t('somethingWentWrong'),
       })
     }
+
+    junketOperationRefTable.value.fetchData()
+    paymentTableRef.value.fetchData()
+    paymentTotal.value = await operationsStore.getPaymentsTotal(filterFields.value)
   })
 }
 
@@ -542,7 +545,7 @@ const paymentColumns = ref([
   },
   {
     field: 'currencyName',
-    label: 'currency',
+    label: 'Currency',
   },
   {
     field: 'amount',
@@ -599,6 +602,46 @@ const onSubmitPaymentForm = async () => {
 const paymentTotal = computedAsync(async () => {
   return await operationsStore.getPaymentsTotal(filterFields.value)
 })
+
+const onClickCloseGroupCode = async () => {
+  if (!filterFields.value.groupCodeId) {
+    $q.notify({
+      type: 'warning',
+      position: 'bottom-right',
+      message: 'Please select a group code!',
+    })
+    return
+  }
+  $q.dialog({
+    title: i18n.global.t('closeGroupCode'),
+    message: i18n.global.t('areYouSureYouWantToCloseThisGroupCode'),
+    color: 'positive',
+    ok: {
+      flat: true,
+      color: 'positive',
+      label: i18n.global.t('ok'),
+      class: 'text-capitalize',
+      dataCy: 'ok',
+    },
+  }).onOk(async () => {
+    const response = await operationsStore.closeGroupCode({
+      id: filterFields.value.groupCodeId,
+      isClosed: true,
+    })
+    if (response.status === 200) {
+      $q.notify({
+        message: 'Group code closed successfully',
+        type: 'positive',
+      })
+      fetchGroupCodes()
+    } else {
+      $q.notify({
+        message: 'Group code closed failed',
+        type: 'negative',
+      })
+    }
+  })
+}
 </script>
 
 <style scoped lang="scss">
