@@ -89,7 +89,7 @@
                 option-value="id"
                 @update:model-value="onSelectVisitorCategory"
                 clearable
-                :label="$t('visitorCategory')"
+                :label="$t('junket')"
               />
             </div>
             <div class="col-12 q-pa-sm">
@@ -1318,7 +1318,7 @@ const setFormValues = async () => {
       flightTicketPrice: data.flightTicketPrice,
       isBusiness: data.isBusiness,
     },
-    playerCategoryId: data.playerCategoryId,
+    playerCategoryId: ownerPlayer ? ownerPlayer.playerCategoryId : category?.id || null,
     status: data.status,
     note: data.note,
     remark: data.remark,

@@ -86,7 +86,8 @@ const columns = ref([
     fieldType: 'date',
   },
   {
-    field: 'roomCount',
+    field: 'roomCountDay',
+    label: 'Room Count',
   },
 ])
 </script>

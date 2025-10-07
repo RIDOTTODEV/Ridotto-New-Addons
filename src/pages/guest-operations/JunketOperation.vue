@@ -63,20 +63,19 @@
               </div>
             </fieldset>
           </div>
-          <div class="col-4">
+          <div class="col-3">
             <fieldset class="fieldset row">
               <legend class="text-subtitle2">
                 {{ $t('Player Photo') }}
               </legend>
-              <div class="masonry-grid">
-                <q-img
-                  :src="$playerPhotoUrl + selectedRow.playerId"
-                  class="player-photo"
-                  fit="cover"
-                  error-src="/assets/no-photo.png"
-                  v-if="selectedRow"
-                />
-              </div>
+              <q-img
+                :src="$playerPhotoUrl + selectedRow.playerId"
+                class="player-photo"
+                fit="cover"
+                error-src="/assets/no-photo.png"
+                v-if="selectedRow"
+                style="width: 140px; height: 140px; object-fit: cover"
+              />
             </fieldset>
           </div>
           <div class="col-3">
@@ -113,10 +112,21 @@
                 </div>
                 <div class="col-12 text-center">
                   <q-btn
-                    :label="$t('closeGroupCode')"
                     unelevated
                     padding="xs"
-                    color="grey-3"
+                    :label="
+                      groupeCodes?.find((item) => item.id === filterFields?.groupCodeId)?.isClosed
+                        ? $t('closedGroupCode')
+                        : $t('closeGroupCode')
+                    "
+                    :color="
+                      groupeCodes?.find((item) => item.id === filterFields?.groupCodeId)?.isClosed
+                        ? 'orange-3'
+                        : 'grey-3'
+                    "
+                    :disabled="
+                      groupeCodes?.find((item) => item.id === filterFields?.groupCodeId)?.isClosed
+                    "
                     text-color="dark"
                     icon="o_close"
                     no-wrap
@@ -151,21 +161,23 @@
                 flat
               >
                 <q-tooltip class="q-card bg-white">
-                  <q-markup-table spellcheck="cell" dense square bordered>
+                  <q-markup-table separator="cell" dense square bordered style="min-width: 300px">
                     <thead>
                       <tr>
                         <th class="text-center bg-grey-2">Expense</th>
+                        <th class="text-center bg-grey-2">Currency</th>
                         <th class="text-center bg-grey-2">Amount</th>
-                        <th class="text-center bg-grey-2">Is Deleted</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr v-for="expense in props.row.expenses" :key="expense.id">
                         <td class="text-center">{{ expense.expenseTypeName }}</td>
                         <td class="text-center">
-                          {{ formatPrice(expense.amountInCasinoCurrency) }}
+                          {{ expense.casinoCurrencyName }}
                         </td>
-                        <td class="text-center">{{ expense.isDeleted ? 'Yes' : 'No' }}</td>
+                        <td class="text-center">
+                          {{ formatPrice(expense.amount) }}
+                        </td>
                       </tr>
                     </tbody>
                   </q-markup-table>
@@ -173,10 +185,33 @@
               </q-btn>
             </q-td>
           </template>
+          <template v-slot:bottomRow="props">
+            <q-tr :props="props">
+              <q-td
+                v-for="(col, index) in [
+                  ...props.cols.sort((a, b) => a.orderColumn - b.orderColumn),
+                ]"
+                :key="index"
+                :name="col.name"
+                align="center"
+                :class="{
+                  'bg-red-1':
+                    col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) < 0,
+                  'bg-green-1':
+                    col.showTotal && props.rows.reduce((acc, item) => acc + item[col.field], 0) > 0,
+                }"
+              >
+                <div class="text-subtitle2" v-if="col.showTotal">
+                  {{ col.format(props.rows.reduce((acc, item) => acc + item[col?.field] || 0, 0)) }}
+                </div>
+                <div class="text-subtitle2" v-else>-</div>
+              </q-td>
+            </q-tr>
+          </template>
         </SupaTable>
       </q-card-section>
       <q-card-section class="q-pa-none row q-mt-md">
-        <div class="col-7 q-pa-xs">
+        <div class="col-6 q-pa-xs">
           <div class="row">
             <div class="col-6 flex content-center items-center">
               <div class="text-subtitle2">{{ $t('Payments') }}</div>
@@ -217,6 +252,37 @@
                   </span>
                 </div>
               </q-td>
+            </template>
+            <template v-slot:bottomRow="props">
+              <q-tr :props="props">
+                <q-td
+                  v-for="(col, index) in [
+                    ...props.cols.sort((a, b) => a.orderColumn - b.orderColumn),
+                  ]"
+                  :key="index"
+                  :name="col.name"
+                  align="center"
+                  :class="{
+                    'bg-red-1':
+                      col.showTotal &&
+                      props.rows.reduce((acc, item) => acc + item[col.field], 0) < 0,
+                    'bg-green-1':
+                      col.showTotal &&
+                      props.rows.reduce((acc, item) => acc + item[col.field], 0) > 0,
+                  }"
+                >
+                  <div class="text-subtitle2" v-if="col.showTotal">
+                    {{
+                      col.format(props.rows.reduce((acc, item) => acc + item[col?.field] || 0, 0))
+                    }}
+                    <span v-if="col.field === 'amount'"> {{ props.rows[0]?.currencyName }}</span>
+                    <span v-if="col.field === 'defaultCurrencyAmount'">
+                      {{ props.rows[0]?.defaultCurrencyName }}</span
+                    >
+                  </div>
+                  <div class="text-subtitle2" v-else>-</div>
+                </q-td>
+              </q-tr>
             </template>
           </SupaTable>
 
@@ -313,131 +379,13 @@
             </q-form>
           </fieldset>
         </div>
-        <div class="col-5 q-pa-xs">
+        <div class="col-6 q-pa-xs" v-if="getGcJunketResult">
           <div class="row">
             <div class="text-subtitle2">{{ $t('Junket Result') }}</div>
           </div>
-          <div class="col text-center q-pa-xs" v-if="getGcJunketResult">
+          <div class="col text-center q-pa-sm" v-if="getGcJunketResult">
             <q-card flat class="app-cart-grey">
-              <q-card-section class="q-pa-none">
-                <div class="text-h6">
-                  {{ priceAbsFormatted(getGcJunketResult?.netResult) }}
-                  <span class="text-caption text-negative text-bold">{{
-                    getGcJunketResult.currencyName
-                  }}</span>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="text-caption">{{ $t('comp') }}</div>
-                  </div>
-                  <div class="col">
-                    <div class="text-caption">{{ $t('credit') }}</div>
-                  </div>
-                  <div class="col">
-                    <div class="text-caption">{{ $t('deposit') }}</div>
-                  </div>
-                  <div class="col">
-                    <div class="text-caption">{{ $t('discount') }}</div>
-                  </div>
-                  <div class="col">
-                    <div class="text-caption">{{ $t('expense') }}</div>
-                  </div>
-                  <div class="col">
-                    <div class="text-caption">{{ $t('ccFee') }}</div>
-                  </div>
-                  <div class="col">
-                    <div class="text-caption">{{ $t('C.Amount') }}</div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div
-                      class="text-subtitle2"
-                      :class="{
-                        'text-green-8': getGcJunketResult?.comp > 0,
-                        'text-negative': getGcJunketResult?.comp < 0,
-                      }"
-                    >
-                      {{ priceAbsFormatted(getGcJunketResult?.comp) }}
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div
-                      class="text-subtitle2"
-                      :class="{
-                        'text-green-8': getGcJunketResult?.credit > 0,
-                        'text-negative': getGcJunketResult?.credit < 0,
-                      }"
-                    >
-                      {{ priceAbsFormatted(getGcJunketResult?.credit) }}
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div
-                      class="text-subtitle2"
-                      :class="{
-                        'text-green-8': getGcJunketResult?.deposit > 0,
-                        'text-negative': getGcJunketResult?.deposit < 0,
-                      }"
-                    >
-                      {{ priceAbsFormatted(getGcJunketResult?.deposit) }}
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div
-                      class="text-subtitle2"
-                      :class="{
-                        'text-green-8': getGcJunketResult?.discount > 0,
-                        'text-negative': getGcJunketResult?.discount < 0,
-                      }"
-                    >
-                      {{ priceAbsFormatted(getGcJunketResult?.discount) }}
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div
-                      class="text-subtitle2"
-                      :class="{
-                        'text-green-8': getGcJunketResult?.expense > 0,
-                        'text-negative': getGcJunketResult?.expense < 0,
-                      }"
-                    >
-                      {{ priceAbsFormatted(getGcJunketResult?.expense) }}
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div
-                      class="text-subtitle2"
-                      :class="{
-                        'text-green-8': getGcJunketResult?.ccFee > 0,
-                        'text-negative': getGcJunketResult?.ccFee < 0,
-                      }"
-                    >
-                      {{ priceAbsFormatted(getGcJunketResult?.ccFee) }}
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div
-                      class="text-subtitle2"
-                      :class="{
-                        'text-green-8': getGcJunketResult?.commissionAmount > 0,
-                        'text-negative': getGcJunketResult?.commissionAmount < 0,
-                      }"
-                    >
-                      {{ priceAbsFormatted(getGcJunketResult?.commissionAmount) }}
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="text-subtitle2">
-                      {{ $t('calculation:') }}
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="text-subtitle2">{{ $t('netResult:') }}</div>
-                  </div>
-                </div>
+              <q-card-section class="q-pa-sm">
                 <div class="absolute-top-right">
                   <q-chip
                     size="sm"
@@ -447,6 +395,80 @@
                     square
                     icon="o_info"
                   />
+                </div>
+                <div class="row">
+                  <div class="text-subtitle1 flex content-center items-center">
+                    <div class="min-w flex justify-start">{{ $t('netResult') }}</div>
+                    :
+                    <span class="q-ml-md">
+                      {{ priceAbsFormatted(getGcJunketResult?.netResult) }}
+                      <span class="text-caption text-capitalize">{{
+                        getGcJunketResult.currencyName
+                      }}</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="text-subtitle1 flex content-center items-center">
+                    <div class="min-w flex justify-start">{{ $t('commission') }}</div>
+                    :
+                    <span class="q-ml-md">
+                      {{ priceAbsFormatted(getGcJunketResult?.commissionAmount) }}
+                      <span
+                        class="text-caption text-capitalize"
+                        v-if="getGcJunketResult.commissionPercent"
+                      >
+                        % {{ getGcJunketResult.commissionPercent }}</span
+                      >
+                    </span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="text-subtitle1 flex content-center items-center">
+                    <div class="min-w flex justify-start">{{ $t('payments') }}</div>
+                    :
+                    <span class="q-ml-md">
+                      {{ priceAbsFormatted(paymentTotal) }}
+                      <span class="text-caption text-capitalize">{{
+                        getGcJunketResult.currencyName
+                      }}</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <q-separator class="q-my-sm" />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="text-subtitle1 flex content-center items-center">
+                    <div class="min-w flex justify-start">{{ $t('Total Result') }}</div>
+                    :
+                    <span
+                      class="q-ml-md"
+                      :class="{
+                        'text-green-8': getGcJunketResult?.commissionAmount - paymentTotal > 0,
+                        'text-negative': getGcJunketResult?.commissionAmount - paymentTotal < 0,
+                      }"
+                    >
+                      {{
+                        priceAbsFormatted(getGcJunketResult?.commissionAmount - paymentTotal || 0)
+                      }}
+                      <span class="text-caption text-capitalize">{{
+                        getGcJunketResult.currencyName
+                      }}</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row text-grey-7">
+                  <div class="col-12 q-pt-md">
+                    <div class="text-caption flex content-center items-center justify-end">
+                      <q-icon name="o_functions" size="20px" />
+                      {{ $t('Total Result') }} = {{ $t('Commission Amount') }} -
+                      {{ $t('Payments') }}
+                    </div>
+                  </div>
                 </div>
               </q-card-section>
             </q-card>
@@ -465,8 +487,7 @@ import { i18n } from 'src/boot/i18n'
 import { useOperationsStore } from 'src/stores/operations-store'
 import { useGuestManagementStore } from 'src/stores/guest-management-store'
 import { useCurrencyStore } from 'src/stores/currency-store'
-import { computedAsync } from '@vueuse/core'
-import { priceAbsFormatted } from 'src/helpers/helpers'
+import { priceAbsFormatted, formatPrice } from 'src/helpers/helpers'
 const currencyStore = useCurrencyStore()
 const { getCurrenciesWithFlags, getDefaultCurrency } = storeToRefs(currencyStore)
 const operationsStore = useOperationsStore()
@@ -508,6 +529,9 @@ onMounted(async () => {
 const onSubmitFilter = async () => {
   junketOperationRefTable.value.fetchData()
   paymentTableRef.value.fetchData()
+
+  await getGcJunketResultTotal()
+  await getPaymentTotal()
 }
 const fetchGroupCodes = async () => {
   groupeCodes.value = await operationsStore.fetchGroupCodes()
@@ -534,45 +558,62 @@ const columns = ref([
     label: 'Currency',
     field: 'currencyName',
   },
-  {
-    label: 'T.Result',
-    field: 'totalResult',
-    fieldType: 'price',
-  },
+
   {
     label: 'Comp',
     field: 'comp',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
+  },
+  {
+    label: 'Credit',
+    field: 'credit',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     label: 'Discount',
     field: 'discount',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     label: 'Expense',
     field: 'expense',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     label: 'CC Fee',
     field: 'ccFee',
-    fieldType: 'price',
+    fieldType: 'priceAbs',
+    showTotal: true,
+  },
+  {
+    label: 'T.Result',
+    field: 'totalResult',
+    fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     label: 'Net Result',
     field: 'netResult',
     fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     label: 'Commission Percent',
     field: 'commissionPercent',
     fieldType: 'price',
+    format: (val) => {
+      return val ? val + ' %' : '-'
+    },
   },
   {
     label: 'Commission Amount',
     field: 'commissionAmount',
     fieldType: 'priceAbs',
+    showTotal: true,
   },
   {
     label: 'Actions',
@@ -599,23 +640,25 @@ const onCliclCalculationStatusUpdate = async () => {
     return
   }
 
+  const groupCode = groupeCodes.value.find((item) => item.id === filterFields.value?.groupCodeId)
   $q.dialog({
-    title: i18n.global.t('updateCalculationStatus'),
-    message: i18n.global.t('areYouSureYouWantToUpdateCalculationStatus'),
+    title: 'Recalculate for Group Code',
+    message: 'Are you sure you want to recalculate for the group code?: ' + groupCode?.code,
     persistent: true,
     focus: 'cancel',
     ok: {
-      flat: false,
+      outline: false,
       color: 'green-8',
-      label: i18n.global.t('yes'),
+      label: i18n.global.t('ok'),
       class: 'text-capitalize',
       unelevated: true,
     },
     cancel: {
       flat: true,
       color: 'negative',
-      label: i18n.global.t('no'),
+      label: i18n.global.t('cancel'),
       class: 'text-capitalize',
+      icon: 'o_close',
     },
     transitionShow: 'slide-up',
     transitionHide: 'slide-down',
@@ -653,23 +696,25 @@ const onCliclJunketCalculationStatusUpdate = async () => {
     })
     return
   }
+  const junket = visitorCategories.value.find((item) => item.id === filterFields.value?.junketId)
   $q.dialog({
-    title: i18n.global.t('updateJunketCalculationStatus'),
-    message: i18n.global.t('areYouSureYouWantToUpdateJunketCalculationStatus'),
+    title: 'Recalculate for Junket',
+    message: 'Are you sure you want to recalculate for the junket? ' + junket?.name,
     persistent: true,
     focus: 'cancel',
     ok: {
-      flat: false,
+      outline: false,
       color: 'green-8',
-      label: i18n.global.t('yes'),
+      label: i18n.global.t('ok'),
       class: 'text-capitalize',
       unelevated: true,
     },
     cancel: {
       flat: true,
       color: 'negative',
-      label: i18n.global.t('no'),
+      label: i18n.global.t('cancel'),
       class: 'text-capitalize',
+      icon: 'o_close',
     },
     transitionShow: 'slide-up',
     transitionHide: 'slide-down',
@@ -713,24 +758,23 @@ const paymentColumns = ref([
     label: 'Created By',
     classes: 'text-capitalize',
   },
-  {
-    field: 'junketName',
-    classes: 'text-capitalize',
-  },
+
   {
     field: 'amount',
     fieldType: 'priceAbs',
     format: (val, _row) => {
-      return val + ' ' + _row.currencyName + ''
+      return priceAbsFormatted(val) + ' ' + (_row?.currencyName || '') + ''
     },
+    showTotal: true,
   },
   {
     field: 'defaultCurrencyAmount',
-    label: 'Currency Amount',
+    label: 'Casino Currency',
     fieldType: 'priceAbs',
     format: (val, _row) => {
-      return val + ' ' + _row.defaultCurrencyName + ''
+      return priceAbsFormatted(val) + ' ' + (_row?.defaultCurrencyName || '') + ''
     },
+    showTotal: true,
   },
 ])
 
@@ -771,11 +815,11 @@ const onSubmitPaymentForm = async () => {
   }
 }
 
-const paymentTotal = computedAsync(async () => {
-  return filterFields.value.groupCodeId && filterFields.value.junketId
-    ? await operationsStore.getPaymentsTotal(filterFields.value)
-    : 0
-})
+const paymentTotal = ref(0)
+
+const getPaymentTotal = async () => {
+  paymentTotal.value = await operationsStore.getPaymentsTotal(filterFields.value)
+}
 
 const onClickCloseGroupCode = async () => {
   if (!filterFields.value.groupCodeId) {
@@ -786,16 +830,25 @@ const onClickCloseGroupCode = async () => {
     })
     return
   }
+  const groupCode = groupeCodes.value.find((item) => item.id === filterFields.value?.groupCodeId)
   $q.dialog({
-    title: i18n.global.t('closeGroupCode'),
-    message: i18n.global.t('areYouSureYouWantToCloseThisGroupCode'),
-    color: 'positive',
+    title: 'Close Group Code',
+    message: 'Are you sure you want to close the group code?  Code: ' + groupCode?.code,
+    persistent: true,
+    focus: 'cancel',
     ok: {
-      flat: true,
-      color: 'positive',
+      outline: false,
+      color: 'green-8',
       label: i18n.global.t('ok'),
       class: 'text-capitalize',
-      dataCy: 'ok',
+      unelevated: true,
+    },
+    cancel: {
+      flat: true,
+      color: 'negative',
+      label: i18n.global.t('cancel'),
+      class: 'text-capitalize',
+      icon: 'o_close',
     },
   }).onOk(async () => {
     const response = await operationsStore.closeGroupCode({
@@ -819,10 +872,17 @@ const onClickCloseGroupCode = async () => {
 
 const createNewPayment = ref(false)
 
-const getGcJunketResult = computedAsync(async () => {
-  return filterFields.value.groupCodeId && filterFields.value.junketId
-    ? await operationsStore.getGcJunketResult(filterFields.value)
-    : {}
+const getGcJunketResult = ref(null)
+const getGcJunketResultTotal = async () => {
+  getGcJunketResult.value =
+    filterFields.value.groupCodeId && filterFields.value.junketId
+      ? await operationsStore.getGcJunketResult(filterFields.value)
+      : null
+}
+
+onMounted(async () => {
+  await getGcJunketResultTotal()
+  await getPaymentTotal()
 })
 </script>
 
@@ -843,5 +903,8 @@ fieldset {
 .flex-column {
   display: flex;
   flex-direction: column;
+}
+.min-w {
+  min-width: 170px !important;
 }
 </style>

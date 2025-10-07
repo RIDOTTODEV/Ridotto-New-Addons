@@ -53,5 +53,6 @@ export const generateColumns = (columnConfigs) => {
     orderColumn: config.orderColumn || index,
     defaultVisible: config.defaultVisible || false,
     classes: config.class || config.classes || '',
+    additionalValue: config.additionalValue || null, // this is used to pass additional value to the format function
   }))
 }

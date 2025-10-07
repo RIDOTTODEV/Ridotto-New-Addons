@@ -11,7 +11,7 @@ import CreateHotelGuest from 'src/components/pages/guest-operations/HotelGuestFo
 import ExpenseSettingsDialog from 'src/components/pages/guest-operations/ExpenseSettingsDialog.vue'
 import RoomCountDialog from 'src/components/pages/guest-operations/RoomCountDialog.vue'
 import CopyHotelReservationDialog from 'src/components/pages/guest-operations/CopyHotelReservationDialog.vue'
-import { formatPrice, removeEmptySpaces } from 'src/helpers/helpers'
+import { formatPrice, removeEmptySpaces, priceAbsFormatted } from 'src/helpers/helpers'
 import { useOperationsStore } from 'src/stores/operations-store'
 const guestManagementStore = useGuestManagementStore()
 const operationsStore = useOperationsStore()
@@ -46,8 +46,10 @@ onMounted(async () => {
           defaultVisible: false,
           visible: false,
           class: 'bg-orange-1',
+          showTotal: true,
+          additionalValue: element.id,
           customFormat: (value) => {
-            const findExpenses = value.filter((expense) => expense.expenseTypeId === element.id)
+            const findExpenses = value?.filter((expense) => expense.expenseTypeId === element.id)
             const price = findExpenses.reduce(
               (sum, expense) => sum + parseFloat(expense.amountInCasinoCurrency || 0),
               0,
@@ -63,6 +65,7 @@ onMounted(async () => {
       label: 'Total Expense',
       fieldType: 'custom',
       class: 'bg-orange-1',
+      showTotal: true,
       customFormat: (value) => {
         return (
           formatPrice(
@@ -213,6 +216,11 @@ const columns = ref([
     field: 'checkOut',
     fieldType: 'date',
     label: 'C/Out',
+  },
+  {
+    field: 'isWalkIn',
+    label: 'Walk In',
+    fieldType: 'boolean',
   },
   {
     field: 'dayCount',
@@ -788,10 +796,10 @@ const onSubmitJunketStatusForm = async (params) => {
             <q-td key="guest" align="center">
               <div v-if="props.row.players?.length">
                 <div
-                  v-for="(player, index) in props.row.players.filter((p) => p.roomOwner)"
+                  v-for="player in props.row.players.filter((p) => p.roomOwner)"
                   :key="player.playerId"
                 >
-                  <span>{{ index + 1 }}.{{ player.playerFullName }}</span>
+                  <span class="text-capitalize">{{ player.playerFullName }}</span>
                 </div>
               </div>
             </q-td>
@@ -800,10 +808,10 @@ const onSubmitJunketStatusForm = async (params) => {
             <q-td key="roomMate" align="center">
               <div v-if="props.row.players?.length">
                 <div
-                  v-for="(player, index) in props.row.players.filter((p) => !p.roomOwner)"
+                  v-for="player in props.row.players.filter((p) => !p.roomOwner)"
                   :key="player.playerId"
                 >
-                  <span>{{ index + 1 }}.{{ player.playerFullName }}</span>
+                  <span class="text-capitalize">{{ player.playerFullName }}</span>
                 </div>
               </div>
             </q-td>
@@ -966,6 +974,56 @@ const onSubmitJunketStatusForm = async (params) => {
                 </q-menu>
               </div>
             </q-td>
+          </template>
+
+          <template v-slot:bottomRow="props">
+            <q-tr :props="props">
+              <q-td
+                v-for="(col, index) in [
+                  ...props.cols.sort((a, b) => a.orderColumn - b.orderColumn),
+                ]"
+                :key="index"
+                :name="col.name"
+                align="center"
+              >
+                <div class="text-subtitle2" v-if="col.showTotal && col.name === 'totalExpense'">
+                  {{
+                    priceAbsFormatted(
+                      props.rows.reduce((acc, row) => {
+                        const expensesSum =
+                          row.expenses?.reduce(
+                            (sum, expense) => sum + (expense.amountInCasinoCurrency || 0),
+                            0,
+                          ) || 0
+                        return acc + expensesSum
+                      }, 0),
+                    )
+                  }}
+                  <span class="q-px-xs">{{ defaultCurrency.name }}</span>
+                </div>
+                <div
+                  class="text-subtitle2"
+                  v-else-if="col.showTotal && col.name !== 'totalExpense'"
+                >
+                  {{
+                    priceAbsFormatted(
+                      props.rows.reduce((acc, row) => {
+                        const findExpenses = row.expenses?.filter(
+                          (expense) => expense.expenseTypeId === col.additionalValue,
+                        )
+                        const price = findExpenses.reduce(
+                          (sum, expense) => sum + parseFloat(expense.amountInCasinoCurrency || 0),
+                          0,
+                        )
+                        return acc + price
+                      }, 0),
+                    )
+                  }}
+                  <span class="q-px-xs">{{ defaultCurrency.name }}</span>
+                </div>
+                <div class="text-subtitle2" v-else>-</div>
+              </q-td>
+            </q-tr>
           </template>
         </SupaTable>
       </q-card-section>

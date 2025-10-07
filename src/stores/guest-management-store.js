@@ -235,7 +235,7 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
     },
     async fetchRoomCountByDays(params) {
       const { data } = await hotelReservationService.getRoomCountByDays(params)
-      this.roomCountTotal = data.data.reduce((acc, curr) => acc + curr.roomCount, 0)
+      this.roomCountTotal = data.data.reduce((acc, curr) => acc + curr.roomCountDay, 0)
       return data
     },
     async copyBulkReservation(params) {
