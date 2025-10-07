@@ -877,7 +877,7 @@ const onSubmitJunketStatusForm = async (params) => {
           <template v-slot:body-cell-groupCode="{ props }">
             <q-td key="status" align="center">
               <div>
-                {{ props.row.groupCode }}
+                {{ props.row?.groupCode || '-' }}
                 <q-menu
                   transition-show="flip-right"
                   transition-hide="flip-left"

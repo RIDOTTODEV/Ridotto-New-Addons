@@ -177,21 +177,50 @@
       </q-card-section>
       <q-card-section class="q-pa-none row q-mt-md">
         <div class="col-7 q-pa-xs">
-          <div class="text-subtitle2">{{ $t('Payments') }}</div>
+          <div class="row">
+            <div class="col-6 flex content-center items-center">
+              <div class="text-subtitle2">{{ $t('Payments') }}</div>
+            </div>
+            <div class="col-6 flex content-center items-center justify-end">
+              <q-btn
+                :label="createNewPayment ? $t('cancel') : $t('create')"
+                :color="createNewPayment ? 'negative' : 'green-8'"
+                :icon="createNewPayment ? 'o_close' : 'o_add'"
+                dense
+                unelevated
+                no-caps
+                padding="2px"
+                @click="createNewPayment = !createNewPayment"
+                class="q-mb-xs"
+              />
+            </div>
+          </div>
           <SupaTable
             :columns="paymentColumns"
             :getDataFn="operationsStore.getPayments"
             :filterParams="filterFields"
-            :slotNames="['body-cell-actions', 'body-cell-status']"
+            :slotNames="['body-cell-createdByName']"
             ref="paymentTableRef"
             tableName="paymentsColumns"
             :hideTopBar="true"
             :hideBottom="true"
           >
+            <template v-slot:body-cell-createdByName="{ props }">
+              <q-td :props="props">
+                <div class="flex flex-column justify-center row items-center">
+                  <span class="text-capitalize">
+                    {{ props.row.createdByName }}
+                  </span>
+                  <span class="text-caption text-grey-8" v-if="props.row.note">
+                    <q-icon name="o_comment" size="13px" class="q-mr-xs" />
+                    {{ props.row.note }}
+                  </span>
+                </div>
+              </q-td>
+            </template>
           </SupaTable>
-        </div>
-        <div class="col-5 q-pa-xs">
-          <fieldset class="fieldset">
+
+          <fieldset class="fieldset q-mt-md" v-if="createNewPayment">
             <legend class="text-subtitle2">{{ $t('Create Payment') }}</legend>
 
             <q-form @submit="onSubmitPaymentForm" class="row">
@@ -283,6 +312,145 @@
               </div>
             </q-form>
           </fieldset>
+        </div>
+        <div class="col-5 q-pa-xs">
+          <div class="row">
+            <div class="text-subtitle2">{{ $t('Junket Result') }}</div>
+          </div>
+          <div class="col text-center q-pa-xs" v-if="getGcJunketResult">
+            <q-card flat class="app-cart-grey">
+              <q-card-section class="q-pa-none">
+                <div class="text-h6">
+                  {{ priceAbsFormatted(getGcJunketResult?.netResult) }}
+                  <span class="text-caption text-negative text-bold">{{
+                    getGcJunketResult.currencyName
+                  }}</span>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="text-caption">{{ $t('comp') }}</div>
+                  </div>
+                  <div class="col">
+                    <div class="text-caption">{{ $t('credit') }}</div>
+                  </div>
+                  <div class="col">
+                    <div class="text-caption">{{ $t('deposit') }}</div>
+                  </div>
+                  <div class="col">
+                    <div class="text-caption">{{ $t('discount') }}</div>
+                  </div>
+                  <div class="col">
+                    <div class="text-caption">{{ $t('expense') }}</div>
+                  </div>
+                  <div class="col">
+                    <div class="text-caption">{{ $t('ccFee') }}</div>
+                  </div>
+                  <div class="col">
+                    <div class="text-caption">{{ $t('C.Amount') }}</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div
+                      class="text-subtitle2"
+                      :class="{
+                        'text-green-8': getGcJunketResult?.comp > 0,
+                        'text-negative': getGcJunketResult?.comp < 0,
+                      }"
+                    >
+                      {{ priceAbsFormatted(getGcJunketResult?.comp) }}
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div
+                      class="text-subtitle2"
+                      :class="{
+                        'text-green-8': getGcJunketResult?.credit > 0,
+                        'text-negative': getGcJunketResult?.credit < 0,
+                      }"
+                    >
+                      {{ priceAbsFormatted(getGcJunketResult?.credit) }}
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div
+                      class="text-subtitle2"
+                      :class="{
+                        'text-green-8': getGcJunketResult?.deposit > 0,
+                        'text-negative': getGcJunketResult?.deposit < 0,
+                      }"
+                    >
+                      {{ priceAbsFormatted(getGcJunketResult?.deposit) }}
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div
+                      class="text-subtitle2"
+                      :class="{
+                        'text-green-8': getGcJunketResult?.discount > 0,
+                        'text-negative': getGcJunketResult?.discount < 0,
+                      }"
+                    >
+                      {{ priceAbsFormatted(getGcJunketResult?.discount) }}
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div
+                      class="text-subtitle2"
+                      :class="{
+                        'text-green-8': getGcJunketResult?.expense > 0,
+                        'text-negative': getGcJunketResult?.expense < 0,
+                      }"
+                    >
+                      {{ priceAbsFormatted(getGcJunketResult?.expense) }}
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div
+                      class="text-subtitle2"
+                      :class="{
+                        'text-green-8': getGcJunketResult?.ccFee > 0,
+                        'text-negative': getGcJunketResult?.ccFee < 0,
+                      }"
+                    >
+                      {{ priceAbsFormatted(getGcJunketResult?.ccFee) }}
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div
+                      class="text-subtitle2"
+                      :class="{
+                        'text-green-8': getGcJunketResult?.commissionAmount > 0,
+                        'text-negative': getGcJunketResult?.commissionAmount < 0,
+                      }"
+                    >
+                      {{ priceAbsFormatted(getGcJunketResult?.commissionAmount) }}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="text-subtitle2">
+                      {{ $t('calculation:') }}
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="text-subtitle2">{{ $t('netResult:') }}</div>
+                  </div>
+                </div>
+                <div class="absolute-top-right">
+                  <q-chip
+                    size="sm"
+                    color="blue-8"
+                    text-color="white"
+                    :label="getGcJunketResult?.status"
+                    square
+                    icon="o_info"
+                  />
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
         </div>
       </q-card-section>
     </q-card>
@@ -541,24 +709,28 @@ const paymentColumns = ref([
     fieldType: 'date',
   },
   {
-    field: 'junketName',
+    field: 'createdByName',
+    label: 'Created By',
+    classes: 'text-capitalize',
   },
   {
-    field: 'currencyName',
-    label: 'Currency',
+    field: 'junketName',
+    classes: 'text-capitalize',
   },
   {
     field: 'amount',
     fieldType: 'priceAbs',
+    format: (val, _row) => {
+      return val + ' ' + _row.currencyName + ''
+    },
   },
   {
     field: 'defaultCurrencyAmount',
     label: 'Currency Amount',
     fieldType: 'priceAbs',
-  },
-  {
-    field: 'isDeleted',
-    fieldType: 'boolean',
+    format: (val, _row) => {
+      return val + ' ' + _row.defaultCurrencyName + ''
+    },
   },
 ])
 
@@ -600,7 +772,9 @@ const onSubmitPaymentForm = async () => {
 }
 
 const paymentTotal = computedAsync(async () => {
-  return await operationsStore.getPaymentsTotal(filterFields.value)
+  return filterFields.value.groupCodeId && filterFields.value.junketId
+    ? await operationsStore.getPaymentsTotal(filterFields.value)
+    : 0
 })
 
 const onClickCloseGroupCode = async () => {
@@ -642,6 +816,14 @@ const onClickCloseGroupCode = async () => {
     }
   })
 }
+
+const createNewPayment = ref(false)
+
+const getGcJunketResult = computedAsync(async () => {
+  return filterFields.value.groupCodeId && filterFields.value.junketId
+    ? await operationsStore.getGcJunketResult(filterFields.value)
+    : {}
+})
 </script>
 
 <style scoped lang="scss">
@@ -656,5 +838,10 @@ fieldset {
   border: 1px solid #4b4f52 !important;
   border-radius: 5px;
   min-height: 190px;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
 }
 </style>
