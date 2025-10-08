@@ -128,6 +128,12 @@ export const useMainStore = defineStore('main', {
             routeName: 'playersInOut',
             permission: 'Addon.SlotOperations.PlayersInOut',
           },
+          {
+            title: 'slotInOutReport',
+            icon: 'remove',
+            routeName: 'slotInOutReport',
+            permission: 'Addon.SlotOperations.SlotInOutReport',
+          },
         ],
       },
       {

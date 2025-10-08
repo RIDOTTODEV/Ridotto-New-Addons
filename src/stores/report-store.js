@@ -341,6 +341,16 @@ export const useReportStore = defineStore('reportStore', {
       const { data } = await tableCountService.getChipTableBalanceDetail(params)
       return data
     },
+    async getSlotInOutReport(params) {
+      const authStore = useAuthStore()
+      const payload = {
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+        gamingDateId: authStore.getDefaultGamingDateId,
+        ...params,
+      }
+      const { data } = await inOutReportService.getSlotInOutReport(payload)
+      return data
+    },
   },
 })
 

@@ -165,5 +165,33 @@ export const inOutReportService = {
     return api.get('/api/InOutReport/GetPlayerNetCash', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
+  },
+  /**
+   * Get Slot In Out Report In Out Report
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.gamingDateId] - Gaming Date Id
+   * @param {undefined} [data.startDate] - Start Date
+   * @param {undefined} [data.endDate] - End Date
+   * @param {undefined} [data.queryType] - Query Type
+   * @param {undefined} [data.balanceCurrencyId] - Balance Currency Id
+   * @param {undefined} [data.playerId] - Player Id
+   * @param {undefined} [data.sorting] - Sorting
+   * @param {undefined} [data.maxResultCount] - Max Result Count
+   * @param {undefined} [data.skipCount] - Skip Count
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getSlotInOutReport(data = {}, options = {}) {
+    if (!data.maxResultCount) {
+      data.maxResultCount = 999
+    }
+    if (!data.skipCount) {
+      data.skipCount = 0
+    }
+    return api.get('/api/InOutReport/GetSlotInOutReport', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
   }
 }

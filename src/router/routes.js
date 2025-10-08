@@ -304,6 +304,15 @@ const routes = [
           requiresAuth: true,
         },
       },
+      {
+        path: 'slot-in-out-report',
+        name: 'slotInOutReport',
+        component: () => import('pages/slot/SlotInOutReport.vue'),
+        meta: {
+          requiredPermission: 'Addon.SlotOperations.SlotInOutReport',
+          requiresAuth: true,
+        },
+      },
     ],
   },
   {

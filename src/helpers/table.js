@@ -54,5 +54,6 @@ export const generateColumns = (columnConfigs) => {
     defaultVisible: config.defaultVisible || false,
     classes: config.class || config.classes || '',
     additionalValue: config.additionalValue || null, // this is used to pass additional value to the format function
+    totalField: config.totalField || null, // this is used to pass the total field to the format function
   }))
 }
