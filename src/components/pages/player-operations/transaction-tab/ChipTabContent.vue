@@ -1,7 +1,10 @@
 <template>
   <div class="row full-width">
     <div class="col-5 q-pa-xs">
-      <q-form @submit="onSubmitPlayerChipTransaction" class="col-12 row q-card--bordered bg-white">
+      <q-form
+        @submit="onSubmitPlayerChipTransaction"
+        class="col-12 row q-card--bordered bg-white border-sm"
+      >
         <div class="col-12 q-mt-sm q-mb-sm">
           <q-btn
             v-if="!createPlayerChipTransaction"

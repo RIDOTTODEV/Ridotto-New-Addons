@@ -47,12 +47,12 @@ const onClickAccountHistory = (account) => {
 </script>
 
 <template>
-  <div class="col-4 q-pa-xs" style="flex-basis: 33.33%; max-width: 33.33%">
+  <div class="col-4 q-pt-xs q-pb-xs q-pr-xs" style="flex-basis: 33.33%; max-width: 33.33%">
     <q-intersection transition="scale" class="example-item">
       <q-expansion-item
         expand-separator
         icon="account_balance_wallet"
-        class="q-card account-card"
+        class="q-card account-card q-card-square"
         switch-toggle-side
         hide-expand-icon
         header-class="app-card q-pa-xs"

@@ -1,5 +1,5 @@
 <template>
-  <q-card class="full-width" square v-if="selectedPlayer">
+  <q-card class="full-width" v-if="selectedPlayer">
     <q-card-section class="row q-pa-none">
       <div class="col-4 q-pa-sm">
         <PlayerProfile />

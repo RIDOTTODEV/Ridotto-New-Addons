@@ -108,7 +108,6 @@ const getTotals = async () => {
       />
     </div>
     <div class="col-12 q-card--bordered row q-pa-sm">
-      11
       <div
         class="col-md-3 q-pa-xs col-sm-12 col-xs-12"
         v-for="(item, index) in currentCashDeskChipCountDenominations"

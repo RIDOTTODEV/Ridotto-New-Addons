@@ -62,7 +62,7 @@ const getEventHandlers = (componentName) => {
       guestsLength: (length) => {
         state.value.layout.forEach((item) => {
           if (item.component === 'GetActiveGuests') {
-            item.h = length * 2
+            item.h = length
           }
         })
       },
@@ -81,7 +81,7 @@ const getEventHandlers = (componentName) => {
       guestsLength: (length) => {
         state.value.layout.forEach((item) => {
           if (item.component === 'GetGuestTransferList') {
-            item.h = length * 2
+            item.h = length * 1.5
           }
         })
       },

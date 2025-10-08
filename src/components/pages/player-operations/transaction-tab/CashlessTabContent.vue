@@ -1,6 +1,6 @@
 <template>
   <div class="row full-width">
-    <div class="col-5 q-pa-xs">
+    <div class="col-5 q-pt-xs">
       <Accounts :player-id="playerId" v-if="selectedPlayer" />
     </div>
     <div class="col-7 q-pa-xs">
