@@ -128,7 +128,11 @@
                       groupeCodes?.find((item) => item.id === filterFields?.groupCodeId)?.isClosed
                     "
                     text-color="dark"
-                    icon="o_close"
+                    :icon="
+                      groupeCodes?.find((item) => item.id === filterFields?.groupCodeId)?.isClosed
+                        ? 'o_close'
+                        : 'o_open'
+                    "
                     no-wrap
                     no-caps
                     @click="onClickCloseGroupCode"
@@ -381,7 +385,7 @@
         </div>
         <div class="col-6 q-pa-xs" v-if="getGcJunketResult">
           <div class="row">
-            <div class="text-subtitle2">{{ $t('Junket Result') }}</div>
+            <div class="text-subtitle2 q-ml-sm">{{ $t('Junket Result') }}</div>
           </div>
           <div class="col text-center q-pa-sm" v-if="getGcJunketResult">
             <q-card flat class="app-cart-grey">
@@ -446,7 +450,7 @@
                     <div class="min-w flex justify-start">{{ $t('Total Result') }}</div>
                     :
                     <span
-                      class="q-ml-md"
+                      class="q-ml-md text-bold"
                       :class="{
                         'text-green-8': getGcJunketResult?.commissionAmount - paymentTotal > 0,
                         'text-negative': getGcJunketResult?.commissionAmount - paymentTotal < 0,
@@ -455,7 +459,7 @@
                       {{
                         priceAbsFormatted(getGcJunketResult?.commissionAmount - paymentTotal || 0)
                       }}
-                      <span class="text-caption text-capitalize">{{
+                      <span class="text-caption text-capitalize text-bold">{{
                         getGcJunketResult.currencyName
                       }}</span>
                     </span>
@@ -643,7 +647,7 @@ const onCliclCalculationStatusUpdate = async () => {
   const groupCode = groupeCodes.value.find((item) => item.id === filterFields.value?.groupCodeId)
   $q.dialog({
     title: 'Recalculate for Group Code',
-    message: 'Are you sure you want to recalculate for the group code?: ' + groupCode?.code,
+    message: 'Are you sure you want to recalculate for the group code? ' + groupCode?.code,
     persistent: true,
     focus: 'cancel',
     ok: {
@@ -833,7 +837,7 @@ const onClickCloseGroupCode = async () => {
   const groupCode = groupeCodes.value.find((item) => item.id === filterFields.value?.groupCodeId)
   $q.dialog({
     title: 'Close Group Code',
-    message: 'Are you sure you want to close the group code?  Code: ' + groupCode?.code,
+    message: 'Are you sure you want to close the group code?  ' + groupCode?.code,
     persistent: true,
     focus: 'cancel',
     ok: {
