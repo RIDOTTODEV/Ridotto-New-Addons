@@ -103,11 +103,17 @@ const onsubmit = async () => {
         position: 'bottom-right',
         icon: 'fa fa-check-circle',
       })
-      bus.emit('reloadCageTransactions')
+      bus.emit('reloadLastCageTransactions')
 
       // fetchDepositAndCredits
-      if (formValues.value.methodName === '/CashdeskTransaction/CashdeskDepositCreditTransaction') {
+      /*       if (formValues.value.methodName === '/CashdeskTransaction/CashdeskDepositCreditTransaction') {
         await playerStore.fetchDepositAndCredits(playerId.value)
+      } */
+      const transactionCode = transactionCodeOptions.value.find(
+        (tc) => tc.id === formValues.value.transactionCodeId,
+      )
+      if (transactionCode.transType === 'Credit' || transactionCode.transType === 'Deposit') {
+        playerStore.fetchDepositAndCredits(playerId.value)
       }
       onDialogOK()
     }

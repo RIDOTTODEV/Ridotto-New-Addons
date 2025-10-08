@@ -99,7 +99,7 @@ watch(
     }
   },
 )
-bus.on('reloadCashlessTransactions', loadLastCashlessTransactions)
+bus.on('reloadLastCashlessTransactions', loadLastCashlessTransactions)
 </script>
 
 <template>

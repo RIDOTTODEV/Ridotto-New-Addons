@@ -89,7 +89,7 @@ watch(
     }
   },
 )
-bus.on('reloadCageTransactions', loadLastCageTransactions)
+bus.on('reloadLastCageTransactions', loadLastCageTransactions)
 const refTable = ref(null)
 </script>
 

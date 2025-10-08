@@ -71,9 +71,15 @@ if (props.transactionType === 'Withdrawal') {
 const onsubmit = async () => {
   await playerStore.postCashdeskTransaction({ ...formValues.value }).then((res) => {
     if (res) {
-      bus.emit('reloadCageTransactions')
-      bus.emit('reloadCashlessTransactions')
+      bus.emit('reloadLastCageTransactions')
+      bus.emit('reloadLastCashlessTransactions')
       bus.emit('reloadCashlessAccounts')
+      const transactionCode = getTransactionCodesByTransType
+        .value()
+        .find((item) => item.id === formValues.value.transactionCodeId)
+      if (transactionCode.transType === 'Credit' || transactionCode.transType === 'Deposit') {
+        playerStore.fetchDepositAndCredits()
+      }
       onDialogOK()
     }
   })
