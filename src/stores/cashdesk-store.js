@@ -310,8 +310,12 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
     async deletePettyCashTransaction(params) {
       return await pettyCashService.delete(params)
     },
-    async fetchPettyCashTotals(params) {
-      const { data } = await pettyCashService.getPettyCashTotals(params)
+    async fetchPettyCashTotals(params = null) {
+      let payload = {
+        ...params,
+        cashdeskId: this.selectedCashDesk?.id,
+      }
+      const { data } = await pettyCashService.getPettyCashTotals(payload)
       return data
     },
     async fetchAllCashDeskCountDenominations(params) {

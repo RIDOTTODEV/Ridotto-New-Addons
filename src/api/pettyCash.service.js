@@ -8,9 +8,6 @@ export const pettyCashService = {
    *
    * @param {object} [data]
    * @param {undefined} [data.cashdeskId] - Cashdesk Id
-   * @param {undefined} [data.gamingDateId] - Gaming Date Id
-   * @param {undefined} [data.startDate] - Start Date
-   * @param {undefined} [data.endDate] - End Date
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type

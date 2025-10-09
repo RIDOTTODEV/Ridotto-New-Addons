@@ -147,11 +147,7 @@
             <div class="col-4 q-pa-xs">
               <q-toggle
                 v-model="expenseParameterFormValues.dailyBasedQuantity"
-                :label="
-                  expenseParameterFormValues.dailyBasedQuantity
-                    ? $t('dailyBasedQuantity')
-                    : $t('noDailyBasedQuantity')
-                "
+                :label="$t('dailyBasedQuantity')"
                 color="positive"
                 dense
               />
@@ -159,12 +155,12 @@
             <div class="col-4 q-pa-xs">
               <q-toggle
                 v-model="expenseParameterFormValues.isVisible"
-                :label="expenseParameterFormValues.isVisible ? $t('isVisible') : $t('noisVisible')"
+                :label="$t('visible')"
                 color="positive"
                 dense
               />
             </div>
-            <div class="col-4 q-pa-xs text-right">
+            <div class="col-4 text-right">
               <q-btn
                 no-wrap
                 no-caps

@@ -25,10 +25,6 @@ export function useGuestManagement() {
       label: 'Name',
       field: 'name',
     },
-    {
-      field: 'createdAt',
-      fieldType: 'date',
-    },
 
     {
       field: 'isDeleted',
@@ -199,6 +195,7 @@ export function useGuestManagement() {
   const playerCategoryFormValues = ref({
     id: null,
     name: null,
+    commissionPercent: null,
     isActive: true,
   })
   const playerCategoryDialog = ref(false)
@@ -210,6 +207,12 @@ export function useGuestManagement() {
     },
     {
       field: 'name',
+    },
+    {
+      field: 'commissionPercent',
+      format: (value) => {
+        return value + ' %'
+      },
     },
     {
       field: 'isActive',

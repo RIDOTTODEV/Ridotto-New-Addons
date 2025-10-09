@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
+import { priceAbsFormatted } from 'src/helpers/helpers'
 const cashDeskStore = useCashdeskStore()
 const { getSelectedCashDeskId } = storeToRefs(cashDeskStore)
 const allCashDeskCountDenominations = ref([])
@@ -19,7 +20,7 @@ onMounted(async () => {
       <div class="row flex justify-between">
         <div class="text-subtitle1">{{ item.currencyName }}</div>
         <div class="text-subtitle1">
-          {{ item.totalAmount.toFixed(2) }}
+          {{ priceAbsFormatted(item.totalAmount) }}
         </div>
         <el-tooltip class="item" effect="dark" content="Reset" placement="top-start">
           <q-icon

@@ -116,11 +116,7 @@
             <div class="col-12 q-mt-md">
               <q-toggle
                 v-model="roomTypeFormValues.isActive"
-                :label="
-                  roomTypeFormValues.isActive
-                    ? $t('isActive') + '-' + $t('yes')
-                    : $t('isActive') + '-' + $t('no')
-                "
+                :label="$t('active')"
                 color="positive"
                 dense
               />

@@ -69,8 +69,8 @@
           </q-btn>
         </q-bar>
         <q-card-section>
-          <q-form @submit="onSubmitPlayerCategoryForm" ref="form">
-            <div class="col-12">
+          <q-form @submit="onSubmitPlayerCategoryForm" ref="form" class="row">
+            <div class="col-6 q-pa-sm">
               <q-input
                 :label="$t('visitorCategory')"
                 autofocus
@@ -78,28 +78,37 @@
                 outlined
                 dense
                 v-model="playerCategoryFormValues.name"
-                class="col-12 super-small"
+                class="super-small"
                 :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
                 :placeholder="playerCategoryFormValues.name || $t('name') + '...'"
                 clearable
                 data-cy="playerCategoryName"
               />
             </div>
-            <div class="col-12 q-pa-sm q-mt-sm text-left">
+            <div class="col-6 q-pa-sm">
+              <q-input
+                :label="$t('commissionPercent')"
+                autofocus
+                hide-bottom-space
+                outlined
+                dense
+                v-model="playerCategoryFormValues.commissionPercent"
+                class="super-small"
+                clearable
+                type="number"
+              />
+            </div>
+            <div class="col-12 q-pa-sm text-left">
               <q-toggle
                 v-model="playerCategoryFormValues.isActive"
-                :label="
-                  playerCategoryFormValues.isActive
-                    ? $t('isActive') + '-' + $t('yes')
-                    : $t('isActive') + '-' + $t('no')
-                "
+                :label="$t('active')"
                 color="positive"
                 dense
                 class="q-mt-sm"
                 data-cy="isActive"
               />
             </div>
-            <div class="col-12 q-mt-md text-right">
+            <div class="col-12 text-right">
               <q-btn
                 no-wrap
                 no-caps

@@ -43,7 +43,7 @@
                     </template>
                   </q-select>
                 </q-card-actions>
-                <q-card-section class="q-pt-sm">
+                <q-card-section class="q-pa-sm">
                   <LastSearchedPlayer
                     :lastSearchedPlayers="lastSearchedPlayers"
                     :redirectToPlayerDetail="redirectToPlayerDetail"

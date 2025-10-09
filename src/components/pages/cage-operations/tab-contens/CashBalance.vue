@@ -19,6 +19,8 @@ const filterCageBalanceFields = ref({
 
 onMounted(async () => {
   await getTotals()
+
+  pettyCashTotals.value = await cashdeskStore.fetchPettyCashTotals()
 })
 const getTotals = async () => {
   await cashdeskStore.getCashdeskTotals(filterCageBalanceFields.value)
@@ -107,13 +109,15 @@ const updateDenomination = debounce(async (denomination) => {
 }, 300)
 
 const showAllCagesBalance = ref(false)
+
+const pettyCashTotals = ref([])
 </script>
 
 <template>
   <div class="col-12">
     <q-card class="app-cart q-card--bordered">
       <q-card-section class="q-pa-none row flex content-center">
-        <div class="col-md-7 q-pa-xs">
+        <div class="col-md-7 q-pa-xs flex justify-between">
           <div class="row">
             <div v-if="!showAllCagesBalance" class="row">
               <div
@@ -221,22 +225,47 @@ const showAllCagesBalance = ref(false)
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-12 q-mt-sm q-pa-sm">
-              <q-markup-table separator="cell" bordered flat dense square style="max-width: 500px">
+          <div class="row flex content-end items-end q-mb-md q-ml-sm" v-if="pettyCashTotals.length">
+            <div class="col-12">
+              <q-markup-table separator="cell" bordered flat dense square style="min-width: 500px">
                 <tbody>
                   <tr>
-                    <td rowspan="2" style="border-bottom: 0px !important" align="center">
+                    <td
+                      rowspan="2"
+                      style="border-bottom: 0px !important"
+                      align="center"
+                      class="bg-grey-1"
+                    >
                       <div class="text-subtitle2">Petty Cash Totals</div>
                     </td>
-                    <td class="bg-grey-1">USD</td>
-                    <td class="bg-grey-1">Euro</td>
-                    <td class="bg-grey-1">GBP</td>
+                    <td
+                      class="bg-grey-1"
+                      v-for="(value, index) in pettyCashTotals"
+                      :key="index"
+                      align="center"
+                    >
+                      <div class="text-subtitle2">{{ value.currencyName }}</div>
+                    </td>
                   </tr>
                   <tr>
-                    <td style="border-left: 1px solid rgb(211 211 211)">1111.11</td>
-                    <td>3333.33</td>
-                    <td>444.33</td>
+                    <td
+                      :style="
+                        index === 0
+                          ? {
+                              borderLeft: '1px solid rgb(211 211 211)',
+                            }
+                          : {}
+                      "
+                      v-for="(value, index) in pettyCashTotals"
+                      :key="index"
+                      :class="{
+                        'bg-green-1': value.amount > 0,
+                        'bg-red-1': value.amount < 0,
+                      }"
+                      align="center"
+                    >
+                      {{ priceAbsFormatted(value.amount) }}
+                    </td>
                   </tr>
                 </tbody>
               </q-markup-table>
