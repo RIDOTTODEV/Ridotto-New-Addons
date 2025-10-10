@@ -1352,6 +1352,7 @@ const setFormValues = async () => {
     expenses: [],
     check: data.check,
   }
+  dateRange.value = [data.checkIn, data.checkOut]
   await fetchReservationExpenses(data.id)
 }
 watch(
