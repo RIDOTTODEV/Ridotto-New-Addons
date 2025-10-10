@@ -78,6 +78,7 @@ const loadLastChipTransactions = async () => {
   const data = await playerStore.fetchPlayerLastChipTransactions({
     playerId: props.playerId,
     ...dateTimeFilterValues.value,
+    maxResultCount: 20,
   })
   lastChipTransactions.value = data || []
 }
@@ -98,6 +99,10 @@ defineExpose({
     data-cy="playerLastCashTransactionsTable"
     separator="cell"
     bordered
+    virtual-scroll
+    style="max-height: 300px !important"
+    :rows-per-page-options="[0]"
+    :virtual-scroll-slice-size="20"
   >
     <template v-slot:top>
       <div class="row full-width">

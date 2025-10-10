@@ -379,6 +379,8 @@
                       "
                       :label="$t('playerName')"
                       class="super-small"
+                      :setValueById="true"
+                      :playerId="+router.currentRoute.value.query.playerId"
                     />
                     <date-time-picker
                       class="q-ml-sm"
@@ -415,6 +417,8 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { useTransactionCodeStore } from 'src/stores/transaction-code-store'
 import { useCurrencyStore } from 'src/stores/currency-store'
@@ -545,6 +549,12 @@ const filterFields = ref({
 })
 onMounted(() => {
   currentCageTransactionTab.value = LocalStorage.getItem('cageTransactionTab') || 'inOutTransfer'
+
+  if (router.currentRoute.value.query.playerId) {
+    filterFields.value.PlayerId = router.currentRoute.value.query.playerId
+
+    cageTransactionsTable.value.fetchData()
+  }
 })
 
 const onSavedCageTransaction = () => {

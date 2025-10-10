@@ -1,6 +1,6 @@
 <script setup>
 import { i18n } from 'src/boot/i18n'
-import { ref, watchEffect } from 'vue'
+import { ref, watchEffect, onMounted } from 'vue'
 import { usePlayerStore } from 'src/stores/player-store'
 const playerStore = usePlayerStore()
 const emits = defineEmits(['update:modelValue', 'onSelectPlayer', 'onClear'])
@@ -21,6 +21,16 @@ const props = defineProps({
   placeholder: {
     type: String,
     default: () => i18n.global.t('search'),
+    required: false,
+  },
+  setValueById: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
+  playerId: {
+    type: Number,
+    default: () => null,
     required: false,
   },
 })
@@ -76,6 +86,18 @@ const onEnter = () => {
   if (options.value.length === 1) {
     onSelected(options.value[0].id)
   }
+}
+
+onMounted(() => {
+  if (props.setValueById && props.playerId) {
+    setValueById()
+  }
+})
+
+const setValueById = async () => {
+  const player = await playerStore.searchPlayer(props.playerId)
+  options.value = player
+  onSelected(props.playerId)
 }
 </script>
 

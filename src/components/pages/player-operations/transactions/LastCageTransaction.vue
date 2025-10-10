@@ -74,6 +74,7 @@ onMounted(async () => {
 const loadLastCageTransactions = async () => {
   const data = await playerStore.fetchPlayerLastCageTransactions({
     playerId: props.playerId,
+    maxResultCount: 20,
   })
   lastCageTransactions.value = data
 }
@@ -105,6 +106,10 @@ const refTable = ref(null)
     separator="cell"
     bordered
     ref="refTable"
+    virtual-scroll
+    style="max-height: 300px !important"
+    :rows-per-page-options="[0]"
+    :virtual-scroll-slice-size="20"
   >
     <template v-slot:top>
       <div class="row full-width">
@@ -114,20 +119,21 @@ const refTable = ref(null)
           </div>
         </div>
         <div class="col-4 text-right">
-          <!-- <q-btn
+          <q-btn
             v-el-perms="'Addon.CashlessOperations.Transaction.ViewMoreLastCageTransactions'"
             color="blue-grey-8"
             :label="$t('viewMore')"
             flat
             no-caps
             dense
-            @click="
-              router.push({
-                name: 'playerTransactions',
-                query: { playerId: playerId },
-              })
-            "
-          /> -->
+            :to="{
+              name: 'cageOperations',
+              query: {
+                playerId: playerId,
+                tab: 'cageTransactions',
+              },
+            }"
+          />
           <q-icon
             v-el-perms="'Addon.CashlessOperations.Transaction.ReloadLastCageTransactions'"
             @click="loadLastCageTransactions"

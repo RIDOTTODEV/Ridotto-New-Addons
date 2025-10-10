@@ -90,7 +90,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 import AccountList from 'src/components/pages/cage-operations/tab-contens/AccountList.vue'
 import CageTransactions from 'src/components/pages/cage-operations/tab-contens/CageTransactions.vue'
 import ChipTransactions from 'src/components/pages/cage-operations/tab-contens/ChipTransactions.vue'
@@ -143,6 +145,17 @@ const currentCageTab = ref(LocalStorage.getItem('cageTab') || 'accounts')
 const onChangeTab = (tab) => {
   LocalStorage.set('cageTab', tab)
 }
+
+// watch the router query params
+watch(
+  () => router.currentRoute.value.query,
+  (newVal) => {
+    if (newVal.tab) {
+      currentCageTab.value = newVal.tab
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <style scoped></style>
