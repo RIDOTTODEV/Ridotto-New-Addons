@@ -9,11 +9,27 @@
               <div class="row flex flex-column q-gutter-y-md">
                 <div class="col-12">
                   <q-select-box
+                    :options="visitorCategories"
+                    option-value="id"
+                    option-label="name"
+                    v-model="filterFields.marketerId"
+                    :label="$t('Junket')"
+                    bg-color="white"
+                    @update:model-value="
+                      (val) => {
+                        filterFields.marketerId = val
+                      }
+                    "
+                  >
+                  </q-select-box>
+                </div>
+                <div class="col-12">
+                  <q-select-box
                     :options="groupeCodes"
                     option-value="id"
                     option-label="code"
                     v-model="filterFields.groupCodeId"
-                    :label="$t('Groupe Code')"
+                    :label="$t('Group Code')"
                     :slotNames="['after']"
                     bg-color="white"
                   >
@@ -30,22 +46,7 @@
                     </template>
                   </q-select-box>
                 </div>
-                <div class="col-12">
-                  <q-select-box
-                    :options="visitorCategories"
-                    option-value="id"
-                    option-label="name"
-                    v-model="filterFields.marketerId"
-                    :label="$t('Player Category')"
-                    bg-color="white"
-                    @update:model-value="
-                      (val) => {
-                        filterFields.marketerId = val
-                      }
-                    "
-                  >
-                  </q-select-box>
-                </div>
+
                 <div class="col-12">
                   <q-btn
                     type="button"
@@ -60,21 +61,6 @@
                   />
                 </div>
               </div>
-            </fieldset>
-          </div>
-          <div class="col-3">
-            <fieldset class="fieldset row">
-              <legend class="text-subtitle2">
-                {{ $t('Player Photo') }}
-              </legend>
-              <q-img
-                :src="$playerPhotoUrl + selectedRow.playerId"
-                class="player-photo"
-                fit="cover"
-                error-src="/assets/no-photo.png"
-                v-if="selectedRow"
-                style="width: 140px; height: 140px; object-fit: cover"
-              />
             </fieldset>
           </div>
           <div class="col-3">
@@ -139,6 +125,21 @@
                   />
                 </div>
               </div>
+            </fieldset>
+          </div>
+          <div class="col-3">
+            <fieldset class="fieldset row">
+              <legend class="text-subtitle2">
+                {{ $t('Player Photo') }}
+              </legend>
+              <q-img
+                :src="$playerPhotoUrl + selectedRow.playerId"
+                class="player-photo"
+                fit="cover"
+                error-src="/assets/no-photo.png"
+                v-if="selectedRow"
+                style="width: 140px; height: 140px; object-fit: cover"
+              />
             </fieldset>
           </div>
         </div>
