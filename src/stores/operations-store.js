@@ -6,7 +6,7 @@ import {
   playerGiftService,
   playerService,
   pettyCashCategoryService,
-  junketOperationService,
+  marketerOperationService,
 } from 'src/api'
 export const useOperationsStore = defineStore('operationsStore', {
   state: () => ({
@@ -83,47 +83,47 @@ export const useOperationsStore = defineStore('operationsStore', {
       return data
     },
     async fetchGroupCodes(params) {
-      const { data } = await junketOperationService.getGroupCodes(params)
+      const { data } = await marketerOperationService.getGroupCodes(params)
       return data
     },
     async createGroupCode(params) {
-      return await junketOperationService.createGroupCode(params)
+      return await marketerOperationService.createGroupCode(params)
     },
     async updateGroupCode(params) {
-      return await junketOperationService.updateGroupCode(params)
+      return await marketerOperationService.updateGroupCode(params)
     },
     async deleteGroupCode(params) {
-      return await junketOperationService.deleteGroupCode(params)
+      return await marketerOperationService.deleteGroupCode(params)
     },
     async closeGroupCode(params) {
-      return await junketOperationService.closeGroupCode(params)
+      return await marketerOperationService.closeGroupCode(params)
     },
     async getNewGroupCodeString(params) {
-      const { data } = await junketOperationService.getNewGroupCodeString(params)
+      const { data } = await marketerOperationService.getNewGroupCodeString(params)
       return data
     },
     async fetchJunketOperation(params) {
-      const { data } = await junketOperationService.getGcJunketPlayers(params)
+      const { data } = await marketerOperationService.getGcMarketerPlayers(params)
       return data
     },
     async updateJunketCalculationStatus(params) {
-      return junketOperationService.updateJunketCalculationStatus(params)
+      return marketerOperationService.updateMarketerCalculationStatus(params)
     },
     async updateCalculationStatus(params) {
-      return junketOperationService.updateCalculationStatus(params)
+      return marketerOperationService.updateCalculationStatus(params)
     },
     async getPayments(params) {
-      return junketOperationService.getPayments(params)
+      return marketerOperationService.getPayments(params)
     },
     async createPayment(params) {
-      return junketOperationService.createPayment(params)
+      return marketerOperationService.createPayment(params)
     },
     async getPaymentsTotal(params) {
-      const { data } = await junketOperationService.getPaymentsTotal(params)
+      const { data } = await marketerOperationService.getPaymentsTotal(params)
       return data
     },
     async getGcJunketResult(params) {
-      const { data } = await junketOperationService.getGcJunketResult(params)
+      const { data } = await marketerOperationService.getGcMarketerResult(params)
       return data
     },
   },

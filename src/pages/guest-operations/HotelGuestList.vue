@@ -403,13 +403,18 @@ const fetchGroupCodes = async () => {
 const junketStatusFormValues = ref({
   status: 'Pending',
   hotelReservationId: null,
-  junketId: null,
+  marketerId: null,
   groupCodeId: null,
   groupCode: null,
 })
 const onSubmitJunketStatusForm = async (params) => {
   junketStatusFormValues.value.hotelReservationId = params.id
-
+  if (!junketStatusFormValues.value.groupCode) {
+    const groupCode = groupeCodes.value.find(
+      (grc) => grc.id === junketStatusFormValues.value.groupCodeId,
+    )
+    junketStatusFormValues.value.groupCode = groupCode?.code
+  }
   const response = await guestManagementStore.updateReservationGroupCode(
     junketStatusFormValues.value,
   )
@@ -818,7 +823,7 @@ const onSubmitJunketStatusForm = async (params) => {
           </template>
           <template v-slot:body-cell-playerCategoryName="{ props }">
             <q-td key="playerCategoryName" align="center">
-              {{ props.row.players?.find((player) => player.roomOwner)?.playerCategoryName }}
+              {{ props.row.players?.find((player) => player.roomOwner)?.marketerName }}
             </q-td>
           </template>
           <template v-slot:body-cell-status="{ props }">
@@ -892,10 +897,11 @@ const onSubmitJunketStatusForm = async (params) => {
                   @show="
                     () => {
                       junketStatusFormValues.status = props.row.status
-                      junketStatusFormValues.junketId = props.row.players?.find(
+                      junketStatusFormValues.marketerId = props.row.players?.find(
                         (player) => player.roomOwner,
-                      )?.playerCategoryId
+                      )?.marketerId
                       junketStatusFormValues.groupCodeId = props.row.groupCodeId
+                      junketStatusFormValues.groupCode = props.row?.groupCode
                     }
                   "
                 >
@@ -907,7 +913,7 @@ const onSubmitJunketStatusForm = async (params) => {
                     <q-card-section class="q-pa-sm">
                       <div class="text-subtitle2">Junket</div>
                       <q-select-box
-                        v-model="junketStatusFormValues.junketId"
+                        v-model="junketStatusFormValues.marketerId"
                         :options="visitorCategories"
                         :rules="[(val) => !!val]"
                         option-label="name"

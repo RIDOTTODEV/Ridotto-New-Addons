@@ -2,7 +2,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 import {
   giftService,
   roomTypeService,
-  playerCategoryService,
+  marketerService,
   expenseParameterService,
   expenseService,
   hotelReservationService,
@@ -68,24 +68,24 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
       return data
     },
     async fetchPlayerCategories(params) {
-      const { data } = await playerCategoryService.getAll(params)
+      const { data } = await marketerService.getAll(params)
       this.playerCategories = data
       return data
     },
     async getPlayerCategory(params) {
-      const { data } = await playerCategoryService.get(params)
+      const { data } = await marketerService.get(params)
       return data
     },
     async createPlayerCategory(params) {
-      const { data } = await playerCategoryService.create(params)
+      const { data } = await marketerService.create(params)
       return data
     },
     async updatePlayerCategory(params) {
-      const { data } = await playerCategoryService.update(params)
+      const { data } = await marketerService.update(params)
       return data
     },
     async deletePlayerCategory(params) {
-      const { data } = await playerCategoryService.delete(params)
+      const { data } = await marketerService.delete(params)
       return data
     },
     async fetchExpenseParameters(params) {
@@ -139,7 +139,7 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
       return await hotelReservationService.deleteHotelReservationPlayer(params)
     },
     async fetchVisitorCategories(params) {
-      const { data } = await playerCategoryService.getAll(params)
+      const { data } = await marketerService.getAll(params)
       this.visitorCategories = data.data
       return data
     },

@@ -313,7 +313,7 @@ const currencyStore = useCurrencyStore()
 const { currencies, getCurrenciesWithFlags } = storeToRefs(currencyStore)
 const filterFields = ref({
   cashdeskId: getSelectedCashDeskId.value,
-  transactionType: 'Deposit',
+  transactionType: null,
   currencyId: null,
   pettyCashCategoryId: null,
   description: null,

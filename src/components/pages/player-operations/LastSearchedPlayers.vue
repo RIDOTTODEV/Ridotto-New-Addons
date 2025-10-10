@@ -9,6 +9,7 @@
       transition="scale"
       class="col-12"
       once
+      @click="redirectToPlayerDetail(player)"
     >
       <div
         :class="{
@@ -30,26 +31,17 @@
         />
 
         <div class="flex content-center items-center flex-col">
-          <div
-            class="text-subtitle2 text-capitalize text-grey-9"
-            @click="redirectToPlayerDetail(player)"
-          >
+          <div class="text-subtitle2 text-capitalize text-grey-9">
             {{ player.value }}
           </div>
           <div
             class="text-caption text-grey-7 flex content-center items-center"
             style="margin-top: -5px"
           >
-            Player Id: {{ player.id }}
-            <q-icon
-              name="o_content_copy"
-              class="q-ml-sm cursor-pointer my-icon"
-              color="blue-grey-8"
-              @click="copyPlayerId(player.id)"
-            />
+            {{ $t('playerId') }}: {{ player.id }}
           </div>
         </div>
-        <div class="flex content-center items-center" @click="redirectToPlayerDetail(player)">
+        <div class="flex content-center items-center">
           <q-icon class="q-ml-lg" size="xs" name="east" color="grey-6" />
         </div>
       </div>
@@ -57,8 +49,6 @@
   </div>
 </template>
 <script setup>
-import { useQuasar } from 'quasar'
-const $q = useQuasar()
 defineProps({
   lastSearchedPlayers: {
     type: Array,
@@ -69,23 +59,6 @@ defineProps({
     required: true,
   },
 })
-const copyPlayerId = (id) => {
-  try {
-    navigator.clipboard.writeText(id)
-    $q.notify({
-      message: 'Player ID copied to clipboard',
-      color: 'positive',
-      position: 'bottom-right',
-      icon: 'fa fa-check',
-      timeout: 500,
-    })
-  } catch {
-    $q.notify({
-      message: 'Player ID could not be copied to clipboard',
-      color: 'negative',
-    })
-  }
-}
 </script>
 <style scoped>
 .border-top {

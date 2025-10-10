@@ -259,6 +259,7 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
         ...params,
         BalanceCurrencyId: authStore.getDefaultCurrencyId,
         CashdeskId: this.selectedCashDesk.id,
+        includePettyCash: true,
       }
       const { data } = await cashdeskService.getCashCountBalance(payload)
       this.currentCashDeskBalance = data

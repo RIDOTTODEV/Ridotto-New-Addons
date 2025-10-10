@@ -1,10 +1,10 @@
 import { api } from 'src/boot/axios'
 
 
-export const playerCategoryService = {
-  name: 'PlayerCategory',
+export const marketerService = {
+  name: 'Marketer',
   /**
-   * Get Player Category
+   * Get Marketer
    *
    * @param {object} [data]
    * @param {undefined} [data.id] - Id
@@ -13,12 +13,12 @@ export const playerCategoryService = {
    * @param {string} [options.responseType] - Response Type
    */
   get(data = {}, options = {}) {
-    return api.get('/api/PlayerCategory/Get', { params: data, ...options })
+    return api.get('/api/Marketer/Get', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Get All Player Category
+   * Get All Marketer
    *
    * @param {object} [data]
    * @param {undefined} [data.sorting] - Sorting
@@ -35,12 +35,12 @@ export const playerCategoryService = {
     if (!data.skipCount) {
       data.skipCount = 0
     }
-    return api.get('/api/PlayerCategory/GetAll', { params: data, ...options })
+    return api.get('/api/Marketer/GetAll', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Create Player Category
+   * Create Marketer
    *
    * @param {object} [data]
    * @param {object} [options] - Axios Options
@@ -48,12 +48,12 @@ export const playerCategoryService = {
    * @param {string} [options.responseType] - Response Type
    */
   create(data = {}, options = {}) {
-    return api.post('/api/PlayerCategory/Create', data, options)
+    return api.post('/api/Marketer/Create', data, options)
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Update Player Category
+   * Update Marketer
    *
    * @param {object} [data]
    * @param {object} [options] - Axios Options
@@ -61,12 +61,12 @@ export const playerCategoryService = {
    * @param {string} [options.responseType] - Response Type
    */
   update(data = {}, options = {}) {
-    return api.post('/api/PlayerCategory/Update', data, options)
+    return api.post('/api/Marketer/Update', data, options)
       .then((response) => response)
       .catch((error) => error)
   },
   /**
-   * Delete Player Category
+   * Delete Marketer
    *
    * @param {object} [data]
    * @param {undefined} [data.id] - Id
@@ -75,7 +75,7 @@ export const playerCategoryService = {
    * @param {string} [options.responseType] - Response Type
    */
   delete(data = {}, options = {}) {
-    return api.delete('/api/PlayerCategory/Delete', { params: data, ...options })
+    return api.delete('/api/Marketer/Delete', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   }

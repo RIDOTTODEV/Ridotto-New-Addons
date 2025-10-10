@@ -78,7 +78,7 @@
           <div class="row">
             <div class="col-12 q-pa-sm">
               <q-select
-                v-model="hotelGuestFormValues.playerCategoryId"
+                v-model="hotelGuestFormValues.marketerId"
                 outlined
                 dense
                 class="super-small"
@@ -169,8 +169,35 @@
               'disabled-fieldset': !isEditingReservationDetails && hotelGuestFormValues.id,
             }"
           >
+            <div class="col-12 q-pl-sm q-pr-sm q-mb-sm q-mt-sm">
+              <div class="row">
+                <div class="text-subtitle2 text-grey-8 flex content-center items-center col-6">
+                  <q-icon name="o_calendar_month" size="xs" color="grey-9" />
+                  {{ $t('checkIn') }}
+                </div>
+                <div
+                  class="text-subtitle2 text-grey-8 flex content-center items-center col-6 q-pl-md"
+                >
+                  <q-icon name="o_calendar_month" size="xs" color="grey-9" />
+                  {{ $t('checkOut') }}
+                </div>
+              </div>
+              <el-date-picker
+                v-model="dateRange"
+                type="datetimerange"
+                range-separator="|"
+                start-placeholder="Start date"
+                end-placeholder="End date"
+                class="full-width"
+                :disabled="hotelGuestFormValues.id && !isEditingReservationDetails"
+                format="DD.MM.YYYY HH:mm"
+                date-format="MMM DD, YYYY"
+                time-format="HH:mm"
+                @change="onCalendarChange"
+              />
+            </div>
             <div class="col-6 q-pa-sm q-gutter-sm">
-              <div class="">
+              <!--             <div class="">
                 <div class="text-subtitle2 text-grey-8 flex content-center items-center">
                   <q-icon name="o_calendar_month" size="xs" color="grey-9" />
                   {{ $t('checkIn') }}
@@ -204,7 +231,7 @@
                   style="width: 100%"
                   @update:model-value="onSelectCheckInAndCheckOut"
                 />
-              </div>
+              </div> -->
 
               <div class="">
                 <div class="text-subtitle2 text-grey-8">
@@ -742,6 +769,8 @@ onMounted(async () => {
     statuses.value = res
   })
 })
+
+const dateRange = ref([])
 const hotelGuestFormValues = ref({
   id: null,
   players: [
@@ -749,7 +778,7 @@ const hotelGuestFormValues = ref({
       hotelReservationId: 0,
       playerId: null,
       playerFullName: '',
-      playerCategoryName: null,
+      marketerName: null,
       roomOwner: false,
     },
   ],
@@ -775,7 +804,7 @@ const hotelGuestFormValues = ref({
     flightTicketPrice: 0,
     isBusiness: false,
   },
-  playerCategoryId: null,
+  marketerId: null,
   status: 'Pending',
   note: '',
   remark: '',
@@ -805,16 +834,14 @@ const onSubmit = async () => {
       })
     }
   } else {
-    const visitorCategory = visitorCategories.value.find(
-      (item) => item.id === data?.playerCategoryId,
-    )
+    const visitorCategory = visitorCategories.value.find((item) => item.id === data?.marketerId)
     const updateData = {
       hotelReservationId: data.id,
       status: data.status || 'Pending',
       note: data.note || '',
       remark: data.remark || '',
-      playerCategoryName: visitorCategory?.name || '',
-      playerCategoryId: visitorCategory?.id || null,
+      marketerName: visitorCategory?.name || '',
+      marketerId: visitorCategory?.id || null,
     }
     const response = await guestManagementStore.updateHotelReservation(updateData)
     if (response) {
@@ -830,8 +857,8 @@ const onSubmit = async () => {
 const onSelectGuest = async (player) => {
   if (hotelGuestFormValues.value.id && player) {
     if (
-      !hotelGuestFormValues.value.players[0]?.playerCategoryId ||
-      !hotelGuestFormValues.value.players[0]?.playerCategoryName
+      !hotelGuestFormValues.value.players[0]?.marketerId ||
+      !hotelGuestFormValues.value.players[0]?.marketerName
     ) {
       $q.notify({
         message: 'Müşteri kategorisi seçilmedi',
@@ -844,8 +871,8 @@ const onSelectGuest = async (player) => {
       hotelReservationId: hotelGuestFormValues.value.id,
       playerId: player.id,
       playerFullName: player.value,
-      playerCategoryId: hotelGuestFormValues.value.players[0].playerCategoryId,
-      playerCategoryName: hotelGuestFormValues.value.players[0].playerCategoryName,
+      marketerId: hotelGuestFormValues.value.players[0].marketerId,
+      marketerName: hotelGuestFormValues.value.players[0].marketerName,
       roomOwner: true,
     })
     if (addGuestPlayerResponse.status === 200) {
@@ -907,12 +934,12 @@ const onSelectVisitorCategory = (args) => {
     const category = visitorCategories.value.find((item) => +item.id === +args)
     if (hotelGuestFormValues.value.players && hotelGuestFormValues.value.players.length) {
       hotelGuestFormValues.value.players.forEach((player) => {
-        player.playerCategoryName = category.name || ''
+        player.marketerName = category.name || ''
       })
     }
   } else {
     hotelGuestFormValues.value.players.map((player) => {
-      player.playerCategoryName = null
+      player.marketerName = null
     })
   }
 }
@@ -936,8 +963,8 @@ const onSelectRoomMate = async (player) => {
       hotelReservationId: hotelGuestFormValues.value.id,
       playerId: player.id,
       playerFullName: player.value,
-      playerCategoryId: hotelGuestFormValues.value.players[0].playerCategoryId,
-      playerCategoryName: hotelGuestFormValues.value.players[0].playerCategoryName,
+      marketerId: hotelGuestFormValues.value.players[0].marketerId,
+      marketerName: hotelGuestFormValues.value.players[0].marketerName,
       roomOwner: false,
     })
 
@@ -946,8 +973,8 @@ const onSelectRoomMate = async (player) => {
       hotelGuestFormValues.value.players.push({
         playerId: player.id,
         playerFullName: player.value,
-        playerCategoryId: hotelGuestFormValues.value.players[0].playerCategoryId,
-        playerCategoryName: hotelGuestFormValues.value.players[0].playerCategoryName,
+        marketerId: hotelGuestFormValues.value.players[0].marketerId,
+        marketerName: hotelGuestFormValues.value.players[0].marketerName,
         roomOwner: false,
       })
       $q.notify({
@@ -970,8 +997,8 @@ const onSelectRoomMate = async (player) => {
   hotelGuestFormValues.value.players.push({
     playerId: roomMateRef.value.playerId,
     playerFullName: roomMateRef.value.playerFullName,
-    playerCategoryId: hotelGuestFormValues.value.players[0].playerCategoryId,
-    playerCategoryName: hotelGuestFormValues.value.players[0].playerCategoryName,
+    marketerId: hotelGuestFormValues.value.players[0].marketerId,
+    marketerName: hotelGuestFormValues.value.players[0].marketerName,
     roomOwner: false,
   })
   roomMateRef.value.playerId = null
@@ -1221,6 +1248,7 @@ const setCheckInAndCheckOutDates = () => {
   let checkOutDate = new Date()
   checkOutDate.setHours(12, 0, 0, 0)
   hotelGuestFormValues.value.hotelFlightInfo.checkOut = checkOutDate
+  dateRange.value = [checkInDate, checkOutDate]
 }
 
 const setFormValues = async () => {
@@ -1231,7 +1259,7 @@ const setFormValues = async () => {
           hotelReservationId: 0,
           playerId: null,
           playerFullName: '',
-          playerCategoryName: null,
+          marketerName: null,
           roomOwner: false,
         },
       ],
@@ -1257,7 +1285,7 @@ const setFormValues = async () => {
         flightTicketPrice: 0,
         isBusiness: false,
       },
-      playerCategoryId: null,
+      marketerId: null,
       status: 'Pending',
       note: '',
       remark: '',
@@ -1274,9 +1302,7 @@ const setFormValues = async () => {
   let category = null
   const ownerPlayer = data.players.find((item) => item.roomOwner === true)
   if (!ownerPlayer) {
-    const somePlayerCategoryId = data.players.find(
-      (item) => item.roomOwner === false,
-    )?.playerCategoryId
+    const somePlayerCategoryId = data.players.find((item) => item.roomOwner === false)?.marketerId
     category = { ...visitorCategories.value.find((item) => item.id === somePlayerCategoryId) }
   }
   const players = ownerPlayer
@@ -1288,8 +1314,8 @@ const setFormValues = async () => {
           playerId: null,
           playerFullName: '',
           roomOwner: false,
-          playerCategoryId: category?.id || null,
-          playerCategoryName: category?.name || null,
+          marketerId: category?.id || null,
+          marketerName: category?.name || null,
         },
         ...data.players,
       ]
@@ -1318,7 +1344,7 @@ const setFormValues = async () => {
       flightTicketPrice: data.flightTicketPrice,
       isBusiness: data.isBusiness,
     },
-    playerCategoryId: ownerPlayer ? ownerPlayer.playerCategoryId : category?.id || null,
+    marketerId: ownerPlayer ? ownerPlayer.marketerId : category?.id || null,
     status: data.status,
     note: data.note,
     remark: data.remark,
@@ -1337,13 +1363,23 @@ watch(
 )
 
 const onSelectCheckInAndCheckOut = () => {
-  const dateDiff = date.getDateDiff(
-    hotelGuestFormValues.value.hotelFlightInfo.checkOut,
-    hotelGuestFormValues.value.hotelFlightInfo.checkIn,
-  )
-  hotelGuestFormValues.value.hotelFlightInfo.dayCount = dateDiff
+  let checkIn = dateRange.value[0]
 
+  checkIn.setHours(14, 0, 0, 0)
+  let checkOut = dateRange.value[1]
+  checkOut.setHours(12, 0, 0, 0)
+
+  const dateDiff = date.getDateDiff(checkOut, checkIn)
+  hotelGuestFormValues.value.hotelFlightInfo.dayCount = dateDiff
+  hotelGuestFormValues.value.hotelFlightInfo.checkIn = checkIn
+  hotelGuestFormValues.value.hotelFlightInfo.checkOut = checkOut
   onChangeRoomType()
+}
+const onCalendarChange = () => {
+  if (dateRange.value === null || dateRange.value.length === 0) {
+    return
+  }
+  onSelectCheckInAndCheckOut()
 }
 
 const onChangeRoomType = () => {
@@ -1400,7 +1436,7 @@ watch(
   },
 )
 
-watch(
+/* watch(
   () => hotelGuestFormValues.value.hotelFlightInfo.checkIn,
   () => {
     // compare the dates if checkIn is greater than checkOut, set checkOut to checkIn
@@ -1418,7 +1454,25 @@ watch(
       hotelGuestFormValues.value.hotelFlightInfo.dayCount = 1
     }
   },
-)
+) */
+/* watch(
+  () => dateRange.value,
+  () => {
+    // compare the dates if checkIn is greater than checkOut, set checkOut to checkIn
+    if (dateRange.value === null || dateRange.value.length === 0) {
+      return
+    }
+    const dateDiff = date.getDateDiff(dateRange.value[1], dateRange.value[0])
+    if (dateDiff < 0) {
+      $q.notify({
+        message: 'Check-in tarihi check-out tarihinden büyük olamaz',
+        color: 'negative',
+      })
+      dateRange.value[0] = dateRange.value[1]
+      hotelGuestFormValues.value.hotelFlightInfo.dayCount = 1
+    }
+  },
+) */
 
 const onChangeIsWalkIn = () => {}
 </script>

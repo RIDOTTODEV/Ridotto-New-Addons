@@ -2,7 +2,7 @@
   <q-page class="q-pa-md">
     <div class="row">
       <div class="col-md-4 q-pa-sm col-sm-12 col-xs-12">
-        <q-card class="no-box-shadow app-cart-grey q-mb-md">
+        <q-card class="no-box-shadow app-cart-grey">
           <q-card-section class="q-pa-none">
             <div class="">
               <q-card class="q-mb-md no-box-shadow col-12 q-mt-xl">

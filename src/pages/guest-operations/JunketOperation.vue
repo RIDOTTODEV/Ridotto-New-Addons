@@ -35,13 +35,12 @@
                     :options="visitorCategories"
                     option-value="id"
                     option-label="name"
-                    v-model="filterFields.playerCategoryId"
+                    v-model="filterFields.marketerId"
                     :label="$t('Player Category')"
                     bg-color="white"
                     @update:model-value="
                       (val) => {
-                        filterFields.playerCategoryId = val
-                        filterFields.junketId = val
+                        filterFields.marketerId = val
                       }
                     "
                   >
@@ -401,7 +400,7 @@
                   />
                 </div>
                 <div class="row">
-                  <div class="text-subtitle1 flex content-center items-center">
+                  <div class="text-subtitle2 flex content-center items-center">
                     <div class="min-w flex justify-start">{{ $t('netResult') }}</div>
                     :
                     <span class="q-ml-md">
@@ -413,7 +412,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="text-subtitle1 flex content-center items-center">
+                  <div class="text-subtitle2 flex content-center items-center">
                     <div class="min-w flex justify-start">{{ $t('commission') }}</div>
                     :
                     <span class="q-ml-md">
@@ -428,7 +427,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="text-subtitle1 flex content-center items-center">
+                  <div class="text-subtitle2 flex content-center items-center">
                     <div class="min-w flex justify-start">{{ $t('payments') }}</div>
                     :
                     <span class="q-ml-md">
@@ -446,7 +445,7 @@
                 </div>
 
                 <div class="row">
-                  <div class="text-subtitle1 flex content-center items-center">
+                  <div class="text-subtitle2 flex content-center items-center">
                     <div class="min-w flex justify-start">{{ $t('Total Result') }}</div>
                     :
                     <span
@@ -463,15 +462,6 @@
                         getGcJunketResult.currencyName
                       }}</span>
                     </span>
-                  </div>
-                </div>
-                <div class="row text-grey-7">
-                  <div class="col-12 q-pt-md">
-                    <div class="text-caption flex content-center items-center justify-end">
-                      <q-icon name="o_functions" size="20px" />
-                      {{ $t('Total Result') }} = {{ $t('Commission Amount') }} -
-                      {{ $t('Payments') }}
-                    </div>
                   </div>
                 </div>
               </q-card-section>
@@ -502,8 +492,7 @@ const groupeCodes = ref([])
 
 const filterFields = ref({
   groupCodeId: null,
-  playerCategoryId: null,
-  junketId: null,
+  marketerId: null,
 })
 
 const manageGroupCode = () => {
@@ -692,7 +681,7 @@ const onCliclCalculationStatusUpdate = async () => {
 }
 
 const onCliclJunketCalculationStatusUpdate = async () => {
-  if (!filterFields.value.groupCodeId || !filterFields.value.junketId) {
+  if (!filterFields.value.groupCodeId || !filterFields.value.marketerId) {
     $q.notify({
       type: 'warning',
       position: 'bottom-right',
@@ -700,7 +689,7 @@ const onCliclJunketCalculationStatusUpdate = async () => {
     })
     return
   }
-  const junket = visitorCategories.value.find((item) => item.id === filterFields.value?.junketId)
+  const junket = visitorCategories.value.find((item) => item.id === filterFields.value?.marketerId)
   $q.dialog({
     title: 'Recalculate for Junket',
     message: 'Are you sure you want to recalculate for the junket? ' + junket?.name,
@@ -726,7 +715,7 @@ const onCliclJunketCalculationStatusUpdate = async () => {
     const response = await operationsStore.updateJunketCalculationStatus({
       groupCodeId: filterFields.value.groupCodeId,
       status: 'Pending',
-      junketId: filterFields.value.junketId,
+      marketerId: filterFields.value.marketerId,
     })
 
     if (response.status === 200) {
@@ -785,13 +774,13 @@ const paymentColumns = ref([
 const paymentTableRef = ref(null)
 const paymentFormValues = ref({
   groupCodeId: null,
-  junketId: null,
+  marketerId: null,
   currencyId: null,
   amount: null,
   note: null,
 })
 const onSubmitPaymentForm = async () => {
-  if (!filterFields.value.groupCodeId || !filterFields.value.junketId) {
+  if (!filterFields.value.groupCodeId || !filterFields.value.marketerId) {
     $q.notify({
       type: 'warning',
       position: 'bottom-right',
@@ -800,7 +789,7 @@ const onSubmitPaymentForm = async () => {
     return
   }
   paymentFormValues.value.groupCodeId = filterFields.value.groupCodeId
-  paymentFormValues.value.junketId = filterFields.value.junketId
+  paymentFormValues.value.marketerId = filterFields.value.marketerId
   const response = await operationsStore.createPayment(paymentFormValues.value)
   if (response) {
     $q.notify({
@@ -809,7 +798,7 @@ const onSubmitPaymentForm = async () => {
     })
     paymentFormValues.value = {
       groupCodeId: null,
-      junketId: null,
+      marketerId: null,
       currencyId: null,
       amount: null,
       note: null,
@@ -879,7 +868,7 @@ const createNewPayment = ref(false)
 const getGcJunketResult = ref(null)
 const getGcJunketResultTotal = async () => {
   getGcJunketResult.value =
-    filterFields.value.groupCodeId && filterFields.value.junketId
+    filterFields.value.groupCodeId && filterFields.value.marketerId
       ? await operationsStore.getGcJunketResult(filterFields.value)
       : null
 }
