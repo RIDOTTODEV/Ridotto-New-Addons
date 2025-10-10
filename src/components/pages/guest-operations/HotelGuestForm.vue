@@ -193,7 +193,6 @@
                 format="DD.MM.YYYY HH:mm"
                 date-format="MMM DD, YYYY"
                 time-format="HH:mm"
-                @change="onCalendarChange"
               />
             </div>
             <div class="col-6 q-pa-sm q-gutter-sm">
@@ -829,7 +828,7 @@ const onSubmit = async () => {
       emits('close')
     } else {
       $q.notify({
-        message: 'Rezervasyon oluşturulurken bir hata oluştu',
+        message: response.response.data,
         color: 'negative',
       })
     }
@@ -1352,7 +1351,7 @@ const setFormValues = async () => {
     expenses: [],
     check: data.check,
   }
-  dateRange.value = [data.checkIn, data.checkOut]
+  dateRange.value = [new Date(data.checkIn), new Date(data.checkOut)]
   await fetchReservationExpenses(data.id)
 }
 watch(
@@ -1363,25 +1362,54 @@ watch(
   { immediate: true },
 )
 
-const onSelectCheckInAndCheckOut = () => {
+/* const onSelectCheckInAndCheckOut = () => {
+  let checkInOld = hotelGuestFormValues.value.hotelFlightInfo.checkIn
   let checkIn = dateRange.value[0]
-
-  checkIn.setHours(14, 0, 0, 0)
+  if (checkIn.getHours() === 0 || checkIn.getMinutes() === 0) {
+    checkIn.setHours(14, 0, 0, 0)
+  } else {
+    console.log('checkInOld', checkInOld.getHours())
+    console.log('checkIn', checkIn.getHours())
+    if (
+      checkInOld.getHours() !== checkIn.getHours() ||
+      checkInOld.getMinutes() !== checkIn.getMinutes()
+    ) {
+      checkIn.setHours(checkIn.getHours(), checkIn.getMinutes(), 0, 0)
+    } else {
+      checkIn.setHours(checkInOld.getHours(), checkInOld.getMinutes(), 0, 0)
+    }
+  }
+  //checkIn.setHours(14, 0, 0, 0)
+  let checkOutOld = hotelGuestFormValues.value.hotelFlightInfo.checkOut
   let checkOut = dateRange.value[1]
-  checkOut.setHours(12, 0, 0, 0)
+  if (checkOut.getHours() === 0 || checkOut.getMinutes() === 0) {
+    checkOut.setHours(12, 0, 0, 0)
+  } else {
+    if (
+      checkOutOld.getHours() !== checkOut.getHours() ||
+      checkOutOld.getMinutes() !== checkOut.getMinutes()
+    ) {
+      checkOut.setHours(checkOut.getHours(), checkOut.getMinutes(), 0, 0)
+    } else {
+      checkOut.setHours(checkOutOld.getHours(), checkOutOld.getMinutes(), 0, 0)
+    }
+  }
+
+  // checkOut.setHours(12, 0, 0, 0)
 
   const dateDiff = date.getDateDiff(checkOut, checkIn)
   hotelGuestFormValues.value.hotelFlightInfo.dayCount = dateDiff
   hotelGuestFormValues.value.hotelFlightInfo.checkIn = checkIn
   hotelGuestFormValues.value.hotelFlightInfo.checkOut = checkOut
+  dateRange.value = [checkIn, checkOut]
   onChangeRoomType()
-}
-const onCalendarChange = () => {
+} */
+/* const onCalendarChange = () => {
   if (dateRange.value === null || dateRange.value.length === 0) {
     return
   }
   onSelectCheckInAndCheckOut()
-}
+} */
 
 const onChangeRoomType = () => {
   if (!hotelGuestFormValues.value.hotelFlightInfo.roomTypeId) return
@@ -1475,6 +1503,43 @@ watch(
   },
 ) */
 
+// watch the dateRange
+watch(dateRange, (newValue, oldValue) => {
+  if (newValue !== null && oldValue !== null) {
+    if (oldValue !== null) {
+      const oldCheckIn = oldValue[0]
+      const oldCheckOut = oldValue[1]
+      const newCheckIn = newValue[0]
+      const newCheckOut = newValue[1]
+
+      if (newCheckIn.getHours() === 0 && oldCheckIn.getHours() === 14) {
+        newCheckIn.setHours(14, 0, 0, 0)
+      }
+      if (newCheckOut.getHours() === 0 && oldCheckOut.getHours() === 12) {
+        newCheckOut.setHours(12, 0, 0, 0)
+      }
+
+      const dateDiff = date.getDateDiff(newCheckOut, newCheckIn)
+      hotelGuestFormValues.value.hotelFlightInfo.dayCount = dateDiff
+      hotelGuestFormValues.value.hotelFlightInfo.checkIn = newCheckIn
+      hotelGuestFormValues.value.hotelFlightInfo.checkOut = newCheckOut
+      onChangeRoomType()
+    }
+  } else {
+    if (newValue !== null) {
+      const newCheckIn = newValue[0]
+      const newCheckOut = newValue[1]
+      newCheckIn.setHours(14, 0, 0, 0)
+      newCheckOut.setHours(12, 0, 0, 0)
+
+      const dateDiff = date.getDateDiff(newCheckOut, newCheckIn)
+      hotelGuestFormValues.value.hotelFlightInfo.dayCount = dateDiff
+      hotelGuestFormValues.value.hotelFlightInfo.checkIn = newCheckIn
+      hotelGuestFormValues.value.hotelFlightInfo.checkOut = newCheckOut
+      onChangeRoomType()
+    }
+  }
+})
 const onChangeIsWalkIn = () => {}
 </script>
 
