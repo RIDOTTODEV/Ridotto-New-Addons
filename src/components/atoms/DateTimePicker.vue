@@ -299,15 +299,15 @@ const onBeforeShowMenu = () => {
   }
 }
 onMounted(() => {
+  if (props.setDate) {
+    onSelectDate(props.setDate)
+  }
   if (props.setDateByLabel !== null) {
     let selectedDate = filterFields.value.dates.find((date) => date.label === props.setDateByLabel)
     if (selectedDate) {
       onSelectDate(selectedDate)
       return
     }
-  }
-  if (props.setDate) {
-    onSelectDate(props.setDate)
   }
 })
 </script>

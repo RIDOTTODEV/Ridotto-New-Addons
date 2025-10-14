@@ -7,6 +7,7 @@ import {
   cashdeskTransactionService,
   cashdeskChipCountService,
   pettyCashService,
+  playerTransactionService,
 } from 'src/api'
 import { useAuthStore } from 'src/stores/auth-store'
 import { date, LocalStorage, Loading, QSpinnerGears } from 'quasar'
@@ -322,6 +323,62 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
     async fetchAllCashDeskCountDenominations(params) {
       const { data } = await cashdeskCountService.getAllCountDenomination(params)
       return data
+    },
+    async fetchPlayerTransactions(params) {
+      //const authStore = useAuthStore()
+      const payload = {
+        ...params,
+        //   gamingDateId: authStore.getDefaultGamingDateId,
+      }
+      const searchParams = new URLSearchParams()
+      if (payload.transactionCodeIds && Array.isArray(payload.transactionCodeIds)) {
+        payload.transactionCodeIds.forEach((id) => {
+          searchParams.append('transactionCodeIds', id)
+        })
+      }
+      Object.entries(payload).forEach(([key, value]) => {
+        if (key !== 'transactionCodeIds' && value !== null) {
+          searchParams.append(key, value)
+        }
+      })
+      const { data } = await playerTransactionService.getTransactionReport(searchParams)
+      return data
+    },
+    async fetchPlayerTransactionDetail(params) {
+      const payload = {
+        ...params,
+      }
+      const searchParams = new URLSearchParams()
+      if (payload.transactionCodeIds && Array.isArray(payload.transactionCodeIds)) {
+        payload.transactionCodeIds.forEach((id) => {
+          searchParams.append('transactionCodeIds', id)
+        })
+      }
+      Object.entries(payload).forEach(([key, value]) => {
+        if (key !== 'transactionCodeIds' && value !== null) {
+          searchParams.append(key, value)
+        }
+      })
+      const { data } = await playerTransactionService.getTransactionDetailReport(searchParams)
+      return data
+      /*    return (
+        data.map((item) => ({
+          ...item,
+          code: item.code || null,
+        })) || []
+      ) */
+    },
+    async updatePlayerTransactionCode(params) {
+      return await playerTransactionService.updateTransactionCode(params)
+    },
+    async updatePlayerTransactionGroupCode(params) {
+      return await playerTransactionService.updateGroupCode(params)
+    },
+    async updatePlayerTransactionDate(params) {
+      return await playerTransactionService.updateTransactionDate(params)
+    },
+    async updatePlayerTransactionLocation(params) {
+      return await playerTransactionService.updateLocation(params)
     },
   },
 })

@@ -335,6 +335,12 @@ export const useMainStore = defineStore('main', {
             ],
           },
           {
+            title: 'locations',
+            icon: 'remove',
+            routeName: 'locations',
+            permission: 'Addon.Definitions.Location.ShowList',
+          },
+          {
             title: 'discounts',
             icon: 'remove',
             routeName: 'discounts',

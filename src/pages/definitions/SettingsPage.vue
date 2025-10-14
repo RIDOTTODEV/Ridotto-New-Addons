@@ -171,6 +171,20 @@
               </template>
             </q-input>
           </div>
+          <div class="col-3 q-pa-xs">
+            <div class="text-caption">
+              {{ $t('Default Player Transaction Location') }}
+              <span class="text-negative">*</span>
+            </div>
+            <q-select-box
+              v-model="addonGeneralSettings.DefaultPlayerTransactionLocationId"
+              :options="locations"
+              option-value="id"
+              option-label="name"
+              hide-bottom-space
+              :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
+            />
+          </div>
           <div class="col-12 q-pa-xs flex justify-start q-mt-lg">
             <q-btn
               unelevated
@@ -194,11 +208,13 @@ import { ref, onMounted } from 'vue'
 import { posApi } from 'boot/axios'
 import { useCurrencyStore } from 'src/stores/currency-store'
 import { useMainStore } from 'src/stores/main-store'
+import { useDefinitionStore } from 'src/stores/definition-store'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from 'src/stores/auth-store'
 const authStore = useAuthStore()
 const { addonGeneralSettings } = storeToRefs(authStore)
-
+const definitionStore = useDefinitionStore()
+const { locations } = storeToRefs(definitionStore)
 const currencyStore = useCurrencyStore()
 const { getCurrenciesWithFlags } = storeToRefs(currencyStore)
 const mainStore = useMainStore()
@@ -210,6 +226,7 @@ onMounted(async () => {
   await posApi.get('/api/Tag/GetAll').then(({ data }) => {
     sigaretteReportTags.value = data.data
   })
+  await definitionStore.fetchLocations()
 })
 </script>
 

@@ -157,6 +157,15 @@ const routes = [
         },
       },
       {
+        path: 'locations',
+        name: 'locations',
+        component: () => import('src/pages/definitions/Locations.vue'),
+        meta: {
+          requiredPermission: 'Addon.Definitions.Location',
+          requiresAuth: true,
+        },
+      },
+      {
         path: 'currencies',
         name: 'currencies',
         component: () => import('src/pages/definitions/CurrenciesPage.vue'),

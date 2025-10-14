@@ -84,6 +84,13 @@
         >
           <cash-balance />
         </q-tab-panel>
+        <q-tab-panel
+          v-el-perms="'Addon.CageOperations.Tab.Reports'"
+          name="reports"
+          class="q-card q-pa-none no-box-shadow"
+        >
+          <reports />
+        </q-tab-panel>
       </q-tab-panels>
     </q-card-section>
   </q-card>
@@ -100,6 +107,7 @@ import ChipBalance from 'src/components/pages/cage-operations/tab-contens/ChipBa
 import CashBalance from 'src/components/pages/cage-operations/tab-contens/CashBalance.vue'
 import Balance from 'src/components/pages/cage-operations/tab-contens/Balance.vue'
 import PettyCash from 'src/components/pages/cage-operations/tab-contens/PettyCash.vue'
+import Reports from 'src/components/pages/cage-operations/tab-contens/Reports.vue'
 import { LocalStorage } from 'quasar'
 const cageOperationTabs = ref([
   {
@@ -137,6 +145,12 @@ const cageOperationTabs = ref([
     elPermission: 'Addon.CageOperations.Tab.ChipBalanceUpdate',
     icon: 'o_casino',
     name: 'chipBalance',
+  },
+  {
+    label: 'reports',
+    elPermission: 'Addon.CageOperations.Tab.Reports',
+    icon: 'o_article',
+    name: 'reports',
   },
 ])
 

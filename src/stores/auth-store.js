@@ -20,6 +20,7 @@ export const useAuthStore = defineStore('authStore', {
       sigaretteReportTags: [],
       CashierPassword: '',
       PitbossPassword: '',
+      DefaultPlayerTransactionLocationId: null,
     },
     enums: [],
     userDashboardLayout: {
