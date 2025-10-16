@@ -119,8 +119,7 @@
               <q-btn
                 unelevated
                 dense
-                color="grey-2"
-                text-color="primary"
+                text-color="blue-grey-9"
                 size="11px"
                 icon="fa-regular fa-eye"
                 class="q-mr-sm"
@@ -408,17 +407,18 @@
               </q-td>
             </template>
             <template v-slot:body-cell-code="{ props }">
-              <q-td :props="props" align="center" key="code">
-                <q-input
-                  v-model="props.row.code"
-                  input-class="text-center"
-                  class="super-small"
-                  dense
-                  borderless
-                  outlined
-                  style="width: 50px"
-                  @update:model-value="(val) => onChangeTransactionGroupCode(val, props.row)"
-                />
+              <q-td :props="props" align="center" key="code" class="cursor-pointer">
+                <div class="flex justify-center">
+                  <q-input
+                    v-model="props.row.code"
+                    input-class="text-center"
+                    class="super-small"
+                    dense
+                    borderless
+                    style="width: 50px"
+                    @update:model-value="(val) => onChangeTransactionGroupCode(val, props.row)"
+                  />
+                </div>
               </q-td>
             </template>
             <template v-slot:body-cell-locationName="{ props }">
@@ -611,32 +611,26 @@ const playerTransactionDetailColumns = ref([
     name: 'transactionType',
     label: 'Transaction Type',
     field: 'transactionType',
+    format: (val) => {
+      return val === 'Deposit' ? 'Paid' : 'Received'
+    },
   },
   {
     name: 'locationName',
     label: 'Location',
     field: 'locationName',
   },
-  {
-    name: 'currencyName',
-    label: 'Currency',
-    field: 'currencyName',
-  },
-  {
-    name: 'amount',
-    label: 'Amount',
-    field: 'amount',
-    fieldType: 'price',
-  },
+
   {
     name: 'createdByName',
     label: 'Created By',
     field: 'createdByName',
   },
+
   {
-    name: 'transactionType',
-    label: 'Transaction Type',
-    field: 'transactionType',
+    name: 'currencyName',
+    label: 'Currency',
+    field: 'currencyName',
   },
   {
     name: 'defaultCurrencyAmount',
