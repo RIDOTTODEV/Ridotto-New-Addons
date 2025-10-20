@@ -110,6 +110,22 @@
                     class="q-ml-sm"
                     @click="playerTransactionsTable.fetchData()"
                   />
+                  <q-btn
+                    type="button"
+                    :label="$t('excelExport')"
+                    icon="o_file_download"
+                    color="green-9"
+                    size="13px"
+                    unelevated
+                    no-caps
+                    class="q-ml-sm"
+                    @click="
+                      reportStore.getPettyCashTransactions({
+                        ...filterFields,
+                        exportFileType: 'Excel',
+                      })
+                    "
+                  />
                 </div>
               </div>
             </div>
@@ -480,6 +496,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
+import { useReportStore } from 'src/stores/report-store'
 import { date, Loading, useQuasar } from 'quasar'
 import { useGuestManagementStore } from 'src/stores/guest-management-store'
 import { useDefinitionStore } from 'src/stores/definition-store'
@@ -781,6 +798,8 @@ const onSubmitUpdateTransactionLocation = async (row) => {
       Loading.hide()
     })
 }
+
+const reportStore = useReportStore()
 </script>
 
 <style scoped></style>

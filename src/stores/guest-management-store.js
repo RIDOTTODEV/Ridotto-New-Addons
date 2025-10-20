@@ -260,6 +260,15 @@ export const useGuestManagementStore = defineStore('guestManagementStore', {
     async updateReservationGroupCode(params) {
       return await hotelReservationService.updateReservationGroupCode(params)
     },
+    async bulkReservationUpdateStatus(params) {
+      return await hotelReservationService.bulkReservationUpdateStatus(params)
+    },
+    async bulkReservationUpdateGroupCode(params) {
+      return await hotelReservationService.bulkReservationUpdateGroupCode(params)
+    },
+    async bulkReservationUpdateGroupMarketer(params) {
+      return await hotelReservationService.bulkReservationUpdateMarketer(params)
+    },
   },
 })
 

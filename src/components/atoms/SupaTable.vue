@@ -18,7 +18,6 @@
     :filter="tableFilterInput"
     class="no-box-shadow col-12 supa-table"
     @row-click="onRowClick"
-    @row-dblclick="onRowDoubleClick"
     @request="filterMethod"
   >
     <template v-slot:top="" v-if="!hideTopBar">
@@ -57,8 +56,8 @@
               height: '400px!important',
             }"
           >
-            <div class="bg-grey-2 q-pa-xs text-center text-subtitle2">
-              {{ $t('visibleColumns') }}
+            <div class="bg-grey-2 q-pa-xs text-caption text-bold">
+              <span class="q-ml-sm"> {{ $t('visibleColumns') }}</span>
             </div>
             <q-list dense separator bordered>
               <q-item
@@ -71,7 +70,7 @@
                 @click="onSelectVisibleColumn(column.name)"
                 :disable="column.required"
               >
-                <q-item-section class="text-capitalize text-caption text-bold">
+                <q-item-section class="text-capitalize text-caption">
                   {{ column.label }}
                 </q-item-section>
               </q-item>
@@ -131,22 +130,31 @@
           v-for="col in props.cols"
           :key="col.name"
           :props="props"
-          :class="[
-            'text-center q-custom-table',
-            { 'frozen-column': frozenColumns.includes(col.name) },
-          ]"
+          class="text-center q-custom-table"
+          :class="[{ 'frozen-column': frozenColumns.includes(col.name) }]"
           :style="
             frozenColumns.includes(col.name)
               ? { left: getFrozenColumnPosition(col.name) + 'px' }
               : {}
           "
         >
-          {{ col.label }}
+          <div v-if="col.name !== 'selection'">
+            {{ col.label }}
+          </div>
+          <div v-else>
+            <q-checkbox
+              v-model="headerSelection"
+              color="primary"
+              @update:model-value="onSelectionAll"
+              dense
+            />
+          </div>
         </q-th>
       </q-tr>
     </template>
     <template v-slot:body-cell="props">
       <q-td
+        v-if="props.col.name !== 'selection'"
         :props="props"
         :class="{ 'frozen-column': frozenColumns.includes(props.col.name) }"
         :style="
@@ -168,6 +176,24 @@
           {{ props.value }}
         </div>
       </q-td>
+      <q-td
+        :props="props"
+        :class="{ 'frozen-column': frozenColumns.includes(props.col.name) }"
+        :style="
+          frozenColumns.includes(props.col.name)
+            ? { left: getFrozenColumnPosition(props.col.name) + 'px' }
+            : {}
+        "
+        v-else
+      >
+        <div>
+          <q-checkbox v-model="selected" :val="props.row" @update:model-value="onSelection" dense />
+        </div>
+      </q-td>
+    </template>
+
+    <template v-for="slotName in slotNames" v-slot:[slotName]="props">
+      <slot :name="slotName" v-bind="{ props }"></slot>
     </template>
 
     <template v-slot:body-cell-actions="props">
@@ -240,10 +266,6 @@
           class="q-pr-md"
         />
       </div>
-    </template>
-
-    <template v-for="slotName in slotNames" v-slot:[slotName]="props">
-      <slot :name="slotName" v-bind="{ props }"></slot>
     </template>
   </q-table>
 </template>
@@ -636,24 +658,7 @@ const toggleShowHideColumns = async (columnNames, isVisible = true) => {
   })
 }
 
-const onRowDoubleClick = (evt, row) => {
-  const redirectTdIds = ['playerFullName']
-  const td = evt.target.closest('td')
-  const id = td ? td.id : null
-  if (redirectTdIds.includes(id)) {
-    return
-  }
-  console.log('row', row)
-
-  /*   $q.dialog({
-    component: ShowJsonDetailDialog,
-    componentProps: {
-      data: row,
-    },
-  }) */
-}
-
-const emits = defineEmits(['switchSummaryCard', 'selectedRow'])
+const emits = defineEmits(['switchSummaryCard', 'selectedRow', 'tableSelection'])
 const switchSummaryCard = () => {
   emits('switchSummaryCard')
 }
@@ -673,6 +678,31 @@ const getFrozenColumnPosition = (columnName) => {
 
   return position
 }
+
+// Selection section
+const selected = ref([])
+const headerSelection = ref(false)
+const onSelectionAll = (selection) => {
+  if (selection === true) {
+    const tableComputedValues = [...refTable.value.computedRows]
+    selected.value = [...tableComputedValues]
+    headerSelection.value = true
+  } else {
+    selected.value = []
+    headerSelection.value = false
+  }
+  emits('tableSelection', selected.value)
+}
+
+const onSelection = () => {
+  if (selected.value.length > 0) {
+    headerSelection.value = null
+  } else {
+    headerSelection.value = false
+  }
+  emits('tableSelection', selected.value)
+}
+
 // Expose public methods and properties
 defineExpose({
   fetchData,

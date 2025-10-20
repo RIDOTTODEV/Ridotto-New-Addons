@@ -1,9 +1,6 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
-import {
-  useQuasar,
-  /* date */
-} from 'quasar'
+import { onMounted, ref, watch, defineAsyncComponent } from 'vue'
+import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
 import { useGuestManagementStore } from 'src/stores/guest-management-store'
 import { useAuthStore } from 'src/stores/auth-store'
@@ -178,6 +175,11 @@ const onClickShowHotelGuestForm = (params) => {
 }
 const columns = ref([
   {
+    field: 'selection',
+    name: 'selection',
+    sortable: false,
+  },
+  {
     field: 'id',
     label: 'Id',
   },
@@ -295,6 +297,8 @@ const hotelGuestListFilterParams = ref({
   showByRecordDate: false,
   checkInDate: null,
   checkOutDate: null,
+  groupCode: null,
+  status: null,
 })
 
 const toggleHideColumns = ref(false)
@@ -341,6 +345,8 @@ const onSubmitFilter = () => {
       StartDate: dateFilterParams.value.StartDate,
       EndDate: dateFilterParams.value.EndDate,
       showByRecordDate: hotelGuestListFilterParams.value.showByRecordDate,
+      groupCode: hotelGuestListFilterParams.value.groupCode,
+      status: hotelGuestListFilterParams.value.status,
     }
     hotelGuestListFilterParams.value = { ...params }
   } else {
@@ -349,6 +355,8 @@ const onSubmitFilter = () => {
       checkInDate: dateFilterParams.value.StartDate,
       checkOutDate: dateFilterParams.value.EndDate,
       showByRecordDate: hotelGuestListFilterParams.value.showByRecordDate,
+      groupCode: hotelGuestListFilterParams.value.groupCode,
+      status: hotelGuestListFilterParams.value.status,
     }
     hotelGuestListFilterParams.value = { ...params }
   }
@@ -368,7 +376,7 @@ watch(showRoomMates, () => {
 })
 
 watch(
-  () => hotelGuestListTableRef.value.selectedRow,
+  () => hotelGuestListTableRef.value?.selectedRow,
   (value) => {
     if (value?.players?.length > 0) {
       roomMates.value = [...value.players]
@@ -430,6 +438,45 @@ const onSubmitJunketStatusForm = async (params) => {
     })
   }
   hotelGuestListTableRef.value.fetchData()
+}
+
+const selectedTableRows = ref([])
+
+const onTableSelection = (values) => {
+  selectedTableRows.value = [...values]
+}
+
+const onClickBulkUpdate = (type) => {
+  const hotelReservationIds = selectedTableRows.value.map((el) => el.id)
+  if (hotelReservationIds.length === 0) {
+    $q.notify({
+      message: 'Please select at least one reservation',
+      type: 'warning',
+      position: 'bottom-right',
+    })
+    return
+  }
+  let actionFn = null
+  if (type === 'status') {
+    actionFn = guestManagementStore.bulkReservationUpdateStatus
+  } else if (type === 'groupCode') {
+    actionFn = guestManagementStore.bulkReservationUpdateGroupCode
+  } else if (type === 'groupMarketer') {
+    actionFn = guestManagementStore.bulkReservationUpdateGroupMarketer
+  }
+  $q.dialog({
+    component: defineAsyncComponent(
+      () => import('src/components/pages/guest-operations/BulkReservationUpdateDialog.vue'),
+    ),
+    componentProps: {
+      type: type,
+      groupCodes: groupeCodes.value,
+      junkets: visitorCategories.value,
+      statuses: statuses.value,
+      hotelReservationIds: hotelReservationIds,
+      actionFn: actionFn,
+    },
+  })
 }
 </script>
 
@@ -493,7 +540,7 @@ const onSubmitJunketStatusForm = async (params) => {
     </q-card>
     <q-card v-show="!showHotelGuestForm" class="no-box-shadow bg-transparent">
       <q-card-section class="q-pa-none">
-        <div class="row flex justify-start items-start">
+        <div class="row flex justify-start items-start nowrap">
           <div class="col-3">
             <fieldset class="fieldset">
               <legend class="text-subtitle2">{{ $t('Totals') }}</legend>
@@ -574,27 +621,45 @@ const onSubmitJunketStatusForm = async (params) => {
               </q-markup-table>
             </fieldset>
           </div>
-          <div class="col-3">
+          <div class="col-4">
             <fieldset class="fieldset row">
               <legend class="text-subtitle2">{{ $t('filter') }}</legend>
               <div class="row full-width">
-                <date-time-picker
-                  btnClass="col-12 q-ml-sm"
-                  class="col-12"
-                  @selected-date="onSelectDate"
-                />
-                <div class="col-12">
+                <date-time-picker btnClass="col-12 " class="col-12" @selected-date="onSelectDate" />
+                <div class="col-6">
                   <q-checkbox
                     v-model="hotelGuestListFilterParams.showByRecordDate"
                     :label="$t('showByRecordDate')"
                     color="primary"
                   />
                 </div>
-                <div class="col-12">
+                <div class="col-6">
                   <q-checkbox
                     v-model="hotelGuestListFilterParams.isDeleted"
-                    :label="$t('showDeletedRecords')"
+                    :label="$t('showDeletedDate')"
                     color="primary"
+                  />
+                </div>
+                <div class="col-6 q-pr-xs">
+                  <q-select-box
+                    :options="groupeCodes"
+                    option-label="code"
+                    option-value="code"
+                    :label="$t('groupCode')"
+                    v-model="hotelGuestListFilterParams.groupCode"
+                    class="bg-white"
+                    style="border-radius: 4px"
+                  />
+                </div>
+                <div class="col-6 q-pl-xs">
+                  <q-select-box
+                    :options="statuses"
+                    option-label="label"
+                    option-value="value"
+                    v-model="hotelGuestListFilterParams.status"
+                    :label="$t('status')"
+                    class="bg-white"
+                    style="border-radius: 4px"
                   />
                 </div>
                 <div class="col-12 q-mt-xs flex justify-between">
@@ -608,7 +673,6 @@ const onSubmitJunketStatusForm = async (params) => {
                     unelevated
                     no-caps
                     @click="onSubmitFilter"
-                    class="q-ml-sm"
                   />
                   <q-btn
                     type="button"
@@ -624,7 +688,7 @@ const onSubmitJunketStatusForm = async (params) => {
               </div>
             </fieldset>
           </div>
-          <div class="col-4">
+          <div class="col-3">
             <fieldset class="fieldset row">
               <legend class="text-subtitle2">
                 <q-checkbox
@@ -711,6 +775,58 @@ const onSubmitJunketStatusForm = async (params) => {
               </div>
             </fieldset>
           </div>
+          <div class="col-2">
+            <fieldset class="fieldset row">
+              <legend class="text-subtitle2">Bulk Update</legend>
+              <div class="row">
+                <div class="col-12">
+                  <q-btn
+                    type="button"
+                    :label="$t('status')"
+                    icon="o_published_with_changes"
+                    color="grey-1"
+                    text-color="dark"
+                    size="13px"
+                    unelevated
+                    no-caps
+                    no-wrap
+                    class="q-ml-sm full-width"
+                    @click="onClickBulkUpdate('status')"
+                  />
+                </div>
+                <div class="col-12">
+                  <q-btn
+                    type="button"
+                    :label="$t('groupCode')"
+                    icon="o_account_tree"
+                    color="grey-1"
+                    text-color="dark"
+                    size="13px"
+                    unelevated
+                    no-caps
+                    no-wrap
+                    class="q-ml-sm full-width"
+                    @click="onClickBulkUpdate('groupCode')"
+                  />
+                </div>
+                <div class="col-12">
+                  <q-btn
+                    type="button"
+                    :label="$t('marketer')"
+                    icon="o_group"
+                    color="grey-1"
+                    text-color="dark"
+                    size="13px"
+                    unelevated
+                    no-caps
+                    no-wrap
+                    class="q-ml-sm full-width"
+                    @click="onClickBulkUpdate('groupMarketer')"
+                  />
+                </div>
+              </div>
+            </fieldset>
+          </div>
         </div>
       </q-card-section>
       <q-card-section class="q-pa-none">
@@ -730,6 +846,7 @@ const onSubmitJunketStatusForm = async (params) => {
             'body-cell-groupCode',
           ]"
           ref="hotelGuestListTableRef"
+          @tableSelection="onTableSelection"
         >
           <template v-slot:body-cell-Action="{ props }">
             <q-td key="Action" align="center">
@@ -782,8 +899,10 @@ const onSubmitJunketStatusForm = async (params) => {
                 icon="content_copy"
                 class="q-mr-md"
                 @click="onCopyHotelGuest(props.row)"
+                :disable="props.row.groupCodeIsClosed"
               >
-                <q-tooltip>{{ $t('copy') }}</q-tooltip>
+                <q-tooltip v-if="!props.row.groupCodeIsClosed">{{ $t('copy') }}</q-tooltip>
+                <q-tooltip v-else>{{ $t('groupCodeIsClosed') }}</q-tooltip>
               </q-btn>
               <q-btn
                 unelevated

@@ -10,6 +10,7 @@ export const hotelReservationService = {
    * @param {undefined} [data.id] - Id
    * @param {undefined} [data.status] - Status
    * @param {undefined} [data.isDeleted] - Is Deleted
+   * @param {undefined} [data.groupCode] - Group Code
    * @param {undefined} [data.startDate] - Start Date
    * @param {undefined} [data.endDate] - End Date
    * @param {undefined} [data.checkInDate] - Check In Date
@@ -188,6 +189,45 @@ export const hotelReservationService = {
    */
   updateHotelReservationStatus(data = {}, options = {}) {
     return api.post('/api/HotelReservation/UpdateHotelReservationStatus', data, options)
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Bulk Reservation Update Status Hotel Reservation
+   *
+   * @param {object} [data]
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  bulkReservationUpdateStatus(data = {}, options = {}) {
+    return api.post('/api/HotelReservation/BulkReservationUpdateStatus', data, options)
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Bulk Reservation Update Group Code Hotel Reservation
+   *
+   * @param {object} [data]
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  bulkReservationUpdateGroupCode(data = {}, options = {}) {
+    return api.post('/api/HotelReservation/BulkReservationUpdateGroupCode', data, options)
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Bulk Reservation Update Marketer Hotel Reservation
+   *
+   * @param {object} [data]
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  bulkReservationUpdateMarketer(data = {}, options = {}) {
+    return api.post('/api/HotelReservation/BulkReservationUpdateMarketer', data, options)
       .then((response) => response)
       .catch((error) => error)
   },

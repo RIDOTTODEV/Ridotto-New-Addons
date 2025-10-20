@@ -4,6 +4,38 @@ import { api } from 'src/boot/axios'
 export const exportService = {
   name: 'Export',
   /**
+   * Get Petty Cash Transactions Export
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.exportFileType] - Export File Type
+   * @param {undefined} [data.cashdeskId] - Cashdesk Id
+   * @param {undefined} [data.pettyCashCategoryId] - Petty Cash Category Id
+   * @param {undefined} [data.description] - Description
+   * @param {undefined} [data.transactionType] - Transaction Type
+   * @param {undefined} [data.currencyId] - Currency Id
+   * @param {undefined} [data.gamingDateId] - Gaming Date Id
+   * @param {undefined} [data.startDate] - Start Date
+   * @param {undefined} [data.endDate] - End Date
+   * @param {undefined} [data.queryType] - Query Type
+   * @param {undefined} [data.sorting] - Sorting
+   * @param {undefined} [data.maxResultCount] - Max Result Count
+   * @param {undefined} [data.skipCount] - Skip Count
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getPettyCashTransactions(data = {}, options = {}) {
+    if (!data.maxResultCount) {
+      data.maxResultCount = 999
+    }
+    if (!data.skipCount) {
+      data.skipCount = 0
+    }
+    return api.get('/api/Export/GetPettyCashTransactions', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
    * Get Slot Win Loss Export
    *
    * @param {object} [data]

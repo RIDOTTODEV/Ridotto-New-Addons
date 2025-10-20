@@ -16,6 +16,7 @@
               @onClear="onClearGuest"
               optionLabel="value"
               style="min-width: 100% !important"
+              :disable="hotelGuestFormValues.groupCodeIsClosed"
             />
           </div>
         </fieldset>
@@ -38,7 +39,10 @@
                 "
                 optionLabel="value"
                 style="min-width: 100% !important"
-                :disable="hotelGuestFormValues.players[0].playerId === null"
+                :disable="
+                  hotelGuestFormValues.players[0].playerId === null ||
+                  hotelGuestFormValues.groupCodeIsClosed
+                "
               />
             </div>
             <div
@@ -63,6 +67,7 @@
                       color="negative"
                       icon="o_delete_forever"
                       @click="deleteRoomMate(player)"
+                      :disable="hotelGuestFormValues.groupCodeIsClosed"
                     />
                   </q-item-section>
                 </q-item>
@@ -90,6 +95,7 @@
                 @update:model-value="onSelectVisitorCategory"
                 clearable
                 :label="$t('junket')"
+                :disable="hotelGuestFormValues.groupCodeIsClosed"
               />
             </div>
             <div class="col-12 q-pa-sm">
@@ -148,6 +154,7 @@
             <q-icon name="o_hotel" size="sm" color="grey-9" class="q-mr-sm" />
             {{ $t('reservationDetails') }}
             <q-btn
+              :disable="hotelGuestFormValues.groupCodeIsClosed"
               v-if="hotelGuestFormValues.id"
               flat
               dense
@@ -611,6 +618,7 @@
                   unelevated
                   no-caps
                   no-wrap
+                  :disable="hotelGuestFormValues.groupCodeIsClosed"
                 >
                 </q-btn>
               </div>
@@ -682,6 +690,7 @@
                         unelevated
                         bg-color="white"
                         @click="onDeleteExpense(expense, index)"
+                        :disable="hotelGuestFormValues.groupCodeIsClosed"
                       >
                         <q-tooltip class="bg-blue-grey-8 text-subtitle2">{{
                           $t('delete')
@@ -720,6 +729,7 @@
           class="col-12"
           type="submit"
           no-caps
+          :disable="hotelGuestFormValues.groupCodeIsClosed"
         />
         <q-btn
           unelevated
@@ -809,6 +819,7 @@ const hotelGuestFormValues = ref({
   remark: '',
   expenses: [],
   check: true,
+  groupCodeIsClosed: false,
 })
 const roomMateRef = ref({
   playerId: null,
@@ -1350,6 +1361,7 @@ const setFormValues = async () => {
     players: players,
     expenses: [],
     check: data.check,
+    groupCodeIsClosed: data.groupCodeIsClosed,
   }
   dateRange.value = [new Date(data.checkIn), new Date(data.checkOut)]
   await fetchReservationExpenses(data.id)
@@ -1361,55 +1373,6 @@ watch(
   },
   { immediate: true },
 )
-
-/* const onSelectCheckInAndCheckOut = () => {
-  let checkInOld = hotelGuestFormValues.value.hotelFlightInfo.checkIn
-  let checkIn = dateRange.value[0]
-  if (checkIn.getHours() === 0 || checkIn.getMinutes() === 0) {
-    checkIn.setHours(14, 0, 0, 0)
-  } else {
-    console.log('checkInOld', checkInOld.getHours())
-    console.log('checkIn', checkIn.getHours())
-    if (
-      checkInOld.getHours() !== checkIn.getHours() ||
-      checkInOld.getMinutes() !== checkIn.getMinutes()
-    ) {
-      checkIn.setHours(checkIn.getHours(), checkIn.getMinutes(), 0, 0)
-    } else {
-      checkIn.setHours(checkInOld.getHours(), checkInOld.getMinutes(), 0, 0)
-    }
-  }
-  //checkIn.setHours(14, 0, 0, 0)
-  let checkOutOld = hotelGuestFormValues.value.hotelFlightInfo.checkOut
-  let checkOut = dateRange.value[1]
-  if (checkOut.getHours() === 0 || checkOut.getMinutes() === 0) {
-    checkOut.setHours(12, 0, 0, 0)
-  } else {
-    if (
-      checkOutOld.getHours() !== checkOut.getHours() ||
-      checkOutOld.getMinutes() !== checkOut.getMinutes()
-    ) {
-      checkOut.setHours(checkOut.getHours(), checkOut.getMinutes(), 0, 0)
-    } else {
-      checkOut.setHours(checkOutOld.getHours(), checkOutOld.getMinutes(), 0, 0)
-    }
-  }
-
-  // checkOut.setHours(12, 0, 0, 0)
-
-  const dateDiff = date.getDateDiff(checkOut, checkIn)
-  hotelGuestFormValues.value.hotelFlightInfo.dayCount = dateDiff
-  hotelGuestFormValues.value.hotelFlightInfo.checkIn = checkIn
-  hotelGuestFormValues.value.hotelFlightInfo.checkOut = checkOut
-  dateRange.value = [checkIn, checkOut]
-  onChangeRoomType()
-} */
-/* const onCalendarChange = () => {
-  if (dateRange.value === null || dateRange.value.length === 0) {
-    return
-  }
-  onSelectCheckInAndCheckOut()
-} */
 
 const onChangeRoomType = () => {
   if (!hotelGuestFormValues.value.hotelFlightInfo.roomTypeId) return
@@ -1464,44 +1427,6 @@ watch(
     newExpenseEntry.value.amount = newExpenseEntry.value.quantity * newExpenseEntry.value.value
   },
 )
-
-/* watch(
-  () => hotelGuestFormValues.value.hotelFlightInfo.checkIn,
-  () => {
-    // compare the dates if checkIn is greater than checkOut, set checkOut to checkIn
-    const dateDiff = date.getDateDiff(
-      hotelGuestFormValues.value.hotelFlightInfo.checkOut,
-      hotelGuestFormValues.value.hotelFlightInfo.checkIn,
-    )
-    if (dateDiff < 0) {
-      $q.notify({
-        message: 'Check-in tarihi check-out tarihinden büyük olamaz',
-        color: 'negative',
-      })
-      hotelGuestFormValues.value.hotelFlightInfo.checkIn =
-        hotelGuestFormValues.value.hotelFlightInfo.checkOut
-      hotelGuestFormValues.value.hotelFlightInfo.dayCount = 1
-    }
-  },
-) */
-/* watch(
-  () => dateRange.value,
-  () => {
-    // compare the dates if checkIn is greater than checkOut, set checkOut to checkIn
-    if (dateRange.value === null || dateRange.value.length === 0) {
-      return
-    }
-    const dateDiff = date.getDateDiff(dateRange.value[1], dateRange.value[0])
-    if (dateDiff < 0) {
-      $q.notify({
-        message: 'Check-in tarihi check-out tarihinden büyük olamaz',
-        color: 'negative',
-      })
-      dateRange.value[0] = dateRange.value[1]
-      hotelGuestFormValues.value.hotelFlightInfo.dayCount = 1
-    }
-  },
-) */
 
 // watch the dateRange
 watch(dateRange, (newValue, oldValue) => {

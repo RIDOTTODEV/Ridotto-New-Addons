@@ -18,20 +18,6 @@ export const pettyCashService = {
       .catch((error) => error)
   },
   /**
-   * Get Petty Cash
-   *
-   * @param {object} [data]
-   * @param {undefined} [data.id] - Id
-   * @param {object} [options] - Axios Options
-   * @param {object} [options.headers] - Request Headers
-   * @param {string} [options.responseType] - Response Type
-   */
-  get(data = {}, options = {}) {
-    return api.get('/api/PettyCash/Get', { params: data, ...options })
-      .then((response) => response)
-      .catch((error) => error)
-  },
-  /**
    * Get All Petty Cash
    *
    * @param {object} [data]
@@ -40,6 +26,10 @@ export const pettyCashService = {
    * @param {undefined} [data.description] - Description
    * @param {undefined} [data.transactionType] - Transaction Type
    * @param {undefined} [data.currencyId] - Currency Id
+   * @param {undefined} [data.gamingDateId] - Gaming Date Id
+   * @param {undefined} [data.startDate] - Start Date
+   * @param {undefined} [data.endDate] - End Date
+   * @param {undefined} [data.queryType] - Query Type
    * @param {undefined} [data.sorting] - Sorting
    * @param {undefined} [data.maxResultCount] - Max Result Count
    * @param {undefined} [data.skipCount] - Skip Count
@@ -55,6 +45,20 @@ export const pettyCashService = {
       data.skipCount = 0
     }
     return api.get('/api/PettyCash/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Get Petty Cash
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.id] - Id
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  get(data = {}, options = {}) {
+    return api.get('/api/PettyCash/Get', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },

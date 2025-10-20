@@ -351,6 +351,20 @@ export const useReportStore = defineStore('reportStore', {
       const { data } = await inOutReportService.getSlotInOutReport(payload)
       return data
     },
+    async getPettyCashTransactions(params) {
+      const { data } = await api.get('/api/Export/GetPettyCashTransactions', {
+        params: params,
+        responseType: 'blob',
+      })
+      let extension = params.exportFileType === 'Excel' ? 'xlsx' : 'pdf'
+      let fileName = `petty-cash-transactions.${extension}`
+      let blob = data
+      let link = document.createElement('a')
+      link.href = window.URL.createObjectURL(blob)
+      link.download = fileName
+      link.click()
+      return data
+    },
   },
 })
 
