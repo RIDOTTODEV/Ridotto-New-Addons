@@ -99,25 +99,10 @@
                   <q-btn
                     unelevated
                     padding="xs"
-                    :label="
-                      groupeCodes?.find((item) => item.id === filterFields?.groupCodeId)?.isClosed
-                        ? $t('closedGroupCode')
-                        : $t('closeGroupCode')
-                    "
-                    :color="
-                      groupeCodes?.find((item) => item.id === filterFields?.groupCodeId)?.isClosed
-                        ? 'orange-3'
-                        : 'grey-3'
-                    "
-                    :disabled="
-                      groupeCodes?.find((item) => item.id === filterFields?.groupCodeId)?.isClosed
-                    "
+                    :label="groupStatusForJunket ? $t('closedGroupCode') : $t('closeGroupCode')"
+                    :color="groupStatusForJunket ? 'orange-3' : 'grey-3'"
                     text-color="dark"
-                    :icon="
-                      groupeCodes?.find((item) => item.id === filterFields?.groupCodeId)?.isClosed
-                        ? 'o_close'
-                        : 'o_open'
-                    "
+                    :icon="groupStatusForJunket ? 'o_close' : 'o_open'"
                     no-wrap
                     no-caps
                     @click="onClickCloseGroupCode"
@@ -526,6 +511,8 @@ const onSubmitFilter = async () => {
 
   await getGcJunketResultTotal()
   await getPaymentTotal()
+
+  await getGroupCodeMarketerClosed()
 }
 const fetchGroupCodes = async () => {
   groupeCodes.value = await operationsStore.fetchGroupCodes()
@@ -606,6 +593,18 @@ const columns = ref([
   {
     label: 'Commission Amount',
     field: 'commissionAmount',
+    fieldType: 'priceAbs',
+    showTotal: true,
+  },
+  {
+    label: 'Sl.Result',
+    field: 'slResult',
+    fieldType: 'priceAbs',
+    showTotal: true,
+  },
+  {
+    label: 'Lg.Result',
+    field: 'lgResult',
     fieldType: 'priceAbs',
     showTotal: true,
   },
@@ -818,7 +817,7 @@ const getPaymentTotal = async () => {
 }
 
 const onClickCloseGroupCode = async () => {
-  if (!filterFields.value.groupCodeId) {
+  if (!filterFields.value.groupCodeId || !filterFields.value.marketerId) {
     $q.notify({
       type: 'warning',
       position: 'bottom-right',
@@ -826,10 +825,18 @@ const onClickCloseGroupCode = async () => {
     })
     return
   }
+
   const groupCode = groupeCodes.value.find((item) => item.id === filterFields.value?.groupCodeId)
+  const junket = visitorCategories.value.find((item) => item.id === filterFields.value?.marketerId)
   $q.dialog({
-    title: 'Close Group Code',
-    message: 'Are you sure you want to close the group code?  ' + groupCode?.code,
+    title: groupStatusForJunket.value ? 'Open Group Code Junket' : 'Close Group Code Junket',
+    message:
+      'Are you sure you want to ' +
+      (groupStatusForJunket.value ? 'open' : 'close') +
+      ' the group code junket?  ' +
+      groupCode?.code +
+      ' ' +
+      junket?.name,
     persistent: true,
     focus: 'cancel',
     ok: {
@@ -847,16 +854,18 @@ const onClickCloseGroupCode = async () => {
       icon: 'o_close',
     },
   }).onOk(async () => {
-    const response = await operationsStore.closeGroupCode({
-      id: filterFields.value.groupCodeId,
-      isClosed: true,
+    const response = await operationsStore.updateMarketerCloseGroupCode({
+      groupCodeId: filterFields.value.groupCodeId,
+      marketerId: filterFields.value.marketerId,
+      isClosed: !groupStatusForJunket.value,
     })
     if (response.status === 200) {
       $q.notify({
         message: 'Group code closed successfully',
         type: 'positive',
       })
-      fetchGroupCodes()
+      await getGroupCodeMarketerClosed()
+      await fetchGroupCodes()
     } else {
       $q.notify({
         message: 'Group code closed failed',
@@ -880,6 +889,14 @@ onMounted(async () => {
   await getGcJunketResultTotal()
   await getPaymentTotal()
 })
+
+const groupStatusForJunket = ref(false)
+const getGroupCodeMarketerClosed = async () => {
+  groupStatusForJunket.value = await operationsStore.getGroupCodeMarketerClosed({
+    groupCodeId: filterFields.value.groupCodeId,
+    marketerId: filterFields.value.marketerId,
+  })
+}
 </script>
 
 <style scoped lang="scss">

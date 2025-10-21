@@ -138,17 +138,10 @@
               : {}
           "
         >
-          <div v-if="col.name !== 'selection'">
+          <div v-if="!col.headerSlotName || !headerSlotNames.includes(col.headerSlotName)">
             {{ col.label }}
           </div>
-          <div v-else>
-            <q-checkbox
-              v-model="headerSelection"
-              color="primary"
-              @update:model-value="onSelectionAll"
-              dense
-            />
-          </div>
+          <slot v-else :name="col.headerSlotName" :props="props" v-bind="{ props }"></slot>
         </q-th>
       </q-tr>
     </template>
@@ -174,20 +167,6 @@
           "
         >
           {{ props.value }}
-        </div>
-      </q-td>
-      <q-td
-        :props="props"
-        :class="{ 'frozen-column': frozenColumns.includes(props.col.name) }"
-        :style="
-          frozenColumns.includes(props.col.name)
-            ? { left: getFrozenColumnPosition(props.col.name) + 'px' }
-            : {}
-        "
-        v-else
-      >
-        <div>
-          <q-checkbox v-model="selected" :val="props.row" @update:model-value="onSelection" dense />
         </div>
       </q-td>
     </template>
@@ -316,6 +295,10 @@ const props = defineProps({
     default: () => 'id',
   },
   slotNames: {
+    type: Array,
+    default: () => [],
+  },
+  headerSlotNames: {
     type: Array,
     default: () => [],
   },
@@ -658,7 +641,7 @@ const toggleShowHideColumns = async (columnNames, isVisible = true) => {
   })
 }
 
-const emits = defineEmits(['switchSummaryCard', 'selectedRow', 'tableSelection'])
+const emits = defineEmits(['switchSummaryCard', 'selectedRow'])
 const switchSummaryCard = () => {
   emits('switchSummaryCard')
 }
@@ -677,30 +660,6 @@ const getFrozenColumnPosition = (columnName) => {
   }
 
   return position
-}
-
-// Selection section
-const selected = ref([])
-const headerSelection = ref(false)
-const onSelectionAll = (selection) => {
-  if (selection === true) {
-    const tableComputedValues = [...refTable.value.computedRows]
-    selected.value = [...tableComputedValues]
-    headerSelection.value = true
-  } else {
-    selected.value = []
-    headerSelection.value = false
-  }
-  emits('tableSelection', selected.value)
-}
-
-const onSelection = () => {
-  if (selected.value.length > 0) {
-    headerSelection.value = null
-  } else {
-    headerSelection.value = false
-  }
-  emits('tableSelection', selected.value)
 }
 
 // Expose public methods and properties

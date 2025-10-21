@@ -178,6 +178,7 @@ const columns = ref([
     field: 'selection',
     name: 'selection',
     sortable: false,
+    headerSlotName: 'header-cell-selection',
   },
   {
     field: 'id',
@@ -440,12 +441,6 @@ const onSubmitJunketStatusForm = async (params) => {
   hotelGuestListTableRef.value.fetchData()
 }
 
-const selectedTableRows = ref([])
-
-const onTableSelection = (values) => {
-  selectedTableRows.value = [...values]
-}
-
 const onClickBulkUpdate = (type) => {
   const hotelReservationIds = selectedTableRows.value.map((el) => el.id)
   if (hotelReservationIds.length === 0) {
@@ -476,7 +471,32 @@ const onClickBulkUpdate = (type) => {
       hotelReservationIds: hotelReservationIds,
       actionFn: actionFn,
     },
+  }).onDismiss(async () => {
+    await hotelGuestListTableRef.value.fetchData()
+    selectedTableRows.value = []
+    headerSelection.value = false
   })
+}
+
+const selectedTableRows = ref([])
+const headerSelection = ref(false)
+
+const onHeaderSelection = (value) => {
+  if (value === true) {
+    selectedTableRows.value = hotelGuestListTableRef.value.tableRows.filter(
+      (row) => !row?.groupCodeIsClosed,
+    )
+  } else {
+    selectedTableRows.value = []
+  }
+}
+
+const onSelection = () => {
+  if (selectedTableRows.value.length > 0) {
+    headerSelection.value = null
+  } else {
+    headerSelection.value = false
+  }
 }
 </script>
 
@@ -844,9 +864,10 @@ const onClickBulkUpdate = (type) => {
             'body-cell-expenses',
             'body-cell-status',
             'body-cell-groupCode',
+            'body-cell-selection',
           ]"
+          :headerSlotNames="['header-cell-selection']"
           ref="hotelGuestListTableRef"
-          @tableSelection="onTableSelection"
         >
           <template v-slot:body-cell-Action="{ props }">
             <q-td key="Action" align="center">
@@ -1100,7 +1121,20 @@ const onClickBulkUpdate = (type) => {
               </div>
             </q-td>
           </template>
-
+          <template v-slot:header-cell-selection>
+            <q-checkbox v-model="headerSelection" @update:model-value="onHeaderSelection" dense />
+          </template>
+          <template v-slot:body-cell-selection="{ props }">
+            <q-td key="selection" align="center" auto-width>
+              <q-checkbox
+                v-model="selectedTableRows"
+                :val="props.row"
+                @update:model-value="onSelection"
+                dense
+                :disable="props.row.groupCodeIsClosed"
+              />
+            </q-td>
+          </template>
           <template v-slot:bottomRow="props">
             <q-tr :props="props">
               <q-td

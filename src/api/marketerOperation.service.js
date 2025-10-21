@@ -86,6 +86,22 @@ export const marketerOperationService = {
       .catch((error) => error)
   },
   /**
+   * Get Marketer Reports Marketer Operation
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.startDate] - Start Date
+   * @param {undefined} [data.endDate] - End Date
+   * @param {undefined} [data.marketerId] - Marketer Id
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getMarketerReports(data = {}, options = {}) {
+    return api.get('/api/MarketerOperation/GetMarketerReports', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
    * Create Group Code Marketer Operation
    *
    * @param {object} [data]
@@ -152,6 +168,19 @@ export const marketerOperationService = {
       .catch((error) => error)
   },
   /**
+   * Update Marketer Close Group Code Marketer Operation
+   *
+   * @param {object} [data]
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  updateMarketerCloseGroupCode(data = {}, options = {}) {
+    return api.post('/api/MarketerOperation/UpdateMarketerCloseGroupCode', data, options)
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
    * Delete Payment Marketer Operation
    *
    * @param {object} [data]
@@ -192,6 +221,21 @@ export const marketerOperationService = {
    */
   getPaymentsTotal(data = {}, options = {}) {
     return api.get('/api/MarketerOperation/GetPaymentsTotal', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
+   * Get Group Code Marketer Closed Marketer Operation
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.groupCodeId] - Group Code Id
+   * @param {undefined} [data.marketerId] - Marketer Id
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getGroupCodeMarketerClosed(data = {}, options = {}) {
+    return api.get('/api/MarketerOperation/GetGroupCodeMarketerClosed', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   }

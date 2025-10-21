@@ -126,6 +126,13 @@ export const useOperationsStore = defineStore('operationsStore', {
       const { data } = await marketerOperationService.getGcMarketerResult(params)
       return data
     },
+    async updateMarketerCloseGroupCode(params) {
+      return await marketerOperationService.updateMarketerCloseGroupCode(params)
+    },
+    async getGroupCodeMarketerClosed(params) {
+      const { data } = await marketerOperationService.getGroupCodeMarketerClosed(params)
+      return data
+    },
   },
 })
 

@@ -245,7 +245,21 @@ const onCloseGroupCode = async (props) => {
     },
   })
     .onOk(async () => {
-      await operationsStore.closeGroupCode({ id: props.id, isClosed: props.isClosed })
+      const response = await operationsStore.closeGroupCode({
+        id: props.id,
+        isClosed: props.isClosed,
+      })
+      if (response.status === 200) {
+        $q.notify({
+          type: 'positive',
+          message: 'Group code closed successfully',
+        })
+      } else {
+        $q.notify({
+          type: 'negative',
+          message: 'Group code closed failed',
+        })
+      }
       await fetchGroupCodes()
     })
     .onCancel(async () => {

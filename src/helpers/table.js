@@ -56,5 +56,6 @@ export const generateColumns = (columnConfigs) => {
 
     additionalValue: config.additionalValue || null, // this is used to pass additional value to the format function
     totalField: config.totalField || null, // this is used to pass the total field to the format function
+    headerSlotName: config.headerSlotName || null,
   }))
 }
