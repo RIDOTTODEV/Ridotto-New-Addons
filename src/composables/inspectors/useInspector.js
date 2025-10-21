@@ -332,6 +332,7 @@ export function useInspector() {
 
           bus.emit('fetchCurrentPlayerChipHistory')
           await inspectorStore.fetchCurrentTableFloatDenominations()
+          await inspectorStore.fetchSitPlayers()
         }
       })
   }
@@ -436,6 +437,7 @@ export function useInspector() {
             }
             bus.emit('fetchCurrentPlayerChipHistory')
             await inspectorStore.fetchCurrentTableFloatDenominations()
+            await inspectorStore.fetchSitPlayers()
             currentTab.value = 'currentPlayerChipHistory'
           }
         }
