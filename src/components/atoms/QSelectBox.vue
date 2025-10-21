@@ -20,6 +20,10 @@
     <template v-for="slotName in slotNames" v-slot:[slotName]="props">
       <slot :name="slotName" v-bind="{ props }"></slot>
     </template>
+
+    <template v-if="useOptionSlot" v-slot:option="scope">
+      <slot name="option" v-bind="{ scope }"></slot>
+    </template>
   </q-select>
 </template>
 
@@ -52,6 +56,11 @@ const props = defineProps({
     type: Array,
     required: false,
     default: () => [],
+  },
+  useOptionSlot: {
+    type: Boolean,
+    required: false,
+    default: () => false,
   },
 })
 const tempOptions = ref([])

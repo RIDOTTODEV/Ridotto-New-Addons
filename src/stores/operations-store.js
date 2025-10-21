@@ -7,11 +7,14 @@ import {
   playerService,
   pettyCashCategoryService,
   marketerOperationService,
+  marketerService,
 } from 'src/api'
 export const useOperationsStore = defineStore('operationsStore', {
   state: () => ({
     gifts: [],
     pettyCashCategories: [],
+    marketers: [],
+    groupCodes: [],
   }),
   getters: {},
   actions: {
@@ -84,6 +87,7 @@ export const useOperationsStore = defineStore('operationsStore', {
     },
     async fetchGroupCodes(params) {
       const { data } = await marketerOperationService.getGroupCodes(params)
+      this.groupCodes = data
       return data
     },
     async createGroupCode(params) {
@@ -131,6 +135,38 @@ export const useOperationsStore = defineStore('operationsStore', {
     },
     async getGroupCodeMarketerClosed(params) {
       const { data } = await marketerOperationService.getGroupCodeMarketerClosed(params)
+      return data
+    },
+    async getMarketerReports(params) {
+      for (const [key, value] of Object.entries(params)) {
+        if (value === null || value === '') {
+          delete params[key]
+        } else if (Array.isArray(value)) {
+          if (value.length === 0) {
+            delete params[key]
+          }
+        }
+      }
+
+      const searchParams = new URLSearchParams()
+      if (params.groupCodeIds && Array.isArray(params.groupCodeIds)) {
+        params.groupCodeIds.forEach((id) => {
+          searchParams.append('GroupCodeIds', id)
+        })
+      }
+      Object.entries(params).forEach(([key, value]) => {
+        if (key !== 'groupCodeIds') {
+          searchParams.append(key, value)
+        }
+      })
+
+      const { data } = await marketerOperationService.getMarketerReports(searchParams)
+      return data
+    },
+
+    async fetchMarketers(params) {
+      const { data } = await marketerService.getAll(params)
+      this.marketers = data.data
       return data
     },
   },

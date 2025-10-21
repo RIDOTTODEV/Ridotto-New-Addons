@@ -493,6 +493,16 @@ const routes = [
           groupName: 'managementReports',
         },
       },
+      {
+        path: 'marketer-report',
+        name: 'marketerReport',
+        component: () => import('src/pages/reports/management-reports/MarketerReports.vue'),
+        meta: {
+          requiredPermission: 'Addon.Operations.MarketerReport',
+          requiresAuth: true,
+          groupName: 'managementReports',
+        },
+      },
     ],
   },
   {

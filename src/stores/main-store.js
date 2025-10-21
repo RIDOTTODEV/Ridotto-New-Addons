@@ -178,6 +178,12 @@ export const useMainStore = defineStore('main', {
             routeName: 'playerWinLossAnalysisReport',
             permission: 'Addon.Operations.PlayerWinLossAnalysisReport',
           },
+          {
+            title: 'marketerReport',
+            icon: 'remove',
+            routeName: 'marketerReport',
+            permission: 'Addon.Operations.MarketerReports',
+          },
         ],
       },
       {

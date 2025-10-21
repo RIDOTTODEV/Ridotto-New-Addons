@@ -30,8 +30,9 @@
                     option-label="code"
                     v-model="filterFields.groupCodeId"
                     :label="$t('Group Code')"
-                    :slotNames="['after']"
                     bg-color="white"
+                    :slotNames="['after']"
+                    :useOptionSlot="true"
                   >
                     <template v-slot:after="props">
                       <q-btn
@@ -43,6 +44,27 @@
                         size="12px"
                         color="primary"
                       />
+                    </template>
+                    <template v-slot:option="{ scope }">
+                      <q-item v-bind="scope.itemProps">
+                        <q-item-section>
+                          <q-item-label>{{ scope.opt?.code }}</q-item-label>
+                          <q-item-label
+                            caption
+                            :class="{
+                              'text-red-8': scope.opt?.isClosed,
+                              'text-green-8': !scope.opt?.isClosed,
+                            }"
+                            >{{ scope.opt?.isClosed ? $t('closed') : $t('open') }}
+
+                            <q-icon
+                              :name="scope.opt?.isClosed ? 'o_close' : 'o_check'"
+                              size="12px"
+                              :color="scope.opt?.isClosed ? 'red-8' : 'green-8'"
+                            />
+                          </q-item-label>
+                        </q-item-section>
+                      </q-item>
                     </template>
                   </q-select-box>
                 </div>
@@ -79,6 +101,7 @@
                     no-caps
                     @click="onCliclCalculationStatusUpdate"
                     class="full-width"
+                    :disable="groupStatusForJunket"
                   />
                 </div>
                 <div class="col-12 text-center">
@@ -93,13 +116,15 @@
                     no-caps
                     @click="onCliclJunketCalculationStatusUpdate"
                     class="full-width"
+                    :disable="groupStatusForJunket"
                   />
                 </div>
-                <div class="col-12 text-center">
+
+                <div class="col-12 text-center" v-if="groupStatusForJunket !== undefined">
                   <q-btn
                     unelevated
                     padding="xs"
-                    :label="groupStatusForJunket ? $t('closedGroupCode') : $t('closeGroupCode')"
+                    :label="groupStatusForJunket ? $t('openGroupCode') : $t('closeGroupCode')"
                     :color="groupStatusForJunket ? 'orange-3' : 'grey-3'"
                     text-color="dark"
                     :icon="groupStatusForJunket ? 'o_close' : 'o_open'"
@@ -890,12 +915,19 @@ onMounted(async () => {
   await getPaymentTotal()
 })
 
-const groupStatusForJunket = ref(false)
+const groupStatusForJunket = ref(undefined)
 const getGroupCodeMarketerClosed = async () => {
-  groupStatusForJunket.value = await operationsStore.getGroupCodeMarketerClosed({
+  const response = await operationsStore.getGroupCodeMarketerClosed({
     groupCodeId: filterFields.value.groupCodeId,
     marketerId: filterFields.value.marketerId,
   })
+  if (response) {
+    groupStatusForJunket.value = response
+  } else if (response === false) {
+    groupStatusForJunket.value = false
+  } else {
+    groupStatusForJunket.value = undefined
+  }
 }
 </script>
 

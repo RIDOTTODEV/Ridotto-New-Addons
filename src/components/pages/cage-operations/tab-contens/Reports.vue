@@ -585,6 +585,7 @@ const onClickPlayerTransactionDetail = (row) => {
   playerTransactionDetailFilters.value = {
     ...filterFields.value,
     playerId: row.playerId,
+    transactionCodeId: row.transactionCodeId,
   }
   playerTransactionDetailDialog.value = true
 }
