@@ -131,7 +131,11 @@
           :key="col.name"
           :props="props"
           class="text-center q-custom-table"
-          :class="[{ 'frozen-column': frozenColumns.includes(col.name) }]"
+          :class="[
+            {
+              'frozen-column': frozenColumns.includes(col.name),
+            },
+          ]"
           :style="
             frozenColumns.includes(col.name)
               ? { left: getFrozenColumnPosition(col.name) + 'px' }
@@ -139,7 +143,26 @@
           "
         >
           <div v-if="!col.headerSlotName || !headerSlotNames.includes(col.headerSlotName)">
-            {{ col.label }}
+            <span>
+              {{ col.label }}
+              <q-icon
+                class="q-px-xs sort-icon"
+                @click="setSortField(col.field)"
+                v-if="sortField !== null && sortField === col.field"
+                :name="
+                  sortField === col.field && sortDirection === 'asc'
+                    ? 'fas fa-sort-amount-up-alt'
+                    : 'fas fa-sort-amount-down'
+                "
+              />
+              <q-icon
+                @click="setSortField(col.field)"
+                v-if="col.useSorting && sortField !== col.field"
+                class="q-px-xs sort-icon"
+              >
+                <div v-html="sortIcon()"></div>
+              </q-icon>
+            </span>
           </div>
 
           <slot v-else :name="col.headerSlotName" :props="props" v-bind="{ props }"></slot>
@@ -171,11 +194,9 @@
         </div>
       </q-td>
     </template>
-
     <template v-for="slotName in slotNames" v-slot:[slotName]="props">
       <slot :name="slotName" v-bind="{ props }"></slot>
     </template>
-
     <template v-slot:body-cell-actions="props">
       <q-td :props="props" class="text-right">
         <q-btn
@@ -452,12 +473,33 @@ const initResponseData = (response) => {
   tableRows.value = data
   copiedData.value = data
 }
+
+const sortField = ref(null)
+const sortDirection = ref(null)
+const setSortField = async (field) => {
+  if (sortDirection.value === null) {
+    sortDirection.value = 'asc'
+  } else if (sortDirection.value === 'asc') {
+    sortDirection.value = 'desc'
+  } else {
+    sortDirection.value = null
+  }
+  sortField.value = field
+  await fetchData()
+}
 const getTableFilterParams = () => {
+  let sortParams = ''
+  if (sortField.value && sortDirection.value) {
+    sortParams = sortField.value + ' ' + sortDirection.value
+  } else {
+    sortParams = null
+  }
   return {
     ...tableFilterParams.value,
     maxResultCount: pagination.value.rowsPerPage,
     skipCount: (pagination.value.page - 1) * pagination.value.rowsPerPage,
     cashDeskId: props.useCurrentCashDesk ? getSelectedCashDesk.value.Id : null,
+    sorting: sortParams,
   }
 }
 const initColumns = async () => {
@@ -650,6 +692,34 @@ defineExpose({
   requestServerInteraction: fetchData,
   toggleShowHideColumns,
 })
+
+const sortIcon = () => {
+  return `    <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5.64515 3.61291C5.47353 3.61291 5.30192 3.54968 5.16644 3.4142L3.38708 1.63484L1.60773 3.4142C1.34579 3.67613 0.912244 3.67613 0.650309 3.4142C0.388374 3.15226 0.388374 2.71871 0.650309 2.45678L2.90837 0.198712C3.17031 -0.0632236 3.60386 -0.0632236 3.86579 0.198712L6.12386 2.45678C6.38579 2.71871 6.38579 3.15226 6.12386 3.4142C5.98837 3.54968 5.81676 3.61291 5.64515 3.61291Z"
+                    fill="currentColor"
+                  ></path>
+                  <path
+                    d="M3.38714 14C3.01681 14 2.70972 13.6929 2.70972 13.3226V0.677419C2.70972 0.307097 3.01681 0 3.38714 0C3.75746 0 4.06456 0.307097 4.06456 0.677419V13.3226C4.06456 13.6929 3.75746 14 3.38714 14Z"
+                    fill="currentColor"
+                  ></path>
+                  <path
+                    d="M10.6129 14C10.4413 14 10.2697 13.9368 10.1342 13.8013L7.87611 11.5432C7.61418 11.2813 7.61418 10.8477 7.87611 10.5858C8.13805 10.3239 8.5716 10.3239 8.83353 10.5858L10.6129 12.3652L12.3922 10.5858C12.6542 10.3239 13.0877 10.3239 13.3497 10.5858C13.6116 10.8477 13.6116 11.2813 13.3497 11.5432L11.0916 13.8013C10.9561 13.9368 10.7845 14 10.6129 14Z"
+                    fill="currentColor"
+                  ></path>
+                  <path
+                    d="M10.6129 14C10.2426 14 9.93552 13.6929 9.93552 13.3226V0.677419C9.93552 0.307097 10.2426 0 10.6129 0C10.9833 0 11.2904 0.307097 11.2904 0.677419V13.3226C11.2904 13.6929 10.9832 14 10.6129 14Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+  `
+}
 </script>
 <style lang="scss">
 .supa-table .q-table__top {
@@ -699,5 +769,24 @@ defineExpose({
       background-color: rgba(255, 0, 0, 0.1);
     }
   }
+}
+
+.sindu_handle {
+  cursor: pointer !important;
+  /*   &:hover {
+    background-color: $grey-2;
+    color: $primary;
+  } */
+}
+.sort-icon {
+  /*   cursor: not-allowed !important; */
+  &:hover {
+    background-color: $grey-2;
+    color: $primary;
+  }
+}
+.sorted-column {
+  background-color: $grey-8 !important;
+  color: $primary !important;
 }
 </style>

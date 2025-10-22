@@ -183,11 +183,14 @@ const columns = ref([
   {
     field: 'id',
     label: 'Id',
+    required: true,
+    useSorting: true,
   },
   {
-    field: 'players',
+    field: 'roomOwner',
     label: 'Guest',
     name: 'guest',
+    useSorting: true,
   },
   {
     field: 'players',
@@ -195,15 +198,18 @@ const columns = ref([
     name: 'roomMate',
   },
   {
-    field: 'playerCategoryName',
+    field: 'marketerName',
     label: 'Junket',
+    useSorting: true,
   },
 
   {
     field: 'roomNo',
+    useSorting: true,
   },
   {
     field: 'status',
+    useSorting: true,
   },
   {
     field: 'groupCode',
@@ -215,16 +221,19 @@ const columns = ref([
     field: 'checkIn',
     fieldType: 'date',
     label: 'C/In',
+    useSorting: true,
   },
   {
     field: 'checkOut',
     fieldType: 'date',
     label: 'C/Out',
+    useSorting: true,
   },
   {
     field: 'isWalkIn',
     label: 'Walk In',
     fieldType: 'boolean',
+    useSorting: true,
   },
   {
     field: 'dayCount',
@@ -859,8 +868,7 @@ const onSelection = () => {
           :columns="columns"
           :slotNames="[
             'body-cell-roomMate',
-            'body-cell-guest',
-            'body-cell-playerCategoryName',
+
             'body-cell-Action',
             'body-cell-expenses',
             'body-cell-status',
@@ -938,18 +946,6 @@ const onSelection = () => {
               />
             </q-td>
           </template>
-          <template v-slot:body-cell-guest="{ props }">
-            <q-td key="guest" align="center">
-              <div v-if="props.row.players?.length">
-                <div
-                  v-for="player in props.row.players.filter((p) => p.roomOwner)"
-                  :key="player.playerId"
-                >
-                  <span class="text-capitalize">{{ player.playerFullName }}</span>
-                </div>
-              </div>
-            </q-td>
-          </template>
           <template v-slot:body-cell-roomMate="{ props }">
             <q-td key="roomMate" align="center">
               <div v-if="props.row.players?.length">
@@ -960,11 +956,6 @@ const onSelection = () => {
                   <span class="text-capitalize">{{ player.playerFullName }}</span>
                 </div>
               </div>
-            </q-td>
-          </template>
-          <template v-slot:body-cell-playerCategoryName="{ props }">
-            <q-td key="playerCategoryName" align="center">
-              {{ props.row.players?.find((player) => player.roomOwner)?.marketerName }}
             </q-td>
           </template>
           <template v-slot:body-cell-status="{ props }">
