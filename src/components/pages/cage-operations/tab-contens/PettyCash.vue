@@ -258,6 +258,23 @@
                   class="q-ml-sm"
                   @click="pettyCashTable.fetchData()"
                 />
+
+                <q-btn
+                  type="button"
+                  :label="$t('excelExport')"
+                  icon="o_file_download"
+                  color="green-9"
+                  size="13px"
+                  unelevated
+                  no-caps
+                  class="q-ml-sm"
+                  @click="
+                    reportStore.getPettyCashTransactions({
+                      ...filterFields,
+                      exportFileType: 'Excel',
+                    })
+                  "
+                />
               </div>
             </div>
           </template>
@@ -302,6 +319,7 @@ import { i18n } from 'src/boot/i18n'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { useOperationsStore } from 'src/stores/operations-store'
 import { useCurrencyStore } from 'src/stores/currency-store'
+import { useReportStore } from 'src/stores/report-store'
 import { storeToRefs } from 'pinia'
 import { useQuasar } from 'quasar'
 const $q = useQuasar()
@@ -311,6 +329,7 @@ const cashdeskStore = useCashdeskStore()
 const { getSelectedCashDeskId, cashdesks } = storeToRefs(cashdeskStore)
 const currencyStore = useCurrencyStore()
 const { currencies, getCurrenciesWithFlags } = storeToRefs(currencyStore)
+const reportStore = useReportStore()
 const filterFields = ref({
   cashdeskId: getSelectedCashDeskId.value,
   transactionType: null,

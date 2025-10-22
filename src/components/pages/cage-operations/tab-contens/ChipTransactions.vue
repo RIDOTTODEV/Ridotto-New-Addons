@@ -136,6 +136,8 @@
                         :class="{
                           'text-green-8': total.withdrawal > 0,
                           'text-negative': total.withdrawal < 0,
+                          'text-subtitle2': chipTransactionTableRef?.response?.totals.length > 2,
+                          'text-h6': chipTransactionTableRef?.response?.totals.length <= 2,
                         }"
                       >
                         {{ priceAbsFormatted(total.withdrawal) }}
@@ -147,6 +149,8 @@
                         :class="{
                           'text-green-8': total.deposit > 0,
                           'text-negative': total.deposit < 0,
+                          'text-subtitle2': chipTransactionTableRef?.response?.totals.length > 2,
+                          'text-h6': chipTransactionTableRef?.response?.totals.length <= 2,
                         }"
                       >
                         {{ priceAbsFormatted(total.deposit) }}
@@ -158,6 +162,8 @@
                         :class="{
                           'text-green-8': total.result > 0,
                           'text-negative': total.result < 0,
+                          'text-subtitle2': chipTransactionTableRef?.response?.totals.length > 2,
+                          'text-h6': chipTransactionTableRef?.response?.totals.length <= 2,
                         }"
                       >
                         {{ priceAbsFormatted(total.result) }}

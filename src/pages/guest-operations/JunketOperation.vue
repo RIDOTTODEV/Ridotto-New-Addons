@@ -703,6 +703,7 @@ const onCliclCalculationStatusUpdate = async () => {
     paymentTableRef.value.fetchData()
     paymentTotal.value = await operationsStore.getPaymentsTotal(filterFields.value)
     await getGcJunketResultTotal()
+    await getPaymentTotal()
   })
 }
 
@@ -758,8 +759,8 @@ const onCliclJunketCalculationStatusUpdate = async () => {
       })
     }
 
-    junketOperationRefTable.value.fetchData()
-    paymentTableRef.value.fetchData()
+    await junketOperationRefTable.value.fetchData()
+    await paymentTableRef.value.fetchData()
     paymentTotal.value = await operationsStore.getPaymentsTotal(filterFields.value)
     await getGcJunketResultTotal()
   })

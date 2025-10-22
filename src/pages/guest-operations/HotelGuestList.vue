@@ -208,6 +208,7 @@ const columns = ref([
   {
     field: 'groupCode',
     name: 'groupCode',
+    useSorting: true,
   },
 
   {

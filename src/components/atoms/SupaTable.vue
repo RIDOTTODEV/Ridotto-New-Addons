@@ -141,6 +141,7 @@
           <div v-if="!col.headerSlotName || !headerSlotNames.includes(col.headerSlotName)">
             {{ col.label }}
           </div>
+
           <slot v-else :name="col.headerSlotName" :props="props" v-bind="{ props }"></slot>
         </q-th>
       </q-tr>
@@ -394,7 +395,6 @@ const onDropColumn = (from, to) => {
     }
   }
 }
-
 const filterMethod = (request) => {
   const needle = request.filter?.toLowerCase() || ''
   const filteredData = copiedData.value.filter((row) => {
@@ -404,26 +404,6 @@ const filterMethod = (request) => {
   })
   tableRows.value = [...filteredData]
 }
-
-/* watch(
-  visibleColumns,
-  () => {
-    const visibleColumnsMap = visibleColumns.value?.reduce((acc, curr, index) => {
-      acc[curr] = index + 1
-      return acc
-    }, {})
-    tableColumns.value?.sort((a, b) => {
-      const maxSortIndex = tableColumns.value?.length + 1
-      return (
-        (visibleColumnsMap[a.name] || maxSortIndex) - (visibleColumnsMap[b.name] || maxSortIndex)
-      )
-    })
-  },
-  {
-    immediate: true,
-  },
-) */
-
 watch(
   visibleColumnOptions,
   (newValue) => {
@@ -433,7 +413,6 @@ watch(
   },
   { immediate: true },
 )
-
 watch(
   () => props.filterParams,
   (newValue) => {
@@ -441,13 +420,11 @@ watch(
   },
   { immediate: true, deep: true },
 )
-
 onMounted(async () => {
   await initColumns()
   initPagination()
   await fetchData()
 })
-
 const fetchData = async () => {
   tableLoading.value = true
   removeSelectedRowClass()
@@ -460,9 +437,7 @@ const fetchData = async () => {
     tableLoading.value = false
   }
 }
-
 const copiedData = ref([])
-
 const initResponseData = (response) => {
   let data = response[props.dataKey] || response || []
   const isExistRowKey = data.some((item) => item[props.rowKey])
@@ -640,12 +615,10 @@ const toggleShowHideColumns = async (columnNames, isVisible = true) => {
     }
   })
 }
-
 const emits = defineEmits(['switchSummaryCard', 'selectedRow'])
 const switchSummaryCard = () => {
   emits('switchSummaryCard')
 }
-
 const getFrozenColumnPosition = (columnName) => {
   let position = 0
   const columnIndex = props.frozenColumns.indexOf(columnName)
