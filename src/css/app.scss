@@ -55,6 +55,10 @@ input[type='number'] {
 .q-field--auto-height.q-field--dense .q-field__native {
   min-height: 32px;
 }
+
+.super-small.q-field--dense .q-field__native {
+  padding-top: 6px !important;
+}
 .my-expansion-item .q-item {
   min-height: 32px !important;
   height: 32px !important;

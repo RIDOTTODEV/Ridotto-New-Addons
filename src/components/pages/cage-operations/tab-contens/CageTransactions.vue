@@ -366,6 +366,19 @@
                       clearable
                     />
                   </div>
+                  <div class="col-1 q-pa-xs">
+                    <q-select-box
+                      v-model="filterFields.IsMain"
+                      :options="[
+                        { label: $t('yes'), value: true },
+                        { label: $t('no'), value: false },
+                      ]"
+                      option-value="value"
+                      option-label="label"
+                      :label="$t('main')"
+                      :clearable="false"
+                    />
+                  </div>
                   <div class="col q-pa-xs flex justify-start">
                     <search-player-input
                       v-model="filterFields.PlayerId"
@@ -546,6 +559,7 @@ const filterFields = ref({
   CashdeskTransactionType: null,
   TransType: null,
   TransactionCodeId: null,
+  IsMain: true,
 })
 onMounted(() => {
   currentCageTransactionTab.value = LocalStorage.getItem('cageTransactionTab') || 'inOutTransfer'

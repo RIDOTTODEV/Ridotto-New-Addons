@@ -751,6 +751,30 @@
               />
             </div>
           </fieldset>
+
+          <fieldset class="row">
+            <legend class="q-pa-sm text-subtitle2">Slot Transactions</legend>
+            <div class="col-12 q-pa-none">
+              <q-markup-table dense seperate="cell">
+                <thead>
+                  <tr>
+                    <th>T.Code</th>
+                    <th>Deposit</th>
+                    <th>Withdrawal</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(item, index) in response.slotPlayerTransactions" :key="index">
+                    <td>{{ item.transactionCode }}</td>
+                    <td>{{ priceAbsFormatted(item.deposit) }}</td>
+                    <td>{{ priceAbsFormatted(item.withdrawal) }}</td>
+                    <td>{{ priceAbsFormatted(item.amount) }}</td>
+                  </tr>
+                </tbody>
+              </q-markup-table>
+            </div>
+          </fieldset>
         </div>
       </q-card-section>
     </q-card>
