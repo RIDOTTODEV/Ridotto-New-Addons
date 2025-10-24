@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="show" persistent>
+  <q-dialog v-model="show" persistent @hide="onDialogHide">
     <q-card class="full-width" style="max-width: 1000px">
       <q-card-section class="row items-center">
         <div class="text-h6">{{ $t('title') }}</div>
@@ -444,7 +444,18 @@ export default {
     const onFilter = () => {
       fetchTasks()
     }
-
+    const onDialogHide = () => {
+      taskData.value = {
+        id: null,
+        playerId: localSelectedPlayer.value.id,
+        playerFullName: localSelectedPlayer.value.value,
+        dueDate: new Date().toISOString().split('T')[0],
+        transfer: false,
+        notes: '',
+        result: '',
+        ok: false,
+      }
+    }
     watch(show, (val) => {
       if (val) {
         filters.value = {
@@ -475,6 +486,7 @@ export default {
       onFilter,
       fetchTasks,
       onDateChange,
+      onDialogHide,
     }
   },
 }

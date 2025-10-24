@@ -92,6 +92,8 @@ export const marketerOperationService = {
    * @param {undefined} [data.startDate] - Start Date
    * @param {undefined} [data.endDate] - End Date
    * @param {undefined} [data.marketerId] - Marketer Id
+   * @param {undefined} [data.groupCodeIds] - Group Code Ids
+   * @param {undefined} [data.byGroupCodeReport] - By Group Code Report
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type

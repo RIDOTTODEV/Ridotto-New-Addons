@@ -345,7 +345,7 @@ export const useReportStore = defineStore('reportStore', {
       const authStore = useAuthStore()
       const payload = {
         balanceCurrencyId: authStore.getDefaultCurrencyId,
-        gamingDateId: authStore.getDefaultGamingDateId,
+        //gamingDateId: authStore.getDefaultGamingDateId,
         ...params,
       }
       const { data } = await inOutReportService.getSlotInOutReport(payload)

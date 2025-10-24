@@ -232,7 +232,7 @@ const onSubmitFilter = async () => {
         >
           <div class="col-6">
             <div class="text-subtitle1 text-bold q-ml-md">
-              {{ $t(figure?.transactionCodeName) }}
+              {{ figure?.transactionCodeName }}
             </div>
           </div>
           <div class="col-6 flex justify-end content-end items-end">
@@ -381,7 +381,7 @@ const onSubmitFilter = async () => {
           >
             <div class="col-6">
               <div class="text-subtitle1 text-bold q-ml-md">
-                {{ $t(figure?.transactionCodeName) }}
+                {{ figure?.transactionCodeName }}
               </div>
             </div>
             <div class="col-6 flex justify-end content-end items-end">

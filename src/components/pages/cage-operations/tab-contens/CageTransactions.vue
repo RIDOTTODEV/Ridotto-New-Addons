@@ -372,6 +372,7 @@
                       :options="[
                         { label: $t('yes'), value: true },
                         { label: $t('no'), value: false },
+                        { label: $t('all'), value: null },
                       ]"
                       option-value="value"
                       option-label="label"

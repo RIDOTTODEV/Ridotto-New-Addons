@@ -34,6 +34,27 @@ export const slotPlayerTransactionService = {
       .catch((error) => error)
   },
   /**
+   * Get Player Slot Transaction Detail Slot Player Transaction
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.gamingDateId] - Gaming Date Id
+   * @param {undefined} [data.startDate] - Start Date
+   * @param {undefined} [data.endDate] - End Date
+   * @param {undefined} [data.queryType] - Query Type
+   * @param {undefined} [data.playerId] - Player Id
+   * @param {undefined} [data.transactionCode] - Transaction Code
+   * @param {undefined} [data.transactionType] - Transaction Type
+   * @param {undefined} [data.balanceCurrencyId] - Balance Currency Id
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getPlayerSlotTransactionDetail(data = {}, options = {}) {
+    return api.get('/api/SlotPlayerTransaction/GetPlayerSlotTransactionDetail', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
    * Create Slot Player Transaction
    *
    * @param {object} [data]

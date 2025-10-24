@@ -752,29 +752,43 @@
             </div>
           </fieldset>
 
-          <fieldset class="row">
-            <legend class="q-pa-sm text-subtitle2">Slot Transactions</legend>
-            <div class="col-12 q-pa-none">
-              <q-markup-table dense seperate="cell">
-                <thead>
-                  <tr>
-                    <th>T.Code</th>
-                    <th>Deposit</th>
-                    <th>Withdrawal</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(item, index) in response.slotPlayerTransactions" :key="index">
-                    <td>{{ item.transactionCode }}</td>
-                    <td>{{ priceAbsFormatted(item.deposit) }}</td>
-                    <td>{{ priceAbsFormatted(item.withdrawal) }}</td>
-                    <td>{{ priceAbsFormatted(item.amount) }}</td>
-                  </tr>
-                </tbody>
-              </q-markup-table>
+          <div class="row">
+            <div class="col-6">
+              <fieldset class="row">
+                <legend class="q-pa-sm text-subtitle2">Slot Transactions</legend>
+                <div class="col-12 q-pa-none">
+                  <q-markup-table dense seperate="cell">
+                    <thead>
+                      <tr>
+                        <th class="text-center">T.Code</th>
+                        <th class="text-center">Deposit</th>
+                        <th class="text-center">Withdrawal</th>
+                        <th class="text-center">Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(item, index) in response.slotPlayerTransactions" :key="index">
+                        <td class="text-center">{{ item.transactionCode }}</td>
+                        <td
+                          class="text-center cursor-pointer text-underline"
+                          @click="showSlotTransactionDetail(item, 'Deposit')"
+                        >
+                          {{ priceAbsFormatted(item.deposit) }}
+                        </td>
+                        <td
+                          class="text-center cursor-pointer text-underline"
+                          @click="showSlotTransactionDetail(item, 'Withdrawal')"
+                        >
+                          {{ priceAbsFormatted(item.withdrawal) }}
+                        </td>
+                        <td class="text-center">{{ priceAbsFormatted(item.amount) }}</td>
+                      </tr>
+                    </tbody>
+                  </q-markup-table>
+                </div>
+              </fieldset>
             </div>
-          </fieldset>
+          </div>
         </div>
       </q-card-section>
     </q-card>
@@ -842,7 +856,7 @@ import SearchPlayerInput from 'components/atoms/SearchPlayerInput.vue'
 import PlayerNote from 'src/components/pages/player-operations/meta-detail/PlayerNote.vue'
 import PlayerFriends from 'src/components/pages/player-operations/meta-detail/PlayerFriends.vue'
 import PlayerLinkedPlayers from 'src/components/pages/player-operations/meta-detail/LinkedPlayers.vue'
-import { ref, onMounted, onBeforeMount, watch } from 'vue'
+import { ref, onMounted, onBeforeMount, watch, defineAsyncComponent } from 'vue'
 import { useReportStore } from 'src/stores/report-store'
 import { useAuthStore } from 'src/stores/auth-store'
 import { useQuasar } from 'quasar'
@@ -1316,6 +1330,28 @@ const showMissingPlaqueTooltip = ref(false)
 const showTotalMissingTooltip = ref(false)
 
 const showPeriodDetails = ref(true)
+
+const showSlotTransactionDetail = (item, transactionType) => {
+  const filterParams = {
+    playerId: getInOutPlayerDetailFilter.value.playerId,
+    startDate: getInOutPlayerDetailFilter.value.startDate,
+    endDate: getInOutPlayerDetailFilter.value.endDate,
+    balanceCurrencyId: getDefaultCurrencyId.value,
+    label: datePickerValue.value.label,
+    transactionCode: item.transactionCode,
+    transactionType: transactionType,
+  }
+  $q.dialog({
+    component: defineAsyncComponent(
+      () =>
+        import('src/components/pages/reports/inout-reports/PlayerSlotTransactionDetailDialog.vue'),
+    ),
+    componentProps: {
+      filterParams: filterParams,
+      player: selectedPlayer.value,
+    },
+  })
+}
 </script>
 <style lang="scss">
 .cashDeskTransactionTable {
