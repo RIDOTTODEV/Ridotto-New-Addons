@@ -322,6 +322,15 @@ const routes = [
           requiresAuth: true,
         },
       },
+      {
+        path: 'slot-win-loss',
+        name: 'slotWinLoss',
+        component: () => import('pages/slot/SlotWinLoss.vue'),
+        meta: {
+          requiredPermission: 'Addon.SlotOperations.SlotWinLoss',
+          requiresAuth: true,
+        },
+      },
     ],
   },
   {

@@ -223,6 +223,7 @@ export const exportService = {
    * @param {undefined} [data.playerId] - Player Id
    * @param {undefined} [data.gamingDateId] - Gaming Date Id
    * @param {undefined} [data.rating] - Rating
+   * @param {undefined} [data.topRating] - Top Rating
    * @param {undefined} [data.withResult] - With Result
    * @param {undefined} [data.birthDay] - Birth Day
    * @param {undefined} [data.spouseBirthDay] - Spouse Birth Day

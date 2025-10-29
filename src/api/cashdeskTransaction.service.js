@@ -224,6 +224,28 @@ export const cashdeskTransactionService = {
       .catch((error) => error)
   },
   /**
+   * Get All By Transaction Code Cashdesk Transaction
+   *
+   * @param {object} [data]
+   * @param {undefined} [data.defaultCurrencyId] - Default Currency Id
+   * @param {undefined} [data.transactionCodeId] - Transaction Code Id
+   * @param {undefined} [data.cashdeskId] - Cashdesk Id
+   * @param {undefined} [data.playerId] - Player Id
+   * @param {undefined} [data.isMain] - Is Main
+   * @param {undefined} [data.queryType] - Query Type
+   * @param {undefined} [data.gamingDateId] - Gaming Date Id
+   * @param {undefined} [data.startDate] - Start Date
+   * @param {undefined} [data.endDate] - End Date
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  getAllByTransactionCode(data = {}, options = {}) {
+    return api.get('/api/CashdeskTransaction/GetAllByTransactionCode', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
    * Get All Chip Transactions Cashdesk Transaction
    *
    * @param {object} [data]

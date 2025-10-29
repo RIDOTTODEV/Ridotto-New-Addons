@@ -11,6 +11,9 @@ import {
   tableCountService,
   gmAftInService,
   gmAftOutService,
+  meterStatsService,
+  slotBrandService,
+  slotModelService,
 } from 'src/api'
 import { useAuthStore } from 'src/stores/auth-store'
 import { priceAbsFormatted } from 'src/helpers/helpers'
@@ -18,6 +21,8 @@ import { api } from 'src/boot/axios'
 export const useReportStore = defineStore('reportStore', {
   state: () => ({
     balanceReport: {},
+    slotBrands: [],
+    slotModels: [],
   }),
   getters: {
     getOpeningTotal: (state) => {
@@ -364,6 +369,32 @@ export const useReportStore = defineStore('reportStore', {
       link.download = fileName
       link.click()
       return data
+    },
+    async getPlayerWinLossNew(params) {
+      const authStore = useAuthStore()
+      const payload = {
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+        ...params,
+      }
+      const { data } = await meterStatsService.getPlayerWinLossNew(payload)
+      return data
+    },
+    async getPlayerSummaryByMachineNew(params) {
+      const authStore = useAuthStore()
+      const payload = {
+        balanceCurrencyId: authStore.getDefaultCurrencyId,
+        ...params,
+      }
+      const { data } = await meterStatsService.getPlayerSummaryByMachineNew(payload)
+      return data
+    },
+    async getSlotBrands() {
+      const { data } = await slotBrandService.getAllKeyValues()
+      this.slotBrands = data
+    },
+    async getSlotModels() {
+      const { data } = await slotModelService.getAllKeyValues()
+      this.slotModels = data
     },
   },
 })
