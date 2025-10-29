@@ -252,6 +252,7 @@ export const usePlayerStore = defineStore('playerStore', {
       const { data } = await playerService.getPlayerTransactions(params)
       return data
     },
+
     async fetchPlayerLgTableResult(params) {
       const { data } = await playerLgReportService.getPlayerLgTableResult(params)
       return data

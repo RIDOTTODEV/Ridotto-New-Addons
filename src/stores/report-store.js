@@ -396,6 +396,10 @@ export const useReportStore = defineStore('reportStore', {
       const { data } = await slotModelService.getAllKeyValues()
       this.slotModels = data
     },
+    async fetchPlayerTransactionHistory(params) {
+      const { data } = await inOutReportService.getPlayerTransactionHistory(params)
+      return data
+    },
   },
 })
 

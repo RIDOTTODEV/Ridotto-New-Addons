@@ -463,8 +463,9 @@
                   class="super-small q-ml-xs"
                   bg-color="yellow-5"
                   outlined
-                  input-class="text-dark text-subtitle2"
+                  input-class="text-dark text-subtitle2 cursor-pointer"
                   readonly
+                  @click="openDiscountTransactionHistoryDialog"
                 />
               </div>
               <div class="row col-12 q-mt-xs flex no-wrap justify-end items-center content-center">
@@ -1349,6 +1350,22 @@ const showSlotTransactionDetail = (item, transactionType) => {
     componentProps: {
       filterParams: filterParams,
       player: selectedPlayer.value,
+    },
+  })
+}
+
+const openDiscountTransactionHistoryDialog = () => {
+  const playerName =
+    getInOutPlayerDetailFilter.value?.playerFullName || selectedPlayer.value?.playerName || ''
+  $q.dialog({
+    component: defineAsyncComponent(
+      () =>
+        import('src/components/pages/reports/inout-reports/PlayerDiscountTransactionHistory.vue'),
+    ),
+    componentProps: {
+      playerId: getInOutPlayerDetailFilter.value.playerId,
+      playerName: playerName,
+      datePickerValue: datePickerValue.value,
     },
   })
 }
