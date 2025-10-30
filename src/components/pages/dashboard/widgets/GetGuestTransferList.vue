@@ -1,7 +1,7 @@
 <template>
   <q-card class="no-box-shadow">
     <div class="row app-cart-grey flex justify-between">
-      <div class="text-subtitle2">
+      <div class="text-subtitle2 flex items-center">
         <q-icon
           name="sync_alt"
           size="18px"
@@ -11,7 +11,12 @@
         | {{ $t('guestTransferList') }}
       </div>
 
-      <div class="flex row justify-start items-center no-wrap content-center">
+      <div class="flex row justify-start items-end no-wrap content-center q-mb-xs">
+        <span
+          class="text-subtitle2 bg-deep-orange-6 text-white q-mr-sm"
+          style="border-radius: 3px; padding: 2px 5px"
+          >{{ $t('hours') }}:</span
+        >
         <q-select
           dense
           class="super-small q-mr-sm"
@@ -24,7 +29,6 @@
           option-value="value"
           option-label="label"
           emit-value
-          borderless
         />
         <q-icon
           name="cached"

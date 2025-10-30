@@ -32,6 +32,7 @@
                   startDate: val.StartDate,
                   endDate: val.EndDate,
                   queryType: val.QueryType,
+                  label: val.label,
                 })
             "
           />
@@ -1355,6 +1356,7 @@ const showSlotTransactionDetail = (item, transactionType) => {
 }
 
 const openDiscountTransactionHistoryDialog = () => {
+  console.log('datePickerValue.value', datePickerValue.value)
   const playerName =
     getInOutPlayerDetailFilter.value?.playerFullName || selectedPlayer.value?.playerName || ''
   $q.dialog({
@@ -1365,7 +1367,12 @@ const openDiscountTransactionHistoryDialog = () => {
     componentProps: {
       playerId: getInOutPlayerDetailFilter.value.playerId,
       playerName: playerName,
-      datePickerValue: datePickerValue.value,
+      datePickerValue: {
+        startDate: datePickerValue.value.StartDate || getInOutPlayerDetailFilter.value.startDate,
+        endDate: datePickerValue.value.EndDate || getInOutPlayerDetailFilter.value.endDate,
+        queryType: datePickerValue.value.QueryType || getInOutPlayerDetailFilter.value.queryType,
+        label: datePickerValue.value.label || getInOutPlayerDetailFilter.value.label,
+      },
     },
   })
 }
