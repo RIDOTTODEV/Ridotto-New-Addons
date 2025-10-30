@@ -448,7 +448,7 @@ onMounted(async () => {
                         />
                       </q-tooltip>
                     </q-icon>
-                    Daily Transaction Figures
+                    DAILY TRANSACTION FIGURES
                   </div>
                 </th>
                 <th colspan="5" class="text-right">
@@ -458,28 +458,13 @@ onMounted(async () => {
                   </div>
                 </th>
               </tr>
+
               <tr>
-                <th class="text-center" colspan="3"></th>
-                <th class="text-center" colspan="2">
-                  <div class="text-subtitle2">Opening</div>
-                </th>
-                <th class="text-center" colspan="2">
-                  <div class="text-subtitle2">Closing</div>
-                </th>
-                <th class="text-center" colspan="2">
-                  <div class="text-subtitle2">Movement</div>
-                </th>
-              </tr>
-              <tr>
-                <th class="text-center">Currency Name</th>
-                <th class="text-center">Transaction Code</th>
-                <th class="text-center">Count</th>
-                <th class="text-center borderLeft">Opening</th>
-                <th class="text-center">EUR Value</th>
-                <th class="text-center borderLeft">Closing</th>
-                <th class="text-center">EUR Value</th>
-                <th class="text-center borderLeft">Movement</th>
-                <th class="text-center">EUR Value</th>
+                <th class="text-center text-underline borderLeft">Transaction</th>
+                <th class="text-center text-underline borderLeft">Count</th>
+                <th class="text-center text-underline borderLeft">Received</th>
+                <th class="text-center text-underline borderLeft">Paid</th>
+                <th class="text-center text-underline borderLeft">Net</th>
               </tr>
             </thead>
             <tbody>
@@ -488,46 +473,33 @@ onMounted(async () => {
                   ?.dailyTransactionFigureDetails"
                 :key="index"
               >
-                <td class="text-center">{{ item?.currencyName }}</td>
-                <td class="text-center">{{ item?.transactionCodeName }}</td>
-                <td class="text-center">{{ item?.count }}</td>
-
-                <td class="text-center borderLeft">
-                  {{ priceAbsFormatted(item?.receivedValueBySelectedCurrency) }}
-                </td>
-                <td class="text-center">{{ priceAbsFormatted(item?.received) }}</td>
-
-                <td class="text-center borderLeft">
-                  {{ priceAbsFormatted(item?.paidValueBySelectedCurrency) }}
-                </td>
-                <td class="text-center">{{ priceAbsFormatted(item?.paid) }}</td>
-
-                <td class="text-center borderLeft">
-                  {{ priceAbsFormatted(item?.netValueBySelectedCurrency) }}
-                </td>
-                <td class="text-center">{{ priceAbsFormatted(item?.net) }}</td>
+                <td class="text-center borderLeft">{{ item?.transactionCodeName }}</td>
+                <td class="text-center borderLeft">{{ item?.count }}</td>
+                <td class="text-center borderLeft">{{ item?.received }}</td>
+                <td class="text-center borderLeft">{{ item?.paid }}</td>
+                <td class="text-center borderLeft">{{ item?.net }}</td>
               </tr>
               <tr>
                 <td class="text-center text-bold borderTop">
-                  <div class="text-subtitle2 text-bold"></div>
+                  <div class="text-subtitle2 text-bold">TOTAL</div>
                 </td>
-                <td class="text-center text-bold borderTop"></td>
-                <td class="text-center text-bold borderTop"></td>
-                <td class="text-center text-bold borderTop"></td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold">
+                    {{ priceAbsFormatted(balanceReport?.dailyTransactionFigures?.totalCount) }}
+                  </div>
+                </td>
                 <td class="text-center text-bold borderTop">
                   <div class="text-subtitle2 text-bold">
                     {{ priceAbsFormatted(balanceReport?.dailyTransactionFigures?.totalReceived) }}
                   </div>
                 </td>
-                <td class="text-center text-bold borderTop"></td>
                 <td class="text-center text-bold borderTop">
                   <div class="text-subtitle2 text-bold">
                     {{ priceAbsFormatted(balanceReport?.dailyTransactionFigures?.totalPaid) }}
                   </div>
                 </td>
-                <td class="text-center text-bold borderTop"></td>
                 <td class="text-center text-bold borderTop">
-                  <div class="text-subtitle text-bold2">
+                  <div class="text-subtitle2 text-bold">
                     {{ priceAbsFormatted(balanceReport?.dailyTransactionFigures?.totalNet) }}
                   </div>
                 </td>
@@ -1041,14 +1013,13 @@ onMounted(async () => {
             <q-separator class="q-my-md" size="3px" />
           </div>
         </div>
+
         <div class="row">
           <q-markup-table class="no-box-shadow col-12" dense>
             <thead>
               <tr>
                 <th colspan="3" class="text-left">
-                  <div
-                    class="text-subtitle1 text-bold text-capitalize flex content-center items-center"
-                  >
+                  <div class="text-subtitle1 text-capitalize flex content-center items-center">
                     <q-icon
                       name="o_info"
                       class="cursor-pointer q-mr-xs"
@@ -1062,7 +1033,7 @@ onMounted(async () => {
                         />
                       </q-tooltip>
                     </q-icon>
-                    Chip Figures
+                    <span class="text-underline">- CHIP FIGURES -</span>
                   </div>
                 </th>
                 <th colspan="4" class="text-right">
@@ -1085,65 +1056,106 @@ onMounted(async () => {
                 </th>
               </tr>
               <tr>
-                <th class="text-center">Currency Name / Chip Name</th>
-                <th class="text-center borderLeft">Opening</th>
-                <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
-                <th class="text-center borderLeft">Closing</th>
-                <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
-                <th class="text-center borderLeft">Movement</th>
-                <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
+                <th class="text-center text-underline">
+                  <div class="text-subtitle2 text-underline">Denominations</div>
+                </th>
+                <th class="text-center">
+                  <div class="text-subtitle2 text-underline">Quantity</div>
+                </th>
+                <th class="text-center">
+                  <div class="text-subtitle2 text-underline">Value</div>
+                </th>
+                <th class="text-center">
+                  <div class="text-subtitle2 text-underline">Quantity</div>
+                </th>
+                <th class="text-center">
+                  <div class="text-subtitle2 text-underline">Value</div>
+                </th>
+                <th class="text-center">
+                  <div class="text-subtitle2 text-underline">Quantity</div>
+                </th>
+                <th class="text-center">
+                  <div class="text-subtitle2 text-underline">Value</div>
+                </th>
               </tr>
             </thead>
-            <tbody>
-              <tr v-for="(item, index) in balanceReport?.chipFigures?.chipFigures" :key="index">
-                <td class="text-center">{{ item?.currencyName }} / {{ item.chipName }}</td>
+            <tbody
+              v-for="(chipFigure, chipFigureIndex) in balanceReport?.chipFigures?.chipFigures"
+              :key="chipFigureIndex"
+              :class="{
+                'my-2': chipFigureIndex > 0,
+                'border-top': chipFigureIndex > 0,
+              }"
+            >
+              <tr>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-underline">
+                    <span class="q-px-md">{{ chipFigure?.currencyName }}</span
+                    >{{ chipFigure?.chipName }}
+                  </div>
+                </td>
+                <td class="text-center text-bold borderTop" colspan="6"></td>
+              </tr>
+              <tr v-for="(item, index) in chipFigure?.chipFigureDetails" :key="index">
+                <td class="text-center">{{ item?.chipDenomValue }}</td>
 
                 <td class="text-center borderLeft">
-                  {{ priceAbsFormatted(item?.opening) }}
-                  {{ currencyStore.getCurrencyById(item?.currencyId).symbol }}
+                  {{ priceAbsFormatted(item?.quantity) }}
                 </td>
                 <td class="text-center">
                   {{ priceAbsFormatted(item?.selectedCurrencyOpeningValue) }}
-                  {{ currencyStore.getCurrencyById(getDefaultCurrencyId).symbol }}
                 </td>
 
                 <td class="text-center borderLeft">
-                  {{ priceAbsFormatted(item?.closing) }}
-                  {{ currencyStore.getCurrencyById(item?.currencyId).symbol }}
+                  {{ priceAbsFormatted(item?.quantity) }}
                 </td>
                 <td class="text-center">
                   {{ priceAbsFormatted(item?.selectedCurrencyClosingValue) }}
-                  {{ currencyStore.getCurrencyById(getDefaultCurrencyId).symbol }}
                 </td>
 
                 <td class="text-center borderLeft">
-                  {{ priceAbsFormatted(item?.movement) }}
-                  {{ currencyStore.getCurrencyById(item?.currencyId).symbol }}
+                  {{ priceAbsFormatted(item?.quantity) }}
                 </td>
                 <td class="text-center">
                   {{ priceAbsFormatted(item?.selectedCurrencyMovementValue) }}
-                  {{ currencyStore.getCurrencyById(getDefaultCurrencyId).symbol }}
                 </td>
               </tr>
               <tr>
                 <td class="text-center text-bold borderTop">
-                  <div class="text-subtitle2 text-bold">Total Cash</div>
+                  <div class="text-subtitle2 text-bold text-grey-9">Total</div>
                 </td>
-                <td class="text-center text-bold borderTop"></td>
-                <td class="text-center text-bold borderTop">
-                  <div class="text-subtitle2 text-bold">
+                <td class="text-right text-bold borderTop" colspan="2">
+                  <div class="text-subtitle2 text-bold text-grey-9 q-mr-md">
                     {{ priceAbsFormatted(balanceReport?.chipFigures?.totalOpeningValue) }}
                   </div>
                 </td>
-                <td class="text-center text-bold borderTop"></td>
-                <td class="text-center text-bold borderTop">
-                  <div class="text-subtitle2 text-bold">
+                <td class="text-right text-bold borderTop" colspan="2">
+                  <div class="text-subtitle2 text-bold text-grey-9 q-mr-md">
                     {{ priceAbsFormatted(balanceReport?.chipFigures?.totalClosingValue) }}
                   </div>
                 </td>
-                <td class="text-center text-bold borderTop"></td>
-                <td class="text-center text-bold borderTop">
-                  <div class="text-subtitle text-bold2">
+                <td class="text-right text-bold borderTop" colspan="2">
+                  <div class="text-subtitle text-bold2 text-grey-9 q-mr-md">
+                    {{ priceAbsFormatted(balanceReport?.chipFigures?.totalMovementValue) }}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr>
+                <td class="text-center text-bold borderTop">TOTAL CHIPS</td>
+                <td class="text-right text-bold borderTop" colspan="2">
+                  <div class="text-subtitle2 text-bold q-mr-md">
+                    {{ priceAbsFormatted(balanceReport?.chipFigures?.totalOpeningValue) }}
+                  </div>
+                </td>
+                <td class="text-right text-bold borderTop" colspan="2">
+                  <div class="text-subtitle2 text-bold q-mr-md">
+                    {{ priceAbsFormatted(balanceReport?.chipFigures?.totalClosingValue) }}
+                  </div>
+                </td>
+                <td class="text-right text-bold borderTop" colspan="2">
+                  <div class="text-subtitle2 text-bold q-mr-md">
                     {{ priceAbsFormatted(balanceReport?.chipFigures?.totalMovementValue) }}
                   </div>
                 </td>
@@ -1151,6 +1163,7 @@ onMounted(async () => {
             </tbody>
           </q-markup-table>
         </div>
+
         <div class="row">
           <div class="col-12">
             <q-separator class="q-my-md" size="3px" />
@@ -1336,5 +1349,11 @@ onMounted(async () => {
 }
 .borderLeft {
   border-left: 1px solid #e0e0e0;
+}
+.borderTop {
+  border-top: 1px solid #e0e0e0;
+}
+.text-underline {
+  text-decoration: underline;
 }
 </style>

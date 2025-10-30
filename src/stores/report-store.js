@@ -14,6 +14,7 @@ import {
   meterStatsService,
   slotBrandService,
   slotModelService,
+  tableTaxResultService,
 } from 'src/api'
 import { useAuthStore } from 'src/stores/auth-store'
 import { priceAbsFormatted } from 'src/helpers/helpers'
@@ -398,6 +399,26 @@ export const useReportStore = defineStore('reportStore', {
     },
     async fetchPlayerTransactionHistory(params) {
       const { data } = await inOutReportService.getPlayerTransactionHistory(params)
+      return data
+    },
+    async getTableTaxResult(params) {
+      const { data } = await tableTaxResultService.tableGetAllResult(params)
+      return data
+    },
+    async getAllTableTaxResult(params) {
+      const { data } = await tableTaxResultService.getAll(params)
+      return data
+    },
+    async getByGamingDateTableTaxResult(params) {
+      const { data } = await tableTaxResultService.getByGamingDate(params)
+      return data
+    },
+    async createOrUpdateTableTaxResult(params) {
+      const { data } = await tableTaxResultService.createOrUpdate(params)
+      return data
+    },
+    async deleteTableTaxResult(params) {
+      const { data } = await tableTaxResultService.delete(params)
       return data
     },
   },

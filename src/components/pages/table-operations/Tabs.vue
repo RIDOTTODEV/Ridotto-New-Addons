@@ -81,6 +81,13 @@
         >
           <TableChipBalance />
         </q-tab-panel>
+        <q-tab-panel
+          v-el-perms="'Addon.TableOperations.Tab.TableTaxResult'"
+          name="tableTaxResult"
+          class="no-box-shadow q-pa-none"
+        >
+          <TableTaxResult />
+        </q-tab-panel>
       </q-tab-panels>
     </q-card-section>
   </q-card>
@@ -92,6 +99,7 @@ import Tables from './tab-contents/Tables.vue'
 import TableCount from './tab-contents/TableCount.vue'
 import TableCountReport from './tab-contents/TableCountReport.vue'
 import TableChipBalance from './tab-contents/TableChipBalance.vue'
+import TableTaxResult from './tab-contents/TableTaxResult.vue'
 import { LocalStorage, useQuasar } from 'quasar'
 const $q = useQuasar()
 const tableOperationTabs = ref([
@@ -118,6 +126,12 @@ const tableOperationTabs = ref([
     elPermission: 'Addon.TableOperations.Tab.CountCheckReport',
     icon: 'o_article',
     name: 'countCheckReport',
+  },
+  {
+    label: 'tableTaxResult',
+    elPermission: 'Addon.TableOperations.Tab.TableTaxResult',
+    icon: 'o_calculate',
+    name: 'tableTaxResult',
   },
 ])
 

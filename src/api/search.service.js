@@ -16,6 +16,18 @@ export const searchService = {
       .catch((error) => error)
   },
   /**
+   * Gm Search
+   *
+   * @param {object} [options] - Axios Options
+   * @param {object} [options.headers] - Request Headers
+   * @param {string} [options.responseType] - Response Type
+   */
+  gm(data = {}, options = {}) {
+    return api.get('/api/Search/Gm', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  /**
    * Player Search
    *
    * @param {object} [options] - Axios Options
