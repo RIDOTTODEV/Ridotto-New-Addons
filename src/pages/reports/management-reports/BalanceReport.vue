@@ -37,7 +37,7 @@ const onSubmitFilter = async () => {
   await reportStore.getBalanceReport({
     ...formValues.value,
     ...dateFilterValue.value,
-    date: date.formatDate(formValues.value.date, 'YYYY-MM-DD'),
+    date: date.formatDate(formValues.value.date, 'YYYY-MM-DD') + 'T00:00:00.000Z',
   })
 }
 
