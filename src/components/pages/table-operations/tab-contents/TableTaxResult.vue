@@ -119,6 +119,7 @@ const onSave = async () => {
               :label="tableTaxPage.value"
               v-for="(tableTaxPage, index) in tableTaxPages"
               :key="index"
+              class="q-card--bordered q-ma-xs"
             />
           </q-tabs>
         </template>
