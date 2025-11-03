@@ -414,8 +414,7 @@ export const useReportStore = defineStore('reportStore', {
       return data
     },
     async createOrUpdateTableTaxResult(params) {
-      const { data } = await tableTaxResultService.createOrUpdate(params)
-      return data
+      return await tableTaxResultService.createOrUpdate(params)
     },
     async deleteTableTaxResult(params) {
       const { data } = await tableTaxResultService.delete(params)

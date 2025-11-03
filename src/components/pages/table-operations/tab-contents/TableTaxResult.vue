@@ -1,26 +1,67 @@
 <script setup>
 import { ref } from 'vue'
 import { useReportStore } from 'src/stores/report-store'
+import { Notify } from 'quasar'
 
 const reportStore = useReportStore()
 const filterValues = ref({})
 
-const tableTaxResults = ref([])
+const tableTaxData = ref([])
+const tableTaxPages = ref([])
 const loadingData = ref(false)
 const onSubmitFilter = async () => {
   loadingData.value = true
   const response = await reportStore.getTableTaxResult(filterValues.value)
-  console.log('response', response)
-  tableTaxResults.value = response
+  tableTaxData.value = response.data
+  tableTaxPages.value = response.pages
+  setTimeout(() => {
+    loadingData.value = false
+    tab.value = tableTaxPages.value[0]?.value
+  }, 1000)
+}
+
+const splitterModel = ref(20)
+const tab = ref()
+
+const onTabChange = (value) => {
+  const gamingDateId = tableTaxPages.value.find((page) => page.value === value)?.id
+  if (gamingDateId) {
+    getDateData(gamingDateId)
+  }
+}
+const getDateData = async (gamingDateId) => {
+  loadingData.value = true
+  const filterData = {
+    ...filterValues.value,
+    gamingDateId: gamingDateId,
+  }
+  const response = await reportStore.getTableTaxResult(filterData)
+  tableTaxData.value = response.data
   setTimeout(() => {
     loadingData.value = false
   }, 1000)
 }
 
-const step = ref(1)
-
-const onSubmitSave = async () => {
-  console.log('tableTaxResults.value', tableTaxResults.value)
+const onSave = async () => {
+  const response = await reportStore.createOrUpdateTableTaxResult(tableTaxData.value)
+  console.log(response)
+  if (response.status === 200) {
+    Notify.create({
+      position: 'bottom-right',
+      type: 'positive',
+      message: 'Table tax result saved successfully.',
+    })
+  } else {
+    Notify.create({
+      position: 'bottom-right',
+      type: 'negative',
+      message: 'Table tax result save failed.',
+    })
+  }
+  const currentTabId = tableTaxPages.value.find((page) => page.value === tab.value)?.id
+  setTimeout(() => {
+    getDateData(currentTabId)
+  }, 1000)
 }
 </script>
 
@@ -50,80 +91,131 @@ const onSubmitSave = async () => {
     </q-card-section>
   </q-card>
 
-  <q-card flat square class="no-box-shadow">
+  <q-card flat square class="no-box-shadow" v-if="tableTaxPages.length > 0">
+    <q-inner-loading
+      :showing="loadingData"
+      :label="$t('loading')"
+      label-class="blue-grey-8"
+      label-style="font-size: 1.5em"
+      class="flex content-center items-center justify-center"
+    />
     <q-card-section class="q-pa-none">
-      <q-stepper
-        v-model="step"
-        ref="stepper"
-        color="blue-grey-8"
-        animated
-        style="width: 1100px"
-        class="no-box-shadow"
-        header-class="app-cart-grey q-pa-xs"
-        header-nav
-        bordered
-      >
-        <q-step
-          dense
-          v-for="(tableTaxResult, index) in tableTaxResults"
-          :key="index"
-          :name="index + 1"
-          :title="tableTaxResult.tableName"
-          :icon="index + 1 !== step ? 'o_fiber_manual_record' : 'o_check_circle'"
-        >
-          <div class="row q-mt-md">
-            <div class="col-6 text-center">
-              <div class="row flex justify-center">
-                <q-markup-table
-                  separator="cell"
-                  class="row"
-                  flat
-                  square
-                  bordered
-                  dense
-                  style="width: 400px"
-                >
+      <q-splitter v-model="splitterModel" style="height: 800px">
+        <template v-slot:before>
+          <q-tabs
+            v-model="tab"
+            vertical
+            active-color="blue-grey-8"
+            indicator-color="blue-grey-8"
+            active-bg-color="grey-2"
+            no-caps
+            inline-label
+            dense
+            shrink
+            @update:model-value="onTabChange"
+          >
+            <q-tab
+              :name="tableTaxPage.value"
+              :label="tableTaxPage.value"
+              v-for="(tableTaxPage, index) in tableTaxPages"
+              :key="index"
+            />
+          </q-tabs>
+        </template>
+
+        <template v-slot:after>
+          <q-tab-panels
+            v-model="tab"
+            animated
+            swipeable
+            vertical
+            transition-prev="jump-up"
+            transition-next="jump-up"
+            dense
+          >
+            <q-tab-panel
+              :name="tableTaxPage.value"
+              v-for="(tableTaxPage, index) in tableTaxPages"
+              :key="index"
+              class="q-pt-none"
+            >
+              <div
+                class="text-subtitle1 text-bold app-cart-grey q-card--bordered flex content-center items-center justify-center"
+                style="height: 36px !important"
+              >
+                {{ tableTaxPage.value }}
+              </div>
+              <div class="row q-mt-md">
+                <q-markup-table separator="cell" class="full-width" flat square bordered dense>
                   <thead>
                     <tr>
                       <th class="grey-card text-center">Table</th>
-                      <th class="grey-card text-center">Result</th>
-                      <th class="grey-card text-center">Entered Result</th>
+                      <th class="grey-card text-center">Net Result</th>
+                      <th class="grey-card text-center">Gross Result</th>
                     </tr>
                   </thead>
                   <tbody class="denom-body">
-                    <tr v-for="(result, resultIndex) in tableTaxResult.results" :key="resultIndex">
+                    <tr v-for="(result, resultIndex) in tableTaxData" :key="resultIndex">
                       <td class="text-center text-center">
                         {{ result.tableName }}
                       </td>
                       <td class="text-center text-center">
-                        {{ result.result }}
+                        {{ $priceAbs(result.netResult) }}
                       </td>
-                      <td class="text-left">
-                        <div class="flex flex-center">
-                          <div class="flex justify-start content-center items-center">
+                      <td class="text-left" style="width: 600px !important">
+                        <div class="row">
+                          <div class="col-4">
+                            <q-currency-input
+                              v-model="result.grossResult"
+                              :currency="'USD'"
+                              :custom-rules="[
+                                (val) => (val && val.toString().length > 0) || $t('requiredField'),
+                              ]"
+                              :precision="2"
+                              :clearable="true"
+                              :key="resultIndex"
+                            />
+                          </div>
+                          <div class="col-8 flex content-center items-center">
                             <div
-                              class="text-subtitle2 flex justify-center content-center items-center"
+                              class="row flex content-center items-center full-width q-pl-md q-pr-md"
                             >
-                              {{ result.result }}
-                              <q-icon name="east" size="20px" class="q-ml-md q-mr-md text-grey-6" />
-                              {{ result.enteredResult }}
-                            </div>
+                              <div class="col-4">
+                                <div
+                                  class="text-subtitle2 flex justify-between content-center items-center"
+                                >
+                                  {{ $priceAbs(result.netResult) }}
+                                  <q-icon name="east" size="20px" class="text-grey-6" />
+                                </div>
+                              </div>
+                              <div class="col-4 text-center">
+                                <div class="text-subtitle2">
+                                  {{ $priceAbs(result.grossResult) }}
+                                </div>
+                              </div>
+                              <div class="col-4">
+                                <div
+                                  class="text-subtitle2 q-ml-md flex justify-start content-center items-center text-red-8"
+                                  :class="{
+                                    'text-grey-6':
+                                      Math.abs(result.grossResult || 0) ===
+                                      Math.abs(result.netResult || 0),
+                                  }"
+                                >
+                                  <q-icon
+                                    v-show="result.grossResult != result.netResult"
+                                    :name="result.grossResult > result.netResult ? 'add' : 'remove'"
+                                    size="20px"
+                                  />
 
-                            <div
-                              class="text-subtitle2 q-ml-md flex justify-center content-center items-center"
-                              :class="{
-                                'text-red-8': result.result < result.enteredResult,
-                                'text-green-8': result.result > result.enteredResult,
-
-                                'text-grey-6': result.result === result.enteredResult,
-                              }"
-                            >
-                              <q-icon
-                                v-show="result.result != result.enteredResult"
-                                :name="result.result > result.enteredResult ? 'add' : 'remove'"
-                                size="20px"
-                              />
-                              <span>{{ Math.abs(result.result - result.enteredResult) }}</span>
+                                  <span>{{
+                                    $priceAbs(
+                                      Math.abs(result.grossResult || 0) -
+                                        Math.abs(result.netResult || 0),
+                                    )
+                                  }}</span>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -132,37 +224,22 @@ const onSubmitSave = async () => {
                   </tbody>
                 </q-markup-table>
               </div>
-            </div>
-            <div class="col-6 q-pb-md">
-              <q-form @submit="onSubmitSave" ref="form" class="row">
-                <div class="col-12 q-pa-xs"></div>
-                <div class="col-12 q-pa-xs"></div>
-                <div class="col-12 q-mt-md text-right">
-                  <q-btn
-                    unelevated
-                    icon="save"
-                    color="blue-grey-8"
-                    size="md"
-                    :label="$t('save')"
-                    class="col-12"
-                    type="submit"
-                  />
-                </div>
-              </q-form>
-            </div>
-          </div>
-        </q-step>
-      </q-stepper>
+              <div class="row flex justify-end q-mt-md">
+                <q-btn
+                  unelevated
+                  icon="save"
+                  color="blue-grey-8"
+                  size="md"
+                  :label="$t('save')"
+                  type="button"
+                  @click="onSave"
+                />
+              </div>
+            </q-tab-panel>
+          </q-tab-panels>
+        </template>
+      </q-splitter>
     </q-card-section>
-
-    <q-inner-loading
-      :showing="loadingData"
-      :label="$t('loading')"
-      label-class="blue-grey-8"
-      label-style="font-size: 1.5em"
-      class="full-width full-height"
-    />
-    <q-card-section> </q-card-section>
   </q-card>
 </template>
 

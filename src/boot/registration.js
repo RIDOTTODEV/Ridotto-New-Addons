@@ -5,7 +5,7 @@ export const getWindowHeight = () => {
   const height = Screen.height
   return Math.round((90 * height) / 100)
 }
-
+import { priceAbsFormatted } from 'src/helpers/helpers'
 // directives
 import qDraggableTable from 'quasar-ui-q-draggable-table'
 import VueGridLayout from 'vue-grid-layout-v3'
@@ -51,4 +51,5 @@ export default defineBoot(async ({ app, router }) => {
   // global properties
   app.config.globalProperties.$playerPhotoUrl = process.env.PLAYER_PHOTO_URL
   app.config.globalProperties.$getWindowHeight = getWindowHeight()
+  app.config.globalProperties.$priceAbs = priceAbsFormatted
 })

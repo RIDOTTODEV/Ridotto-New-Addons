@@ -9,6 +9,7 @@ export const tableTaxResultService = {
    * @param {object} [data]
    * @param {undefined} [data.startDate] - Start Date
    * @param {undefined} [data.endDate] - End Date
+   * @param {undefined} [data.gamingDateId] - Gaming Date Id
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type
@@ -25,26 +26,13 @@ export const tableTaxResultService = {
    * @param {undefined} [data.tableId] - Table Id
    * @param {undefined} [data.startDate] - Start Date
    * @param {undefined} [data.endDate] - End Date
+   * @param {undefined} [data.gamingDateId] - Gaming Date Id
    * @param {object} [options] - Axios Options
    * @param {object} [options.headers] - Request Headers
    * @param {string} [options.responseType] - Response Type
    */
   getAll(data = {}, options = {}) {
     return api.get('/api/TableTaxResult/GetAll', { params: data, ...options })
-      .then((response) => response)
-      .catch((error) => error)
-  },
-  /**
-   * Get By Gaming Date Table Tax Result
-   *
-   * @param {object} [data]
-   * @param {undefined} [data.gamingDateId] - Gaming Date Id
-   * @param {object} [options] - Axios Options
-   * @param {object} [options.headers] - Request Headers
-   * @param {string} [options.responseType] - Response Type
-   */
-  getByGamingDate(data = {}, options = {}) {
-    return api.get('/api/TableTaxResult/GetByGamingDate', { params: data, ...options })
       .then((response) => response)
       .catch((error) => error)
   },
