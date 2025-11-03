@@ -195,8 +195,12 @@ const onSave = async () => {
                               </div>
                               <div class="col-4">
                                 <div
-                                  class="text-subtitle2 q-ml-md flex justify-start content-center items-center text-red-8"
+                                  class="text-subtitle2 q-ml-md flex justify-start content-center items-center"
                                   :class="{
+                                    'text-green-8':
+                                      Math.abs(result.netResult || 0) -
+                                        Math.abs(result.grossResult || 0) >=
+                                      0,
                                     'text-grey-6':
                                       Math.abs(result.grossResult || 0) ===
                                       Math.abs(result.netResult || 0),
@@ -210,8 +214,8 @@ const onSave = async () => {
 
                                   <span>{{
                                     $priceAbs(
-                                      Math.abs(result.grossResult || 0) -
-                                        Math.abs(result.netResult || 0),
+                                      Math.abs(result.netResult || 0) -
+                                        Math.abs(result.grossResult || 0),
                                     )
                                   }}</span>
                                 </div>
