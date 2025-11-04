@@ -93,7 +93,7 @@
                 />
               </div>
 
-              <div class="q-pa-sm col-4">
+              <div class="q-pa-sm col-6">
                 <q-currency-input
                   :label="$t('amount')"
                   currency="TRY"
@@ -104,7 +104,7 @@
                   bg-color="white"
                 />
               </div>
-              <div class="q-pa-sm col-4">
+              <div class="q-pa-sm col-6">
                 <q-input
                   :label="$t('note')"
                   v-model="playerChipTransactionFormValues.note"
@@ -116,7 +116,7 @@
                   bg-color="white"
                 />
               </div>
-              <div class="q-pa-sm col-4">
+              <div class="q-pa-sm col-6">
                 <q-toggle
                   v-model="playerChipTransactionFormValues.inOut"
                   color="primary"
@@ -126,6 +126,17 @@
                   class="q-ml-sm"
                   :label="$t('isInOut')"
                   bg-color="white"
+                />
+              </div>
+              <div class="q-pa-sm col-6">
+                <q-checkbox
+                  v-model="playerChipTransactionFormValues.includeInBalance"
+                  color="green-9"
+                  dense
+                  data-cy="includeInBalance"
+                  style="margin-top: 10px"
+                  class="q-ml-sm"
+                  :label="$t('includeInBalance')"
                 />
               </div>
               <div class="q-pa-sm col-6" v-if="showCcPosAndCcSlipId">

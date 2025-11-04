@@ -1,22 +1,25 @@
-import {
-  ref,
-  /*   inject, */
-  onMounted,
-} from 'vue'
-/* import { useAuthStore } from 'src/stores/auth-store' */
-/* const authStore = useAuthStore() */
+import { ref, onMounted } from 'vue'
+
+import { useQuasar } from 'quasar'
 import SetCashDesk from 'src/components/atoms/SetCashDesk.vue'
 export const useLayout = () => {
   const drawer = ref(true)
-  /*   const chubConnection = inject('ridottoHubConnection') */
+  const $q = useQuasar()
 
   onMounted(() => {
-    /*     chubConnection.on('WebPanelGamingDateSwitch', () => {
-      authStore.fetchDefaultGamingDateInfo()
-    }) */
+    if ($q.screen.xs === true || $q.screen.sm === true) {
+      drawer.value = false
+    } else {
+      drawer.value = true
+    }
   })
+
+  const onToggleDrawer = () => {
+    drawer.value = !drawer.value
+  }
   return {
     drawer,
     SetCashDesk,
+    onToggleDrawer,
   }
 }

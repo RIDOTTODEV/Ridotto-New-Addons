@@ -41,6 +41,8 @@ const formValues = ref({
   inOut: false,
   ccPos: null,
   ccSlipId: null,
+  includeInBalance: true,
+  isDualTransaction: false,
 })
 defineEmits([...useDialogPluginComponent.emits])
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
@@ -94,8 +96,14 @@ const onClearTransactionCode = () => {
 const showCcPosAndCcSlipId = ref(false)
 </script>
 <template>
-  <q-dialog ref="dialogRef" @hide="onDialogHide" backdrop-filter="brightness(40%)">
-    <q-card class="q-dialog-plugin" style="min-width: 700px !important">
+  <q-dialog
+    ref="dialogRef"
+    @hide="onDialogHide"
+    transition-show="slide-up"
+    transition-hide="slide-down"
+    backdrop-filter="brightness(40%)"
+  >
+    <q-card class="q-dialog-plugin" style="min-width: 700px !important" square>
       <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
         <div class="text-subtitle2">
           {{ $t('addAccount') }}
@@ -199,7 +207,7 @@ const showCcPosAndCcSlipId = ref(false)
                 bg-color="white"
               />
             </div>
-            <div class="col-6 q-pa-xs">
+            <div class="col-12 q-pa-xs">
               <q-input
                 :label="$t('note')"
                 type="textarea"
@@ -214,7 +222,7 @@ const showCcPosAndCcSlipId = ref(false)
                 data-cy="note"
               />
             </div>
-            <div class="col-6 q-pa-xs">
+            <div class="col-4 q-pa-xs">
               <q-toggle
                 v-model="formValues.inOut"
                 color="primary"
@@ -224,6 +232,28 @@ const showCcPosAndCcSlipId = ref(false)
                 class="q-ml-sm"
                 :label="$t('isInOut')"
                 bg-color="white"
+              />
+            </div>
+            <div class="col-4 q-pa-xs">
+              <q-checkbox
+                v-model="formValues.isDualTransaction"
+                color="green-9"
+                dense
+                data-cy="isDualTransaction"
+                style="margin-top: 10px"
+                class="q-ml-sm"
+                :label="$t('isDualTransaction')"
+              />
+            </div>
+            <div class="col-4 q-pa-xs">
+              <q-checkbox
+                v-model="formValues.includeInBalance"
+                color="green-9"
+                dense
+                data-cy="includeInBalance"
+                style="margin-top: 10px"
+                class="q-ml-sm"
+                :label="$t('includeInBalance')"
               />
             </div>
 

@@ -466,6 +466,7 @@
                   outlined
                   input-class="text-dark text-subtitle2 cursor-pointer"
                   readonly
+                  :disable="!getInOutPlayerDetailFilter.playerId"
                   @click="openDiscountTransactionHistoryDialog"
                 />
               </div>

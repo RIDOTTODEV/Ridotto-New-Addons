@@ -50,6 +50,7 @@ const exchangeFormValues = ref({
   receivedAmount: null,
   note: null,
   transactionCodeId: null,
+  includeInBalance: true,
 })
 
 const $q = useQuasar()
@@ -308,6 +309,14 @@ onMounted(async () => {
                 clearable
                 class="super-small"
                 data-cy="note"
+              />
+            </div>
+            <div class="col-4 q-pa-md">
+              <q-checkbox
+                v-model="exchangeFormValues.includeInBalance"
+                :label="$t('includeInBalance')"
+                data-cy="includeInBalance"
+                color="primary"
               />
             </div>
             <div class="col-12 q-pa-md flex content-start">

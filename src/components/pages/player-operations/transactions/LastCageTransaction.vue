@@ -42,6 +42,14 @@ const columns = ref([
     sortable: false,
     visible: true,
   },
+  {
+    name: 'includeInBalance',
+    label: 'Inc/In Balance',
+    align: 'left',
+    field: 'includeInBalance',
+    sortable: false,
+    visible: true,
+  },
 
   {
     name: 'amount',
@@ -152,6 +160,7 @@ const refTable = ref(null)
             {{ props.cols[0].value }}
           </div>
         </q-td>
+
         <q-td
           key="transactionType"
           :props="props"
@@ -201,6 +210,17 @@ const refTable = ref(null)
         >
           <div class="text-caption flex justify-start items-center compact-text">
             {{ props.row.transactionCode }}
+          </div>
+        </q-td>
+        <q-td
+          key="includeInBalance"
+          :props="props"
+          :class="
+            props.row.includeInBalance ? 'bg-deposit compact-cell' : 'bg-withdrawal compact-cell'
+          "
+        >
+          <div class="text-caption compact-text">
+            {{ props.row.includeInBalance ? $t('yes') : $t('no') }}
           </div>
         </q-td>
         <q-td

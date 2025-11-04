@@ -21,6 +21,7 @@ const inOutTabFormValues = ref({
   amount: null,
   note: null,
   cashDeskId: getSelectedCashDeskId.value,
+  includeInBalance: true,
 })
 const onSubmitInOutTabForm = async () => {
   const response = await cashdeskStore.createInOutTransferTransaction(inOutTabFormValues.value)
@@ -124,6 +125,12 @@ const onSubmitInOutTabForm = async () => {
               :label="$t('note')"
             />
           </div>
+          <q-checkbox
+            v-model="inOutTabFormValues.includeInBalance"
+            :label="$t('includeInBalance')"
+            data-cy="includeInBalance"
+            color="primary"
+          />
           <div class="col-12 q-pa-md flex content-end">
             <q-btn
               size="13px"

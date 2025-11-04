@@ -50,6 +50,8 @@ const formValues = ref({
   inOut: false,
   ccPos: null,
   ccSlipId: null,
+  includeInBalance: true,
+  isDualTransaction: false,
 })
 defineEmits([...useDialogPluginComponent.emits])
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
@@ -107,8 +109,14 @@ const onClearTransactionCode = () => {
 const showCcPosAndCcSlipId = ref(false)
 </script>
 <template>
-  <q-dialog ref="dialogRef" @hide="onDialogHide" backdrop-filter="brightness(40%)">
-    <q-card class="q-dialog-plugin" style="min-width: 800px !important">
+  <q-dialog
+    ref="dialogRef"
+    @hide="onDialogHide"
+    transition-show="slide-up"
+    transition-hide="slide-down"
+    backdrop-filter="brightness(40%)"
+  >
+    <q-card class="q-dialog-plugin" style="min-width: 800px !important" square>
       <q-bar
         style="height: 50px"
         :class="formValues.transactionType === 'Deposit' ? 'bg-green-1' : 'bg-red-1'"
@@ -240,7 +248,7 @@ const showCcPosAndCcSlipId = ref(false)
                 :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
               />
             </div>
-            <div class="col-6 q-pa-xs">
+            <div class="col-3 q-pa-xs">
               <q-toggle
                 v-model="formValues.inOut"
                 color="primary"
@@ -248,8 +256,19 @@ const showCcPosAndCcSlipId = ref(false)
                 data-cy="isInOut"
                 style="margin-top: 10px"
                 class="q-ml-sm"
-                :label="$t('isInOut')"
+                :label="$t('inOut')"
                 bg-color="white"
+              />
+            </div>
+            <div class="col-3 q-pa-xs">
+              <q-checkbox
+                v-model="formValues.includeInBalance"
+                color="green-9"
+                dense
+                data-cy="includeInBalance"
+                style="margin-top: 10px"
+                class="q-ml-sm"
+                :label="$t('includeInBalance')"
               />
             </div>
             <div class="col-6 q-pa-xs" v-if="showCcPosAndCcSlipId">

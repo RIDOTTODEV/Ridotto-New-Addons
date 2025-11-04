@@ -102,6 +102,7 @@
                 :label="$t('note')"
               />
             </div>
+            <div class="col-6 q-pa-md"></div>
             <div class="col-12 q-pa-md flex content-end">
               <q-btn
                 size="13px"

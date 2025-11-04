@@ -195,6 +195,12 @@ const expansionOnHandleShow = (name, parentName = null) => {
     }
   })
 }
+
+const emit = defineEmits(['update:drawer'])
+// watch sideBarDrawer
+watch(sideBarDrawer, (to) => {
+  emit('update:drawer', to)
+})
 </script>
 <style lang="scss">
 .activeMenuHeader {

@@ -471,6 +471,11 @@ const columns = ref([
     label: 'Cashdesk Account',
   },
   {
+    field: 'includeInBalance',
+    label: 'Include In Balance',
+    fieldType: 'boolean',
+  },
+  {
     field: 'playerName',
     label: 'Player',
   },

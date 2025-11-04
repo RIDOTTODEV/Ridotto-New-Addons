@@ -203,7 +203,6 @@ export const cashdeskTransactionService = {
    * @param {undefined} [data.maxResultCount] - Max Result Count
    * @param {undefined} [data.skipCount] - Skip Count
    * @param {undefined} [data.sorting] - Sorting
-   * @param {undefined} [data.isMain] - Is Main
    * @param {undefined} [data.queryType] - Query Type
    * @param {undefined} [data.gamingDateId] - Gaming Date Id
    * @param {undefined} [data.startDate] - Start Date
@@ -231,7 +230,6 @@ export const cashdeskTransactionService = {
    * @param {undefined} [data.transactionCodeId] - Transaction Code Id
    * @param {undefined} [data.cashdeskId] - Cashdesk Id
    * @param {undefined} [data.playerId] - Player Id
-   * @param {undefined} [data.isMain] - Is Main
    * @param {undefined} [data.queryType] - Query Type
    * @param {undefined} [data.gamingDateId] - Gaming Date Id
    * @param {undefined} [data.startDate] - Start Date
@@ -263,7 +261,6 @@ export const cashdeskTransactionService = {
    * @param {undefined} [data.maxResultCount] - Max Result Count
    * @param {undefined} [data.skipCount] - Skip Count
    * @param {undefined} [data.sorting] - Sorting
-   * @param {undefined} [data.isMain] - Is Main
    * @param {undefined} [data.queryType] - Query Type
    * @param {undefined} [data.gamingDateId] - Gaming Date Id
    * @param {undefined} [data.startDate] - Start Date

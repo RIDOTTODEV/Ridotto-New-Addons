@@ -91,6 +91,8 @@ const formValues = ref({
   cashdeskId: selectedCashDesk.value.id,
   note: null,
   methodName: '/PlayerAccount/PostCashdeskPlayerInOutTransaction',
+  includeInBalance: true,
+  isDualTransaction: false,
 })
 defineEmits([...useDialogPluginComponent.emits])
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
@@ -191,8 +193,14 @@ watch(
 )
 </script>
 <template>
-  <q-dialog ref="dialogRef" @hide="onDialogHide" backdrop-filter="brightness(40%)">
-    <q-card class="q-dialog-plugin" style="min-width: 800px">
+  <q-dialog
+    ref="dialogRef"
+    @hide="onDialogHide"
+    backdrop-filter="brightness(40%)"
+    transition-show="slide-up"
+    transition-hide="slide-down"
+  >
+    <q-card class="q-dialog-plugin" style="min-width: 800px" square>
       <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
         <div class="text-subtitle2">
           {{ $t('createNewCashTransaction') }}
@@ -317,15 +325,7 @@ watch(
                 data-cy="amount"
               />
             </div>
-            <div class="col-3 q-pa-xs text-left">
-              <q-checkbox
-                v-model="formValues.inOut"
-                color="primary"
-                :label="$t('inOut')"
-                class="super-small"
-                data-cy="inOut"
-              />
-            </div>
+
             <div class="col-4 q-pa-xs" v-if="showTransactionBanks">
               <q-select
                 :label="$t('bankId')"
@@ -425,6 +425,26 @@ watch(
                   </q-icon>
                 </template>
               </q-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 q-pa-xs text-left">
+              <q-checkbox
+                v-model="formValues.includeInBalance"
+                color="green-9"
+                :label="$t('includeInBalance')"
+                class="super-small"
+                data-cy="includeInBalance"
+              />
+            </div>
+            <div class="col-4 q-pa-xs text-left">
+              <q-checkbox
+                v-model="formValues.isDualTransaction"
+                color="green-9"
+                :label="$t('isDualTransaction')"
+                class="super-small"
+                data-cy="isDualTransaction"
+              />
             </div>
           </div>
 

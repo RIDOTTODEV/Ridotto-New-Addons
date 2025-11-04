@@ -20,6 +20,7 @@ const cashDeskTransferTabFormValues = ref({
   transactionCodeId: null,
   amount: null,
   note: null,
+  includeInBalance: true,
 })
 const emits = defineEmits(['savedCageTransaction', 'cancel'])
 const onSubmitCashDeskTransferTabForm = async () => {
@@ -122,6 +123,7 @@ const onSubmitCashDeskTransferTabForm = async () => {
               v-model="cashDeskTransferTabFormValues.transactionCodeId"
               :label="$t('transactionCode')"
               :rules="[(val) => !!val || $t('requiredField')]"
+              hide-bottom-space
             />
           </div>
           <div class="col-6 q-pa-md">
@@ -148,7 +150,15 @@ const onSubmitCashDeskTransferTabForm = async () => {
               :label="$t('note')"
             />
           </div>
-          <div class="col q-pa-md flex content-end">
+          <div class="col-12 q-pa-md">
+            <q-checkbox
+              v-model="cashDeskTransferTabFormValues.includeInBalance"
+              :label="$t('includeInBalance')"
+              data-cy="includeInBalance"
+              color="primary"
+            />
+          </div>
+          <div class="col-6 q-pa-md flex content-end">
             <q-btn
               size="13px"
               color="negative"
