@@ -381,6 +381,9 @@ export const useCashdeskStore = defineStore('cashdeskStore', {
     async updatePlayerTransactionLocation(params) {
       return await playerTransactionService.updateLocation(params)
     },
+    async deleteCashdeskTransaction(params) {
+      return await cashdeskTransactionService.delete(params)
+    },
   },
 })
 

@@ -209,7 +209,7 @@
             :rowsPerPage="10"
             tableName="cageTransactionsColumns"
             :filterParams="filterFields"
-            :slotNames="['body-cell-action']"
+            :slotNames="['body-cell-actions']"
             ref="cageTransactionsTable"
             :useCol12="true"
             :hideFields="{
@@ -423,6 +423,20 @@
                 </div>
               </div>
             </template>
+            <template v-slot:body-cell-actions="{ props }">
+              <q-td key="actions" align="center">
+                <q-btn
+                  unelevated
+                  dense
+                  color="grey-2"
+                  text-color="negative"
+                  size="12px"
+                  icon="fa-regular fa-trash-can"
+                  class="q-mr-sm"
+                  @click="deleteCageTransaction(props.row)"
+                />
+              </q-td>
+            </template>
           </SupaTable>
         </div>
       </q-card-section>
@@ -432,6 +446,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
+const $q = useQuasar()
 const router = useRouter()
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { useTransactionCodeStore } from 'src/stores/transaction-code-store'
@@ -516,6 +532,10 @@ const columns = ref([
     field: 'note',
     label: 'Note',
   },
+  {
+    field: 'actions',
+    label: 'Actions',
+  },
 ])
 const cageTransactionTabs = ref([
   {
@@ -581,6 +601,31 @@ const onSavedCageTransaction = () => {
   createNewTransaction.value = false
 }
 const showSummaryCard = ref(true)
+
+const deleteCageTransaction = (row) => {
+  $q.dialog({
+    title: 'Delete Cage Transaction',
+    message: 'Are you sure you want to delete this cage transaction?',
+    cancel: {
+      flat: true,
+      color: 'primary',
+      label: 'Cancel',
+      class: 'text-capitalize',
+    },
+    ok: {
+      flat: true,
+      color: 'negative',
+      label: 'Delete',
+      class: 'text-capitalize',
+    },
+    persistent: true,
+  }).onOk(async () => {
+    await cashdeskStore.deleteCashdeskTransaction({
+      id: row.id,
+    })
+    cageTransactionsTable.value.requestServerInteraction()
+  })
+}
 </script>
 <style lang="scss" scoped>
 .b-t-1 {

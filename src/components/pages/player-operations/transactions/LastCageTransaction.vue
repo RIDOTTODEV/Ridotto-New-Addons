@@ -1,12 +1,14 @@
 <script setup>
 import { ref, onMounted, watch, inject } from 'vue'
-import { date } from 'quasar'
+import { date, useQuasar } from 'quasar'
 import { formatPrice } from 'src/helpers/helpers'
 import { usePlayerStore } from 'src/stores/player-store'
-
+import { useCashdeskStore } from 'src/stores/cashdesk-store'
 const playerStore = usePlayerStore()
 const bus = inject('bus')
 const lastCageTransactions = ref([])
+const cashdeskStore = useCashdeskStore()
+const $q = useQuasar()
 const columns = ref([
   {
     name: 'createdAt',
@@ -68,6 +70,14 @@ const columns = ref([
     sortable: false,
     visible: true,
   },
+  {
+    name: 'actions',
+    label: 'Actions',
+    align: 'center',
+    field: 'actions',
+    sortable: false,
+    visible: true,
+  },
 ])
 const props = defineProps({
   playerId: {
@@ -100,6 +110,31 @@ watch(
 )
 bus.on('reloadLastCageTransactions', loadLastCageTransactions)
 const refTable = ref(null)
+
+const deleteCashdeskTransaction = (row) => {
+  $q.dialog({
+    title: 'Delete Cashdesk Transaction',
+    message: 'Are you sure you want to delete this cashdesk transaction?',
+    cancel: {
+      flat: true,
+      color: 'primary',
+      label: 'Cancel',
+      class: 'text-capitalize',
+    },
+    ok: {
+      flat: true,
+      color: 'negative',
+      label: 'Delete',
+      class: 'text-capitalize',
+    },
+    persistent: true,
+  }).onOk(async () => {
+    await cashdeskStore.deleteCashdeskTransaction({
+      id: row.id,
+    })
+    loadLastCageTransactions()
+  })
+}
 </script>
 
 <template>
@@ -253,6 +288,28 @@ const refTable = ref(null)
           <div class="text-caption compact-text">
             {{ props.row.cashdeskName }}
           </div>
+        </q-td>
+        <q-td
+          key="actions"
+          :props="props"
+          :class="
+            props.row.transactionType === 'Deposit'
+              ? 'bg-deposit compact-cell'
+              : props.row.transactionType === 'Withdrawal'
+                ? 'bg-withdrawal compact-cell'
+                : 'compact-cell'
+          "
+        >
+          <q-btn
+            unelevated
+            dense
+            color="grey-2"
+            text-color="negative"
+            size="12px"
+            icon="fa-regular fa-trash-can"
+            class="q-mr-sm"
+            @click="deleteCashdeskTransaction(props.row)"
+          />
         </q-td>
       </q-tr>
     </template>
