@@ -25,7 +25,6 @@ const cashDeskPlayerChipTransferTabFormValues = ref({
   transactionType: 'Withdrawal',
   note: null,
   inOut: false,
-  includeInBalance: true,
 })
 
 const onSubmitCashDeskPlayerChipTransferTabForm = async () => {
@@ -194,14 +193,6 @@ const onClearPlayer = () => {
                 style="margin-top: 10px"
                 class="q-ml-sm"
                 :label="$t('isInOut')"
-              />
-            </div>
-            <div class="col-6 q-pa-xs">
-              <q-checkbox
-                v-model="cashDeskPlayerChipTransferTabFormValues.includeInBalance"
-                :label="$t('includeInBalance')"
-                data-cy="includeInBalance"
-                color="primary"
               />
             </div>
             <div class="col-md-12 col-sm-12 col-xs-12 q-pa-sm flex content-end justify-start">

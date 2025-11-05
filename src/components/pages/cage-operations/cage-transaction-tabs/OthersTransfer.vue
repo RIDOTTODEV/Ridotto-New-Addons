@@ -29,7 +29,6 @@ const othersTransferTabFormValues = ref({
   inOut: true,
   authorizedBy: null,
   dueDate: null,
-  includeInBalance: true,
 })
 
 const hiddenOthersTransferFields = ref({
@@ -219,14 +218,6 @@ const onClear = () => {
                 </q-icon>
               </template>
             </q-input>
-          </div>
-          <div class="col-4 q-pa-md">
-            <q-checkbox
-              v-model="othersTransferTabFormValues.includeInBalance"
-              :label="$t('includeInBalance')"
-              data-cy="includeInBalance"
-              color="primary"
-            />
           </div>
           <div class="col-12 q-pa-md flex content-end">
             <q-btn

@@ -168,6 +168,22 @@
               />
             </div>
             <div class="col-6 q-mt-md">
+              <q-checkbox
+                v-model="formValues.defaultIncludeInBalance"
+                color="primary"
+                :label="$t('defaultIncludeInBalance')"
+                data-cy="defaultIsInOut"
+              />
+            </div>
+            <div class="col-6 q-mt-md" v-if="formValues.defaultIncludeInBalance">
+              <q-checkbox
+                v-model="formValues.includeCashlessAndChipScope"
+                color="primary"
+                :label="$t('includeCashlessAndChipScope')"
+                data-cy="defaultIsInOut"
+              />
+            </div>
+            <div class="col-12 q-mt-md">
               <div class="text-subtitle2">
                 {{ $t('transactionCodeType') }}
               </div>

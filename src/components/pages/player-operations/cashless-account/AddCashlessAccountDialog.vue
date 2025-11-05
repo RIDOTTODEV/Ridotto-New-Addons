@@ -41,8 +41,7 @@ const formValues = ref({
   inOut: false,
   ccPos: null,
   ccSlipId: null,
-  includeInBalance: true,
-  isDualTransaction: false,
+  isCorrection: false,
 })
 defineEmits([...useDialogPluginComponent.emits])
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
@@ -238,24 +237,13 @@ const showCcPosAndCcSlipId = ref(false)
             </div>
             <div class="col-4 q-pa-xs">
               <q-checkbox
-                v-model="formValues.isDualTransaction"
+                v-model="formValues.isCorrection"
                 color="green-9"
                 dense
-                data-cy="isDualTransaction"
+                data-cy="isCorrection"
                 style="margin-top: 10px"
                 class="q-ml-sm"
-                :label="$t('isDualTransaction')"
-              />
-            </div>
-            <div class="col-4 q-pa-xs">
-              <q-checkbox
-                v-model="formValues.includeInBalance"
-                color="green-9"
-                dense
-                data-cy="includeInBalance"
-                style="margin-top: 10px"
-                class="q-ml-sm"
-                :label="$t('includeInBalance')"
+                :label="$t('fixTransaction')"
               />
             </div>
 

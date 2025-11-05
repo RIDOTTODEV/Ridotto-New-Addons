@@ -29,7 +29,6 @@ const bankTransferTabFormValues = ref({
   bankId: null,
   inOut: true,
   cashdeskTransactionType: 'CageInOut',
-  includeInBalance: true,
 })
 
 const onSubmitBankTransferTabForm = async () => {
@@ -154,14 +153,7 @@ bankAccountStore.fetchBankAccounts()
                 data-cy="note"
               />
             </div>
-            <div class="col-12 q-pa-md">
-              <q-checkbox
-                v-model="bankTransferTabFormValues.includeInBalance"
-                :label="$t('includeInBalance')"
-                data-cy="includeInBalance"
-                color="primary"
-              />
-            </div>
+
             <div class="col q-pa-md flex content-end">
               <q-btn
                 size="13px"

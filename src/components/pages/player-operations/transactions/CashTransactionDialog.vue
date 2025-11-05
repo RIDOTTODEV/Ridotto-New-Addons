@@ -91,8 +91,6 @@ const formValues = ref({
   cashdeskId: selectedCashDesk.value.id,
   note: null,
   methodName: '/PlayerAccount/PostCashdeskPlayerInOutTransaction',
-  includeInBalance: true,
-  isDualTransaction: false,
 })
 defineEmits([...useDialogPluginComponent.emits])
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
@@ -425,26 +423,6 @@ watch(
                   </q-icon>
                 </template>
               </q-input>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-4 q-pa-xs text-left">
-              <q-checkbox
-                v-model="formValues.includeInBalance"
-                color="green-9"
-                :label="$t('includeInBalance')"
-                class="super-small"
-                data-cy="includeInBalance"
-              />
-            </div>
-            <div class="col-4 q-pa-xs text-left">
-              <q-checkbox
-                v-model="formValues.isDualTransaction"
-                color="green-9"
-                :label="$t('isDualTransaction')"
-                class="super-small"
-                data-cy="isDualTransaction"
-              />
             </div>
           </div>
 

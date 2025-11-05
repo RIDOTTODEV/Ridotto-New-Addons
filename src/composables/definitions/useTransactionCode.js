@@ -85,6 +85,8 @@ export const useTransactionCode = () => {
     gamingExpenses: false,
     toBeCollected: false,
     transType: null,
+    defaultIncludeInBalance: false,
+    includeCashlessAndChipScope: false,
   })
   const filterParams = ref({
     ...queryParams(),
@@ -102,6 +104,8 @@ export const useTransactionCode = () => {
       transactionCodeGroupTypes: [],
       gamingExpenses: false,
       toBeCollected: false,
+      defaultIncludeInBalance: false,
+      includeCashlessAndChipScope: false,
     }
   }
   const openDialog = () => {
