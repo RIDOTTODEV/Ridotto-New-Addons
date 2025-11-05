@@ -28,10 +28,10 @@
                 {{ $t('cashDeskList') }}
               </div>
             </div>
-            <div class="col-12 flex">
+            <div class="col-12 flex flex-col sm:flex-row gap-2">
               <q-btn
                 size="22px"
-                class="q-px-xl q-py-xs q-ma-md"
+                class="q-px-xl q-py-xs q-ma-md sm:w-auto w-full"
                 v-for="(cashDesk, i) in cashdesks"
                 :key="i"
                 :color="

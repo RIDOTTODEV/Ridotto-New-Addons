@@ -1,6 +1,6 @@
 <template>
   <q-header>
-    <div class="flex bg-gray-100 md:flex md:justify-between md:py-1">
+    <div class="flex flex-col md:flex-row bg-gray-100 md:justify-between md:py-1 py-2 gap-y-2">
       <div class="flex justify-start items-center md:w-1/3 w-full gap-x-2 px-2">
         <q-icon
           :name="!drawer ? 'menu' : 'east'"
@@ -12,7 +12,7 @@
           transition-hide="scale"
         />
         <SearchPlayerInput
-          class="super-small search-input md:min-w-[300px]"
+          class="super-small search-input md:min-w-[300px] flex-1"
           :placeholder="$t('search')"
           v-model="selectedUser"
           @onSelectPlayer="onSelectPlayer"
@@ -20,7 +20,7 @@
           optionLabel="value"
         />
       </div>
-      <div class="flex justify-end items-center px-2">
+      <div class="flex md:flex-row justify-end items-center px-2 gap-2">
         <q-btn flat padding="0px 5px" v-if="isAuthorityUser" no-wrap>
           <template v-slot:default>
             <div class="row">

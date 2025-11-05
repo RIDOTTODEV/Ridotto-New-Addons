@@ -32,11 +32,11 @@
           v-if="cashAccountsTotalsGroupedByCurrency().length > 0 && showSummaryCashCard === true"
         >
           <div
-            class="col-4 text-center q-pa-xs"
+            class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto text-center q-pa-xs items-center justify-center md:min-w-[25%]"
             v-for="total in cashAccountsTotalsGroupedByCurrency()"
             :key="total.currencyName"
           >
-            <q-card flat class="app-cart-grey">
+            <q-card flat class="app-cart-grey w-full">
               <q-card-section class="q-pa-none">
                 <div class="text-h6">{{ total.currencyName }}</div>
                 <div class="row">
@@ -169,11 +169,11 @@
           v-if="chipAccountsTotalsGroupedByCurrency().length > 0 && showSummaryChipCard === true"
         >
           <div
-            class="col-4 text-center q-pa-xs"
+            class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto text-center q-pa-xs items-center justify-center md:min-w-[25%]"
             v-for="total in chipAccountsTotalsGroupedByCurrency()"
             :key="total.currencyName"
           >
-            <q-card flat class="app-cart-grey">
+            <q-card flat class="app-cart-grey w-full">
               <q-card-section class="q-pa-none">
                 <div class="text-h6">{{ total.currencyName }}</div>
                 <div class="row">

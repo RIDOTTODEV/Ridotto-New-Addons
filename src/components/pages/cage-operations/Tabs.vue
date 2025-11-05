@@ -1,41 +1,35 @@
 <template>
   <q-card square flat class="bg-transparent">
     <q-card-section class="q-pl-sm q-pr-sm q-pt-sm q-pb-none">
-      <div class="row full-height flex justify-between">
-        <div class="content-center full-height">
-          <div class="full-width">
-            <q-tabs
-              v-model="currentCageTab"
-              @update:model-value="onChangeTab"
-              dense
-              class="text-dark"
-              active-color="white"
-              indicator-color="blue-grey-8"
-              active-bg-color="blue-grey-8"
-              align="justify"
-              narrow-indicator
-              no-caps
-              inline-label
-            >
-              <q-tab
-                v-for="(tab, index) in cageOperationTabs"
-                :key="index"
-                :data-cy="tab.name"
-                v-el-perms="tab.elPermission"
-                no-caps
-                :name="tab.name"
-                :label="$t(tab.label)"
-                :icon="tab.icon"
-                :class="
-                  index === 0 ? 'q-card--bordered bg-white' : 'q-card--bordered q-ml-sm bg-white'
-                "
-              />
-            </q-tabs>
-          </div>
-        </div>
-        <div class="full-height">
-          <balance />
-        </div>
+      <div class="flex xs:flex-col md:flex-row gap-2 justify-between w-full items-start">
+        <q-tabs
+          v-model="currentCageTab"
+          @update:model-value="onChangeTab"
+          dense
+          active-color="white"
+          indicator-color="blue-grey-8"
+          active-bg-color="blue-grey-8"
+          align="justify"
+          narrow-indicator
+          no-caps
+          inline-label
+          content-class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto"
+          class="w-full sm:w-auto"
+        >
+          <q-tab
+            v-for="(tab, index) in cageOperationTabs"
+            :key="index"
+            :data-cy="tab.name"
+            v-el-perms="tab.elPermission"
+            no-caps
+            :name="tab.name"
+            :label="$t(tab.label)"
+            :icon="tab.icon"
+            class="q-card--bordered bg-white w-full sm:w-auto"
+            content-class="w-full sm:w-auto"
+          />
+        </q-tabs>
+        <balance class="w-full sm:w-auto" />
       </div>
     </q-card-section>
   </q-card>

@@ -152,8 +152,8 @@
           @switchSummaryCard="showSummaryCard = !showSummaryCard"
         >
           <template v-slot:headerFilterSlots>
-            <div class="col-9 flex row justify-start q-py-xs">
-              <div class="row full-width flex justify-start q-gutter-x-sm q-gutter-y-sm">
+            <div class="flex flex-col sm:flex-row justify-between w-full q-py-xs">
+              <div class="flex sm:flex-row flex-col justify-start gap-2">
                 <q-select-box
                   v-model="filterFields.cashdeskId"
                   :options="cashdesks"
@@ -161,7 +161,6 @@
                   option-label="name"
                   :label="$t('cashdesk')"
                   :fetchFn="cashdeskStore.fetchCashdesks"
-                  style="width: 200px"
                 />
 
                 <q-select-box
@@ -170,7 +169,6 @@
                   option-value="value"
                   option-label="label"
                   :label="$t('transactionType')"
-                  style="width: 170px"
                 />
 
                 <q-select-box
@@ -179,7 +177,6 @@
                   option-label="code"
                   v-model="filterFields.pettyCashCategoryId"
                   :label="$t('pettyCashCategory')"
-                  style="width: 170px"
                 />
 
                 <q-select
@@ -193,10 +190,9 @@
                   emit-value
                   map-options
                   clearable
-                  class="super-small"
+                  class="super-small md:min-w-[170px]"
                   hide-bottom-space
                   behavior="menu"
-                  style="width: 170px"
                 >
                   <template v-slot:option="scope">
                     <q-item v-bind="scope.itemProps">
@@ -256,7 +252,7 @@
                   size="13px"
                   unelevated
                   no-caps
-                  class="q-ml-sm"
+                  class=""
                   @click="pettyCashTable.fetchData()"
                 />
 
@@ -268,7 +264,7 @@
                   size="13px"
                   unelevated
                   no-caps
-                  class="q-ml-sm"
+                  class=""
                   @click="
                     reportStore.getPettyCashTransactions({
                       ...filterFields,

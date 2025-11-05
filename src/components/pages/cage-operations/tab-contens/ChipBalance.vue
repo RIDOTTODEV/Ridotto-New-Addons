@@ -94,7 +94,7 @@ const getTotals = async () => {
 </script>
 
 <template>
-  <div class="row">
+  <div class="flex flex-col gap-2 q-pa-sm">
     <div class="col-12 q-card--bordered row q-pa-sm" v-if="!selectedCashDesk.isChipAccepted">
       <Information
         :content="`<div class='text-left'>
@@ -107,100 +107,102 @@ const getTotals = async () => {
                   </div>`"
       />
     </div>
-    <div class="col-12 q-card--bordered row q-pa-sm">
-      <div
-        class="col-md-3 q-pa-xs col-sm-12 col-xs-12"
-        v-for="(item, index) in currentCashDeskChipCountDenominations"
-        :key="index"
-      >
-        <div class="text-subtitle2 full-width">
-          {{ chipStore.getChipById(item.chipId)?.currencyName }} -
-          {{ chipStore.getChipById(item.chipId)?.name }}
+    <div class="ro">
+      <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="row gap-2">
+          <div
+            v-for="(item, index) in currentCashDeskChipCountDenominations"
+            :key="index"
+            class="col-xs-12 col-md"
+          >
+            <div class="text-subtitle2 full-width">
+              {{ chipStore.getChipById(item.chipId)?.currencyName }} -
+              {{ chipStore.getChipById(item.chipId)?.name }}
 
-          <span class="text-negative text-bold">*</span>
-        </div>
-        <q-markup-table separator="cell" flat square bordered dense class=" ">
-          <thead>
-            <tr>
-              <th class="grey-card text-center">Denom</th>
-              <th class="grey-card text-center">
-                {{ $t('quantity') }}
-              </th>
-              <th class="grey-card text-center">
-                {{ $t('total') }}
-              </th>
-            </tr>
-          </thead>
-          <tbody class="denom-body">
-            <tr v-for="(denom, denomIndex) in item.cashdeskChipCountItems" :key="denomIndex">
-              <td class="text-center cursor-not-allowed">
-                {{ denom.chipDenomName }} {{ denom.value }}
-              </td>
-              <td class="text-center bg-grey-2">
-                <q-field
-                  style="overflow: hidden"
-                  v-model="denom.quantity"
-                  hide-bottom-space
-                  borderless
-                  standout
-                  dense
-                  flat
-                  type="number"
-                  class="q-pa-none q-ma-none super-small text-center"
-                  lazy-rules
-                  @focus="(e) => (e.target.select ? e.target.select() : null)"
-                  @update:model-value="
-                    (val) => {
-                      denom.amount = val * denom.value
-                      updateChipDenomination({
-                        ...denom,
-                      })
-                    }
-                  "
-                  :autofocus="index === 0"
-                  input-class="text-center"
-                  :disable="!selectedCashDesk.isChipAccepted"
-                >
-                  <template v-slot:control="{ id, modelValue, emitValue }">
-                    <input
+              <span class="text-negative text-bold">*</span>
+            </div>
+            <q-markup-table separator="cell" flat square bordered dense class=" ">
+              <thead>
+                <tr>
+                  <th class="grey-card text-center">Denom</th>
+                  <th class="grey-card text-center">
+                    {{ $t('quantity') }}
+                  </th>
+                  <th class="grey-card text-center">
+                    {{ $t('total') }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="denom-body">
+                <tr v-for="(denom, denomIndex) in item.cashdeskChipCountItems" :key="denomIndex">
+                  <td class="text-center cursor-not-allowed">
+                    {{ denom.chipDenomName }} {{ denom.value }}
+                  </td>
+                  <td class="text-center bg-grey-2">
+                    <q-field
+                      style="overflow: hidden"
+                      v-model="denom.quantity"
+                      hide-bottom-space
+                      borderless
+                      standout
+                      dense
+                      flat
                       type="number"
-                      :id="id"
-                      class="q-field__input q-pa-none number-to-text text-center bg-white myInput"
-                      :value="modelValue"
-                      @change="(e) => emitValue(e.target.value)"
-                      pattern="[0-9]+([\.,][0-9]+)?"
-                      v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
-                      :disabled="!selectedCashDesk.isChipAccepted"
-                    />
-                  </template>
-                </q-field>
-              </td>
-              <td>
-                {{ formatPrice(denom.quantity * denom.value) }}
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td class="text-right" colspan="3" style="border-top: 1px solid #e2e2e2 !important">
-                <div class="text-subtitle2">
-                  {{ $t('totalAmount') }}:
-                  <span class="text-negative q-ml-md">
-                    {{ priceAbsFormatted(item?.totalAmount) }}
-                  </span>
-                </div>
-              </td>
-            </tr>
-          </tfoot>
-        </q-markup-table>
+                      class="q-pa-none q-ma-none super-small text-center"
+                      lazy-rules
+                      @focus="(e) => (e.target.select ? e.target.select() : null)"
+                      @update:model-value="
+                        (val) => {
+                          denom.amount = val * denom.value
+                          updateChipDenomination({
+                            ...denom,
+                          })
+                        }
+                      "
+                      :autofocus="index === 0"
+                      input-class="text-center"
+                      :disable="!selectedCashDesk.isChipAccepted"
+                    >
+                      <template v-slot:control="{ id, modelValue, emitValue }">
+                        <input
+                          type="number"
+                          :id="id"
+                          class="q-field__input q-pa-none number-to-text text-center bg-white myInput"
+                          :value="modelValue"
+                          @change="(e) => emitValue(e.target.value)"
+                          pattern="[0-9]+([\.,][0-9]+)?"
+                          v-el-perms="'Addon.CageOperations.Tab.BalanceUpdate'"
+                          :disabled="!selectedCashDesk.isChipAccepted"
+                        />
+                      </template>
+                    </q-field>
+                  </td>
+                  <td>
+                    {{ formatPrice(denom.quantity * denom.value) }}
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td
+                    class="text-right"
+                    colspan="3"
+                    style="border-top: 1px solid #e2e2e2 !important"
+                  >
+                    <div class="text-subtitle2">
+                      {{ $t('totalAmount') }}:
+                      <span class="text-negative q-ml-md">
+                        {{ priceAbsFormatted(item?.totalAmount) }}
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+            </q-markup-table>
+          </div>
+        </div>
       </div>
-      <div
-        :class="
-          currentCashDeskChipCountDenominations.length >= 3
-            ? 'col-12 q-mt-md q-pa-xs'
-            : 'col-md-6 col-sm-12 col-xs-12 q-pa-xs'
-        "
-      >
+      <div class="col-md-6 col-sm-12 col-xs-12">
         <div class="text-subtitle1" style="margin-top: -6px">
           <span class="text-negative text-bold">
             {{ cashDeskStore.getCashDeskById(getSelectedCashDeskId)?.name }}</span
@@ -210,6 +212,11 @@ const getTotals = async () => {
         <q-card class="col-12 no-box-shadow" square bordered>
           <q-card-section class="row app-cart-grey q-pa-none">
             <div class="col-12 text-center right-separator">
+              <div class="flex flex-row justify-between">
+                <div class="text-left flex justify-start content-center items-center">
+                  <div class="text-subtitle2">{{ item.currencyName }}</div>
+                </div>
+              </div>
               <div class="text-subtitle1">Total Amount</div>
             </div>
           </q-card-section>

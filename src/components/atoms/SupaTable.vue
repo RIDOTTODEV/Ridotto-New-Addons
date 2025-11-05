@@ -21,15 +21,18 @@
     @request="filterMethod"
   >
     <template v-slot:top="" v-if="!hideTopBar">
-      <div class="flex row full-width q-pa-sm">
+      <div class="flex flex-col q-pa-sm justify-between w-full gap-2">
         <slot name="headerFilterSlots" v-bind="{ props: { ...props, reload: fetchData } }"></slot>
-        <div :class="['flex row justify-end items-start', props.useCol12 ? 'col-12' : 'col']">
+        <!--        <div :class="['flex row justify-end items-start', props.useCol12 ? 'col-12' : 'col']">
+
+        </div> -->
+        <div class="flex sm:flex-row justify-end items-start gap-2">
           <q-input
             v-if="hideFields && hideFields.showSearchInput"
             v-model="tableFilterInput"
             dense
             outlined
-            class="super-small search-input q-ml-xs q-mr-xs"
+            class="super-small search-input"
             :class="{ 'search-input--focused': isInputFocused }"
             :placeholder="$t('search')"
             @focus="handleInputFocus"
@@ -48,7 +51,7 @@
             unelevated
             dense
             size="13px"
-            class="q-ml-xs q-mr-xs"
+            class=""
             padding="xs"
             dropdown-icon="o_visibility"
             square
@@ -93,7 +96,7 @@
             icon="cached"
             @click="fetchData"
             size="13px"
-            class="q-ml-xs q-mr-xs"
+            class=""
             padding="xs"
           />
           <q-btn
@@ -105,7 +108,7 @@
             icon="o_toc"
             @click="switchSummaryCard"
             size="13px"
-            class="q-ml-xs q-mr-xs"
+            class=""
             padding="xs"
           />
           <q-btn
@@ -117,7 +120,7 @@
             @click="toggleFullscreen"
             size="13px"
             unelevated
-            class="q-ml-xs q-mr-xs"
+            class=""
             padding="xs"
           />
         </div>

@@ -118,18 +118,18 @@ const pettyCashTotals = ref([])
     <q-card class="app-cart q-card--bordered">
       <q-card-section class="q-pa-none row flex content-center">
         <div class="col-md-7 q-pa-xs flex justify-between">
-          <div class="row">
-            <div v-if="!showAllCagesBalance" class="row">
+          <div class="flex w-full flex-row">
+            <div v-if="!showAllCagesBalance" class="row gap-1">
               <div
-                class="q-pa-sm col-3"
                 v-for="(item, index) in currentCashDeskCountDenominations"
                 :key="index"
+                class="col-xs-12 col-md"
               >
-                <div class="row">
-                  <div class="col-2 text-left flex justify-start content-center items-center">
+                <div class="flex flex-row justify-between">
+                  <div class="text-left flex justify-start content-center items-center">
                     <div class="text-subtitle2">{{ item.currencyName }}</div>
                   </div>
-                  <div class="col-10 text-right flex justify-end content-center items-center">
+                  <div class="text-right flex justify-end content-center items-center">
                     <div class="text-subtitle2 q-mr-sm">
                       {{ priceAbsFormatted(item.totalAmount) }}
                     </div>
@@ -149,7 +149,7 @@ const pettyCashTotals = ref([])
                     />
                   </div>
                 </div>
-                <q-markup-table separator="cell" flat square bordered dense>
+                <q-markup-table separator="cell" flat square bordered dense class="">
                   <thead>
                     <tr>
                       <th class="grey-card text-center">Denom</th>
@@ -225,9 +225,12 @@ const pettyCashTotals = ref([])
               </div>
             </div>
           </div>
-          <div class="row flex content-end items-end q-mb-md q-ml-sm" v-if="pettyCashTotals.length">
-            <div class="col-12">
-              <q-markup-table separator="cell" bordered flat dense square style="min-width: 500px">
+          <div
+            class="flex content-end items-end q-mb-md q-mt-sm w-full sm:w-auto"
+            v-if="pettyCashTotals.length"
+          >
+            <div class="w-full md:min-w-[500px]">
+              <q-markup-table separator="cell" bordered flat dense square>
                 <tbody>
                   <tr>
                     <td

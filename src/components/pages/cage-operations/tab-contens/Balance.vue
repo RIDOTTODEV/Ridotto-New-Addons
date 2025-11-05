@@ -27,12 +27,12 @@ const showTotal = ref(false)
 </script>
 
 <template>
-  <div class="row flex justify-end no-wrap content-start items-start">
+  <div class="row flex justify-end no-wrap content-start items-start w-full sm:w-auto">
     <q-markup-table
       dense
       separator="cell"
       square
-      class="no-box-shadow cursor-pointer app-cart-grey"
+      class="no-box-shadow cursor-pointer app-cart-grey w-full sm:w-auto"
       bordered
       v-if="!showTotal"
       v-el-perms="'Addon.CageOperations.Balance.ShowCurrentBalances'"
@@ -120,7 +120,7 @@ const showTotal = ref(false)
       dense
       separator="cell"
       square
-      class="no-box-shadow cursor-pointer"
+      class="no-box-shadow cursor-pointer w-full sm:w-auto"
       bordered
       style="min-width: 290px"
       v-if="showTotal"
@@ -184,6 +184,9 @@ const showTotal = ref(false)
   padding: 4px;
   @media (max-width: 1240px) {
     font-size: 1.3vw !important;
+  }
+  @media (max-width: 768px) {
+    font-size: 0.85rem !important;
   }
 }
 .borderLeftWhite {

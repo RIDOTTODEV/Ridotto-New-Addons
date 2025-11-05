@@ -111,11 +111,11 @@
             v-if="chipTransactionTableRef?.response?.totals?.length > 0 && showSummaryCard === true"
           >
             <div
-              class="col-4 text-center q-pa-xs"
+              class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto text-center q-pa-xs items-center justify-center md:min-w-[25%]"
               v-for="total in chipTransactionTableRef?.response?.totals"
               :key="total.currencyName"
             >
-              <q-card flat class="app-cart-grey">
+              <q-card flat class="app-cart-grey w-full">
                 <q-card-section class="q-pa-none">
                   <div class="text-h6">{{ total.chipType }} - {{ total.chipCurrencyName }}</div>
                   <div class="row">
@@ -229,9 +229,9 @@
             @switchSummaryCard="showSummaryCard = !showSummaryCard"
           >
             <template v-slot:headerFilterSlots>
-              <div class="col-12 flex row justify-start q-py-xs">
-                <div class="row full-width flex justify-start">
-                  <div class="col-2 q-pa-xs">
+              <div class="flex flex-col sm:flex-row justify-between w-full q-py-xs">
+                <div class="flex sm:flex-row flex-col justify-start gap-2">
+                  <div class="w-full sm:w-auto">
                     <q-select-box
                       v-model="filterFields.CashdeskId"
                       :options="cashdesks"
@@ -241,7 +241,7 @@
                       :fetchFn="cashDeskStore.fetchCashdesks"
                     />
                   </div>
-                  <div class="col-2 q-pa-xs">
+                  <div class="w-full sm:w-auto">
                     <q-select-box
                       v-model="filterFields.CashdeskTransactionType"
                       :options="cashdeskTransactionTypes"
@@ -251,7 +251,7 @@
                       :fetchFn="cashDeskStore.fetchCashdeskTransactionTypes"
                     />
                   </div>
-                  <div class="col-2 q-pa-xs">
+                  <div class="w-full sm:w-auto">
                     <q-select-box
                       v-model="filterFields.TransType"
                       :options="transTypes"
@@ -261,7 +261,7 @@
                       :fetchFn="cashDeskStore.fetchTransTypes"
                     />
                   </div>
-                  <div class="col-2 q-pa-xs">
+                  <div class="w-full sm:w-auto">
                     <q-select-box
                       v-model="filterFields.TransactionCodeId"
                       :options="
@@ -275,14 +275,14 @@
                       :label="$t('transactionCode')"
                     />
                   </div>
-                  <div class="col-2 q-pa-xs">
+                  <div class="w-full sm:w-auto">
                     <q-select
                       v-model="filterFields.TransactionType"
                       :options="cageTransactionTypes"
                       option-value="value"
                       option-label="label"
                       :label="$t('transactionType')"
-                      class="super-small full-width"
+                      class="super-small md:min-w-[170px]"
                       dense
                       outlined
                       clearable
@@ -290,10 +290,9 @@
                       emit-value
                       map-options
                       behavior="menu"
-                      style="width: 170px"
                     />
                   </div>
-                  <div class="col-2 q-pa-xs">
+                  <div class="w-full sm:w-auto">
                     <q-select
                       :label="$t('currency')"
                       v-model="filterFields.CurrencyId"
@@ -308,7 +307,7 @@
                       map-options
                       :rules="[(val) => !!val || $t('requiredField')]"
                       clearable
-                      class="super-small"
+                      class="super-small md:min-w-[170px]"
                       hide-bottom-space
                       behavior="menu"
                     >
@@ -342,7 +341,7 @@
                       </template>
                     </q-select>
                   </div>
-                  <div class="col-2 q-pa-xs">
+                  <div class="w-full sm:w-auto">
                     <q-input
                       v-model="filterFields.MinAmount"
                       :label="$t('minAmount')"
@@ -352,7 +351,7 @@
                       clearable
                     />
                   </div>
-                  <div class="col-2 q-pa-xs">
+                  <div class="w-full sm:w-auto">
                     <q-input
                       v-model="filterFields.MaxAmount"
                       :label="$t('maxAmount')"
@@ -362,7 +361,7 @@
                       clearable
                     />
                   </div>
-                  <div class="col-2 q-pa-xs">
+                  <div class="w-full sm:w-auto">
                     <q-input
                       v-model="filterFields.CashdeskAccountId"
                       :label="$t('cashdeskAccount')"
@@ -372,7 +371,7 @@
                       clearable
                     />
                   </div>
-                  <div class="col q-pa-xs flex justify-start">
+                  <div class="w-full sm:w-auto flex justify-start">
                     <search-player-input
                       v-model="filterFields.PlayerId"
                       :optionLabel="'value'"
