@@ -173,6 +173,7 @@
                 color="primary"
                 :label="$t('defaultIncludeInBalance')"
                 data-cy="defaultIsInOut"
+                @update:model-value="(val) => (formValues.defaultIncludeInBalance = val)"
               />
             </div>
             <div class="col-6 q-mt-md" v-if="formValues.defaultIncludeInBalance">

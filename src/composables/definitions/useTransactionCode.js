@@ -42,6 +42,14 @@ export const useTransactionCode = () => {
       fieldType: 'boolean',
     },
     {
+      field: 'includeInBalance',
+      fieldType: 'boolean',
+    },
+    {
+      field: 'includeCashlessAndChipScope',
+      fieldType: 'boolean',
+    },
+    {
       field: 'gamingExpenses',
       fieldType: 'boolean',
     },
