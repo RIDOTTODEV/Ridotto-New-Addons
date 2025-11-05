@@ -51,6 +51,8 @@ const onsubmit = async () => {
   await playerStore.postCashdeskTransaction({ ...formValues.value }).then((res) => {
     if (res) {
       bus.emit('reloadLastCashlessTransactions')
+      bus.emit('reloadLastCageTransactions')
+      bus.emit('reloadCashlessAccounts')
       onDialogOK()
     }
   })
