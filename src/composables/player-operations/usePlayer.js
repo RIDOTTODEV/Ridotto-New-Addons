@@ -120,7 +120,7 @@ export function usePlayer() {
     inOut: false,
     ccPos: null,
     ccSlipId: null,
-    includeInBalance: true,
+    isCorrection: false,
   })
   const showCcPosAndCcSlipId = ref(false)
   const onSubmitPlayerChipTransaction = async () => {

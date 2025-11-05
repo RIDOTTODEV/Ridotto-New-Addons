@@ -130,13 +130,13 @@
               </div>
               <div class="q-pa-sm col-6">
                 <q-checkbox
-                  v-model="playerChipTransactionFormValues.includeInBalance"
+                  v-model="playerChipTransactionFormValues.isCorrection"
                   color="green-9"
                   dense
-                  data-cy="includeInBalance"
+                  data-cy="isCorrection"
                   style="margin-top: 10px"
                   class="q-ml-sm"
-                  :label="$t('includeInBalance')"
+                  :label="$t('fixTransaction')"
                 />
               </div>
               <div class="q-pa-sm col-6" v-if="showCcPosAndCcSlipId">
