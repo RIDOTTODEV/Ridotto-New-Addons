@@ -91,6 +91,7 @@ const formValues = ref({
   cashdeskId: selectedCashDesk.value.id,
   note: null,
   methodName: '/PlayerAccount/PostCashdeskPlayerInOutTransaction',
+  includeInBalance: false,
 })
 defineEmits([...useDialogPluginComponent.emits])
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
@@ -129,6 +130,7 @@ watch(
     if (val) {
       const transactionCode = transactionCodeOptions.value.find((tc) => tc.id === val)
       if (transactionCode) {
+        formValues.value.includeInBalance = transactionCode.defaultIncludeInBalance || false
         formValues.value.inOut = transactionCode.defaultIsInOut
         showAuthorizedByInput.value = transactionCode.authorizeByRequired
         showDueDateInput.value = transactionCode.dueDateRequired
@@ -377,6 +379,20 @@ watch(
                 clearable
                 class="super-small"
                 data-cy="ccSlipId"
+              />
+            </div>
+            <div
+              class="col-4 q-pa-xs flex items-center"
+              v-if="formValues.methodName === '/PlayerAccount/PostCashdeskPlayerInOutTransaction'"
+            >
+              <q-checkbox
+                :label="$t('fixTransaction')"
+                v-model="formValues.includeInBalance"
+                outlined
+                dense
+                clearable
+                class="super-small"
+                data-cy="includeInBalance"
               />
             </div>
 
