@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page class="px-2 py-2">
     <Tabs />
   </q-page>
 </template>

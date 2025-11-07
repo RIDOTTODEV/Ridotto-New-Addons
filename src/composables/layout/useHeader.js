@@ -1,4 +1,4 @@
-import { watch, ref, inject } from 'vue'
+import { watch, ref, inject, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { useQuasar } from 'quasar'
@@ -94,11 +94,7 @@ export function useHeader(props, emit) {
       })
     }
   }
-  /*   watch(selectedUser, (val) => {
-    if (val === null) return;
-    redirectToUserDetail();
-  }); */
-  // Watch for route changes to clear the selected user and reset input
+
   watch(
     () => router.currentRoute.value.path,
     () => {
@@ -179,6 +175,9 @@ export function useHeader(props, emit) {
     })
   }
 
+  const isMobile = computed(() => {
+    return $q.screen.xs || $q.screen.sm
+  })
   return {
     mainOidc,
     onChangeLanguage,
@@ -205,5 +204,6 @@ export function useHeader(props, emit) {
     onClearPlayer,
     changeCashDeskGamingDate,
     userAddonSettings,
+    isMobile,
   }
 }
