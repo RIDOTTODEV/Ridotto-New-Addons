@@ -62,164 +62,152 @@ const onClear = () => {
   <q-card class="q-card--bordered">
     <q-card-section class="q-pa-none">
       <q-form @submit="onSubmitOthersTransferTabForm" class="col-12 row" ref="form">
-        <div class="row col-12">
-          <div class="col-4 q-pa-md">
-            <q-select
-              :label="$t('transactionType')"
-              v-model="othersTransferTabFormValues.transactionType"
-              outlined
-              dense
-              :options="transactionTypes"
-              option-value="value"
-              option-label="label"
-              emit-value
-              map-options
-              :rules="[(val) => !!val || $t('requiredField')]"
-              hide-bottom-space
-              class="super-small"
-              data-cy="transactionType"
-              behavior="menu"
-            />
-          </div>
-          <div class="col-4 q-pa-md">
-            <q-select
-              :label="$t('currency')"
-              v-model="othersTransferTabFormValues.currencyId"
-              outlined
-              dense
-              :options="currencies"
-              option-value="id"
-              :option-label="(val) => val.fullName + ' ' + val.name + ' ' + ' - ' + val.symbol"
-              emit-value
-              map-options
-              :rules="[(val) => !!val || $t('requiredField')]"
-              hide-bottom-space
-              clearable
-              class="super-small"
-              data-cy="currencyId"
-              behavior="menu"
-            />
-          </div>
-          <div class="col-4 q-pa-md">
-            <q-select-box
-              :label="$t('transactionCode')"
-              v-model="othersTransferTabFormValues.transactionCodeId"
-              :options="getTransactionCodesByGroups([])"
-              option-value="id"
-              option-label="name"
-              :rules="[(val) => !!val || $t('requiredField')]"
-              data-cy="transactionCodeId"
-              behavior="menu"
-              hide-bottom-space
-            />
-          </div>
-          <div class="col-4 q-pa-md">
-            <q-currency-input
-              :label="$t('amount')"
-              currency="USD"
-              v-model="othersTransferTabFormValues.amount"
-              outlined
-              dense
-              :rules="[(val) => !!val || $t('requiredField')]"
-              :precision="2"
-              class="super-small"
-              data-cy="amount"
-            />
-          </div>
-          <div class="col-4 q-pa-md">
-            <q-input
-              :label="$t('note')"
-              v-model="othersTransferTabFormValues.note"
-              outlined
-              dense
-              clearable
-              class="super-small"
-              data-cy="note"
-            />
-          </div>
-          <div class="col-4 q-pa-md">
-            <SearchPlayerInput
-              v-model="othersTransferTabFormValues.playerId"
-              :placeholder="$t('searchPlayer')"
-              @onSelectPlayer="onSelectPlayer"
-              :optionLabel="'value'"
-              :displayedValue="othersTransferTabFormValues.playerName"
-              @onClear="onClear"
-              class="full-width"
-              :rules="[(val) => !!val || $t('requiredField')]"
-            />
-          </div>
-          <div class="col-4 q-pa-md">
-            <q-select-box
-              :label="$t('CashdeskTransactionType')"
-              v-model="othersTransferTabFormValues.cashdeskTransactionType"
-              :options="cashdeskTransactionTypes"
-              option-value="value"
-              option-label="label"
-              :rules="[(val) => !!val || $t('requiredField')]"
-            />
-          </div>
-          <div class="col-4 q-pa-md" v-if="hiddenOthersTransferFields.showInOut">
-            <q-checkbox
-              data-cy="inOut"
-              v-model="othersTransferTabFormValues.inOut"
-              color="deep-purple"
-              :label="
-                othersTransferTabFormValues.inOut
-                  ? $t('inOut') + ' ' + $t('yes')
-                  : $t('inOut') + ' ' + $t('no')
-              "
-              class="super-small"
-            />
-          </div>
-          <div class="col-4 q-pa-md" v-if="hiddenOthersTransferFields.showAuthorizedBy">
-            <q-input
-              :label="$t('authorizedBy')"
-              type="text"
-              hide-bottom-space
-              outlined
-              dense
-              v-model="othersTransferTabFormValues.authorizedBy"
-              class="super-small"
-              :placeholder="othersTransferTabFormValues.authorizedBy || $t('authorizedBy') + '...'"
-              clearable
-              :rules="[(val) => (val && val.length > 0) || $t('requiredField')]"
-              data-cy="authorizedBy"
-            />
-          </div>
-          <div class="col-4 q-pa-md" v-if="hiddenOthersTransferFields.showDueDate">
-            <q-input
-              :label="$t('dueDateTime')"
-              class="super-small"
-              outlined
-              dense
-              v-model="othersTransferTabFormValues.dueDate"
-              :rules="[(val) => (val && val.length > 0) || $t('requiredField')]"
-              @click="$refs.qDateProxy.show()"
-            >
-              <template v-slot:prepend>
-                <q-icon name="event" class="cursor-pointer" data-cy="dateBtn">
-                  <q-popup-proxy
-                    cover
-                    transition-show="scale"
-                    transition-hide="scale"
-                    ref="qDateProxy"
+        <div class="flex flex-row gap-3 py-2 px-2 sm:max-w-[800px]">
+          <q-select
+            :label="$t('transactionType')"
+            v-model="othersTransferTabFormValues.transactionType"
+            outlined
+            dense
+            :options="transactionTypes"
+            option-value="value"
+            option-label="label"
+            emit-value
+            map-options
+            :rules="[(val) => !!val || $t('requiredField')]"
+            hide-bottom-space
+            class="super-small w-full sm:w-auto md:min-w-[170px]"
+            data-cy="transactionType"
+            behavior="menu"
+          />
+          <q-select
+            :label="$t('currency')"
+            v-model="othersTransferTabFormValues.currencyId"
+            outlined
+            dense
+            :options="currencies"
+            option-value="id"
+            :option-label="(val) => val.fullName + ' ' + val.name + ' ' + ' - ' + val.symbol"
+            emit-value
+            map-options
+            :rules="[(val) => !!val || $t('requiredField')]"
+            hide-bottom-space
+            clearable
+            class="super-small w-full sm:w-auto md:min-w-[170px]"
+            data-cy="currencyId"
+            behavior="menu"
+          />
+          <q-select-box
+            :label="$t('transactionCode')"
+            v-model="othersTransferTabFormValues.transactionCodeId"
+            :options="getTransactionCodesByGroups([])"
+            option-value="id"
+            option-label="name"
+            :rules="[(val) => !!val || $t('requiredField')]"
+            data-cy="transactionCodeId"
+            behavior="menu"
+            hide-bottom-space
+            class="w-full sm:w-auto md:min-w-[170px]"
+          />
+          <q-currency-input
+            :label="$t('amount')"
+            currency="USD"
+            v-model="othersTransferTabFormValues.amount"
+            outlined
+            dense
+            :rules="[(val) => !!val || $t('requiredField')]"
+            :precision="2"
+            class="super-small w-full sm:w-auto md:min-w-[170px]"
+            data-cy="amount"
+          />
+          <q-input
+            :label="$t('note')"
+            v-model="othersTransferTabFormValues.note"
+            outlined
+            dense
+            clearable
+            class="super-small w-full sm:w-auto md:min-w-[170px]"
+            data-cy="note"
+          />
+          <SearchPlayerInput
+            v-model="othersTransferTabFormValues.playerId"
+            :placeholder="$t('searchPlayer')"
+            @onSelectPlayer="onSelectPlayer"
+            :optionLabel="'value'"
+            :displayedValue="othersTransferTabFormValues.playerName"
+            @onClear="onClear"
+            class="w-full sm:w-auto md:min-w-[170px]"
+            :rules="[(val) => !!val || $t('requiredField')]"
+          />
+          <q-select-box
+            v-if="hiddenOthersTransferFields.showInOut"
+            :label="$t('CashdeskTransactionType')"
+            v-model="othersTransferTabFormValues.cashdeskTransactionType"
+            :options="cashdeskTransactionTypes"
+            option-value="value"
+            option-label="label"
+            :rules="[(val) => !!val || $t('requiredField')]"
+            hide-bottom-space
+            class="w-full sm:w-auto md:min-w-[170px]"
+          />
+
+          <q-checkbox
+            data-cy="inOut"
+            v-model="othersTransferTabFormValues.inOut"
+            color="primary"
+            :label="
+              othersTransferTabFormValues.inOut
+                ? $t('inOut') + ' ' + $t('yes')
+                : $t('inOut') + ' ' + $t('no')
+            "
+            class="super-small w-full sm:w-auto md:min-w-[170px]"
+          />
+          <q-input
+            v-if="hiddenOthersTransferFields.showAuthorizedBy"
+            :label="$t('authorizedBy')"
+            type="text"
+            hide-bottom-space
+            outlined
+            dense
+            v-model="othersTransferTabFormValues.authorizedBy"
+            class="super-small w-full sm:w-auto md:min-w-[170px]"
+            :placeholder="othersTransferTabFormValues.authorizedBy || $t('authorizedBy') + '...'"
+            clearable
+            :rules="[(val) => (val && val.length > 0) || $t('requiredField')]"
+            data-cy="authorizedBy"
+          />
+          <q-input
+            v-if="hiddenOthersTransferFields.showDueDate"
+            :label="$t('dueDateTime')"
+            class="super-small w-full sm:w-auto md:min-w-[170px]"
+            outlined
+            dense
+            v-model="othersTransferTabFormValues.dueDate"
+            :rules="[(val) => (val && val.length > 0) || $t('requiredField')]"
+            @click="$refs.qDateProxy.show()"
+          >
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer" data-cy="dateBtn">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                  ref="qDateProxy"
+                >
+                  <q-date
+                    v-model="othersTransferTabFormValues.dueDate"
+                    mask="YYYY-MM-DD"
+                    data-cy="dueDate"
                   >
-                    <q-date
-                      v-model="othersTransferTabFormValues.dueDate"
-                      mask="YYYY-MM-DD"
-                      data-cy="dueDate"
-                    >
-                      <div class="row items-center justify-end">
-                        <q-btn v-close-popup label="Close" color="primary" flat />
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-icon>
-              </template>
-            </q-input>
-          </div>
-          <div class="col-12 q-pa-md flex content-end">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+
+          <div class="div">
             <q-btn
               size="13px"
               color="negative"

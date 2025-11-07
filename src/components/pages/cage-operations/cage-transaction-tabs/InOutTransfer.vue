@@ -46,85 +46,73 @@ const onSubmitInOutTabForm = async () => {
       <div class="full-width q-pl-sm q-pr-sm q-mt-sm">
         <Information content="Kasaya işlemleri için kullanılacak." />
       </div>
-      <q-form
-        @submit="onSubmitInOutTabForm"
-        class="col-12 row input-box"
-        ref="form"
-        style="max-width: 800px"
-      >
-        <div class="row col-12">
-          <div class="col-6 q-pa-md">
-            <q-select
-              v-model="inOutTabFormValues.transactionType"
-              outlined
-              dense
-              :options="transactionTypes"
-              option-value="value"
-              option-label="label"
-              emit-value
-              map-options
-              :rules="[(val) => !!val || $t('requiredField')]"
-              hide-bottom-space
-              class="super-small"
-              data-cy="transactionType"
-              behavior="menu"
-              :label="$t('transactionType')"
-            />
-          </div>
-          <div class="col-6 q-pa-md">
-            <q-select
-              v-model="inOutTabFormValues.currencyId"
-              outlined
-              dense
-              :options="currencies"
-              option-value="id"
-              :option-label="(val) => val.fullName + ' ' + val.name + ' ' + ' - ' + val.symbol"
-              emit-value
-              map-options
-              :rules="[(val) => !!val || $t('requiredField')]"
-              hide-bottom-space
-              clearable
-              class="super-small"
-              data-cy="currencyId"
-              behavior="menu"
-              :label="$t('currency')"
-            />
-          </div>
-          <div class="col-6 q-pa-md">
-            <q-select-box
-              :options="getTransactionCodesByGroups(['CageInOut'])"
-              option-value="id"
-              option-label="name"
-              v-model="inOutTabFormValues.transactionCodeId"
-              :label="$t('transactionCode')"
-              :rules="[(val) => !!val || $t('requiredField')]"
-            />
-          </div>
-          <div class="col-6 q-pa-md">
-            <q-currency-input
-              currency="USD"
-              v-model="inOutTabFormValues.amount"
-              outlined
-              dense
-              :rules="[(val) => !!val || $t('requiredField')]"
-              :precision="2"
-              data-cy="amount"
-              :label="$t('amount')"
-              hide-bottom-space
-            />
-          </div>
-          <div class="col-6 q-pa-md">
-            <q-input
-              v-model="inOutTabFormValues.note"
-              outlined
-              dense
-              clearable
-              class="super-small"
-              data-cy="note"
-              :label="$t('note')"
-            />
-          </div>
-          <div class="col-12 q-pa-md flex content-end">
+      <q-form @submit="onSubmitInOutTabForm" class="col-12" ref="form">
+        <div class="flex flex-row gap-3 py-2 px-2 sm:max-w-[800px]">
+          <q-select
+            v-model="inOutTabFormValues.transactionType"
+            outlined
+            dense
+            :options="transactionTypes"
+            option-value="value"
+            option-label="label"
+            emit-value
+            map-options
+            :rules="[(val) => !!val || $t('requiredField')]"
+            hide-bottom-space
+            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            data-cy="transactionType"
+            behavior="menu"
+            :label="$t('transactionType')"
+          />
+          <q-select
+            v-model="inOutTabFormValues.currencyId"
+            outlined
+            dense
+            :options="currencies"
+            option-value="id"
+            :option-label="(val) => val.fullName + ' ' + val.name + ' ' + ' - ' + val.symbol"
+            emit-value
+            map-options
+            :rules="[(val) => !!val || $t('requiredField')]"
+            hide-bottom-space
+            clearable
+            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            data-cy="currencyId"
+            behavior="menu"
+            :label="$t('currency')"
+          />
+          <q-select-box
+            :options="getTransactionCodesByGroups(['CageInOut'])"
+            option-value="id"
+            option-label="name"
+            v-model="inOutTabFormValues.transactionCodeId"
+            :label="$t('transactionCode')"
+            :rules="[(val) => !!val || $t('requiredField')]"
+            hide-bottom-space
+            class="super-small w-full sm:w-auto md:min-w-[200px]"
+          />
+          <q-currency-input
+            currency="USD"
+            v-model="inOutTabFormValues.amount"
+            outlined
+            dense
+            :rules="[(val) => !!val || $t('requiredField')]"
+            :precision="2"
+            data-cy="amount"
+            :label="$t('amount')"
+            hide-bottom-space
+            class="super-small w-full sm:w-auto md:min-w-[200px]"
+          />
+          <q-input
+            v-model="inOutTabFormValues.note"
+            outlined
+            dense
+            clearable
+            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            data-cy="note"
+            :label="$t('note')"
+          />
+          <div class="flex content-end justify-start gap-2">
             <q-btn
               size="13px"
               color="negative"
@@ -134,7 +122,6 @@ const onSubmitInOutTabForm = async () => {
               unelevated
               no-wrap
               no-caps
-              class="q-mr-sm"
               @click="emits('cancel')"
             />
             <q-btn

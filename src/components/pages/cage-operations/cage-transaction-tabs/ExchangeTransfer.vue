@@ -124,14 +124,14 @@ onMounted(async () => {
 <template>
   <q-card class="q-card--bordered">
     <q-card-section class="q-pa-none">
-      <div class="full-width q-pl-sm q-pr-sm q-mt-sm">
-        <Information content="Kasada yapılan  para dönüşümleri için kullanılacak." />
-      </div>
-      <q-form @submit="onSubmitExchangeTabForm" class="col-12 row" ref="form">
-        <div class="col-8">
-          <div class="row">
-            <div class="col-12 row">
-              <div class="col q-pa-md">
+      <q-form @submit="onSubmitExchangeTabForm" class="col-12" ref="form">
+        <div class="row">
+          <div class="col-md-8 col-sm-12 col-xs-12 q-pa-sm">
+            <div class="col-md-8 col-sm-12 col-xs-12">
+              <Information content="Kasada yapılan  para dönüşümleri için kullanılacak." />
+            </div>
+            <div class="flex flex-row gap-3 my-4">
+              <div class="sm:w-full md:w-auto flex justify-center gap-2">
                 <q-select
                   :label="$t('fromCurrency')"
                   v-model="exchangeFormValues.fromCurrencyId"
@@ -145,10 +145,10 @@ onMounted(async () => {
                   :rules="[(val) => !!val || $t('requiredField')]"
                   clearable
                   @update:model-value="onChangeExchangeTabFromCurrency"
-                  class="super-small"
                   hide-bottom-space
                   data-cy="fromCurrencyId"
                   behavior="menu"
+                  class="super-small w-full sm:w-auto md:min-w-[200px]"
                 >
                   <template v-slot:option="scope">
                     <q-item v-bind="scope.itemProps">
@@ -179,8 +179,6 @@ onMounted(async () => {
                     </div>
                   </template>
                 </q-select>
-              </div>
-              <div class="col-1 q-pa-md flex justify-center">
                 <q-btn
                   unelevated
                   icon="swap_horiz"
@@ -189,8 +187,6 @@ onMounted(async () => {
                   text-color="dark"
                   @click="swapExchangeCurrencies"
                 />
-              </div>
-              <div class="col q-pa-md">
                 <q-select
                   :label="$t('toCurrency')"
                   v-model="exchangeFormValues.toCurrencyId"
@@ -205,7 +201,7 @@ onMounted(async () => {
                   clearable
                   :option-disable="(val) => val.id === exchangeFormValues.fromCurrencyId"
                   @update:model-value="setExchangeConvertedAmount"
-                  class="super-small"
+                  class="super-small w-full sm:w-auto md:min-w-[200px]"
                   hide-bottom-space
                   data-cy="toCurrencyId"
                   behavior="menu"
@@ -240,8 +236,6 @@ onMounted(async () => {
                   </template>
                 </q-select>
               </div>
-            </div>
-            <div class="col-6 q-pa-md">
               <q-currency-input
                 :label="$t('exchangeSaleAmount')"
                 currency="USD"
@@ -257,10 +251,9 @@ onMounted(async () => {
                 @update:model-value="setExchangeConvertedAmount"
                 :debounce="300"
                 :precision="2"
-                data-cy="amount"
+                class="super-small w-full sm:w-auto md:min-w-[170px]"
+                hide-bottom-space
               />
-            </div>
-            <div class="col-6 q-pa-md">
               <q-currency-input
                 :label="$t('exchangeReceivedAmount')"
                 currency="USD"
@@ -274,10 +267,9 @@ onMounted(async () => {
                     : ''
                 "
                 :precision="4"
-                data-cy="receivedAmount"
+                class="super-small w-full sm:w-auto md:min-w-[170px]"
+                hide-bottom-space
               />
-            </div>
-            <div class="col-6 q-pa-md">
               <q-select
                 :label="$t('transactionCode')"
                 v-model="exchangeFormValues.transactionCodeId"
@@ -292,25 +284,21 @@ onMounted(async () => {
                 clearable
                 @filter="onFilterTransactionCodesByGroupType"
                 use-input
-                class="super-small"
+                class="super-small w-full sm:w-auto md:min-w-[170px]"
                 popup-content-class="height-400"
                 data-cy="transactionCodeId"
                 behavior="menu"
                 hide-bottom-space
               />
-            </div>
-            <div class="col-6 q-pa-md">
               <q-input
                 :label="$t('note')"
                 v-model="exchangeFormValues.note"
                 outlined
                 dense
                 clearable
-                class="super-small"
+                class="super-small w-full sm:w-auto md:min-w-[170px]"
                 data-cy="note"
               />
-            </div>
-            <div class="col-12 q-pa-md flex content-start">
               <q-btn
                 size="13px"
                 color="negative"
@@ -321,7 +309,6 @@ onMounted(async () => {
                 data-cy="submit"
                 no-wrap
                 no-caps
-                class="q-mr-sm"
                 @click="emits('cancel')"
               />
               <q-btn
@@ -337,51 +324,52 @@ onMounted(async () => {
               />
             </div>
           </div>
-        </div>
-        <div class="col-4 q-pa-sm">
-          <div class="text-subtitle2">
-            {{ $t('exchangeRates') }}
-          </div>
-          <q-table
-            :rows="exchangeTabRates"
-            :columns="exchangeRateColumns"
-            dense
-            hide-bottom
-            row-key="id"
-            class="no-box-shadow q-pl-none"
-            :rows-per-page-options="[10]"
-          >
-            <template v-slot:header="props">
-              <q-tr :props="props">
-                <q-th
-                  auto-width
-                  v-for="col in props.cols"
-                  :key="col.name"
+          <div class="col-md-4 col-sm-12 col-xs-12 q-pa-sm">
+            <div class="text-subtitle2">
+              {{ $t('exchangeRates') }}
+            </div>
+            <q-table
+              :rows="exchangeTabRates"
+              :columns="exchangeRateColumns"
+              dense
+              hide-bottom
+              row-key="id"
+              class="no-box-shadow q-pl-none"
+              :rows-per-page-options="[10]"
+            >
+              <template v-slot:header="props">
+                <q-tr :props="props">
+                  <q-th
+                    auto-width
+                    v-for="col in props.cols"
+                    :key="col.name"
+                    :props="props"
+                    class="text-center q-custom-table"
+                  >
+                    {{ col.label }}
+                  </q-th>
+                </q-tr>
+              </template>
+              <template v-slot:body="props">
+                <q-tr
                   :props="props"
-                  class="text-center q-custom-table"
+                  :class="
+                    exchangeFormValues.toCurrencyId &&
+                    props.row.toCurrencyName ===
+                      getCurrencyById(exchangeFormValues.toCurrencyId).name
+                      ? 'bg-green-1 text-dark text-bold'
+                      : ''
+                  "
                 >
-                  {{ col.label }}
-                </q-th>
-              </q-tr>
-            </template>
-            <template v-slot:body="props">
-              <q-tr
-                :props="props"
-                :class="
-                  exchangeFormValues.toCurrencyId &&
-                  props.row.toCurrencyName === getCurrencyById(exchangeFormValues.toCurrencyId).name
-                    ? 'bg-green-1 text-dark text-bold'
-                    : ''
-                "
-              >
-                <q-td v-for="col in props.cols" :key="col.name" :props="props">
-                  <div class="text-center">
-                    {{ col.value }}
-                  </div>
-                </q-td>
-              </q-tr>
-            </template>
-          </q-table>
+                  <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                    <div class="text-center">
+                      {{ col.value }}
+                    </div>
+                  </q-td>
+                </q-tr>
+              </template>
+            </q-table>
+          </div>
         </div>
       </q-form>
     </q-card-section>

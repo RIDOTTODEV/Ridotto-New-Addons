@@ -92,7 +92,7 @@ watch(
 <template>
   <q-card flat square class="app-cart">
     <q-card-section class="row q-pa-none">
-      <div class="col q-pa-xs" v-for="(item, index) in chipsFormatted" :key="index">
+      <div class="col-md q-pa-xs col-xs-12" v-for="(item, index) in chipsFormatted" :key="index">
         <div class="row">
           <div class="col-12 text-left flex justify-start content-center">
             <div class="text-subtitle2 text-bold q-pl-xs">

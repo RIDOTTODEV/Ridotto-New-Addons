@@ -26,84 +26,82 @@
       <q-card-section class="q-pa-none bg-white" v-if="createNewTransaction">
         <q-form
           @submit="onSubmitPettyCashForm"
-          class="col-12 row input-box"
+          class="col-12 row input-box q-pa-md"
           ref="form"
           style="max-width: 800px"
         >
-          <div class="row col-12">
-            <div class="col-6 q-pa-md">
-              <q-select
-                v-model="formValues.transactionType"
-                outlined
-                dense
-                :options="transactionTypes"
-                option-value="value"
-                option-label="label"
-                emit-value
-                map-options
-                :rules="[(val) => !!val || $t('requiredField')]"
-                hide-bottom-space
-                class="super-small"
-                data-cy="transactionType"
-                behavior="menu"
-                :label="$t('transactionType')"
-              />
-            </div>
-            <div class="col-6 q-pa-md">
-              <q-select
-                v-model="formValues.currencyId"
-                outlined
-                dense
-                :options="currencies"
-                option-value="id"
-                :option-label="(val) => val.fullName + ' ' + val.name + ' ' + ' - ' + val.symbol"
-                emit-value
-                map-options
-                :rules="[(val) => !!val || $t('requiredField')]"
-                hide-bottom-space
-                clearable
-                class="super-small"
-                data-cy="currencyId"
-                behavior="menu"
-                :label="$t('currency')"
-              />
-            </div>
-            <div class="col-6 q-pa-md">
-              <q-select-box
-                :options="pettyCashCategories"
-                option-value="id"
-                option-label="code"
-                v-model="formValues.pettyCashCategoryId"
-                :label="$t('pettyCashCategory')"
-                :rules="[(val) => !!val || $t('requiredField')]"
-              />
-            </div>
-            <div class="col-6 q-pa-md">
-              <q-currency-input
-                currency="USD"
-                v-model="formValues.amount"
-                outlined
-                dense
-                :rules="[(val) => !!val || $t('requiredField')]"
-                :precision="2"
-                data-cy="amount"
-                :label="$t('amount')"
-                hide-bottom-space
-              />
-            </div>
-            <div class="col-6 q-pa-md">
-              <q-input
-                v-model="formValues.description"
-                outlined
-                dense
-                clearable
-                class="super-small"
-                data-cy="description"
-                :label="$t('note')"
-              />
-            </div>
-            <div class="col-6 q-pa-md"></div>
-            <div class="col-12 q-pa-md flex content-end">
+          <div class="flex flex-wrap gap-3 py-2 px-2">
+            <q-select
+              v-model="formValues.transactionType"
+              outlined
+              dense
+              :options="transactionTypes"
+              option-value="value"
+              option-label="label"
+              emit-value
+              map-options
+              :rules="[(val) => !!val || $t('requiredField')]"
+              hide-bottom-space
+              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              data-cy="transactionType"
+              behavior="menu"
+              :label="$t('transactionType')"
+            />
+
+            <q-select
+              v-model="formValues.currencyId"
+              outlined
+              dense
+              :options="currencies"
+              option-value="id"
+              :option-label="(val) => val.fullName + ' ' + val.name + ' ' + ' - ' + val.symbol"
+              emit-value
+              map-options
+              :rules="[(val) => !!val || $t('requiredField')]"
+              hide-bottom-space
+              clearable
+              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              data-cy="currencyId"
+              behavior="menu"
+              :label="$t('currency')"
+            />
+
+            <q-select-box
+              :options="pettyCashCategories"
+              option-value="id"
+              option-label="code"
+              v-model="formValues.pettyCashCategoryId"
+              :label="$t('pettyCashCategory')"
+              :rules="[(val) => !!val || $t('requiredField')]"
+              class="w-full sm:w-auto md:min-w-[170px]"
+              hide-bottom-space
+            />
+
+            <q-currency-input
+              currency="USD"
+              v-model="formValues.amount"
+              outlined
+              dense
+              :rules="[(val) => !!val || $t('requiredField')]"
+              :precision="2"
+              data-cy="amount"
+              :label="$t('amount')"
+              hide-bottom-space
+              class="w-full sm:w-auto md:min-w-[170px]"
+            />
+
+            <q-input
+              v-model="formValues.description"
+              outlined
+              dense
+              clearable
+              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              hide-bottom-space
+              data-cy="description"
+              :label="$t('note')"
+            />
+
+            <div class="">
               <q-btn
                 size="13px"
                 color="negative"

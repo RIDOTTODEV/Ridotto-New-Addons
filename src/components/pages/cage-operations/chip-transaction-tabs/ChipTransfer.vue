@@ -51,69 +51,63 @@ const emits = defineEmits(['savedCageChipTransaction', 'cancel'])
           <Information content="Kasalar arası çip transferleri  için kullanılacak." />
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 q-pa-sm">
-          <div class="row q-mt-lg">
-            <div class="col-md-6 q-pa-xs">
-              <q-select
-                :label="$t('fromCashDesk')"
-                v-model="cashDeskChipTransferTabFormValues.fromCashdeskId"
-                outlined
-                dense
-                :options="cashdesks"
-                option-value="id"
-                option-label="name"
-                emit-value
-                map-options
-                :rules="[(val) => !!val || $t('requiredField')]"
-                disable
-                class="super-small"
-                data-cy="fromCashDeskId"
-                behavior="menu"
-              />
-            </div>
-            <div class="col-md-6 q-pa-xs">
-              <q-select
-                :label="$t('toCashDesk')"
-                v-model="cashDeskChipTransferTabFormValues.toCashdeskId"
-                outlined
-                dense
-                :options="cashdesks"
-                option-value="id"
-                option-label="name"
-                emit-value
-                map-options
-                :rules="[(val) => !!val || $t('requiredField')]"
-                :option-disable="
-                  (val) => val.id === cashDeskChipTransferTabFormValues.fromCashdeskId
-                "
-                class="super-small"
-                data-cy="toCashdeskId"
-                behavior="menu"
-              />
-            </div>
-            <div class="col-md-6 q-pa-xs">
-              <q-select-box
-                :label="$t('transactionCode')"
-                v-model="cashDeskChipTransferTabFormValues.transactionCodeId"
-                :options="getTransactionCodesByGroups(['Transfer'])"
-                option-value="id"
-                option-label="name"
-                :rules="[(val) => !!val || $t('requiredField')]"
-                class="super-small"
-                data-cy="transactionCodeId"
-              />
-            </div>
-            <div class="col-md-6 q-pa-xs">
-              <q-input
-                :label="$t('note')"
-                v-model="cashDeskChipTransferTabFormValues.note"
-                outlined
-                dense
-                clearable
-                class="super-small"
-                data-cy="note"
-              />
-            </div>
-            <div class="col-12 q-pa-xs flex content-end justify-start">
+          <div class="grid grid-cols-2 gap-3 xs:grid-cols-1 sm:mt-[30px]">
+            <q-select
+              :label="$t('fromCashDesk')"
+              v-model="cashDeskChipTransferTabFormValues.fromCashdeskId"
+              outlined
+              dense
+              :options="cashdesks"
+              option-value="id"
+              option-label="name"
+              emit-value
+              map-options
+              :rules="[(val) => !!val || $t('requiredField')]"
+              disable
+              class="super-small w-full sm:w-auto md:min-w-[200px]"
+              data-cy="fromCashDeskId"
+              behavior="menu"
+              hide-bottom-space
+            />
+            <q-select
+              :label="$t('toCashDesk')"
+              v-model="cashDeskChipTransferTabFormValues.toCashdeskId"
+              outlined
+              dense
+              :options="cashdesks"
+              option-value="id"
+              option-label="name"
+              emit-value
+              map-options
+              :rules="[(val) => !!val || $t('requiredField')]"
+              :option-disable="(val) => val.id === cashDeskChipTransferTabFormValues.fromCashdeskId"
+              class="super-small w-full sm:w-auto md:min-w-[200px]"
+              data-cy="toCashdeskId"
+              behavior="menu"
+              hide-bottom-space
+            />
+            <q-select-box
+              :label="$t('transactionCode')"
+              v-model="cashDeskChipTransferTabFormValues.transactionCodeId"
+              :options="getTransactionCodesByGroups(['Transfer'])"
+              option-value="id"
+              option-label="name"
+              :rules="[(val) => !!val || $t('requiredField')]"
+              class="super-small w-full sm:w-auto md:min-w-[200px]"
+              data-cy="transactionCodeId"
+              hide-bottom-space
+            />
+            <q-input
+              :label="$t('note')"
+              v-model="cashDeskChipTransferTabFormValues.note"
+              outlined
+              dense
+              clearable
+              class="super-small w-full sm:w-auto md:min-w-[200px]"
+              data-cy="note"
+              hide-bottom-space
+            />
+            <div class="col-span-2 flex content-end justify-start gap-2">
               <q-btn
                 size="13px"
                 color="negative"
@@ -143,7 +137,10 @@ const emits = defineEmits(['savedCageChipTransaction', 'cancel'])
           </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 q-pa-sm">
-          <chip-grid v-model="cashDeskChipTransferTabFormValues.chips" class="full-width q-pa-xs" />
+          <chip-grid
+            v-model="cashDeskChipTransferTabFormValues.chips"
+            class="flex flex-row gap-3"
+          />
         </div>
       </div>
     </q-form>

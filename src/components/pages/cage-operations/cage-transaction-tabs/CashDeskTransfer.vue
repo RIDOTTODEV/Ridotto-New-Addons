@@ -50,106 +50,96 @@ const onSubmitCashDeskTransferTabForm = async () => {
       <div class="full-width q-pl-sm q-pr-sm q-mt-sm">
         <Information content="Kasalar arası nakit transferleri  için kullanılacak." />
       </div>
-      <q-form
-        @submit="onSubmitCashDeskTransferTabForm"
-        class="col-12 row"
-        ref="form"
-        style="max-width: 800px"
-      >
-        <div class="row col-12">
-          <div class="col-6 q-pa-md">
-            <q-select
-              v-model="cashDeskTransferTabFormValues.fromCashdeskId"
-              outlined
-              dense
-              :options="cashdesks"
-              option-value="id"
-              option-label="name"
-              emit-value
-              map-options
-              :rules="[(val) => !!val || $t('requiredField')]"
-              hide-bottom-space
-              disable
-              class="super-small"
-              data-cy="fromCashDeskId"
-              behavior="menu"
-              :label="$t('fromCashDesk')"
-            />
-          </div>
-          <div class="col-6 q-pa-md">
-            <q-select
-              v-model="cashDeskTransferTabFormValues.toCashdeskId"
-              outlined
-              dense
-              :options="cashdesks"
-              option-value="id"
-              option-label="name"
-              emit-value
-              map-options
-              :rules="[(val) => !!val || $t('requiredField')]"
-              hide-bottom-space
-              :option-disable="(val) => val.id === cashDeskTransferTabFormValues.fromCashdeskId"
-              class="super-small"
-              data-cy="toCashdeskId"
-              behavior="menu"
-              :label="$t('toCashDesk')"
-            />
-          </div>
-          <div class="col-6 q-pa-md">
-            <q-select
-              v-model="cashDeskTransferTabFormValues.currencyId"
-              outlined
-              dense
-              :options="currencies"
-              option-value="id"
-              :option-label="(val) => val.fullName + ' ' + val.name + ' ' + ' - ' + val.symbol"
-              emit-value
-              map-options
-              :rules="[(val) => !!val || $t('requiredField')]"
-              hide-bottom-space
-              clearable
-              class="super-small"
-              data-cy="currencyId"
-              behavior="menu"
-              :label="$t('currency')"
-            />
-          </div>
-          <div class="col-6 q-pa-md">
-            <q-select-box
-              :options="getTransactionCodesByGroups(['Transfer'])"
-              option-value="id"
-              option-label="name"
-              v-model="cashDeskTransferTabFormValues.transactionCodeId"
-              :label="$t('transactionCode')"
-              :rules="[(val) => !!val || $t('requiredField')]"
-              hide-bottom-space
-            />
-          </div>
-          <div class="col-6 q-pa-md">
-            <q-currency-input
-              currency="USD"
-              v-model="cashDeskTransferTabFormValues.amount"
-              outlined
-              dense
-              :rules="[(val) => !!val || $t('requiredField')]"
-              :precision="2"
-              class="super-small"
-              data-cy="amount"
-              :label="$t('amount')"
-            />
-          </div>
-          <div class="col-6 q-pa-md">
-            <q-input
-              v-model="cashDeskTransferTabFormValues.note"
-              outlined
-              dense
-              clearable
-              class="super-small"
-              data-cy="note"
-              :label="$t('note')"
-            />
-          </div>
-          <div class="col-6 q-pa-md flex content-end">
+      <q-form @submit="onSubmitCashDeskTransferTabForm" class="col-12 row" ref="form">
+        <div class="flex flex-row gap-3 py-2 px-2 sm:max-w-[800px]">
+          <q-select
+            v-model="cashDeskTransferTabFormValues.fromCashdeskId"
+            outlined
+            dense
+            :options="cashdesks"
+            option-value="id"
+            option-label="name"
+            emit-value
+            map-options
+            :rules="[(val) => !!val || $t('requiredField')]"
+            hide-bottom-space
+            disable
+            data-cy="fromCashDeskId"
+            behavior="menu"
+            :label="$t('fromCashDesk')"
+            class="super-small w-full sm:w-auto md:min-w-[200px]"
+          />
+
+          <q-select
+            v-model="cashDeskTransferTabFormValues.toCashdeskId"
+            outlined
+            dense
+            :options="cashdesks"
+            option-value="id"
+            option-label="name"
+            emit-value
+            map-options
+            :rules="[(val) => !!val || $t('requiredField')]"
+            hide-bottom-space
+            :option-disable="(val) => val.id === cashDeskTransferTabFormValues.fromCashdeskId"
+            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            data-cy="toCashdeskId"
+            behavior="menu"
+            :label="$t('toCashDesk')"
+          />
+
+          <q-select
+            v-model="cashDeskTransferTabFormValues.currencyId"
+            outlined
+            dense
+            :options="currencies"
+            option-value="id"
+            :option-label="(val) => val.fullName + ' ' + val.name + ' ' + ' - ' + val.symbol"
+            emit-value
+            map-options
+            :rules="[(val) => !!val || $t('requiredField')]"
+            hide-bottom-space
+            clearable
+            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            data-cy="currencyId"
+            behavior="menu"
+            :label="$t('currency')"
+          />
+
+          <q-select-box
+            :options="getTransactionCodesByGroups(['Transfer'])"
+            option-value="id"
+            option-label="name"
+            v-model="cashDeskTransferTabFormValues.transactionCodeId"
+            :label="$t('transactionCode')"
+            :rules="[(val) => !!val || $t('requiredField')]"
+            hide-bottom-space
+            class="super-small w-full sm:w-auto md:min-w-[200px]"
+          />
+
+          <q-currency-input
+            currency="USD"
+            v-model="cashDeskTransferTabFormValues.amount"
+            outlined
+            dense
+            :rules="[(val) => !!val || $t('requiredField')]"
+            :precision="2"
+            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            data-cy="amount"
+            :label="$t('amount')"
+          />
+
+          <q-input
+            v-model="cashDeskTransferTabFormValues.note"
+            outlined
+            dense
+            clearable
+            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            data-cy="note"
+            :label="$t('note')"
+          />
+
+          <div class="flex content-end justify-start gap-2">
             <q-btn
               size="13px"
               color="negative"
@@ -160,7 +150,6 @@ const onSubmitCashDeskTransferTabForm = async () => {
               data-cy="submit"
               no-wrap
               no-caps
-              class="q-mr-sm"
               @click="emits('cancel')"
             />
             <q-btn
