@@ -116,7 +116,7 @@ const pettyCashTotals = ref([])
 <template>
   <div class="col-12">
     <q-card class="app-cart q-card--bordered">
-      <q-card-section class="q-pa-none row flex content-center">
+      <q-card-section class="q-pa-sm row flex content-center">
         <div class="col-md-7 q-pa-xs flex justify-between">
           <div class="flex w-full flex-row">
             <div v-if="!showAllCagesBalance" class="row gap-1">

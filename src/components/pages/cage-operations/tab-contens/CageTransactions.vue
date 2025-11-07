@@ -28,7 +28,6 @@
             v-model="currentCageTransactionTab"
             @update:model-value="onChangeCageTransactionTab"
             dense
-            class="text-dark"
             active-color="blue-grey-8"
             indicator-color="blue-grey-8"
             active-bg-color="white"
@@ -36,6 +35,8 @@
             narrow-indicator
             no-caps
             inline-label
+            content-class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto"
+            class="w-full sm:w-auto"
           >
             <q-tab
               v-for="(tab, index) in cageTransactionTabs"
@@ -46,7 +47,6 @@
               :label="$t(tab.label)"
               :icon="tab.icon"
               class="bg-white q-card--bordered"
-              :class="index === 0 ? '' : 'q-ml-sm'"
             />
           </q-tabs>
         </div>
@@ -103,9 +103,12 @@
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
-
       <q-card-section class="q-pa-none" v-else>
         <div>
+          <CurrencyResultCard
+            :currencyTotals="cageTransactionsTable?.response?.totals"
+            :showSummaryCard="showSummaryCard"
+          />
           <q-card
             class="no-box-shadow q-mb-md"
             v-if="cageTransactionsTable?.response?.totals?.length > 0 && showSummaryCard === false"
@@ -126,81 +129,14 @@
                     :key="index"
                   >
                     <td class="text-center">{{ total.currencyName }}</td>
-                    <td class="text-center">{{ priceAbsFormatted(total.deposit) }}</td>
-                    <td class="text-center">{{ priceAbsFormatted(total.withdrawal) }}</td>
-                    <td class="text-center">{{ priceAbsFormatted(total.result) }}</td>
+                    <td class="text-center">{{ $priceAbs(total.deposit) }}</td>
+                    <td class="text-center">{{ $priceAbs(total.withdrawal) }}</td>
+                    <td class="text-center">{{ $priceAbs(total.result) }}</td>
                   </tr>
                 </tbody>
               </q-markup-table>
             </q-card-section>
           </q-card>
-          <div
-            class="row"
-            v-if="cageTransactionsTable?.response?.totals?.length > 0 && showSummaryCard === true"
-          >
-            <div
-              class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto text-center q-pa-xs items-center justify-center md:min-w-[25%]"
-              v-for="total in cageTransactionsTable?.response?.totals"
-              :key="total.currencyName"
-            >
-              <q-card flat class="app-cart-grey w-full">
-                <q-card-section class="q-pa-none">
-                  <div class="text-h6">
-                    {{ total.currencyName }}
-                  </div>
-                  <div class="row">
-                    <div class="col-4">
-                      <div class="text-caption">{{ $t('withdrawal') }}</div>
-                    </div>
-                    <div class="col-4">
-                      <div class="text-caption">{{ $t('deposit') }}</div>
-                    </div>
-                    <div class="col-4">
-                      <div class="text-caption">{{ $t('result') }}</div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-4">
-                      <div
-                        :class="{
-                          'text-green-8': total.withdrawal > 0,
-                          'text-negative': total.withdrawal < 0,
-                          'text-subtitle2': cageTransactionsTable?.response?.totals.length > 2,
-                          'text-h6': cageTransactionsTable?.response?.totals.length <= 2,
-                        }"
-                      >
-                        {{ priceAbsFormatted(total.withdrawal) }}
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <div
-                        :class="{
-                          'text-green-8': total.deposit > 0,
-                          'text-negative': total.deposit < 0,
-                          'text-subtitle2': cageTransactionsTable?.response?.totals.length > 2,
-                          'text-h6': cageTransactionsTable?.response?.totals.length <= 2,
-                        }"
-                      >
-                        {{ priceAbsFormatted(total.deposit) }}
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <div
-                        :class="{
-                          'text-green-8': total.result > 0,
-                          'text-negative': total.result < 0,
-                          'text-subtitle2': cageTransactionsTable?.response?.totals.length > 2,
-                          'text-h6': cageTransactionsTable?.response?.totals.length <= 2,
-                        }"
-                      >
-                        {{ priceAbsFormatted(total.result) }}
-                      </div>
-                    </div>
-                  </div>
-                </q-card-section>
-              </q-card>
-            </div>
-          </div>
         </div>
         <div class="q-pa-xs">
           <SupaTable
@@ -457,8 +393,8 @@ import CashDeskTransfer from '../cage-transaction-tabs/CashDeskTransfer.vue'
 import ExchangeTransfer from '../cage-transaction-tabs/ExchangeTransfer.vue'
 import OthersTransfer from '../cage-transaction-tabs/OthersTransfer.vue'
 import BankTransfer from '../cage-transaction-tabs/BankTransfer.vue'
+import CurrencyResultCard from '../CurrencyResultCard.vue'
 import { LocalStorage } from 'quasar'
-import { priceAbsFormatted } from 'src/helpers/helpers'
 const cashdeskStore = useCashdeskStore()
 const {
   getSelectedCashDeskId,

@@ -2,93 +2,10 @@
   <div class="row">
     <div class="col-12">
       <div>
-        <q-card
-          class="no-box-shadow q-mb-md q-ma-xs"
-          v-if="cashAccountsTotalsGroupedByCurrency().length > 0 && showSummaryCashCard === false"
-        >
-          <q-card-section class="q-pa-none">
-            <q-markup-table dense separator="cell" bordered class="no-box-shadow" square>
-              <thead>
-                <tr>
-                  <th class="text-center">Currency</th>
-                  <th class="text-center">Deposit</th>
-                  <th class="text-center">Withdrawal</th>
-                  <th class="text-center">Result</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(total, index) in cashAccountsTotalsGroupedByCurrency()" :key="index">
-                  <td class="text-center">{{ total.currencyName }}</td>
-                  <td class="text-center">{{ priceAbsFormatted(total.deposit) }}</td>
-                  <td class="text-center">{{ priceAbsFormatted(total.withdrawal) }}</td>
-                  <td class="text-center">{{ priceAbsFormatted(total.result) }}</td>
-                </tr>
-              </tbody>
-            </q-markup-table>
-          </q-card-section>
-        </q-card>
-        <div
-          class="row"
-          v-if="cashAccountsTotalsGroupedByCurrency().length > 0 && showSummaryCashCard === true"
-        >
-          <div
-            class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto text-center q-pa-xs items-center justify-center md:min-w-[25%]"
-            v-for="total in cashAccountsTotalsGroupedByCurrency()"
-            :key="total.currencyName"
-          >
-            <q-card flat class="app-cart-grey w-full">
-              <q-card-section class="q-pa-none">
-                <div class="text-h6">{{ total.currencyName }}</div>
-                <div class="row">
-                  <div class="col-4">
-                    <div class="text-caption">{{ $t('withdrawal') }}</div>
-                  </div>
-                  <div class="col-4">
-                    <div class="text-caption">{{ $t('deposit') }}</div>
-                  </div>
-                  <div class="col-4">
-                    <div class="text-caption">{{ $t('result') }}</div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-4">
-                    <div
-                      class="text-h6"
-                      :class="{
-                        'text-green-8': total.withdrawal > 0,
-                        'text-negative': total.withdrawal < 0,
-                      }"
-                    >
-                      {{ priceAbsFormatted(total.withdrawal) }}
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div
-                      class="text-h6"
-                      :class="{
-                        'text-green-8': total.deposit > 0,
-                        'text-negative': total.deposit < 0,
-                      }"
-                    >
-                      {{ priceAbsFormatted(total.deposit) }}
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div
-                      class="text-h6"
-                      :class="{
-                        'text-green-8': total.result > 0,
-                        'text-negative': total.result < 0,
-                      }"
-                    >
-                      {{ priceAbsFormatted(total.result) }}
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-        </div>
+        <CurrencyResultCard
+          :currencyTotals="cashAccountsTotalsGroupedByCurrency()"
+          :showSummaryCard="showSummaryCashCard"
+        />
       </div>
       <div class="q-pa-xs">
         <SupaTable
@@ -139,93 +56,10 @@
     </div>
     <div class="col-12 q-mt-md">
       <div>
-        <q-card
-          class="no-box-shadow q-mb-md q-ma-xs"
-          v-if="chipAccountsTotalsGroupedByCurrency().length > 0 && showSummaryChipCard === false"
-        >
-          <q-card-section class="q-pa-none">
-            <q-markup-table dense separator="cell" bordered class="no-box-shadow" square>
-              <thead>
-                <tr>
-                  <th class="text-center">Currency</th>
-                  <th class="text-center">Deposit</th>
-                  <th class="text-center">Withdrawal</th>
-                  <th class="text-center">Result</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(total, index) in chipAccountsTotalsGroupedByCurrency()" :key="index">
-                  <td class="text-center">{{ total.currencyName }}</td>
-                  <td class="text-center">{{ priceAbsFormatted(total.deposit) }}</td>
-                  <td class="text-center">{{ priceAbsFormatted(total.withdrawal) }}</td>
-                  <td class="text-center">{{ priceAbsFormatted(total.result) }}</td>
-                </tr>
-              </tbody>
-            </q-markup-table>
-          </q-card-section>
-        </q-card>
-        <div
-          class="row"
-          v-if="chipAccountsTotalsGroupedByCurrency().length > 0 && showSummaryChipCard === true"
-        >
-          <div
-            class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto text-center q-pa-xs items-center justify-center md:min-w-[25%]"
-            v-for="total in chipAccountsTotalsGroupedByCurrency()"
-            :key="total.currencyName"
-          >
-            <q-card flat class="app-cart-grey w-full">
-              <q-card-section class="q-pa-none">
-                <div class="text-h6">{{ total.currencyName }}</div>
-                <div class="row">
-                  <div class="col-4">
-                    <div class="text-caption">{{ $t('withdrawal') }}</div>
-                  </div>
-                  <div class="col-4">
-                    <div class="text-caption">{{ $t('deposit') }}</div>
-                  </div>
-                  <div class="col-4">
-                    <div class="text-caption">{{ $t('result') }}</div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-4">
-                    <div
-                      class="text-h6"
-                      :class="{
-                        'text-green-8': total.withdrawal > 0,
-                        'text-negative': total.withdrawal < 0,
-                      }"
-                    >
-                      {{ priceAbsFormatted(total.withdrawal) }}
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div
-                      class="text-h6"
-                      :class="{
-                        'text-green-8': total.deposit > 0,
-                        'text-negative': total.deposit < 0,
-                      }"
-                    >
-                      {{ priceAbsFormatted(total.deposit) }}
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div
-                      class="text-h6"
-                      :class="{
-                        'text-green-8': total.result > 0,
-                        'text-negative': total.result < 0,
-                      }"
-                    >
-                      {{ priceAbsFormatted(total.result) }}
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-        </div>
+        <CurrencyResultCard
+          :currencyTotals="chipAccountsTotalsGroupedByCurrency()"
+          :showSummaryCard="showSummaryChipCard"
+        />
       </div>
       <div class="q-pa-xs">
         <SupaTable
@@ -278,11 +112,11 @@
 </template>
 
 <script setup>
+import CurrencyResultCard from '../CurrencyResultCard.vue'
 import { defineAsyncComponent, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { useQuasar } from 'quasar'
-import { priceAbsFormatted } from 'src/helpers/helpers'
 const $q = useQuasar()
 const cashdeskStore = useCashdeskStore()
 const { getSelectedCashDeskId } = storeToRefs(cashdeskStore)

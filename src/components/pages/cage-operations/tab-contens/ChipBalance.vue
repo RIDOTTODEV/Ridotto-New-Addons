@@ -107,8 +107,8 @@ const getTotals = async () => {
                   </div>`"
       />
     </div>
-    <div class="ro">
-      <div class="col-md-6 col-sm-12 col-xs-12">
+    <div class="row">
+      <div class="col-md-6 col-sm-12 col-xs-12 q-pa-sm">
         <div class="row gap-2">
           <div
             v-for="(item, index) in currentCashDeskChipCountDenominations"
@@ -202,7 +202,7 @@ const getTotals = async () => {
           </div>
         </div>
       </div>
-      <div class="col-md-6 col-sm-12 col-xs-12">
+      <div class="col-md-6 col-sm-12 col-xs-12 q-pa-sm">
         <div class="text-subtitle1" style="margin-top: -6px">
           <span class="text-negative text-bold">
             {{ cashDeskStore.getCashDeskById(getSelectedCashDeskId)?.name }}</span
@@ -212,11 +212,6 @@ const getTotals = async () => {
         <q-card class="col-12 no-box-shadow" square bordered>
           <q-card-section class="row app-cart-grey q-pa-none">
             <div class="col-12 text-center right-separator">
-              <div class="flex flex-row justify-between">
-                <div class="text-left flex justify-start content-center items-center">
-                  <div class="text-subtitle2">{{ item.currencyName }}</div>
-                </div>
-              </div>
               <div class="text-subtitle1">Total Amount</div>
             </div>
           </q-card-section>

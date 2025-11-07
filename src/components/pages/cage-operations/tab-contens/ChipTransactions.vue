@@ -38,7 +38,6 @@
             v-model="currentChipTransactionTab"
             @update:model-value="onChangeChipTransactionTab"
             dense
-            class="text-dark"
             active-color="blue-grey-8"
             indicator-color="blue-grey-8"
             active-bg-color="white"
@@ -46,7 +45,8 @@
             narrow-indicator
             no-caps
             inline-label
-            shrink
+            content-class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto"
+            class="w-full sm:w-auto"
           >
             <q-tab
               v-for="(tab, index) in chipTransactionsTabs"
@@ -57,7 +57,6 @@
               :label="$t(tab.label)"
               :icon="tab.icon"
               class="bg-white q-card--bordered"
-              :class="index === 0 ? '' : 'q-ml-sm '"
             />
           </q-tabs>
         </div>
@@ -106,108 +105,10 @@
       </q-card-section>
       <q-card-section class="q-pa-none" v-else>
         <div class="">
-          <div
-            class="row"
-            v-if="chipTransactionTableRef?.response?.totals?.length > 0 && showSummaryCard === true"
-          >
-            <div
-              class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto text-center q-pa-xs items-center justify-center md:min-w-[25%]"
-              v-for="total in chipTransactionTableRef?.response?.totals"
-              :key="total.currencyName"
-            >
-              <q-card flat class="app-cart-grey w-full">
-                <q-card-section class="q-pa-none">
-                  <div class="text-h6">{{ total.chipType }} - {{ total.chipCurrencyName }}</div>
-                  <div class="row">
-                    <div class="col-4">
-                      <div class="text-caption">{{ $t('withdrawal') }}</div>
-                    </div>
-                    <div class="col-4">
-                      <div class="text-caption">{{ $t('deposit') }}</div>
-                    </div>
-                    <div class="col-4">
-                      <div class="text-caption">{{ $t('result') }}</div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-4">
-                      <div
-                        class="subtitle2"
-                        :class="{
-                          'text-green-8': total.withdrawal > 0,
-                          'text-negative': total.withdrawal < 0,
-                          'text-subtitle2': chipTransactionTableRef?.response?.totals.length > 2,
-                          'text-h6': chipTransactionTableRef?.response?.totals.length <= 2,
-                        }"
-                      >
-                        {{ priceAbsFormatted(total.withdrawal) }}
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <div
-                        class="subtitle2"
-                        :class="{
-                          'text-green-8': total.deposit > 0,
-                          'text-negative': total.deposit < 0,
-                          'text-subtitle2': chipTransactionTableRef?.response?.totals.length > 2,
-                          'text-h6': chipTransactionTableRef?.response?.totals.length <= 2,
-                        }"
-                      >
-                        {{ priceAbsFormatted(total.deposit) }}
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <div
-                        class="subtitle2"
-                        :class="{
-                          'text-green-8': total.result > 0,
-                          'text-negative': total.result < 0,
-                          'text-subtitle2': chipTransactionTableRef?.response?.totals.length > 2,
-                          'text-h6': chipTransactionTableRef?.response?.totals.length <= 2,
-                        }"
-                      >
-                        {{ priceAbsFormatted(total.result) }}
-                      </div>
-                    </div>
-                  </div>
-                </q-card-section>
-              </q-card>
-            </div>
-          </div>
-          <div
-            class="q-pa-xs"
-            v-if="
-              chipTransactionTableRef?.response?.totals?.length > 0 && showSummaryCard === false
-            "
-          >
-            <q-markup-table dense separator="cell" bordered class="no-box-shadow">
-              <thead>
-                <tr>
-                  <th class="text-center">#</th>
-                  <th class="text-center">{{ $t('chipType') }}</th>
-                  <th class="text-center">{{ $t('chipName') }}</th>
-                  <th class="text-center">{{ $t('currencyName') }}</th>
-                  <th class="text-center">{{ $t('deposit') }}</th>
-                  <th class="text-center">{{ $t('withdrawal') }}</th>
-                  <th class="text-center">{{ $t('result') }}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="(total, index) in chipTransactionTableRef?.response?.totals"
-                  :key="index"
-                >
-                  <td class="text-center">{{ index + 1 }}</td>
-                  <td class="text-center">{{ total.chipType }}</td>
-                  <td class="text-center">{{ total.chipName }}</td>
-                  <td class="text-center">{{ total.chipCurrencyName }}</td>
-                  <td class="text-center">{{ priceAbsFormatted(total.deposit) }}</td>
-                  <td class="text-center">{{ priceAbsFormatted(total.withdrawal) }}</td>
-                  <td class="text-center">{{ priceAbsFormatted(total.result) }}</td>
-                </tr>
-              </tbody>
-            </q-markup-table>
-          </div>
+          <CurrencyResultCard
+            :currencyTotals="chipTransactionTableRef?.response?.totals"
+            :showSummaryCard="showSummaryCard"
+          />
         </div>
 
         <div class="q-pa-xs">
@@ -492,7 +393,7 @@ import TableFloatFill from '../chip-transaction-tabs/TableFloatFill.vue'
 import { formatPrice } from 'src/helpers/helpers'
 import { LocalStorage } from 'quasar'
 import Information from 'src/components/ui/Information.vue'
-import { priceAbsFormatted } from 'src/helpers/helpers'
+import CurrencyResultCard from '../CurrencyResultCard.vue'
 const cashDeskStore = useCashdeskStore()
 const {
   getSelectedCashDeskId,

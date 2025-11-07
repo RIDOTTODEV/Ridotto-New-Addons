@@ -386,7 +386,7 @@ watch(
               v-if="formValues.methodName === '/PlayerAccount/PostCashdeskPlayerInOutTransaction'"
             >
               <q-checkbox
-                :label="$t('fixTransaction')"
+                :label="$t('includeInBalance')"
                 v-model="formValues.includeInBalance"
                 outlined
                 dense
