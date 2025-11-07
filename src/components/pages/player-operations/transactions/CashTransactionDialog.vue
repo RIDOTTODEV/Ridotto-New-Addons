@@ -91,7 +91,8 @@ const formValues = ref({
   cashdeskId: selectedCashDesk.value.id,
   note: null,
   methodName: '/PlayerAccount/PostCashdeskPlayerInOutTransaction',
-  includeInBalance: false,
+
+  gameType: null,
 })
 defineEmits([...useDialogPluginComponent.emits])
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
@@ -130,7 +131,6 @@ watch(
     if (val) {
       const transactionCode = transactionCodeOptions.value.find((tc) => tc.id === val)
       if (transactionCode) {
-        formValues.value.includeInBalance = transactionCode.defaultIncludeInBalance || false
         formValues.value.inOut = transactionCode.defaultIsInOut
         showAuthorizedByInput.value = transactionCode.authorizeByRequired
         showDueDateInput.value = transactionCode.dueDateRequired
@@ -188,6 +188,29 @@ watch(
       transactionCodeOptions.value = transactionStore.getTransactionCodesByGroups(
         getSelectedTransactionByValue(val.transactionTypes),
       )
+    }
+  },
+)
+
+const lgGameType = ref(false)
+const slotGameType = ref(false)
+
+// watch the lgGameType and slotGameType values to update the formValues.gameType value
+watch(
+  () => lgGameType.value,
+  (val) => {
+    if (val) {
+      formValues.value.gameType = 'Lg'
+      slotGameType.value = false
+    }
+  },
+)
+watch(
+  () => slotGameType.value,
+  (val) => {
+    if (val) {
+      formValues.value.gameType = 'Slot'
+      lgGameType.value = false
     }
   },
 )
@@ -382,18 +405,14 @@ watch(
               />
             </div>
             <div
-              class="col-4 q-pa-xs flex items-center"
+              class="col-4 q-pa-xs flex items-center row"
               v-if="formValues.methodName === '/PlayerAccount/PostCashdeskPlayerInOutTransaction'"
             >
-              <q-checkbox
-                :label="$t('includeInBalance')"
-                v-model="formValues.includeInBalance"
-                outlined
-                dense
-                clearable
-                class="super-small"
-                data-cy="includeInBalance"
-              />
+              <!--           <q-radio v-model="formValues.gameType" val="Lg" label="Lg" />
+              <q-radio v-model="formValues.gameType" val="Slot" label="Slot" />
+ -->
+              <q-checkbox v-model="lgGameType" label="Lg" />
+              <q-checkbox v-model="slotGameType" label="Slot" />
             </div>
 
             <div class="col-4 q-pa-xs" v-if="showAuthorizedByInput">
