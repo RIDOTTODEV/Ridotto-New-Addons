@@ -106,11 +106,6 @@ const onsubmit = async () => {
         icon: 'fa fa-check-circle',
       })
       bus.emit('reloadLastCageTransactions')
-
-      // fetchDepositAndCredits
-      /*       if (formValues.value.methodName === '/CashdeskTransaction/CashdeskDepositCreditTransaction') {
-        await playerStore.fetchDepositAndCredits(playerId.value)
-      } */
       const transactionCode = transactionCodeOptions.value.find(
         (tc) => tc.id === formValues.value.transactionCodeId,
       )
@@ -223,7 +218,7 @@ watch(
     transition-show="slide-up"
     transition-hide="slide-down"
   >
-    <q-card class="q-dialog-plugin" style="min-width: 800px" square>
+    <q-card class="md:min-w-[850px]" square>
       <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
         <div class="text-subtitle2">
           {{ $t('createNewCashTransaction') }}
@@ -237,7 +232,7 @@ watch(
       </q-bar>
       <q-card-section>
         <q-form @submit="onsubmit">
-          <div class="row">
+          <div class="flex flex-col sm:flex-row gap-2">
             <q-option-group
               v-model="formValues.methodName"
               :options="transactionTypes"
@@ -272,196 +267,182 @@ watch(
               content="Player’a banka üzerinden yapılan işlemlerde kullanılacak (havale,eft vb..)."
             />
           </div>
-          <div class="row">
-            <div class="col-4 q-pa-xs">
-              <q-select
-                :label="$t('transactionCode')"
-                v-model="formValues.transactionCodeId"
-                outlined
-                dense
-                :options="transactionCodeOptions"
-                option-value="id"
-                option-label="name"
-                emit-value
-                map-options
-                clearable
-                @filter="filterTransactionCodes"
-                use-input
-                hide-bottom-space
-                class="super-small"
-                popup-content-class="height-400"
-                data-cy="transactionCode"
-                behavior="menu"
-              />
-            </div>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <q-select
+              :label="$t('transactionCode')"
+              v-model="formValues.transactionCodeId"
+              outlined
+              dense
+              :options="transactionCodeOptions"
+              option-value="id"
+              option-label="name"
+              emit-value
+              map-options
+              clearable
+              @filter="filterTransactionCodes"
+              use-input
+              hide-bottom-space
+              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              popup-content-class="height-400"
+              data-cy="transactionCode"
+              behavior="menu"
+            />
 
-            <div class="col-4 q-pa-xs">
-              <q-select
-                :label="$t('currency')"
-                hide-bottom-space
-                outlined
-                dense
-                map-options
-                emit-value
-                :options="currencies"
-                option-label="name"
-                option-value="id"
-                v-model="formValues.currencyId"
-                class="col-12 super-small"
-                :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
-                :placeholder="formValues.currencyId || $t('currency') + '...'"
-                clearable
-                data-cy="currencyId"
-                behavior="menu"
-              />
-            </div>
-            <div class="col-4 q-pa-xs">
-              <q-select
-                :label="$t('transactionType')"
-                hide-bottom-space
-                outlined
-                dense
-                map-options
-                emit-value
-                :options="transactionMethods"
-                option-label="label"
-                option-value="value"
-                v-model="formValues.transactionType"
-                class="col-12 super-small"
-                :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
-                clearable
-                data-cy="transactionType"
-                behavior="menu"
-              />
-            </div>
+            <q-select
+              :label="$t('currency')"
+              hide-bottom-space
+              outlined
+              dense
+              map-options
+              emit-value
+              :options="currencies"
+              option-label="name"
+              option-value="id"
+              v-model="formValues.currencyId"
+              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
+              :placeholder="formValues.currencyId || $t('currency') + '...'"
+              clearable
+              data-cy="currencyId"
+              behavior="menu"
+            />
+            <q-select
+              :label="$t('transactionType')"
+              hide-bottom-space
+              outlined
+              dense
+              map-options
+              emit-value
+              :options="transactionMethods"
+              option-label="label"
+              option-value="value"
+              v-model="formValues.transactionType"
+              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
+              clearable
+              data-cy="transactionType"
+              behavior="menu"
+            />
+            <q-currency-input
+              :label="$t('amount')"
+              currency="USD"
+              v-model="formValues.amount"
+              :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
+              :placeholder="$t('amount') + '...'"
+              clearable
+              :hide-bottom-space="true"
+              :precision="2"
+              data-cy="amount"
+              class="super-small w-full sm:w-auto md:min-w-[170px]"
+            />
 
-            <div class="col-4 q-pa-xs">
-              <q-currency-input
-                :label="$t('amount')"
-                currency="USD"
-                v-model="formValues.amount"
-                :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
-                :placeholder="$t('amount') + '...'"
-                clearable
-                :hide-bottom-space="true"
-                :precision="2"
-                data-cy="amount"
-              />
-            </div>
+            <q-select
+              v-if="showTransactionBanks"
+              :label="$t('bankId')"
+              hide-bottom-space
+              outlined
+              dense
+              map-options
+              emit-value
+              :options="bankAccountStore.getBankAccountsByCurrencyId(formValues.currencyId)"
+              :option-label="(val) => val.name + ' - ' + val.total"
+              option-value="id"
+              v-model="formValues.bankId"
+              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
+              clearable
+              data-cy="bankId"
+              behavior="menu"
+            />
 
-            <div class="col-4 q-pa-xs" v-if="showTransactionBanks">
-              <q-select
-                :label="$t('bankId')"
-                hide-bottom-space
-                outlined
-                dense
-                map-options
-                emit-value
-                :options="bankAccountStore.getBankAccountsByCurrencyId(formValues.currencyId)"
-                :option-label="(val) => val.name + ' - ' + val.total"
-                option-value="id"
-                v-model="formValues.bankId"
-                class="col-12 super-small"
-                :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
-                clearable
-                data-cy="bankId"
-                behavior="menu"
-              />
-            </div>
-            <div class="col-4 q-pa-xs">
-              <q-input
-                :label="$t('note')"
-                type="text"
-                hide-bottom-space
-                outlined
-                dense
-                v-model="formValues.note"
-                class="col-12 super-small"
-                :placeholder="formValues.note || $t('note') + '...'"
-                clearable
-                data-cy="note"
-              />
-            </div>
-            <div class="col-4 q-pa-xs" v-if="showCcPosAndCcSlipId">
-              <q-input
-                :label="$t('ccPos')"
-                v-model="formValues.ccPos"
-                outlined
-                dense
-                clearable
-                class="super-small"
-                data-cy="ccPos"
-              />
-            </div>
-            <div class="col-4 q-pa-xs" v-if="showCcPosAndCcSlipId">
-              <q-input
-                :label="$t('ccSlipId')"
-                v-model="formValues.ccSlipId"
-                outlined
-                dense
-                clearable
-                class="super-small"
-                data-cy="ccSlipId"
-              />
-            </div>
+            <q-input
+              :label="$t('note')"
+              type="text"
+              hide-bottom-space
+              outlined
+              dense
+              v-model="formValues.note"
+              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              :placeholder="formValues.note || $t('note') + '...'"
+              clearable
+              data-cy="note"
+            />
+
+            <q-input
+              v-if="showCcPosAndCcSlipId"
+              :label="$t('ccPos')"
+              v-model="formValues.ccPos"
+              outlined
+              dense
+              clearable
+              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              data-cy="ccPos"
+            />
+            <q-input
+              v-if="showCcPosAndCcSlipId"
+              :label="$t('ccSlipId')"
+              v-model="formValues.ccSlipId"
+              outlined
+              dense
+              clearable
+              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              data-cy="ccSlipId"
+            />
+
             <div
-              class="col-4 q-pa-xs flex items-center row"
+              class="flex items-center row w-full sm:w-auto md:min-w-[170px]"
               v-if="formValues.methodName === '/PlayerAccount/PostCashdeskPlayerInOutTransaction'"
             >
-              <!--           <q-radio v-model="formValues.gameType" val="Lg" label="Lg" />
-              <q-radio v-model="formValues.gameType" val="Slot" label="Slot" />
- -->
               <q-checkbox v-model="lgGameType" label="Lg" />
               <q-checkbox v-model="slotGameType" label="Slot" />
             </div>
 
-            <div class="col-4 q-pa-xs" v-if="showAuthorizedByInput">
-              <q-input
-                :label="$t('authorizedBy')"
-                type="text"
-                hide-bottom-space
-                outlined
-                dense
-                v-model="formValues.authorizedBy"
-                class="col-12 super-small"
-                :placeholder="formValues.authorizedBy || $t('authorizedBy') + '...'"
-                clearable
-                :rules="[(val) => (val && val.length > 0) || $t('requiredField')]"
-                data-cy="authorizedBy"
-              />
-            </div>
-            <div class="col-4 q-pa-xs" v-if="showDueDateInput">
-              <q-input
-                :label="$t('dueDateTime')"
-                class="super-small"
-                outlined
-                dense
-                v-model="formValues.dueDate"
-                :rules="[(val) => (val && val.length > 0) || $t('requiredField')]"
-                @click="$refs.qDateProxy.show()"
-                data-cy="dateBtn"
-              >
-                <template v-slot:prepend>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy
-                      cover
-                      transition-show="scale"
-                      transition-hide="scale"
-                      ref="qDateProxy"
-                    >
-                      <q-date v-model="formValues.dueDate" mask="YYYY-MM-DD" data-cy="dueDate">
-                        <div class="row items-center justify-end">
-                          <q-btn v-close-popup label="Close" color="primary" flat />
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
-            </div>
+            <q-input
+              v-if="showAuthorizedByInput"
+              :label="$t('authorizedBy')"
+              type="text"
+              hide-bottom-space
+              outlined
+              dense
+              v-model="formValues.authorizedBy"
+              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              :placeholder="formValues.authorizedBy || $t('authorizedBy') + '...'"
+              clearable
+              :rules="[(val) => (val && val.length > 0) || $t('requiredField')]"
+              data-cy="authorizedBy"
+            />
+
+            <q-input
+              v-if="showDueDateInput"
+              :label="$t('dueDateTime')"
+              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              outlined
+              dense
+              v-model="formValues.dueDate"
+              :rules="[(val) => (val && val.length > 0) || $t('requiredField')]"
+              @click="$refs.qDateProxy.show()"
+              data-cy="dateBtn"
+            >
+              <template v-slot:prepend>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    cover
+                    transition-show="scale"
+                    transition-hide="scale"
+                    ref="qDateProxy"
+                  >
+                    <q-date v-model="formValues.dueDate" mask="YYYY-MM-DD" data-cy="dueDate">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="Close" color="primary" flat />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
           </div>
 
-          <div class="col-12 q-mt-md text-right">
+          <div class="flex justify-end q-mt-md">
             <q-btn
               color="negative"
               size="13px"

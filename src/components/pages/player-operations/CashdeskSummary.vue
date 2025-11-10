@@ -65,23 +65,30 @@
         </div>
       </div>
     </q-card-section>
-    <q-card-section v-if="cashDeskSummary && cashDeskSummary?.cashdeskSummary?.length > 0">
+    <q-card-section
+      v-if="cashDeskSummary && cashDeskSummary?.cashdeskSummary?.length > 0"
+      class="q-pa-none q-pt-sm"
+    >
       <div :class="$q.dark.isActive ? 'row bg-blue-grey-8' : 'row bg-grey-2'">
         <div class="col text-center">
-          <div class="text-subtitle1">Cashdesk</div>
+          <div class="sm:text-subtitle1 xs:text-caption">Cashdesk</div>
         </div>
         <div class="col text-center">
-          <div class="text-subtitle1">Account Type</div>
+          <div class="sm:text-subtitle1 xs:text-caption">
+            {{ isMobile ? 'Account.T' : 'Account Type' }}
+          </div>
         </div>
         <div class="col text-center">
-          <div class="text-subtitle1">Transaction Type</div>
+          <div class="sm:text-subtitle1 xs:text-caption">
+            {{ isMobile ? 'Trans.Type' : 'Transaction Type' }}
+          </div>
         </div>
         <div
           class="col text-center"
           v-for="(currency, index) in getUniqueCurrencies(cashDeskSummary.totals)"
           :key="index"
         >
-          <div class="text-subtitle1">
+          <div class="sm:text-subtitle1 xs:text-caption">
             {{ currency }}
           </div>
         </div>
@@ -109,7 +116,9 @@
 </template>
 <script setup>
 import { formatPrice } from 'src/helpers/helpers'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useQuasar } from 'quasar'
+const $q = useQuasar()
 const props = defineProps({
   cashDeskSummary: {
     type: Object,
@@ -139,4 +148,6 @@ const onSelectedDate = (val) => {
   cashDeskSummaryFilterValues.value = val
   props.reloadCashDeskSummary(cashDeskSummaryFilterValues.value)
 }
+
+const isMobile = computed(() => $q.screen.xs || $q.screen.sm)
 </script>

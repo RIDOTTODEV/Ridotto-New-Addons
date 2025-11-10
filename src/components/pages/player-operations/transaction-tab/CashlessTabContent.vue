@@ -1,9 +1,9 @@
 <template>
-  <div class="row full-width">
-    <div class="col-5 q-pt-xs">
+  <div class="row">
+    <div class="col-md-5 col-sm-12 col-xs-12 q-pt-xs">
       <Accounts :player-id="playerId" v-if="selectedPlayer" />
     </div>
-    <div class="col-7 q-pa-xs">
+    <div class="col-md-7 col-sm-12 col-xs-12 q-pa-xs">
       <LastCashlessTransaction :player-id="playerId" v-if="selectedPlayer" class="q-mb-md" />
       <LastCageTransaction :player-id="playerId" v-if="selectedPlayer" />
     </div>

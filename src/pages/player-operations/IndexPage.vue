@@ -54,10 +54,11 @@
           </q-card-section>
         </q-card>
       </div>
-      <div class="col-8 q-pa-sm">
+      <div class="col-md-8 q-pa-sm col-sm-12 col-xs-12">
         <CashdeskSummary
           :cashDeskSummary="cashDeskSummary"
           :reloadCashDeskSummary="cashdeskStore.getCashDeskSummary"
+          class="w-full"
         />
       </div>
     </div>

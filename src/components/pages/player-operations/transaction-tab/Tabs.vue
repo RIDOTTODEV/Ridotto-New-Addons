@@ -1,12 +1,13 @@
 <template>
-  <div class="col-12">
-    <div class="row">
-      <div class="col-5 flex justify-between items-center">
+  <div class="flex">
+    <div class="flex">
+      <div class="flex flex-row gap-2 justify-between items-center">
         <q-tabs
           v-model="currentCashlessTab"
           @update:model-value="(val) => onChangeTab(val)"
           dense
-          class="text-dark"
+          content-class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto"
+          class="w-full sm:w-auto"
           active-color="white"
           indicator-color="blue-grey-8"
           active-bg-color="blue-grey-8"
@@ -25,7 +26,6 @@
             :label="$t(tab.label)"
             :icon="tab.icon"
             class="app-cart-grey q-card--bordered"
-            :class="index === 0 ? '' : 'q-ml-sm'"
           />
         </q-tabs>
         <q-btn

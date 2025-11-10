@@ -117,7 +117,6 @@ bus.on('reloadLastCashlessTransactions', loadLastCashlessTransactions)
     virtual-scroll
     style="max-height: 300px !important"
     :rows-per-page-options="[0]"
-    :virtual-scroll-slice-size="20"
   >
     <template v-slot:top>
       <div class="text-subtitle2 full-width flex justify-between content-center items-center">
@@ -184,11 +183,13 @@ bus.on('reloadLastCashlessTransactions', loadLastCashlessTransactions)
               : 'bg-withdrawal compact-cell'
           "
         >
-          <span class="compact-text">
+          {{ formatPrice(props.row.amount) }}
+          <span class="compact-text w-full sm:w-auto">
             <span style="display: inline-block; font-size: 10px; width: 45px">
               {{ formatPrice(props.row.oldBalance) }}
             </span>
             <span
+              class=""
               v-if="props.row.transactionType === 'Withdrawal'"
               style="display: inline-block; width: 8px; margin-left: 10px"
               >-</span

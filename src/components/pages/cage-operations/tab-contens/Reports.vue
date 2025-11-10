@@ -166,94 +166,90 @@
             @switchSummaryCard="showSummaryCard = !showSummaryCard"
           >
             <template v-slot:headerFilterSlots>
-              <div class="col-9 flex row justify-start q-py-xs">
-                <div class="row full-width flex justify-start q-gutter-x-sm q-gutter-y-sm">
-                  <q-select-box
-                    v-model="playerTransactionDetailFilters.cashdeskId"
-                    :options="cashdesks"
-                    option-value="id"
-                    option-label="name"
-                    :label="$t('cashdesk')"
-                    :fetchFn="cashdeskStore.fetchCashdesks"
-                    style="width: 200px"
-                  />
-                  <q-select-box
-                    v-model="playerTransactionDetailFilters.marketerId"
-                    :options="visitorCategories"
-                    option-value="id"
-                    option-label="name"
-                    :label="$t('marketer')"
-                    :fetchFn="guestManagementStore.fetchVisitorCategories"
-                    style="width: 200px"
-                  />
-                  <q-select-box
-                    v-model="playerTransactionDetailFilters.locationId"
-                    :options="locations"
-                    option-value="id"
-                    option-label="name"
-                    :label="$t('location')"
-                    :fetchFn="definitionStore.fetchLocations"
-                    style="width: 200px"
-                  />
-                  <search-player-input
-                    v-model="playerTransactionDetailFilters.playerId"
-                    :optionLabel="'value'"
-                    :displayedValue="playerTransactionDetailFilters.playerName"
-                    @onSelectPlayer="
-                      (args) => {
-                        playerTransactionDetailFilters.playerId = args?.id
-                        playerTransactionDetailFilters.playerName = args?.value
+              <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto justify-start q-py-xs">
+                <q-select-box
+                  v-model="playerTransactionDetailFilters.cashdeskId"
+                  :options="cashdesks"
+                  option-value="id"
+                  option-label="name"
+                  :label="$t('cashdesk')"
+                  :fetchFn="cashdeskStore.fetchCashdesks"
+                  class="w-full sm:w-auto md:max-w-[200px]"
+                />
+                <q-select-box
+                  v-model="playerTransactionDetailFilters.marketerId"
+                  :options="visitorCategories"
+                  option-value="id"
+                  option-label="name"
+                  :label="$t('marketer')"
+                  :fetchFn="guestManagementStore.fetchVisitorCategories"
+                  class="w-full sm:w-auto"
+                />
+                <q-select-box
+                  v-model="playerTransactionDetailFilters.locationId"
+                  :options="locations"
+                  option-value="id"
+                  option-label="name"
+                  :label="$t('location')"
+                  :fetchFn="definitionStore.fetchLocations"
+                  class="w-full sm:w-auto"
+                />
+                <search-player-input
+                  v-model="playerTransactionDetailFilters.playerId"
+                  :optionLabel="'value'"
+                  :displayedValue="playerTransactionDetailFilters.playerName"
+                  @onSelectPlayer="
+                    (args) => {
+                      playerTransactionDetailFilters.playerId = args?.id
+                      playerTransactionDetailFilters.playerName = args?.value
+                    }
+                  "
+                  :label="$t('playerName')"
+                  class="super-small w-full sm:w-auto"
+                />
+                <q-select
+                  v-model="playerTransactionDetailFilters.transactionCodeIds"
+                  :options="transactionCodes"
+                  option-value="id"
+                  option-label="name"
+                  :label="$t('transactionCode')"
+                  class="super-small w-full sm:w-auto md:min-w-[200px]"
+                  emit-value
+                  map-options
+                  behavior="menu"
+                  multiple
+                  clearable
+                  outlined
+                  dense
+                />
+                <date-time-picker
+                  :setDate="{
+                    StartDate: filterFields.StartDate,
+                    EndDate: filterFields.EndDate,
+                    QueryType: filterFields.QueryType,
+                    label: filterFields.label,
+                  }"
+                  @selected-date="
+                    (val) => {
+                      playerTransactionDetailFilters = {
+                        ...playerTransactionDetailFilters,
+                        ...val,
                       }
-                    "
-                    :label="$t('playerName')"
-                    class="super-small"
-                    style="min-width: 300px"
-                  />
-                  <q-select
-                    v-model="playerTransactionDetailFilters.transactionCodeIds"
-                    :options="transactionCodes"
-                    option-value="id"
-                    option-label="name"
-                    :label="$t('transactionCode')"
-                    class="super-small"
-                    emit-value
-                    map-options
-                    behavior="menu"
-                    multiple
-                    clearable
-                    outlined
-                    dense
-                    style="min-width: 300px"
-                  />
-                  <date-time-picker
-                    :setDate="{
-                      StartDate: filterFields.StartDate,
-                      EndDate: filterFields.EndDate,
-                      QueryType: filterFields.QueryType,
-                      label: filterFields.label,
-                    }"
-                    @selected-date="
-                      (val) => {
-                        playerTransactionDetailFilters = {
-                          ...playerTransactionDetailFilters,
-                          ...val,
-                        }
-                      }
-                    "
-                  />
-                  <q-btn
-                    type="button"
-                    :label="$t('filter')"
-                    icon="tune"
-                    color="grey-2"
-                    text-color="dark"
-                    size="13px"
-                    unelevated
-                    no-caps
-                    class="q-ml-sm"
-                    @click="playerTransactionDetailTable.fetchData()"
-                  />
-                </div>
+                    }
+                  "
+                />
+                <q-btn
+                  type="button"
+                  :label="$t('filter')"
+                  icon="tune"
+                  color="grey-2"
+                  text-color="dark"
+                  size="13px"
+                  unelevated
+                  no-caps
+                  class="sm:w-auto"
+                  @click="playerTransactionDetailTable.fetchData()"
+                />
               </div>
             </template>
 

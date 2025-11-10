@@ -13,27 +13,17 @@
             </div>
             <div class="row">
               <div class="col-4">
-                <div class="text-caption">{{ $t('withdrawal') }}</div>
-              </div>
-              <div class="col-4">
                 <div class="text-caption">{{ $t('deposit') }}</div>
               </div>
+              <div class="col-4">
+                <div class="text-caption">{{ $t('withdrawal') }}</div>
+              </div>
+
               <div class="col-4">
                 <div class="text-caption">{{ $t('result') }}</div>
               </div>
             </div>
             <div class="row">
-              <div class="col-4">
-                <div
-                  class="text-subtitle2"
-                  :class="{
-                    'text-green-8': total?.withdrawal > 0,
-                    'text-negative': total?.withdrawal < 0,
-                  }"
-                >
-                  {{ $priceAbs(total?.withdrawal) }}
-                </div>
-              </div>
               <div class="col-4">
                 <div
                   class="text-subtitle2"
@@ -45,6 +35,18 @@
                   {{ $priceAbs(total?.deposit) }}
                 </div>
               </div>
+              <div class="col-4">
+                <div
+                  class="text-subtitle2"
+                  :class="{
+                    'text-green-8': total?.withdrawal > 0,
+                    'text-negative': total?.withdrawal < 0,
+                  }"
+                >
+                  {{ $priceAbs(total?.withdrawal) }}
+                </div>
+              </div>
+
               <div class="col-4">
                 <div
                   class="text-subtitle2"

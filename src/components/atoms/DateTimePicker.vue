@@ -312,8 +312,9 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="flex flex-wrap items-center">
+  <div class="flex flex-col sm:flex-row gap-2">
     <q-btn
+      class="q-card--bordered"
       size="13px"
       unelevated
       :color="$q.dark.isActive ? 'grey-3' : 'grey-3'"

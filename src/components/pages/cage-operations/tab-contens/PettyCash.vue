@@ -467,7 +467,7 @@ const deletePettyCashTransaction = (props) => {
   $q.dialog({
     title: i18n.global.t('delete'),
     message: i18n.global.t('deleteMessage', { name: i18n.global.t('pettyCashTransactions') }),
-    persistent: true,
+    persistent: false,
     focus: 'cancel',
     ok: {
       flat: true,
@@ -475,6 +475,12 @@ const deletePettyCashTransaction = (props) => {
       label: i18n.global.t('delete'),
       class: 'text-capitalize',
       dataCy: 'delete',
+    },
+    cancel: {
+      flat: true,
+      color: 'primary',
+      label: i18n.global.t('cancel'),
+      class: 'text-capitalize',
     },
   }).onOk(async () => {
     await cashdeskStore.deletePettyCashTransaction({ id: props.id })

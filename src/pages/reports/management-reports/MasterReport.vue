@@ -204,6 +204,69 @@ const onSubmitFilter = async () => {
             </tbody>
           </q-markup-table>
         </div>
+
+        <div class="row">
+          <q-markup-table class="no-box-shadow col-12" dense>
+            <thead>
+              <tr>
+                <th colspan="5">
+                  <div class="text-subtitle1 text-bold flex items-center content-center">
+                    Live Game Figures
+                  </div>
+                </th>
+                <th colspan="6">
+                  <div class="flex justify-end content-end items-end">
+                    <div class="text-subtitle2 text-bold text-deep-orange-10 text-right">
+                      Totals: {{ priceAbsFormatted(masteryReport.liveGameFigures?.totalResult) }}
+                    </div>
+                  </div>
+                </th>
+              </tr>
+              <tr>
+                <th class="text-center">Game Name</th>
+                <th class="text-center">Drop</th>
+                <th class="text-center">Out</th>
+                <th class="text-center">Hold</th>
+                <th class="text-center">Avg.Drop</th>
+                <th class="text-center">Avg.Result</th>
+                <th class="text-center">Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in masteryReport.liveGameFigures?.data" :key="index">
+                <td class="text-center">{{ item?.game }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.drop) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.out) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.hold) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.avgDrop) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.avgResult) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.result) }}</td>
+              </tr>
+              <tr>
+                <td class="text-center text-bold borderTop">--</td>
+
+                <td class="text-center text-bold borderTop">
+                  {{ priceAbsFormatted(masteryReport.liveGameFigures?.totalDrop) }}
+                </td>
+                <td class="text-center text-bold borderTop">
+                  {{ priceAbsFormatted(masteryReport.liveGameFigures?.totalOut) }}
+                </td>
+                <td class="text-center text-bold borderTop">
+                  {{ priceAbsFormatted(masteryReport.liveGameFigures?.totalHold) }}
+                </td>
+                <td class="text-center text-bold borderTop">
+                  {{ priceAbsFormatted(masteryReport.liveGameFigures?.totalAvgDrop) }}
+                </td>
+                <td class="text-center text-bold borderTop">
+                  {{ priceAbsFormatted(masteryReport.liveGameFigures?.totalAvgResult) }}
+                </td>
+                <td class="text-center text-bold borderTop">
+                  {{ priceAbsFormatted(masteryReport.liveGameFigures?.totalResult) }}
+                </td>
+              </tr>
+            </tbody>
+          </q-markup-table>
+        </div>
         <div class="row">
           <div class="col-12">
             <q-separator class="q-my-md" size="3px" />
@@ -424,6 +487,16 @@ const onSubmitFilter = async () => {
                 </tr>
               </tbody>
             </q-markup-table>
+          </div>
+        </div>
+        <div class="row q-mt-md flex items-center content-center justify-center">
+          <div
+            class="text-h6 text-red-8 text-bold flex items-center content-center justify-center"
+            v-if="masteryReport?.missingChipTotal"
+          >
+            <span class="text-bold q-mr-sm">--</span>
+            Missing Chip Total ({{ priceAbsFormatted(masteryReport?.missingChipTotal) }})
+            <span class="text-bold q-ml-sm">--</span>
           </div>
         </div>
       </q-card>

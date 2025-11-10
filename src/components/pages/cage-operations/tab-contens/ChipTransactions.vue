@@ -352,26 +352,26 @@
           <q-tooltip class="text-subtitle1 bg-blue-grey-8">{{ $t('close') }}</q-tooltip>
         </q-btn>
       </q-bar>
-      <q-card-section class="q-pa-xl">
-        <q-markup-table dense separator="cell" bordered class="q-pa-md no-box-shadow">
+      <q-card-section class="">
+        <q-markup-table dense separator="cell" bordered class="no-box-shadow" square>
           <thead>
             <tr>
-              <th class="text-left">ChipType</th>
-              <th class="text-right">Denom</th>
-              <th class="text-right">Currency</th>
-              <th class="text-right">Quantity</th>
-              <th class="text-right">Value</th>
-              <th class="text-right">Total</th>
+              <th class="text-center app-cart-grey">ChipType</th>
+              <th class="text-center app-cart-grey">Denom</th>
+              <th class="text-center app-cart-grey">Currency</th>
+              <th class="text-center app-cart-grey">Quantity</th>
+              <th class="text-center app-cart-grey">Value</th>
+              <th class="text-center app-cart-grey">Total</th>
             </tr>
           </thead>
           <tbody v-if="cashDeskChipTransferHistoryData">
             <tr v-for="item in cashDeskChipTransferHistoryData" :key="item.id">
-              <td class="text-left">{{ item.chipType }}</td>
-              <td class="text-right">{{ item.chipDenomName }}</td>
-              <td class="text-right">{{ item.currencyName }}</td>
-              <td class="text-right">{{ item.quantity }}</td>
-              <td class="text-right">{{ formatPrice(item.value) }}</td>
-              <td class="text-right">{{ formatPrice(item.amount) }}</td>
+              <td class="text-center">{{ item.chipType }}</td>
+              <td class="text-center">{{ item.chipDenomName }}</td>
+              <td class="text-center">{{ item.currencyName }}</td>
+              <td class="text-center">{{ item.quantity }}</td>
+              <td class="text-center">{{ formatPrice(item.value) }}</td>
+              <td class="text-center">{{ formatPrice(item.amount) }}</td>
             </tr>
           </tbody>
         </q-markup-table>
