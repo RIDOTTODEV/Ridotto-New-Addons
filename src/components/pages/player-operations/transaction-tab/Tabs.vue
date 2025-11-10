@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
-    <div class="flex">
-      <div class="flex flex-row gap-2 justify-between items-center">
+    <div class="flex w-full sm:w-auto">
+      <div class="flex flex-row gap-4 justify-between items-center w-full sm:w-auto">
         <q-tabs
           v-model="currentCashlessTab"
           @update:model-value="(val) => onChangeTab(val)"
@@ -30,16 +30,17 @@
         </q-tabs>
         <q-btn
           v-el-perms="'Addon.CashlessOperations.Transaction.CreateCashlessAccount'"
-          class="q-ml-sm q-mr-sm q-card--bordered"
+          class="w-full super-small sm:w-auto q-card--bordered"
           no-caps
-          size="13px"
+          size="14px"
           :label="$t('addCashlessAccount')"
           icon="add"
           unelevated
-          color="grey-3"
+          color="grey-1"
           text-color="black"
           @click="createNewCashlessAccount"
           v-show="currentCashlessTab === 'cashless'"
+          square
         />
       </div>
     </div>

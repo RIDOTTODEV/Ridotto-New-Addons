@@ -1,6 +1,6 @@
 <template>
-  <div class="row full-width">
-    <div class="col-5 q-pa-xs">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+    <div class="col-span-1">
       <q-form
         @submit="onSubmitPlayerChipTransaction"
         class="col-12 row q-card--bordered bg-white border-sm"
@@ -189,7 +189,7 @@
         </div>
       </q-form>
     </div>
-    <div class="col-7 q-pa-xs">
+    <div class="col-span-1">
       <LastChipTransaction
         :player-id="playerId"
         v-if="selectedPlayer"
