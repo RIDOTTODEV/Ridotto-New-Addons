@@ -115,7 +115,7 @@ const showCcPosAndCcSlipId = ref(false)
     transition-hide="slide-down"
     backdrop-filter="brightness(40%)"
   >
-    <q-card class="q-dialog-plugin" style="min-width: 800px !important" square>
+    <q-card class="sm:min-w-[800px]" square>
       <q-bar
         style="height: 50px"
         :class="formValues.transactionType === 'Deposit' ? 'bg-green-1' : 'bg-red-1'"
@@ -141,176 +141,138 @@ const showCcPosAndCcSlipId = ref(false)
         </q-btn>
       </q-bar>
       <q-card-section>
-        <q-form @submit="onsubmit">
-          <div class="row">
-            <div class="col-4 q-pa-xs">
-              <q-select
-                :label="$t('accountType')"
-                autofocus
-                hide-bottom-space
-                outlined
-                dense
-                map-options
-                emit-value
-                v-model="formValues.accountType"
-                :options="accountTypes"
-                option-label="name"
-                option-value="name"
-                class="col-12 super-small"
-                :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
-                :placeholder="formValues.accountType || $t('accountType') + '...'"
-                clearable
-                disable
-              />
-            </div>
-            <div class="col-4 q-pa-xs">
-              <q-select
-                :label="$t('currency')"
-                hide-bottom-space
-                outlined
-                dense
-                map-options
-                emit-value
-                :options="currencies"
-                option-label="name"
-                option-value="id"
-                v-model="formValues.currencyId"
-                class="col-12 super-small"
-                :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
-                :placeholder="formValues.currencyId || $t('currency') + '...'"
-                clearable
-                disable
-                data-cy="currency"
-              />
-            </div>
-            <!--             <div class="col-6 q-pa-xs">
-              <q-select
-                :label="$t('transactionCodes.transType')"
-                hide-bottom-space
-                outlined
-                dense
-                map-options
-                emit-value
-                :options="transTypes"
-                option-label="label"
-                option-value="value"
-                v-model="formValues.transType"
-                class="col-12 super-small"
-                :rules="[
-                  (val) =>
-                    (val && val.toString().length > 0) ||
-                    $t('requiredField'),
-                ]"
-                :placeholder="
-                  formValues.transType ||
-                  $t('transactionCodes.transType') + '...'
-                "
-                clearable
-                data-cy="transType"
-              />
-            </div> -->
-            <div class="col-4 q-pa-xs">
-              <q-currency-input
-                :label="$t('amount')"
-                currency="USD"
-                v-model="formValues.amount"
-                :rules="
-                  transactionType === 'Withdrawal'
-                    ? [
-                        (val) =>
-                          (val &&
-                            val.toString().length > 0 &&
-                            parseFloat(val) <= parseFloat(allWithdrawalAmount)) ||
-                          $t('requiredField'),
-                      ]
-                    : [(val) => (val && val.toString().length > 0) || $t('requiredField')]
-                "
-                :placeholder="$t('amount') + '...'"
-                clearable
-                :hide-bottom-space="true"
-                :precision="2"
-                :all-amount="transactionType === 'Withdrawal' ? allWithdrawalAmount : null"
-                data-cy="amount"
-              />
-            </div>
-            <div class="col-6 q-pa-xs">
-              <q-select-box
-                :label="$t('transactionCode')"
-                :options="getTransactionCodesByTransType()"
-                option-label="name"
-                option-value="id"
-                v-model="formValues.transactionCodeId"
-                @update:model-value="onChangeTransactionCode"
-                @clear="onClearTransactionCode"
-                behavior="menu"
-                autofocus
-                :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
-              />
-            </div>
-            <div class="col-3 q-pa-xs">
-              <q-toggle
-                v-model="formValues.inOut"
-                color="primary"
-                dense
-                data-cy="isInOut"
-                style="margin-top: 10px"
-                class="q-ml-sm"
-                :label="$t('inOut')"
-                bg-color="white"
-              />
-            </div>
-            <div class="col-3 q-pa-xs">
-              <q-checkbox
-                v-model="formValues.isCorrection"
-                color="green-9"
-                dense
-                data-cy="isCorrection"
-                style="margin-top: 10px"
-                class="q-ml-sm"
-                :label="$t('fixTransaction')"
-              />
-            </div>
-            <div class="col-6 q-pa-xs" v-if="showCcPosAndCcSlipId">
-              <q-input
-                :label="$t('ccPos')"
-                v-model="formValues.ccPos"
-                outlined
-                dense
-                clearable
-                class="super-small"
-                data-cy="ccPos"
-                bg-color="white"
-              />
-            </div>
-            <div class="col-6 q-pa-xs" v-if="showCcPosAndCcSlipId">
-              <q-input
-                :label="$t('ccSlipId')"
-                v-model="formValues.ccSlipId"
-                outlined
-                dense
-                clearable
-                class="super-small"
-                data-cy="ccSlipId"
-                bg-color="white"
-              />
-            </div>
-            <div class="col-12 q-pa-xs">
-              <q-input
-                :label="$t('note')"
-                type="textarea"
-                rows="2"
-                hide-bottom-space
-                outlined
-                dense
-                v-model="formValues.note"
-                class="col-12"
-                :placeholder="formValues.note || $t('note') + '...'"
-                clearable
-                data-cy="note"
-              />
-            </div>
+        <q-form @submit="onsubmit" class="flex flex-col gap-2">
+          <div class="flex flex-col sm:flex-row gap-2">
+            <q-select
+              :label="$t('accountType')"
+              autofocus
+              hide-bottom-space
+              outlined
+              dense
+              map-options
+              emit-value
+              v-model="formValues.accountType"
+              :options="accountTypes"
+              option-label="name"
+              option-value="name"
+              class="w-full super-small sm:w-auto md:min-w-[170px]"
+              :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
+              :placeholder="formValues.accountType || $t('accountType') + '...'"
+              clearable
+              disable
+            />
+            <q-select
+              :label="$t('currency')"
+              hide-bottom-space
+              outlined
+              dense
+              map-options
+              emit-value
+              :options="currencies"
+              option-label="name"
+              option-value="id"
+              v-model="formValues.currencyId"
+              class="w-full super-small sm:w-auto md:min-w-[170px]"
+              :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
+              :placeholder="formValues.currencyId || $t('currency') + '...'"
+              clearable
+              disable
+              data-cy="currency"
+            />
+
+            <q-currency-input
+              :label="$t('amount')"
+              currency="USD"
+              v-model="formValues.amount"
+              :rules="
+                transactionType === 'Withdrawal'
+                  ? [
+                      (val) =>
+                        (val &&
+                          val.toString().length > 0 &&
+                          parseFloat(val) <= parseFloat(allWithdrawalAmount)) ||
+                        $t('requiredField'),
+                    ]
+                  : [(val) => (val && val.toString().length > 0) || $t('requiredField')]
+              "
+              :placeholder="$t('amount') + '...'"
+              clearable
+              :hide-bottom-space="true"
+              :precision="2"
+              :all-amount="transactionType === 'Withdrawal' ? allWithdrawalAmount : null"
+              data-cy="amount"
+              class="w-full sm:w-auto md:min-w-[170px]"
+              autofocus
+            />
+            <q-select-box
+              :label="$t('transactionCode')"
+              :options="getTransactionCodesByTransType()"
+              option-label="name"
+              option-value="id"
+              v-model="formValues.transactionCodeId"
+              @update:model-value="onChangeTransactionCode"
+              @clear="onClearTransactionCode"
+              behavior="menu"
+              :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
+              class="w-full sm:w-auto md:min-w-[170px]"
+              hide-bottom-space
+            />
           </div>
-          <div class="col-12 q-mt-md text-right">
+          <div class="flex flex-col sm:flex-row gap-2">
+            <q-toggle
+              v-model="formValues.inOut"
+              color="primary"
+              dense
+              data-cy="isInOut"
+              :label="$t('inOut')"
+              bg-color="white"
+              class="w-full super-small sm:w-auto"
+            />
+            <q-checkbox
+              v-model="formValues.isCorrection"
+              color="green-9"
+              dense
+              data-cy="isCorrection"
+              :label="$t('fixTransaction')"
+              class="w-full super-small sm:w-auto"
+            />
+            <q-input
+              :label="$t('ccPos')"
+              v-model="formValues.ccPos"
+              outlined
+              dense
+              clearable
+              class="super-small w-full sm:w-auto"
+              data-cy="ccPos"
+              bg-color="white"
+            />
+            <q-input
+              :label="$t('ccSlipId')"
+              v-model="formValues.ccSlipId"
+              outlined
+              dense
+              clearable
+              class="super-small w-full sm:w-auto"
+              data-cy="ccSlipId"
+              bg-color="white"
+            />
+          </div>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <q-input
+              :label="$t('note')"
+              type="textarea"
+              rows="2"
+              hide-bottom-space
+              outlined
+              dense
+              v-model="formValues.note"
+              class="w-full"
+              :placeholder="formValues.note || $t('note') + '...'"
+              clearable
+              data-cy="note"
+            />
+          </div>
+          <div class="flex justify-end items-center gap-2">
             <q-btn
               color="negative"
               size="13px"

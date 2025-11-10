@@ -68,62 +68,57 @@
             </q-tr>
           </template>
           <template v-slot:headerFilterSlots>
-            <div class="col-8 q-pl-sm q-mr-sm flex row justify-start">
-              <div class="q-pa-xs flex items-end">
-                <q-select
-                  v-model="filterFormValues.TransactionType"
-                  outlined
-                  dense
-                  options-dense
-                  emit-value
-                  map-options
-                  :options="playerStore.accountTransactionTypes"
-                  option-value="value"
-                  style="min-width: 250px"
-                  class="q-pr-sm super-small"
-                  :label="$t('transactionType')"
-                  clearable
-                />
-                <q-select
-                  v-model="filterFormValues.CashlessTransactionType"
-                  outlined
-                  dense
-                  options-dense
-                  emit-value
-                  map-options
-                  :options="CashlessTransactionTypes"
-                  option-value="value"
-                  style="min-width: 250px"
-                  class="q-pr-sm super-small"
-                  :label="$t('cashlessTransactionType')"
-                  sty
-                  clearable
-                />
-                <date-time-picker
-                  @selected-date="
-                    (val) =>
-                      (filterFormValues = {
-                        ...filterFormValues,
-                        ...val,
-                      })
-                  "
-                  :setDate="dateTimeFilterValues"
-                />
+            <div class="flex flex-col sm:flex-row gap-2">
+              <q-select
+                v-model="filterFormValues.TransactionType"
+                outlined
+                dense
+                options-dense
+                emit-value
+                map-options
+                :options="playerStore.accountTransactionTypes"
+                option-value="value"
+                class="w-full super-small sm:w-auto md:min-w-[170px]"
+                :label="$t('transactionType')"
+                clearable
+              />
+              <q-select
+                v-model="filterFormValues.CashlessTransactionType"
+                outlined
+                dense
+                options-dense
+                emit-value
+                map-options
+                :options="CashlessTransactionTypes"
+                option-value="value"
+                class="w-full super-small sm:w-auto md:min-w-[170px]"
+                :label="$t('cashlessTransactionType')"
+                clearable
+              />
+              <date-time-picker
+                @selected-date="
+                  (val) =>
+                    (filterFormValues = {
+                      ...filterFormValues,
+                      ...val,
+                    })
+                "
+                :setDate="dateTimeFilterValues"
+              />
 
-                <q-btn
-                  type="button"
-                  :label="$t('filter')"
-                  icon="tune"
-                  color="grey-2"
-                  text-color="dark"
-                  size="13px"
-                  unelevated
-                  no-caps
-                  v-if="refTable"
-                  @click="refTable.fetchData()"
-                  class="q-ml-sm"
-                />
-              </div>
+              <q-btn
+                type="button"
+                :label="$t('filter')"
+                icon="tune"
+                color="grey-2"
+                text-color="dark"
+                size="13px"
+                unelevated
+                no-caps
+                v-if="refTable"
+                @click="refTable.fetchData()"
+                class="w-full super-small sm:w-auto"
+              />
             </div>
           </template>
         </SupaTable>
