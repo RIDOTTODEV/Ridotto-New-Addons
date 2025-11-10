@@ -1126,17 +1126,17 @@ onMounted(async () => {
                 </td>
                 <td class="text-right text-bold borderTop" colspan="2">
                   <div class="text-subtitle2 text-bold text-grey-9 q-mr-md">
-                    {{ priceAbsFormatted(balanceReport?.chipFigures?.totalOpeningValue) }}
+                    {{ priceAbsFormatted(chipFigure?.totalOpeningValue) }}
                   </div>
                 </td>
                 <td class="text-right text-bold borderTop" colspan="2">
                   <div class="text-subtitle2 text-bold text-grey-9 q-mr-md">
-                    {{ priceAbsFormatted(balanceReport?.chipFigures?.totalClosingValue) }}
+                    {{ priceAbsFormatted(chipFigure.totalClosingValue) }}
                   </div>
                 </td>
                 <td class="text-right text-bold borderTop" colspan="2">
                   <div class="text-subtitle text-bold2 text-grey-9 q-mr-md">
-                    {{ priceAbsFormatted(balanceReport?.chipFigures?.totalMovementValue) }}
+                    {{ priceAbsFormatted(chipFigure.totalMovementValue) }}
                   </div>
                 </td>
               </tr>

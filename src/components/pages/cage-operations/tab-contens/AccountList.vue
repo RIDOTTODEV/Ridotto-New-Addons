@@ -16,7 +16,7 @@
           :filterParams="filterParams"
           :slotNames="['body-cell-action']"
           ref="cashAccountTable"
-          dataKey="cashAccountList"
+          dataKey="cashAccountInfoOutput.cashAccountList"
           :hideFields="{
             showVisibleColumns: true,
             showReloadButton: true,
@@ -70,7 +70,7 @@
           :filterParams="filterParams"
           :slotNames="['body-cell-action']"
           ref="chipAccountTable"
-          dataKey="chipAccountList"
+          dataKey="chipAccountInfoOutput.chipAccountList"
           :hideFields="{
             showVisibleColumns: true,
             showReloadButton: true,
@@ -198,45 +198,13 @@ const onClickShowDetailAccount = (row, accountType = 'cage') => {
   })
 }
 const cashAccountsTotalsGroupedByCurrency = () => {
-  const data = cashAccountTable.value?.response?.cashAccountList || []
-  const groupedData = []
-  data.forEach((item) => {
-    const existingItem = groupedData.find((group) => group.currencyName === item.currencyName)
-    if (existingItem) {
-      existingItem.totalIn += item.totalIn
-      existingItem.totalOut += item.totalOut
-      existingItem.result += item.result
-    } else {
-      groupedData.push({
-        currencyName: item.currencyName,
-        totalIn: item.totalIn,
-        totalOut: item.totalOut,
-        result: item.result,
-      })
-    }
-  })
-  return groupedData
+  const data = cashAccountTable.value?.response?.cashAccountInfoOutput?.cashAccountTotals || []
+  return data
 }
 
 const chipAccountsTotalsGroupedByCurrency = () => {
-  const data = cashAccountTable.value?.response?.chipAccountList || []
-  const groupedData = []
-  data.forEach((item) => {
-    const existingItem = groupedData.find((group) => group.currencyName === item.currencyName)
-    if (existingItem) {
-      existingItem.totalIn += item.totalIn
-      existingItem.totalOut += item.totalOut
-      existingItem.result += item.result
-    } else {
-      groupedData.push({
-        currencyName: item.currencyName,
-        totalIn: item.totalIn,
-        totalOut: item.totalOut,
-        result: item.result,
-      })
-    }
-  })
-  return groupedData
+  const data = cashAccountTable.value?.response?.chipAccountInfoOutput?.chipAccountTotals || []
+  return data
 }
 
 const showSummaryCashCard = ref(true)
