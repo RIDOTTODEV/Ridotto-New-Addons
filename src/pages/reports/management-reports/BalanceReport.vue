@@ -45,7 +45,7 @@ const transactionLogsTableColumn = ref([
   {
     name: 'creationTime',
     label: i18n.global.t('createdAt'),
-    align: 'left',
+    align: 'center',
     field: 'creationTime',
     sortable: false,
     visible: true,
@@ -54,7 +54,7 @@ const transactionLogsTableColumn = ref([
   {
     name: 'cashdeskName',
     label: i18n.global.t('cashDeskName'),
-    align: 'left',
+    align: 'center',
     field: 'cashdeskName',
     sortable: false,
     visible: true,
@@ -62,11 +62,12 @@ const transactionLogsTableColumn = ref([
   {
     name: 'transactionCodeName',
     label: i18n.global.t('transactionCodeName'),
-    align: 'left',
+    align: 'center',
     field: 'transactionCodeName',
     sortable: false,
     visible: true,
   },
+  /*
   {
     name: 'amount',
     label: i18n.global.t('amount'),
@@ -76,10 +77,11 @@ const transactionLogsTableColumn = ref([
     visible: true,
     format: (val) => priceAbsFormatted(val),
   },
+  */
   {
     name: 'received',
     label: i18n.global.t('received'),
-    align: 'left',
+    align: 'center',
     field: 'received',
     sortable: false,
     visible: true,
@@ -88,7 +90,7 @@ const transactionLogsTableColumn = ref([
   {
     name: 'paid',
     label: i18n.global.t('paid'),
-    align: 'left',
+    align: 'center',
     field: 'paid',
     sortable: false,
     visible: true,
@@ -97,7 +99,7 @@ const transactionLogsTableColumn = ref([
   {
     name: 'userName',
     label: i18n.global.t('userName'),
-    align: 'left',
+    align: 'center',
     field: 'userName',
     sortable: false,
     visible: true,
@@ -105,7 +107,7 @@ const transactionLogsTableColumn = ref([
   {
     name: 'playerName',
     label: i18n.global.t('playerName'),
-    align: 'left',
+    align: 'center',
     field: 'playerName',
     sortable: false,
     visible: true,
@@ -113,13 +115,109 @@ const transactionLogsTableColumn = ref([
   {
     name: 'explanation',
     label: i18n.global.t('explanation'),
-    align: 'left',
+    align: 'center',
     field: 'explanation',
     sortable: false,
     visible: true,
   },
 ])
 const transactionLogsTableFilter = ref('')
+
+const deletedTransactionLogsTableColumn = ref([
+  {
+    name: 'creationTime',
+    label: i18n.global.t('createdAt'),
+    align: 'center',
+    field: 'creationTime',
+    sortable: false,
+    visible: true,
+    format: (val) => date.formatDate(val, 'DD.MM.YYYY HH:mm:ss'),
+  },
+  {
+    name: 'cashdeskName',
+    label: i18n.global.t('cashDeskName'),
+    align: 'center',
+    field: 'cashdeskName',
+    sortable: false,
+    visible: true,
+  },
+  {
+    name: 'transactionCodeName',
+    label: i18n.global.t('tcodeName'),
+    align: 'center',
+    field: 'transactionCodeName',
+    sortable: false,
+    visible: true,
+  },
+  {
+    name: 'transactionType',
+    label: i18n.global.t('transactionType'),
+    align: 'center',
+    field: 'transactionType',
+    sortable: false,
+    visible: true,
+  },
+  {
+    name: 'isDeleted',
+    label: i18n.global.t('deleted'),
+    align: 'center',
+    field: 'isDeleted',
+    sortable: false,
+    visible: true,
+    format: (val) => (val ? i18n.global.t('yes') : i18n.global.t('no')),
+  },
+  {
+    name: 'amount',
+    label: i18n.global.t('amount'),
+    align: 'center',
+    field: 'amount',
+    sortable: false,
+    visible: true,
+    format: (val) => priceAbsFormatted(val),
+  },
+  /*   {
+    name: 'amountBySelectedCurrency',
+    label: i18n.global.t('amountBySelectedCurrency'),
+    align: 'left',
+    field: 'amountBySelectedCurrency',
+    sortable: false,
+    visible: true,
+    format: (val) => priceAbsFormatted(val),
+  }, */
+  {
+    name: 'currencyName',
+    label: i18n.global.t('currency'),
+    align: 'center',
+    field: 'currencyName',
+    sortable: false,
+    visible: true,
+  },
+  {
+    name: 'userName',
+    label: i18n.global.t('userName'),
+    align: 'center',
+    field: 'userName',
+    sortable: false,
+    visible: true,
+  },
+  {
+    name: 'playerName',
+    label: i18n.global.t('playerName'),
+    align: 'center',
+    field: 'playerName',
+    sortable: false,
+    visible: true,
+  },
+  {
+    name: 'explanation',
+    label: i18n.global.t('explanation'),
+    align: 'center',
+    field: 'explanation',
+    sortable: false,
+    visible: true,
+  },
+])
+const deletedTransactionLogsTableFilter = ref('')
 
 const demo = ref('')
 
@@ -220,59 +318,37 @@ onMounted(async () => {
       </q-card-section>
     </q-card>
 
-    <div class="row grey-card q-mt-md">
+    <div class="row app-cart-grey q-mt-md">
       <q-card class="no-box-shadow col-12">
-        <div class="q-my-md"></div>
-        <div class="row">
-          <q-markup-table class="no-box-shadow col-12" dense>
+        <div class="row q-my-md">
+          <q-markup-table class="no-box-shadow col-12" dense separator="none">
             <thead>
               <tr>
-                <th colspan="3">
-                  <div
-                    class="text-subtitle1 text-bold text-capitalize flex content-center items-center"
-                  >
-                    <q-icon
-                      name="o_info"
-                      class="cursor-pointer q-mr-xs"
-                      color="orange-8"
-                      size="22px"
-                    >
-                      <q-tooltip class="bg-white q-pa-none text-dark">
-                        <Information
-                          class="full-width q-pa-sm"
-                          content="Bir önceki gün kapanışı ve seçili olan tarihreki transactionlardan açılış kapanış ve sonuç bilgisini verir."
-                        />
-                      </q-tooltip>
-                    </q-icon>
-                    Cash Figures
+                <th colspan="7">
+                  <div class="text-subtitle1 text-underline flex content-center items-center">
+                    - CASH FIGURES -
                   </div>
-                </th>
-                <th colspan="4" class="text-right">
-                  <span class="q-ml-md text-bold text-deep-orange-10 text-subtitle1">
-                    Movement:
-                    {{ priceAbsFormatted(balanceReport?.cashFigures?.totalMovementValue) }}
-                  </span>
                 </th>
               </tr>
               <tr>
                 <th></th>
                 <th class="text-center" colspan="2">
-                  <div class="text-subtitle2">Opening</div>
+                  <div class="text-weight-medium text-underline">OPENING</div>
                 </th>
                 <th class="text-center" colspan="2">
-                  <div class="text-subtitle2">Closing</div>
+                  <div class="text-weight-medium text-underline">CLOSING</div>
                 </th>
                 <th class="text-center" colspan="2">
-                  <div class="text-subtitle2">Movement</div>
+                  <div class="text-weight-medium text-underline">MOVEMENT</div>
                 </th>
               </tr>
               <tr>
-                <th class="text-center">Currency Name</th>
-                <th class="text-center borderLeft">Opening</th>
+                <th class="text-center">Currency</th>
+                <th class="text-center borderLeft">Quantity</th>
                 <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
-                <th class="text-center borderLeft">Closing</th>
+                <th class="text-center borderLeft">Quantity</th>
                 <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
-                <th class="text-center borderLeft">Movement</th>
+                <th class="text-center borderLeft">Quantity</th>
                 <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
               </tr>
             </thead>
@@ -307,9 +383,9 @@ onMounted(async () => {
                   {{ currencyStore.getCurrencyById(getDefaultCurrencyId).symbol }}
                 </td>
               </tr>
-              <tr>
+              <tr class="">
                 <td class="text-center text-bold borderTop">
-                  <div class="text-subtitle2 text-bold">Total Cash</div>
+                  <div class="text-subtitle2 text-bold">TOTAL CASH</div>
                 </td>
                 <td class="text-center text-bold borderTop"></td>
                 <td class="text-center text-bold borderTop">
@@ -333,49 +409,135 @@ onMounted(async () => {
             </tbody>
           </q-markup-table>
         </div>
+
         <div class="row">
-          <div class="col-12">
-            <q-separator class="q-my-md" size="3px" />
-          </div>
-        </div>
-        <div class="row">
-          <q-markup-table class="no-box-shadow col-12" dense>
+          <q-markup-table class="no-box-shadow col-12" dense separator="none">
             <thead>
               <tr>
-                <th colspan="2">
-                  <div class="text-subtitle1 text-bold flex content-center items-center">
-                    <q-icon
-                      name="o_info"
-                      class="cursor-pointer q-mr-xs"
-                      color="orange-8"
-                      size="22px"
-                    >
-                      <q-tooltip class="bg-white q-pa-none text-dark">
-                        <Information
-                          class="full-width q-pa-sm"
-                          content="Yapılan transactionları transaction code bazlı olarak açılış ve kapanış bilgisini verir . "
-                        />
-                      </q-tooltip>
-                    </q-icon>
-                    Cumulative Transaction Figures
-                  </div>
-                </th>
-                <th colspan="2" class="text-right">
-                  <div class="text-subtitle1 text-bold text-deep-orange-10">
-                    Movement:
-                    {{
-                      priceAbsFormatted(
-                        balanceReport?.cumulativeReportTransactionFigures?.totalMovementValue,
-                      )
-                    }}
+                <th colspan="7">
+                  <div class="text-subtitle1 text-underline flex content-center items-center">
+                    - CHIP FIGURES -
                   </div>
                 </th>
               </tr>
               <tr>
-                <th class="text-center">Transaction Code</th>
-                <th class="text-center">Opening</th>
-                <th class="text-center">Closing</th>
-                <th class="text-center">Movement</th>
+                <th></th>
+                <th class="text-center" colspan="2">
+                  <div class="text-weight-medium text-underline">OPENING</div>
+                </th>
+                <th class="text-center" colspan="2">
+                  <div class="text-weight-medium text-underline">CLOSING</div>
+                </th>
+                <th class="text-center" colspan="2">
+                  <div class="text-weight-medium text-underline">MOVEMENT</div>
+                </th>
+              </tr>
+              <tr>
+                <th class="text-center text-underline">Denominations</th>
+                <th class="text-center text-underline">Quantity</th>
+                <th class="text-center text-underline">Value</th>
+                <th class="text-center text-underline">Quantity</th>
+                <th class="text-center text-underline">Value</th>
+                <th class="text-center text-underline">Quantity</th>
+                <th class="text-center text-underline">Value</th>
+              </tr>
+            </thead>
+            <tbody
+              v-for="(chipFigure, chipFigureIndex) in balanceReport?.chipFigures?.chipFigures"
+              :key="chipFigureIndex"
+            >
+              <tr>
+                <td class="text-center text-bold">
+                  <div class="text-weight-medium text-underline">
+                    <span class="q-px-md">{{ chipFigure?.currencyName }}</span
+                    >{{ chipFigure?.chipName }}
+                  </div>
+                </td>
+                <td class="text-center text-bold" colspan="6"></td>
+              </tr>
+              <tr v-for="(item, index) in chipFigure?.chipFigureDetails" :key="index">
+                <td class="text-center">{{ item?.chipDenomValue }}</td>
+
+                <td class="text-center">
+                  {{ priceAbsFormatted(item?.quantity) }}
+                </td>
+                <td class="text-center">
+                  {{ priceAbsFormatted(item?.selectedCurrencyOpeningValue) }}
+                </td>
+
+                <td class="text-center">
+                  {{ priceAbsFormatted(item?.quantity) }}
+                </td>
+                <td class="text-center">
+                  {{ priceAbsFormatted(item?.selectedCurrencyClosingValue) }}
+                </td>
+
+                <td class="text-center">
+                  {{ priceAbsFormatted(item?.quantity) }}
+                </td>
+                <td class="text-center">
+                  {{ priceAbsFormatted(item?.selectedCurrencyMovementValue) }}
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold">TOTAL</div>
+                </td>
+                <td class="text-right text-bold borderTop" colspan="2">
+                  <div class="text-subtitle2 text-bold text-grey-9">
+                    {{ priceAbsFormatted(chipFigure?.totalOpeningValue) }}
+                  </div>
+                </td>
+                <td class="text-right text-bold borderTop" colspan="2">
+                  <div class="text-subtitle2 text-bold text-grey-9 q-mr-md">
+                    {{ priceAbsFormatted(chipFigure.totalClosingValue) }}
+                  </div>
+                </td>
+                <td class="text-right text-bold borderTop" colspan="2">
+                  <div class="text-subtitle text-bold2 text-grey-9 q-mr-md">
+                    {{ priceAbsFormatted(chipFigure.totalMovementValue) }}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr>
+                <td class="text-center text-bold">TOTAL CHIPS</td>
+                <td class="text-right text-bold" colspan="2">
+                  <div class="text-subtitle2 text-bold">
+                    {{ priceAbsFormatted(balanceReport?.chipFigures?.totalOpeningValue) }}
+                  </div>
+                </td>
+                <td class="text-right text-bold" colspan="2">
+                  <div class="text-subtitle2 text-bold">
+                    {{ priceAbsFormatted(balanceReport?.chipFigures?.totalClosingValue) }}
+                  </div>
+                </td>
+                <td class="text-right text-bold" colspan="2">
+                  <div class="text-subtitle2 text-bold">
+                    {{ priceAbsFormatted(balanceReport?.chipFigures?.totalMovementValue) }}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </q-markup-table>
+        </div>
+
+        <div class="row q-my-md">
+          <q-markup-table class="no-box-shadow col-12" dense separator="none">
+            <thead>
+              <tr>
+                <th colspan="4">
+                  <div class="text-subtitle1 text-underline flex content-center items-center">
+                    - CUMULATIVE TRANSACTION FIGURES -
+                  </div>
+                </th>
+              </tr>
+              <tr>
+                <th class="text-center text-underline text-weight-medium">Transaction Code</th>
+                <th class="text-center text-underline text-weight-medium">Opening</th>
+                <th class="text-center text-underline text-weight-medium">Closing</th>
+                <th class="text-center text-underline text-weight-medium">Movement</th>
               </tr>
             </thead>
             <tbody>
@@ -384,14 +546,14 @@ onMounted(async () => {
                   ?.transactionFigures"
                 :key="index"
               >
-                <td class="text-center">{{ item?.transactionCodeName }}</td>
+                <td class="text-center text-uppercase">{{ item?.transactionCodeName }}</td>
                 <td class="text-center">{{ priceAbsFormatted(item?.opening) }}</td>
                 <td class="text-center">{{ priceAbsFormatted(item?.closing) }}</td>
                 <td class="text-center">{{ priceAbsFormatted(item?.movement) }}</td>
               </tr>
               <tr>
                 <td class="text-center text-bold borderTop">
-                  <div class="text-subtitle2 text-bold">Total Value</div>
+                  <div class="text-subtitle2 text-bold">TOTAL VALUE</div>
                 </td>
                 <td class="text-center text-bold borderTop">
                   <div class="text-subtitle2 text-bold">
@@ -425,46 +587,22 @@ onMounted(async () => {
           </q-markup-table>
         </div>
         <div class="row">
-          <div class="col-12">
-            <q-separator class="q-my-md" size="3px" />
-          </div>
-        </div>
-        <div class="row">
-          <q-markup-table class="no-box-shadow col-12" dense>
+          <q-markup-table class="no-box-shadow col-12" dense separator="none">
             <thead>
               <tr>
-                <th colspan="4">
-                  <div class="text-subtitle1 text-bold flex content-center items-center">
-                    <q-icon
-                      name="o_info"
-                      class="cursor-pointer q-mr-xs"
-                      color="orange-8"
-                      size="22px"
-                    >
-                      <q-tooltip class="bg-white q-pa-none text-dark">
-                        <Information
-                          class="full-width q-pa-sm"
-                          content="Yapılan transactionlarda transaction code bilgisinde ki isDaily olanı seçili olan transaction codelara göre açılıi ve kapanış değerlerini verir."
-                        />
-                      </q-tooltip>
-                    </q-icon>
-                    DAILY TRANSACTION FIGURES
-                  </div>
-                </th>
-                <th colspan="5" class="text-right">
-                  <div class="text-subtitle1 text-bold text-deep-orange-10">
-                    Movement:
-                    {{ priceAbsFormatted(balanceReport?.dailyTransactionFigures?.totalNet) }}
+                <th colspan="5">
+                  <div class="text-subtitle1 text-underline flex content-center items-center">
+                    - DAILY TRANSACTION FIGURES -
                   </div>
                 </th>
               </tr>
 
               <tr>
-                <th class="text-center text-underline borderLeft">Transaction</th>
-                <th class="text-center text-underline borderLeft">Count</th>
-                <th class="text-center text-underline borderLeft">Received</th>
-                <th class="text-center text-underline borderLeft">Paid</th>
-                <th class="text-center text-underline borderLeft">Net</th>
+                <th class="text-center text-underline">Transaction</th>
+                <th class="text-center text-underline">Count</th>
+                <th class="text-center text-underline">Received</th>
+                <th class="text-center text-underline">Paid</th>
+                <th class="text-center text-underline">Net</th>
               </tr>
             </thead>
             <tbody>
@@ -507,50 +645,29 @@ onMounted(async () => {
             </tbody>
           </q-markup-table>
         </div>
+
         <div class="row">
-          <div class="col-12">
-            <q-separator class="q-my-md" size="3px" />
-          </div>
-        </div>
-        <div class="row">
-          <q-markup-table class="no-box-shadow col-12" dense>
+          <q-markup-table class="no-box-shadow col-12" dense separator="none">
             <thead>
               <tr>
-                <th colspan="2">
-                  <div class="text-subtitle1 text-bold flex content-center items-center">
-                    <q-icon
-                      name="o_info"
-                      class="cursor-pointer q-mr-xs"
-                      color="orange-8"
-                      size="22px"
-                    >
-                      <q-tooltip class="bg-white q-pa-none text-dark">
-                        <Information
-                          class="full-width q-pa-sm"
-                          content="Transactionlada cashdesk transaction type değeri Rate Effect olan transactionların açılış ve kapanış değerlerini verir."
-                        />
-                      </q-tooltip>
-                    </q-icon>
-                    Cash Rate Change Report
+                <th colspan="4">
+                  <div
+                    class="text-subtitle1 text-underline text-bold flex content-center items-center"
+                  >
+                    - CHIP AND CASH RATE CHANGE REPORT -
                   </div>
-                </th>
-                <th colspan="2" class="text-right">
-                  <span class="q-ml-md text-bold text-subtitle1 text-deep-orange-10">
-                    Total Difference:
-                    {{ priceAbsFormatted(balanceReport.cashRateChanges?.difference) }}
-                  </span>
                 </th>
               </tr>
               <tr>
-                <th class="text-center">Account Name</th>
-                <th class="text-center">Opening</th>
-                <th class="text-center">Closing</th>
-                <th class="text-center">Difference</th>
+                <th class="text-center text-underline text-weight-medium">Account Name</th>
+                <th class="text-center text-underline text-weight-medium">Opening</th>
+                <th class="text-center text-underline text-weight-medium">Closing</th>
+                <th class="text-center text-underline text-weight-medium">Difference</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="text-center">Cash Values</td>
+                <td class="text-center">CASH VALUES</td>
                 <td class="text-center">
                   {{ priceAbsFormatted(balanceReport.cashRateChanges?.opening) }}
                 </td>
@@ -562,12 +679,24 @@ onMounted(async () => {
                 </td>
               </tr>
               <tr>
-                <td class="text-center text-bold borderTop">
-                  <div class="text-subtitle2 text-bold">Total Diffirence</div>
+                <td class="text-center">CHIP VALUES</td>
+                <td class="text-center">
+                  {{ priceAbsFormatted(balanceReport.cashRateChanges?.opening) }}
                 </td>
-                <td></td>
-                <td></td>
-                <td class="text-center text-bold borderTop">
+                <td class="text-center">
+                  {{ priceAbsFormatted(balanceReport.cashRateChanges?.closing) }}
+                </td>
+                <td class="text-center">
+                  {{ priceAbsFormatted(balanceReport.cashRateChanges?.difference) }}
+                </td>
+              </tr>
+              <tr>
+                <td class="borderTop"></td>
+                <td class="borderTop"></td>
+                <td class="text-center borderTop">
+                  <div class="text-subtitle2 text-bold">TOTAL</div>
+                </td>
+                <td class="text-center borderTop">
                   <div class="text-subtitle2 text-bold">
                     {{ priceAbsFormatted(balanceReport?.cashRateChanges?.difference) }}
                   </div>
@@ -576,47 +705,24 @@ onMounted(async () => {
             </tbody>
           </q-markup-table>
         </div>
+
         <div class="row">
-          <div class="col-12">
-            <q-separator class="q-my-md" size="3px" />
-          </div>
-        </div>
-        <div class="row">
-          <q-markup-table class="no-box-shadow col-12" dense>
+          <q-markup-table class="no-box-shadow col-12" dense separator="none">
             <thead>
               <tr>
-                <th colspan="3">
-                  <div class="text-subtitle1 text-bold flex content-center items-center">
-                    <q-icon
-                      name="o_info"
-                      class="cursor-pointer q-mr-xs"
-                      color="orange-8"
-                      size="22px"
-                    >
-                      <q-tooltip class="bg-white q-pa-none text-dark">
-                        <Information
-                          class="full-width q-pa-sm"
-                          content="Rate değişiminden kaynaklı oluşan transactionların  önceki ve sonraki rate bilgisini ve kasa balans bilgisini verir."
-                        />
-                      </q-tooltip>
-                    </q-icon>
-                    Daily Rate Change Report
+                <th colspan="6">
+                  <div class="text-subtitle1 text-underline flex content-center items-center">
+                    - DAILY RATE CHANGE REPORT (DETAILED)-
                   </div>
-                </th>
-                <th colspan="3" class="text-right">
-                  <span class="q-ml-md text-bold text-subtitle1 text-deep-orange-10">
-                    Total Profit:
-                    {{ priceAbsFormatted(balanceReport.dailyRateChangeReport?.totalDifference) }}
-                  </span>
                 </th>
               </tr>
               <tr>
-                <th class="text-center">Quantity</th>
-                <th class="text-center">Open Rate</th>
-                <th class="text-center">Current Rate</th>
-                <th class="text-center">Open Value</th>
-                <th class="text-center">Current Value</th>
-                <th class="text-center">Profit</th>
+                <th class="text-center text-underline text-weight-medium">Quantity</th>
+                <th class="text-center text-underline text-weight-medium">Open. Rate</th>
+                <th class="text-center text-underline text-weight-medium">Curr. Rate</th>
+                <th class="text-center text-underline text-weight-medium">Open. Value</th>
+                <th class="text-center text-underline text-weight-medium">Curr. Value</th>
+                <th class="text-center text-underline text-weight-medium">Profit</th>
               </tr>
             </thead>
             <tbody>
@@ -633,14 +739,15 @@ onMounted(async () => {
                 <td class="text-center">{{ priceAbsFormatted(0) }}</td>
               </tr>
               <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="borderTop"></td>
+                <td class="borderTop"></td>
+                <td class="borderTop"></td>
+                <td class="borderTop"></td>
+                <td class="borderTop">
+                  <div class="text-subtitle2 text-bold">TOTAL PROFIT</div>
+                </td>
                 <td class="text-center text-bold borderTop">
                   <div class="text-subtitle2 text-bold">
-                    Total Profit
                     {{
                       priceAbsFormatted(
                         balanceReport?.cumulativeReportTransactionFigures?.totalOpeningValue,
@@ -652,48 +759,26 @@ onMounted(async () => {
             </tbody>
           </q-markup-table>
         </div>
+
         <div class="row">
-          <div class="col-12">
-            <q-separator class="q-my-md" size="3px" />
-          </div>
-        </div>
-        <div class="row">
-          <q-markup-table class="no-box-shadow col-12" dense>
+          <q-markup-table class="no-box-shadow col-12" dense separator="none">
             <thead>
               <tr>
-                <th colspan="4">
-                  <div class="text-subtitle1 text-bold flex content-center items-center">
-                    <q-icon
-                      name="o_info"
-                      class="cursor-pointer q-mr-xs"
-                      color="orange-8"
-                      size="22px"
-                    >
-                      <q-tooltip class="bg-white q-pa-none text-dark">
-                        <Information
-                          class="full-width q-pa-sm"
-                          content="Kasalar arası yapılan transactionların listesini verir."
-                        />
-                      </q-tooltip>
-                    </q-icon>
-                    Internal Transfers
+                <th colspan="8">
+                  <div class="text-subtitle1 text-underline flex content-center items-center">
+                    - INTERNAL TRANSFERS -
                   </div>
-                </th>
-                <th colspan="4" class="text-right">
-                  <span class="q-ml-md text-bold text-subtitle1 text-deep-orange-10">
-                    Movement: 0
-                  </span>
                 </th>
               </tr>
               <tr>
-                <th class="text-center">Transaction Id</th>
-                <th class="text-center">From Cashdesk</th>
-                <th class="text-center">To Cashdesk</th>
-                <th class="text-center">Amount</th>
-                <th class="text-center">Currency Name</th>
-                <th class="text-center">Creation Time</th>
-                <th class="text-center">Received</th>
-                <th class="text-center">Paid</th>
+                <th class="text-center text-underline text-weight-medium">Trans ID</th>
+                <th class="text-center text-underline text-weight-medium">From</th>
+                <th class="text-center text-underline text-weight-medium">To</th>
+                <th class="text-center text-underline text-weight-medium">Amount</th>
+                <th class="text-center text-underline text-weight-medium">Currency</th>
+                <th class="text-center text-underline text-weight-medium">Date - Time</th>
+                <th class="text-center text-underline text-weight-medium">Received</th>
+                <th class="text-center text-underline text-weight-medium">Paid</th>
               </tr>
             </thead>
             <tbody>
@@ -739,47 +824,33 @@ onMounted(async () => {
             </tbody>
           </q-markup-table>
         </div>
+
         <div class="row">
           <div class="col-12">
-            <q-separator class="q-my-md" size="3px" />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <div class="text-subtitle1 text-bold flex content-center items-center q-pl-md">
-              <q-icon name="o_info" class="cursor-pointer q-mr-xs" color="orange-8" size="22px">
-                <q-tooltip class="bg-white q-pa-none text-dark">
-                  <Information
-                    class="full-width q-pa-sm"
-                    content="Slot tarafında açılış ve kapanış değerlerini  bill,ticket,cashless bilgisine göre gruplu olarak verir."
-                  />
-                </q-tooltip>
-              </q-icon>
-              Slot Revenues
+            <div class="text-subtitle1 text-underline flex content-center items-center q-pl-md">
+              - SLOT REVENUES -
             </div>
           </div>
-          <div class="col-6 text-right flex items-end content-end justify-end">
-            <span class="q-ml-md text-bold text-subtitle1 text-deep-orange-10">
-              {{ getDefaultCurrencyName }}
-              <span class="q-mr-xs">Net :</span>
-              {{ priceAbsFormatted(balanceReport?.slotRevenues?.net) }}
-            </span>
-          </div>
-          <div class="col-4 q-pa-xs">
+
+          <div class="col-5 q-pa-xs">
             <q-markup-table class="no-box-shadow col-12" dense>
               <thead>
                 <tr>
                   <th class="text-center q-card--bordered" colspan="6">
-                    <div class="text-subtitle1">Open Credit</div>
+                    <div class="text-underline">Slot In</div>
                   </th>
                 </tr>
                 <tr>
-                  <th class="text-center" colspan="2">BillIn</th>
-                  <th class="text-center" colspan="2">TicketIn</th>
-                  <th class="text-center" colspan="2">CashlessIn</th>
+                  <th class="text-center text-underline text-weight-medium" colspan="2">Bill In</th>
+                  <th class="text-center text-underline text-weight-medium" colspan="2">
+                    Ticket In
+                  </th>
+                  <th class="text-center text-underline text-weight-medium" colspan="2">
+                    Cashless In
+                  </th>
                 </tr>
                 <tr>
-                  <th class="text-center">BillIn</th>
+                  <th class="text-center text-underline text-weight-medium">BillIn</th>
                   <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
                   <th class="text-center">TicketIn</th>
                   <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
@@ -810,9 +881,9 @@ onMounted(async () => {
                   </td>
                 </tr>
                 <tr>
-                  <td class="text-right text-bold borderTop" colspan="6">
-                    <div class="text-subtitle2 text-bold">
-                      <span class="q-mr-md">{{ getDefaultCurrencyName }} Total</span>
+                  <td class="text-right borderTop" colspan="6">
+                    <div class="text-subtitle2">
+                      <span class="q-mr-md">Total</span>
                       {{ priceAbsFormatted(balanceReport?.slotRevenues?.slotInTotal) }}
                     </div>
                   </td>
@@ -820,36 +891,38 @@ onMounted(async () => {
               </tbody>
             </q-markup-table>
           </div>
-          <div class="col-8 q-pa-xs">
+          <div class="col-7 q-pa-xs">
             <q-markup-table class="no-box-shadow col-12" dense>
               <thead>
                 <tr>
                   <th class="text-center" colspan="8">
-                    <div class="text-subtitle1">Closing Credit</div>
+                    <div class="text-underline">Slot Out</div>
                   </th>
                 </tr>
                 <tr>
-                  <th class="text-center" colspan="2">
-                    <div class="text-subtitle2">TicketOut</div>
+                  <th class="text-center text-underline text-weight-medium" colspan="2">
+                    Ticket Out
                   </th>
-                  <th class="text-center" colspan="2">
-                    <div class="text-subtitle2">CashlessOut</div>
+                  <th class="text-center text-underline text-weight-medium" colspan="2">
+                    Cashless Out
                   </th>
-                  <th class="text-center" colspan="2">
-                    <div class="text-subtitle2">HandpayTicketOut</div>
+                  <th class="text-center text-underline text-weight-medium" colspan="2">
+                    Handpay Ticket Out
                   </th>
-                  <th class="text-center" colspan="2">
-                    <div class="text-subtitle2">HandpayCashlessOut</div>
+                  <th class="text-center text-underline text-weight-medium" colspan="2">
+                    Handpay Cashless Out
                   </th>
                 </tr>
                 <tr>
-                  <th class="text-center">TicketOut</th>
+                  <th class="text-center">Ticket</th>
+                  <th class="text-center">
+                    Value <span class="text-xs">{{ getDefaultCurrencyName }}</span>
+                  </th>
+                  <th class="text-center">Cashless</th>
                   <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
-                  <th class="text-center">CashlessOut</th>
+                  <th class="text-center">HandpayTicket</th>
                   <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
-                  <th class="text-center">HandpayTicketOut</th>
-                  <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
-                  <th class="text-center">HandpayCashlessOut</th>
+                  <th class="text-center">HandpayCashless</th>
                   <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
                 </tr>
               </thead>
@@ -880,19 +953,18 @@ onMounted(async () => {
                     {{ priceAbsFormatted(item?.handpayCashlessOutBySelectedCurrency) }}
                   </td>
                 </tr>
+
                 <tr>
-                  <td class="text-right text-bold" colspan="8">
-                    <div class="flex justify-end">
-                      <div class="text-subtitle text-bold2">
-                        {{ getDefaultCurrencyName }}
-                        <span class="q-mr-md">Total </span
-                        >{{ priceAbsFormatted(balanceReport?.slotRevenues?.slotOutTotal) }}
-                      </div>
-                      <div class="text-subtitle text-bold2 q-ml-md">
-                        {{ getDefaultCurrencyName }}
-                        <span class="q-mr-md">Net </span
-                        >{{ priceAbsFormatted(balanceReport?.slotRevenues?.net) }}
-                      </div>
+                  <td class="text-right borderTop" colspan="6">
+                    <div class="text-subtitle2">
+                      <span class="q-mr-md">Total</span>
+                      {{ priceAbsFormatted(balanceReport?.slotRevenues?.slotOutTotal) }}
+                    </div>
+                  </td>
+                  <td class="text-right borderTop" colspan="2">
+                    <div class="text-subtitle2">
+                      <span class="q-mr-md text-negative">Net</span>
+                      {{ priceAbsFormatted(balanceReport?.slotRevenues?.net) }}
                     </div>
                   </td>
                 </tr>
@@ -901,23 +973,154 @@ onMounted(async () => {
           </div>
         </div>
         <div class="row">
-          <div class="col-12">
-            <q-separator class="q-my-md" size="3px" />
-          </div>
+          <q-markup-table class="no-box-shadow col-12" dense separator="none">
+            <thead>
+              <tr>
+                <th colspan="7">
+                  <div class="text-subtitle1 text-underline flex content-center items-center">
+                    - LG TABLES -
+                  </div>
+                </th>
+              </tr>
+              <tr>
+                <th class="text-center text-underline text-weight-medium">Table Name</th>
+                <th class="text-center text-underline text-weight-medium">In Terim Credit</th>
+                <th class="text-center text-underline text-weight-medium">In Terim Fill</th>
+                <th class="text-center text-underline text-weight-medium">Total Credit</th>
+                <th class="text-center text-underline text-weight-medium">Total Drop</th>
+                <th class="text-center text-underline text-weight-medium">Total Fill</th>
+                <th class="text-center text-underline text-weight-medium">Total Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in balanceReport?.lgTables?.data" :key="index">
+                <td class="text-center">{{ item?.tableName }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.inTerimCredit) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.inTerimFill) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.totalCredit) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.totalDrop) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.totalFill) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.totalResult) }}</td>
+              </tr>
+              <tr>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold">Total Value</div>
+                </td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold">
+                    {{ priceAbsFormatted(balanceReport?.lgTables?.totalInTerimCredit) }}
+                  </div>
+                </td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold">
+                    {{ priceAbsFormatted(balanceReport?.lgTables?.totalInTerimFill) }}
+                  </div>
+                </td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle text-bold2">
+                    {{ priceAbsFormatted(balanceReport?.lgTables?.totalCredit) }}
+                  </div>
+                </td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold">
+                    {{ priceAbsFormatted(balanceReport?.lgTables?.totalDrop) }}
+                  </div>
+                </td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold">
+                    {{ priceAbsFormatted(balanceReport?.lgTables?.totalFill) }}
+                  </div>
+                </td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold">
+                    {{ priceAbsFormatted(balanceReport?.lgTables?.totalResult) }}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </q-markup-table>
         </div>
         <div class="row">
-          <div class="col-6 q-pa-md">
-            <div class="text-subtitle1 text-bold text-center">
-              Exchange Rates (Day Date)
-              <q-separator />
+          <q-markup-table class="no-box-shadow col-12" dense separator="none">
+            <thead>
+              <tr>
+                <th colspan="7">
+                  <div class="text-subtitle1 text-underline flex content-center items-center">
+                    - LG GAMES -
+                  </div>
+                </th>
+              </tr>
+              <tr>
+                <th class="text-center text-underline text-weight-medium">Game Name</th>
+                <th class="text-center text-underline text-weight-medium">In Terim Credit</th>
+                <th class="text-center text-underline text-weight-medium">In Terim Fill</th>
+                <th class="text-center text-underline text-weight-medium">Total Credit</th>
+                <th class="text-center text-underline text-weight-medium">Total Drop</th>
+                <th class="text-center text-underline text-weight-medium">Total Fill</th>
+                <th class="text-center text-underline text-weight-medium">Total Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in balanceReport?.lgGames?.data" :key="index">
+                <td class="text-center">{{ item?.gameName }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.inTerimCredit) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.inTerimFill) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.totalCredit) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.totalDrop) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.totalFill) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.totalResult) }}</td>
+              </tr>
+              <tr>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold">Total Value</div>
+                </td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold">
+                    {{ priceAbsFormatted(balanceReport?.lgGames?.totalInTerimCredit) }}
+                  </div>
+                </td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold">
+                    {{ priceAbsFormatted(balanceReport?.lgGames?.totalInTerimFill) }}
+                  </div>
+                </td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle text-bold2">
+                    {{ priceAbsFormatted(balanceReport?.lgGames?.totalCredit) }}
+                  </div>
+                </td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold">
+                    {{ priceAbsFormatted(balanceReport?.lgGames?.totalDrop) }}
+                  </div>
+                </td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold">
+                    {{ priceAbsFormatted(balanceReport?.lgGames?.totalFill) }}
+                  </div>
+                </td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold">
+                    {{ priceAbsFormatted(balanceReport?.lgGames?.totalResult) }}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </q-markup-table>
+        </div>
+
+        <div class="row">
+          <div class="col-6 q-pa-sm">
+            <div class="text-subtitle1 text-underline text-center">
+              - EXCHANGE RATES (DAY DATE) -
             </div>
 
-            <q-markup-table class="no-box-shadow col-12" dense>
+            <q-markup-table class="no-box-shadow col-12" dense separator="none">
               <thead>
                 <tr>
-                  <th class="text-center">Currency</th>
-                  <th class="text-center">To Currency</th>
-                  <th class="text-center">Exchange Rate</th>
+                  <th class="text-center text-underline text-weight-medium">Currency</th>
+                  <th class="text-center text-underline text-weight-medium">To Currency</th>
+                  <th class="text-center text-underline text-weight-medium">Exchange Rate</th>
                 </tr>
               </thead>
               <tbody>
@@ -929,17 +1132,16 @@ onMounted(async () => {
               </tbody>
             </q-markup-table>
           </div>
-          <div class="col-6 q-pa-md">
-            <div class="text-subtitle1 text-bold text-center">
-              Exchange Rates (Balance Date)
-              <q-separator />
+          <div class="col-6 q-pa-sm">
+            <div class="text-subtitle1 text-underline text-center">
+              - EXCHANGE RATES (BALANCE DATE) -
             </div>
-            <q-markup-table class="no-box-shadow col-12" dense>
+            <q-markup-table class="no-box-shadow col-12" dense separator="none">
               <thead>
                 <tr>
-                  <th class="text-center">Currency</th>
-                  <th class="text-center">To Currency</th>
-                  <th class="text-center">Exchange Rate</th>
+                  <th class="text-center text-underline text-weight-medium">Currency</th>
+                  <th class="text-center text-underline text-weight-medium">To Currency</th>
+                  <th class="text-center text-underline text-weight-medium">Exchange Rate</th>
                 </tr>
               </thead>
               <tbody>
@@ -952,18 +1154,14 @@ onMounted(async () => {
             </q-markup-table>
           </div>
         </div>
-        <div class="row">
-          <div class="col-12">
-            <q-separator class="q-my-md" size="3px" />
-          </div>
-        </div>
-        <div class="row">
+
+        <div class="row q-pa-sm">
           <q-table
             :columns="transactionLogsTableColumn"
             :rows="balanceReport?.transactionLogs || []"
             row-key="id"
             dense
-            class="no-box-shadow col-12"
+            class="no-box-shadow col-12 sticky-header"
             :rows-per-page-options="[0]"
             hide-bottom
             :filter="transactionLogsTableFilter"
@@ -973,21 +1171,47 @@ onMounted(async () => {
             <template v-slot:top>
               <div class="row full-width">
                 <div class="col-8">
-                  <div class="text-subtitle1 text-bold flex content-center items-center">
-                    <q-icon
-                      name="o_info"
-                      class="cursor-pointer q-mr-xs"
-                      color="orange-8"
-                      size="22px"
-                    >
-                      <q-tooltip class="bg-white q-pa-none text-dark">
-                        <Information
-                          class="full-width q-pa-sm"
-                          content="Kasalardan yapılan tranaction listesini verir."
-                        />
-                      </q-tooltip>
-                    </q-icon>
-                    Transaction Logs
+                  <div class="text-subtitle1 text-underline flex content-center items-center">
+                    - TRANSACTION LOGS -
+                  </div>
+                </div>
+                <div class="col-4 float-right">
+                  <q-input
+                    clearable
+                    v-model="transactionLogsTableFilter"
+                    label="Search"
+                    dense
+                    outlined
+                    class="super-small"
+                  >
+                    <template v-slot:prepend>
+                      <q-icon name="search" />
+                    </template>
+                  </q-input>
+                </div>
+              </div>
+            </template>
+          </q-table>
+        </div>
+
+        <div class="row q-pa-sm">
+          <q-table
+            :columns="deletedTransactionLogsTableColumn"
+            :rows="balanceReport?.deletedTransactionsLogs || []"
+            row-key="id"
+            dense
+            class="no-box-shadow col-12 sticky-header"
+            :rows-per-page-options="[0]"
+            hide-bottom
+            :filter="deletedTransactionLogsTableFilter"
+            virtual-scroll
+            style="height: 400px"
+          >
+            <template v-slot:top>
+              <div class="row full-width">
+                <div class="col-8">
+                  <div class="text-subtitle1 text-underline flex content-center items-center">
+                    - DELETED TRANSACTION LOGS -
                   </div>
                 </div>
                 <div class="col-4 float-right">
@@ -1013,163 +1237,7 @@ onMounted(async () => {
             <q-separator class="q-my-md" size="3px" />
           </div>
         </div>
-
-        <div class="row">
-          <q-markup-table class="no-box-shadow col-12" dense>
-            <thead>
-              <tr>
-                <th colspan="3" class="text-left">
-                  <div class="text-subtitle1 text-capitalize flex content-center items-center">
-                    <q-icon
-                      name="o_info"
-                      class="cursor-pointer q-mr-xs"
-                      color="orange-8"
-                      size="22px"
-                    >
-                      <q-tooltip class="bg-white q-pa-none text-dark">
-                        <Information
-                          class="full-width q-pa-sm"
-                          content="Bir önceki gün kapanışı ve seçili olan tarihreki transactionlardan açılış kapanış ve sonuç bilgisini verir."
-                        />
-                      </q-tooltip>
-                    </q-icon>
-                    <span class="text-underline">- CHIP FIGURES -</span>
-                  </div>
-                </th>
-                <th colspan="4" class="text-right">
-                  <span class="q-ml-md text-bold text-subtitle1 text-deep-orange-10">
-                    Movement:
-                    {{ priceAbsFormatted(balanceReport?.chipFigures?.totalMovementValue) }}
-                  </span>
-                </th>
-              </tr>
-              <tr>
-                <th></th>
-                <th class="text-center" colspan="2">
-                  <div class="text-subtitle2">Opening</div>
-                </th>
-                <th class="text-center" colspan="2">
-                  <div class="text-subtitle2">Closing</div>
-                </th>
-                <th class="text-center" colspan="2">
-                  <div class="text-subtitle2">Movement</div>
-                </th>
-              </tr>
-              <tr>
-                <th class="text-center text-underline">
-                  <div class="text-subtitle2 text-underline">Denominations</div>
-                </th>
-                <th class="text-center">
-                  <div class="text-subtitle2 text-underline">Quantity</div>
-                </th>
-                <th class="text-center">
-                  <div class="text-subtitle2 text-underline">Value</div>
-                </th>
-                <th class="text-center">
-                  <div class="text-subtitle2 text-underline">Quantity</div>
-                </th>
-                <th class="text-center">
-                  <div class="text-subtitle2 text-underline">Value</div>
-                </th>
-                <th class="text-center">
-                  <div class="text-subtitle2 text-underline">Quantity</div>
-                </th>
-                <th class="text-center">
-                  <div class="text-subtitle2 text-underline">Value</div>
-                </th>
-              </tr>
-            </thead>
-            <tbody
-              v-for="(chipFigure, chipFigureIndex) in balanceReport?.chipFigures?.chipFigures"
-              :key="chipFigureIndex"
-              :class="{
-                'my-2': chipFigureIndex > 0,
-                'border-top': chipFigureIndex > 0,
-              }"
-            >
-              <tr>
-                <td class="text-center text-bold borderTop">
-                  <div class="text-subtitle2 text-underline">
-                    <span class="q-px-md">{{ chipFigure?.currencyName }}</span
-                    >{{ chipFigure?.chipName }}
-                  </div>
-                </td>
-                <td class="text-center text-bold borderTop" colspan="6"></td>
-              </tr>
-              <tr v-for="(item, index) in chipFigure?.chipFigureDetails" :key="index">
-                <td class="text-center">{{ item?.chipDenomValue }}</td>
-
-                <td class="text-center borderLeft">
-                  {{ priceAbsFormatted(item?.quantity) }}
-                </td>
-                <td class="text-center">
-                  {{ priceAbsFormatted(item?.selectedCurrencyOpeningValue) }}
-                </td>
-
-                <td class="text-center borderLeft">
-                  {{ priceAbsFormatted(item?.quantity) }}
-                </td>
-                <td class="text-center">
-                  {{ priceAbsFormatted(item?.selectedCurrencyClosingValue) }}
-                </td>
-
-                <td class="text-center borderLeft">
-                  {{ priceAbsFormatted(item?.quantity) }}
-                </td>
-                <td class="text-center">
-                  {{ priceAbsFormatted(item?.selectedCurrencyMovementValue) }}
-                </td>
-              </tr>
-              <tr>
-                <td class="text-center text-bold borderTop">
-                  <div class="text-subtitle2 text-bold text-grey-9">Total</div>
-                </td>
-                <td class="text-right text-bold borderTop" colspan="2">
-                  <div class="text-subtitle2 text-bold text-grey-9 q-mr-md">
-                    {{ priceAbsFormatted(chipFigure?.totalOpeningValue) }}
-                  </div>
-                </td>
-                <td class="text-right text-bold borderTop" colspan="2">
-                  <div class="text-subtitle2 text-bold text-grey-9 q-mr-md">
-                    {{ priceAbsFormatted(chipFigure.totalClosingValue) }}
-                  </div>
-                </td>
-                <td class="text-right text-bold borderTop" colspan="2">
-                  <div class="text-subtitle text-bold2 text-grey-9 q-mr-md">
-                    {{ priceAbsFormatted(chipFigure.totalMovementValue) }}
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td class="text-center text-bold borderTop">TOTAL CHIPS</td>
-                <td class="text-right text-bold borderTop" colspan="2">
-                  <div class="text-subtitle2 text-bold q-mr-md">
-                    {{ priceAbsFormatted(balanceReport?.chipFigures?.totalOpeningValue) }}
-                  </div>
-                </td>
-                <td class="text-right text-bold borderTop" colspan="2">
-                  <div class="text-subtitle2 text-bold q-mr-md">
-                    {{ priceAbsFormatted(balanceReport?.chipFigures?.totalClosingValue) }}
-                  </div>
-                </td>
-                <td class="text-right text-bold borderTop" colspan="2">
-                  <div class="text-subtitle2 text-bold q-mr-md">
-                    {{ priceAbsFormatted(balanceReport?.chipFigures?.totalMovementValue) }}
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </q-markup-table>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <q-separator class="q-my-md" size="3px" />
-          </div>
-        </div>
-        <q-card-section>
+        <q-card-section class="bg-white">
           <div class="row text-center flex justify-center">
             <div class="text-h6 col-12 text-bold text-negative">-- Summary Figures --</div>
             <q-list style="width: 700px">
@@ -1342,7 +1410,7 @@ onMounted(async () => {
   </q-page>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .q-item {
   min-height: 30px !important;
   padding: 2px !important;
@@ -1351,9 +1419,35 @@ onMounted(async () => {
   border-left: 1px solid #e0e0e0;
 }
 .borderTop {
-  border-top: 1px solid #e0e0e0;
+  border-top: 2px solid #e0e0e0 !important;
 }
 .text-underline {
   text-decoration: underline;
+}
+
+.sticky-header {
+  .q-table__top {
+    background-color: #ffffff !important;
+  }
+  .q-table__top,
+  thead tr:first-child th {
+    background-color: $grey-2;
+    height: 35px !important;
+  }
+  thead tr th {
+    position: sticky;
+    z-index: 1;
+  }
+  thead tr:first-child th {
+    top: 0;
+  }
+
+  &.q-table--loading thead tr:last-child th {
+    top: 48px;
+  }
+
+  tbody {
+    scroll-margin-top: 48px;
+  }
 }
 </style>
