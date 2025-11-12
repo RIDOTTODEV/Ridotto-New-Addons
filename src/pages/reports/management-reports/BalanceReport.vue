@@ -333,30 +333,36 @@ onMounted(async () => {
               <tr>
                 <th></th>
                 <th class="text-center" colspan="2">
-                  <div class="text-weight-medium text-underline">OPENING</div>
+                  <div class="text-subtitle2 text-underline">OPENING</div>
                 </th>
                 <th class="text-center" colspan="2">
-                  <div class="text-weight-medium text-underline">CLOSING</div>
+                  <div class="text-subtitle2 text-underline">CLOSING</div>
                 </th>
                 <th class="text-center" colspan="2">
-                  <div class="text-weight-medium text-underline">MOVEMENT</div>
+                  <div class="text-subtitle2 text-underline">MOVEMENT</div>
                 </th>
               </tr>
               <tr>
-                <th class="text-center">Currency</th>
-                <th class="text-center borderLeft">Quantity</th>
-                <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
-                <th class="text-center borderLeft">Quantity</th>
-                <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
-                <th class="text-center borderLeft">Quantity</th>
-                <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
+                <th class="text-center"><div class="text-body2">Currency</div></th>
+                <th class="text-center"><div class="text-body2">Quantity</div></th>
+                <th class="text-center">
+                  <div class="text-body2">{{ getDefaultCurrencyName }} Value</div>
+                </th>
+                <th class="text-center"><div class="text-body2">Quantity</div></th>
+                <th class="text-center">
+                  <div class="text-body2">{{ getDefaultCurrencyName }} Value</div>
+                </th>
+                <th class="text-center"><div class="text-body2">Quantity</div></th>
+                <th class="text-center">
+                  <div class="text-body2">{{ getDefaultCurrencyName }} Value</div>
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, index) in balanceReport?.cashFigures?.cashFigures" :key="index">
                 <td class="text-center">{{ item?.currencyName }}</td>
 
-                <td class="text-center borderLeft">
+                <td class="text-center">
                   {{ priceAbsFormatted(item?.opening) }}
                   {{ currencyStore.getCurrencyById(item?.currencyId).symbol }}
                 </td>
@@ -365,7 +371,7 @@ onMounted(async () => {
                   {{ currencyStore.getCurrencyById(getDefaultCurrencyId).symbol }}
                 </td>
 
-                <td class="text-center borderLeft">
+                <td class="text-center">
                   {{ priceAbsFormatted(item?.closing) }}
                   {{ currencyStore.getCurrencyById(item?.currencyId).symbol }}
                 </td>
@@ -374,7 +380,7 @@ onMounted(async () => {
                   {{ currencyStore.getCurrencyById(getDefaultCurrencyId).symbol }}
                 </td>
 
-                <td class="text-center borderLeft">
+                <td class="text-center">
                   {{ priceAbsFormatted(item?.movement) }}
                   {{ currencyStore.getCurrencyById(item?.currencyId).symbol }}
                 </td>
@@ -423,23 +429,25 @@ onMounted(async () => {
               <tr>
                 <th></th>
                 <th class="text-center" colspan="2">
-                  <div class="text-weight-medium text-underline">OPENING</div>
+                  <div class="text-subtitle2 text-underline">OPENING</div>
                 </th>
                 <th class="text-center" colspan="2">
-                  <div class="text-weight-medium text-underline">CLOSING</div>
+                  <div class="text-subtitle2 text-underline">CLOSING</div>
                 </th>
                 <th class="text-center" colspan="2">
-                  <div class="text-weight-medium text-underline">MOVEMENT</div>
+                  <div class="text-subtitle2 text-underline">MOVEMENT</div>
                 </th>
               </tr>
               <tr>
-                <th class="text-center text-underline">Denominations</th>
-                <th class="text-center text-underline">Quantity</th>
-                <th class="text-center text-underline">Value</th>
-                <th class="text-center text-underline">Quantity</th>
-                <th class="text-center text-underline">Value</th>
-                <th class="text-center text-underline">Quantity</th>
-                <th class="text-center text-underline">Value</th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">Denominations</div>
+                </th>
+                <th class="text-center text-underline"><div class="text-body2">Quantity</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Value</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Quantity</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Value</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Quantity</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Value</div></th>
               </tr>
             </thead>
             <tbody
@@ -448,7 +456,7 @@ onMounted(async () => {
             >
               <tr>
                 <td class="text-center text-bold">
-                  <div class="text-weight-medium text-underline">
+                  <div class="text-subtitle2 text-underline">
                     <span class="q-px-md">{{ chipFigure?.currencyName }}</span
                     >{{ chipFigure?.chipName }}
                   </div>
@@ -483,38 +491,44 @@ onMounted(async () => {
                 <td class="text-center text-bold borderTop">
                   <div class="text-subtitle2 text-bold">TOTAL</div>
                 </td>
-                <td class="text-right text-bold borderTop" colspan="2">
-                  <div class="text-subtitle2 text-bold text-grey-9">
+                <td class="text-center text-bold borderTop"></td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold text-grey-9 q-px-md">
                     {{ priceAbsFormatted(chipFigure?.totalOpeningValue) }}
                   </div>
                 </td>
-                <td class="text-right text-bold borderTop" colspan="2">
-                  <div class="text-subtitle2 text-bold text-grey-9 q-mr-md">
+                <td class="text-center text-bold borderTop"></td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold text-grey-9 q-px-md">
                     {{ priceAbsFormatted(chipFigure.totalClosingValue) }}
                   </div>
                 </td>
-                <td class="text-right text-bold borderTop" colspan="2">
-                  <div class="text-subtitle text-bold2 text-grey-9 q-mr-md">
+                <td class="text-center text-bold borderTop"></td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle text-bold2 text-grey-9 q-px-md">
                     {{ priceAbsFormatted(chipFigure.totalMovementValue) }}
                   </div>
                 </td>
               </tr>
             </tbody>
             <tbody>
-              <tr>
-                <td class="text-center text-bold">TOTAL CHIPS</td>
-                <td class="text-right text-bold" colspan="2">
+              <tr class="bg-grey-1">
+                <td class="text-center text-bold borderTop">TOTAL CHIPS</td>
+                <td class="text-center text-bold borderTop"></td>
+                <td class="text-center text-bold borderTop">
                   <div class="text-subtitle2 text-bold">
                     {{ priceAbsFormatted(balanceReport?.chipFigures?.totalOpeningValue) }}
                   </div>
                 </td>
-                <td class="text-right text-bold" colspan="2">
-                  <div class="text-subtitle2 text-bold">
+                <td class="text-center text-bold borderTop"></td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold q-px-md">
                     {{ priceAbsFormatted(balanceReport?.chipFigures?.totalClosingValue) }}
                   </div>
                 </td>
-                <td class="text-right text-bold" colspan="2">
-                  <div class="text-subtitle2 text-bold">
+                <td class="text-center text-bold borderTop"></td>
+                <td class="text-center text-bold borderTop">
+                  <div class="text-subtitle2 text-bold q-px-md">
                     {{ priceAbsFormatted(balanceReport?.chipFigures?.totalMovementValue) }}
                   </div>
                 </td>
@@ -534,10 +548,12 @@ onMounted(async () => {
                 </th>
               </tr>
               <tr>
-                <th class="text-center text-underline text-weight-medium">Transaction Code</th>
-                <th class="text-center text-underline text-weight-medium">Opening</th>
-                <th class="text-center text-underline text-weight-medium">Closing</th>
-                <th class="text-center text-underline text-weight-medium">Movement</th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">Transaction Code</div>
+                </th>
+                <th class="text-center text-underline"><div class="text-body2">Opening</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Closing</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Movement</div></th>
               </tr>
             </thead>
             <tbody>
@@ -598,11 +614,13 @@ onMounted(async () => {
               </tr>
 
               <tr>
-                <th class="text-center text-underline">Transaction</th>
-                <th class="text-center text-underline">Count</th>
-                <th class="text-center text-underline">Received</th>
-                <th class="text-center text-underline">Paid</th>
-                <th class="text-center text-underline">Net</th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">Transaction</div>
+                </th>
+                <th class="text-center text-underline"><div class="text-body2">Count</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Received</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Paid</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Net</div></th>
               </tr>
             </thead>
             <tbody>
@@ -611,11 +629,11 @@ onMounted(async () => {
                   ?.dailyTransactionFigureDetails"
                 :key="index"
               >
-                <td class="text-center borderLeft">{{ item?.transactionCodeName }}</td>
-                <td class="text-center borderLeft">{{ item?.count }}</td>
-                <td class="text-center borderLeft">{{ item?.received }}</td>
-                <td class="text-center borderLeft">{{ item?.paid }}</td>
-                <td class="text-center borderLeft">{{ item?.net }}</td>
+                <td class="text-center">{{ item?.transactionCodeName }}</td>
+                <td class="text-center">{{ item?.count }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.received) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.paid) }}</td>
+                <td class="text-center">{{ priceAbsFormatted(item?.net) }}</td>
               </tr>
               <tr>
                 <td class="text-center text-bold borderTop">
@@ -659,10 +677,12 @@ onMounted(async () => {
                 </th>
               </tr>
               <tr>
-                <th class="text-center text-underline text-weight-medium">Account Name</th>
-                <th class="text-center text-underline text-weight-medium">Opening</th>
-                <th class="text-center text-underline text-weight-medium">Closing</th>
-                <th class="text-center text-underline text-weight-medium">Difference</th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">Account Name</div>
+                </th>
+                <th class="text-center text-underline"><div class="text-body2">Opening</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Closing</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Difference</div></th>
               </tr>
             </thead>
             <tbody>
@@ -717,12 +737,16 @@ onMounted(async () => {
                 </th>
               </tr>
               <tr>
-                <th class="text-center text-underline text-weight-medium">Quantity</th>
-                <th class="text-center text-underline text-weight-medium">Open. Rate</th>
-                <th class="text-center text-underline text-weight-medium">Curr. Rate</th>
-                <th class="text-center text-underline text-weight-medium">Open. Value</th>
-                <th class="text-center text-underline text-weight-medium">Curr. Value</th>
-                <th class="text-center text-underline text-weight-medium">Profit</th>
+                <th class="text-center text-underline"><div class="text-body2">Quantity</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Open. Rate</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Curr. Rate</div></th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">Open. Value</div>
+                </th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">Curr. Value</div>
+                </th>
+                <th class="text-center text-underline"><div class="text-body2">Profit</div></th>
               </tr>
             </thead>
             <tbody>
@@ -771,14 +795,16 @@ onMounted(async () => {
                 </th>
               </tr>
               <tr>
-                <th class="text-center text-underline text-weight-medium">Trans ID</th>
-                <th class="text-center text-underline text-weight-medium">From</th>
-                <th class="text-center text-underline text-weight-medium">To</th>
-                <th class="text-center text-underline text-weight-medium">Amount</th>
-                <th class="text-center text-underline text-weight-medium">Currency</th>
-                <th class="text-center text-underline text-weight-medium">Date - Time</th>
-                <th class="text-center text-underline text-weight-medium">Received</th>
-                <th class="text-center text-underline text-weight-medium">Paid</th>
+                <th class="text-center text-underline"><div class="text-body2">Trans ID</div></th>
+                <th class="text-center text-underline"><div class="text-body2">From</div></th>
+                <th class="text-center text-underline"><div class="text-body2">To</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Amount</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Currency</div></th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">Date - Time</div>
+                </th>
+                <th class="text-center text-underline"><div class="text-body2">Received</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Paid</div></th>
               </tr>
             </thead>
             <tbody>
@@ -815,10 +841,10 @@ onMounted(async () => {
                   <div class="text-subtitle2 text-bold">Total</div>
                 </td>
                 <td class="text-center text-bold borderTop">
-                  <div class="text-subtitle2 text-bold">00.00</div>
+                  <div class="text-subtitle2 text-bold">{{ priceAbsFormatted(0) }}</div>
                 </td>
                 <td class="text-center text-bold borderTop">
-                  <div class="text-subtitle2 text-bold">00.00</div>
+                  <div class="text-subtitle2 text-bold">{{ priceAbsFormatted(0) }}</div>
                 </td>
               </tr>
             </tbody>
@@ -833,29 +859,39 @@ onMounted(async () => {
           </div>
 
           <div class="col-5 q-pa-xs">
-            <q-markup-table class="no-box-shadow col-12" dense>
+            <q-markup-table class="no-box-shadow col-12" dense separator="none">
               <thead>
                 <tr>
                   <th class="text-center q-card--bordered" colspan="6">
-                    <div class="text-underline">Slot In</div>
+                    <div class="text-underline text-subtitle1">Slot In</div>
                   </th>
                 </tr>
                 <tr>
-                  <th class="text-center text-underline text-weight-medium" colspan="2">Bill In</th>
-                  <th class="text-center text-underline text-weight-medium" colspan="2">
-                    Ticket In
+                  <th class="text-center text-underline" colspan="2">
+                    <div class="text-body2">Bill In</div>
                   </th>
-                  <th class="text-center text-underline text-weight-medium" colspan="2">
-                    Cashless In
+                  <th class="text-center text-underline" colspan="2">
+                    <div class="text-body2">Ticket In</div>
+                  </th>
+                  <th class="text-center text-underline" colspan="2">
+                    <div class="text-body2">Cashless In</div>
                   </th>
                 </tr>
                 <tr>
-                  <th class="text-center text-underline text-weight-medium">BillIn</th>
-                  <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
-                  <th class="text-center">TicketIn</th>
-                  <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
-                  <th class="text-center">CashlessIn</th>
-                  <th class="text-center">{{ getDefaultCurrencyName }} Value</th>
+                  <th class="text-center text-underline">
+                    <div class="text-body2">BillIn</div>
+                  </th>
+                  <th class="text-center">
+                    <div class="text-body2">{{ getDefaultCurrencyName }} Value</div>
+                  </th>
+                  <th class="text-center"><div class="text-body2">TicketIn</div></th>
+                  <th class="text-center">
+                    <div class="text-body2">{{ getDefaultCurrencyName }} Value</div>
+                  </th>
+                  <th class="text-center"><div class="text-body2">CashlessIn</div></th>
+                  <th class="text-center">
+                    <div class="text-body2">{{ getDefaultCurrencyName }} Value</div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -892,29 +928,29 @@ onMounted(async () => {
             </q-markup-table>
           </div>
           <div class="col-7 q-pa-xs">
-            <q-markup-table class="no-box-shadow col-12" dense>
+            <q-markup-table class="no-box-shadow col-12" dense separator="none">
               <thead>
                 <tr>
                   <th class="text-center" colspan="8">
-                    <div class="text-underline">Slot Out</div>
+                    <div class="text-underline text-subtitle1">Slot Out</div>
                   </th>
                 </tr>
                 <tr>
-                  <th class="text-center text-underline text-weight-medium" colspan="2">
-                    Ticket Out
+                  <th class="text-center text-underline" colspan="2">
+                    <div class="text-body2">Ticket Out</div>
                   </th>
-                  <th class="text-center text-underline text-weight-medium" colspan="2">
-                    Cashless Out
+                  <th class="text-center text-underline" colspan="2">
+                    <div class="text-body2">Cashless Out</div>
                   </th>
-                  <th class="text-center text-underline text-weight-medium" colspan="2">
-                    Handpay Ticket Out
+                  <th class="text-center text-underline" colspan="2">
+                    <div class="text-body2">Handpay Ticket Out</div>
                   </th>
-                  <th class="text-center text-underline text-weight-medium" colspan="2">
-                    Handpay Cashless Out
+                  <th class="text-center text-underline" colspan="2">
+                    <div class="text-body2">Handpay Cashless Out</div>
                   </th>
                 </tr>
                 <tr>
-                  <th class="text-center">Ticket</th>
+                  <th class="text-center"><div class="text-body2">Ticket</div></th>
                   <th class="text-center">
                     Value <span class="text-xs">{{ getDefaultCurrencyName }}</span>
                   </th>
@@ -983,13 +1019,21 @@ onMounted(async () => {
                 </th>
               </tr>
               <tr>
-                <th class="text-center text-underline text-weight-medium">Table Name</th>
-                <th class="text-center text-underline text-weight-medium">In Terim Credit</th>
-                <th class="text-center text-underline text-weight-medium">In Terim Fill</th>
-                <th class="text-center text-underline text-weight-medium">Total Credit</th>
-                <th class="text-center text-underline text-weight-medium">Total Drop</th>
-                <th class="text-center text-underline text-weight-medium">Total Fill</th>
-                <th class="text-center text-underline text-weight-medium">Total Result</th>
+                <th class="text-center text-underline"><div class="text-body2">Table Name</div></th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">In Terim Credit</div>
+                </th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">In Terim Fill</div>
+                </th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">Total Credit</div>
+                </th>
+                <th class="text-center text-underline"><div class="text-body2">Total Drop</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Total Fill</div></th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">Total Result</div>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -1051,13 +1095,21 @@ onMounted(async () => {
                 </th>
               </tr>
               <tr>
-                <th class="text-center text-underline text-weight-medium">Game Name</th>
-                <th class="text-center text-underline text-weight-medium">In Terim Credit</th>
-                <th class="text-center text-underline text-weight-medium">In Terim Fill</th>
-                <th class="text-center text-underline text-weight-medium">Total Credit</th>
-                <th class="text-center text-underline text-weight-medium">Total Drop</th>
-                <th class="text-center text-underline text-weight-medium">Total Fill</th>
-                <th class="text-center text-underline text-weight-medium">Total Result</th>
+                <th class="text-center text-underline"><div class="text-body2">Game Name</div></th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">In Terim Credit</div>
+                </th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">In Terim Fill</div>
+                </th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">Total Credit</div>
+                </th>
+                <th class="text-center text-underline"><div class="text-body2">Total Drop</div></th>
+                <th class="text-center text-underline"><div class="text-body2">Total Fill</div></th>
+                <th class="text-center text-underline">
+                  <div class="text-body2">Total Result</div>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -1118,9 +1170,13 @@ onMounted(async () => {
             <q-markup-table class="no-box-shadow col-12" dense separator="none">
               <thead>
                 <tr>
-                  <th class="text-center text-underline text-weight-medium">Currency</th>
-                  <th class="text-center text-underline text-weight-medium">To Currency</th>
-                  <th class="text-center text-underline text-weight-medium">Exchange Rate</th>
+                  <th class="text-center text-underline"><div class="text-body2">Currency</div></th>
+                  <th class="text-center text-underline">
+                    <div class="text-body2">To Currency</div>
+                  </th>
+                  <th class="text-center text-underline">
+                    <div class="text-body2">Exchange Rate</div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -1139,9 +1195,13 @@ onMounted(async () => {
             <q-markup-table class="no-box-shadow col-12" dense separator="none">
               <thead>
                 <tr>
-                  <th class="text-center text-underline text-weight-medium">Currency</th>
-                  <th class="text-center text-underline text-weight-medium">To Currency</th>
-                  <th class="text-center text-underline text-weight-medium">Exchange Rate</th>
+                  <th class="text-center text-underline"><div class="text-body2">Currency</div></th>
+                  <th class="text-center text-underline">
+                    <div class="text-body2">To Currency</div>
+                  </th>
+                  <th class="text-center text-underline">
+                    <div class="text-body2">Exchange Rate</div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
