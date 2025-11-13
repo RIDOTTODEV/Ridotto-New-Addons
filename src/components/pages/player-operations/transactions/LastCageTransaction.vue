@@ -27,15 +27,7 @@ const columns = ref([
     sortable: false,
     visible: true,
   },
-  {
-    name: 'transType',
-    required: false,
-    label: 'Trans Type',
-    align: 'center',
-    field: 'transType',
-    sortable: false,
-    visible: true,
-  },
+
   {
     name: 'transactionCode',
     label: 'Transaction Code',
@@ -67,6 +59,14 @@ const columns = ref([
     label: 'Station',
     align: 'left',
     field: 'cashdeskName',
+    sortable: false,
+    visible: true,
+  },
+  {
+    name: 'note',
+    label: 'Note',
+    align: 'left',
+    field: 'note',
     sortable: false,
     visible: true,
   },
@@ -217,21 +217,7 @@ const deleteCashdeskTransaction = (row) => {
             {{ props.row.transactionType === 'Deposit' ? $t('received') : $t('paid') }}
           </div>
         </q-td>
-        <q-td
-          key="transType"
-          :props="props"
-          :class="
-            props.row.transactionType === 'Deposit'
-              ? 'bg-deposit compact-cell'
-              : props.row.transactionType === 'Withdrawal'
-                ? 'bg-withdrawal compact-cell'
-                : 'compact-cell'
-          "
-        >
-          <div class="text-caption compact-text">
-            {{ props.row.transType }}
-          </div>
-        </q-td>
+
         <q-td
           key="transactionCode"
           :props="props"
@@ -287,6 +273,22 @@ const deleteCashdeskTransaction = (row) => {
         >
           <div class="text-caption compact-text">
             {{ props.row.cashdeskName }}
+          </div>
+        </q-td>
+        <q-td
+          key="note"
+          :props="props"
+          :class="
+            props.row.transactionType === 'Deposit'
+              ? 'bg-deposit compact-cell'
+              : props.row.transactionType === 'Withdrawal'
+                ? 'bg-withdrawal compact-cell'
+                : 'compact-cell'
+          "
+          auto-width
+        >
+          <div class="flex justify-start items-center compact-text md:max-w-[200px] text-wrap">
+            {{ props.row.note }}
           </div>
         </q-td>
         <q-td

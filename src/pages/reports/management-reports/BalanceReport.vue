@@ -1470,7 +1470,7 @@ onMounted(async () => {
   </q-page>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .q-item {
   min-height: 30px !important;
   padding: 2px !important;

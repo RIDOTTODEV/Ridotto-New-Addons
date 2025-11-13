@@ -25,15 +25,7 @@ const columns = ref([
     sortable: false,
     visible: true,
   },
-  {
-    name: 'transType',
-    required: false,
-    label: 'Trans Type',
-    align: 'center',
-    field: 'transType',
-    sortable: false,
-    visible: true,
-  },
+
   {
     name: 'amount',
     label: 'Amount',
@@ -159,21 +151,7 @@ bus.on('reloadLastCashlessTransactions', loadLastCashlessTransactions)
             }}</span>
           </div>
         </q-td>
-        <q-td
-          key="transType"
-          :props="props"
-          :class="
-            props.row.transactionType === 'Deposit'
-              ? 'bg-deposit compact-cell'
-              : props.row.transactionType === 'Withdrawal'
-                ? 'bg-withdrawal compact-cell'
-                : 'compact-cell'
-          "
-        >
-          <div class="text-caption compact-text">
-            {{ props.row.transType }}
-          </div>
-        </q-td>
+
         <q-td
           key="amount"
           :props="props"
@@ -183,7 +161,6 @@ bus.on('reloadLastCashlessTransactions', loadLastCashlessTransactions)
               : 'bg-withdrawal compact-cell'
           "
         >
-          {{ formatPrice(props.row.amount) }}
           <span class="compact-text w-full sm:w-auto">
             <span style="display: inline-block; font-size: 10px; width: 45px">
               {{ formatPrice(props.row.oldBalance) }}

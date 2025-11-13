@@ -89,7 +89,7 @@ const onSave = async () => {
               @click="onTabChange(tableTaxPage)"
               :class="{ 'current-tab': currentTab?.id === tableTaxPage.id }"
             >
-              <div class="text-subtitle2 text-center">{{ tableTaxPage.value }} {{ index }}</div>
+              <div class="text-subtitle2 text-center">{{ tableTaxPage.value }}</div>
             </div>
           </q-scroll-area>
         </div>
