@@ -464,14 +464,17 @@ const fetchData = async () => {
 const copiedData = ref([])
 const initResponseData = (response) => {
   let dataKeys = props.dataKey.split('.')
-  let data = response
-  for (let key of dataKeys) {
-    if (data[key]) {
-      data = data[key]
-    } else {
-      data = []
+  let data = response[props.dataKey] || response || []
+  if (dataKeys.length > 1) {
+    for (let key of dataKeys) {
+      if (data[key]) {
+        data = data[key]
+      } else {
+        data = []
+      }
     }
   }
+
   const isExistRowKey = data.some((item) => item[props.rowKey])
   if (!isExistRowKey) {
     // now set the rowKey of data index
