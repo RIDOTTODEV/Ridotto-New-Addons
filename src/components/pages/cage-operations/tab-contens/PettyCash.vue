@@ -138,7 +138,7 @@
           :filterParams="filterFields"
           :slotNames="['body-cell-actions']"
           ref="pettyCashTable"
-          :useCol12="false"
+          :useCol12="true"
           :hideFields="{
             showVisibleColumns: true,
             showReloadButton: true,
@@ -150,7 +150,7 @@
           @switchSummaryCard="showSummaryCard = !showSummaryCard"
         >
           <template v-slot:headerFilterSlots>
-            <div class="flex flex-col sm:flex-row justify-between w-full q-py-xs">
+            <div class="flex flex-col sm:flex-row justify-between w-full q-py-xs gap-2">
               <div class="flex sm:flex-row flex-col justify-start gap-2">
                 <q-select-box
                   v-model="filterFields.cashdeskId"
@@ -233,7 +233,8 @@
                   outlined
                   clearable
                 />
-
+              </div>
+              <div class="flex sm:flex-row flex-col justify-start gap-2">
                 <date-time-picker
                   @selected-date="
                     (val) => {

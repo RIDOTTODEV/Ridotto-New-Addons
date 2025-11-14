@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-md" style="background-color: #bac6da">
-    <div class="row">
-      <div class="col-2 q-pa-sm">
+    <div class="flex flex-col sm:flex-row">
+      <div class="w-full sm:w-1/4 q-pa-sm">
         <div class="row flex justify-center">
           <q-img
             :src="$playerPhotoUrl + selectedPortfolioManagementRow?.playerId"
@@ -139,13 +139,13 @@
           />
         </div>
       </div>
-      <div class="col-10 q-pa-sm">
+      <div class="w-full sm:w-3/4 q-pa-sm">
         <q-card flat class="no-box-shadow">
-          <q-card-section class="q-pa-sm row justify-between">
+          <q-card-section class="q-pa-sm flex flex-row justify-between gap-2">
             <q-tabs
               v-model="currentPortfolioManagementTab"
               dense
-              class="text-dark"
+              class="text-dark w-full sm:w-auto"
               active-color="white"
               indicator-color="blue-grey-8"
               active-bg-color="blue-grey-8"
@@ -153,6 +153,7 @@
               narrow-indicator
               no-caps
               inline-label
+              content-class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto"
             >
               <q-tab
                 no-caps
@@ -203,21 +204,17 @@
                   @selected-row="(val) => (selectedPortfolioManagementRow = val)"
                 >
                   <template v-slot:headerFilterSlots>
-                    <div class="col q-mr-sm flex row justify-start">
-                      <div class="q-pa-xs flex items-end">
-                        <q-btn
-                          type="button"
-                          :label="$t('excelExport')"
-                          icon="file_download"
-                          color="green-8"
-                          text-color="white"
-                          size="13px"
-                          unelevated
-                          no-caps
-                          @click="handlePortfolioManagementExportExcel"
-                        />
-                      </div>
-                    </div>
+                    <q-btn
+                      type="button"
+                      :label="$t('excelExport')"
+                      icon="file_download"
+                      color="green-8"
+                      text-color="white"
+                      size="13px"
+                      unelevated
+                      no-caps
+                      @click="handlePortfolioManagementExportExcel"
+                    />
                   </template>
                 </SupaTable>
               </q-tab-panel>
@@ -231,77 +228,76 @@
                   :slot-names="['body-cell-actions']"
                   ref="portfolioManagementTableRef"
                   rowKey="id"
+                  :useCol12="true"
                   @selected-row="(val) => (selectedPortfolioManagementRow = val)"
                 >
                   <template v-slot:headerFilterSlots="{ props }">
-                    <div class="col-9 q-mr-sm flex row justify-start">
-                      <div class="q-pa-xs flex items-center content-center">
-                        <date-time-picker
-                          @selected-date="
-                            (val) => {
-                              giftListFilterParams = {
-                                ...giftListFilterParams,
-                                ...val,
-                              }
+                    <div class="flex flex-row justify-start w-full gap-2">
+                      <date-time-picker
+                        @selected-date="
+                          (val) => {
+                            giftListFilterParams = {
+                              ...giftListFilterParams,
+                              ...val,
                             }
-                          "
-                        />
-                        <SearchPlayerInput
-                          v-model="giftListFilterParams.playerId"
-                          :label="$t('player')"
-                          @onSelectPlayer="
-                            (val) => {
-                              if (val) {
-                                giftListFilterParams.playerId = val.id
-                                giftListFilterParams.playerName = val.value
-                              } else {
-                                giftListFilterParams.playerId = null
-                                giftListFilterParams.playerName = null
-                              }
-                            }
-                          "
-                          :optionLabel="'value'"
-                          :displayedValue="giftListFilterParams.playerName"
-                          @onClear="
-                            () => {
+                          }
+                        "
+                      />
+                      <SearchPlayerInput
+                        v-model="giftListFilterParams.playerId"
+                        :label="$t('player')"
+                        @onSelectPlayer="
+                          (val) => {
+                            if (val) {
+                              giftListFilterParams.playerId = val.id
+                              giftListFilterParams.playerName = val.value
+                            } else {
                               giftListFilterParams.playerId = null
                               giftListFilterParams.playerName = null
                             }
-                          "
-                          class="q-ml-sm"
-                        />
-                        <q-select
-                          :options="[
-                            { label: $t('given'), value: 'true' },
-                            { label: $t('notGiven'), value: 'false' },
-                            { label: $t('all'), value: null },
-                          ]"
-                          v-model="giftListFilterParams.given"
-                          dense
-                          outlined
-                          option-label="label"
-                          option-value="value"
-                          emit-value
-                          map-options
-                          class="q-ml-sm super-small"
-                          :label="$t('given')"
-                          style="min-width: 120px"
-                        />
+                          }
+                        "
+                        :optionLabel="'value'"
+                        :displayedValue="giftListFilterParams.playerName"
+                        @onClear="
+                          () => {
+                            giftListFilterParams.playerId = null
+                            giftListFilterParams.playerName = null
+                          }
+                        "
+                        class="fixed-field-width"
+                      />
+                      <q-select
+                        :options="[
+                          { label: $t('given'), value: 'true' },
+                          { label: $t('notGiven'), value: 'false' },
+                          { label: $t('all'), value: null },
+                        ]"
+                        v-model="giftListFilterParams.given"
+                        dense
+                        outlined
+                        option-label="label"
+                        option-value="value"
+                        emit-value
+                        map-options
+                        class="super-small fixed-field-width"
+                        :label="$t('given')"
+                        style="min-width: 120px"
+                      />
 
-                        <q-btn
-                          type="button"
-                          :label="$t('filter')"
-                          icon="tune"
-                          color="grey-2"
-                          text-color="dark"
-                          size="13px"
-                          unelevated
-                          no-caps
-                          @click="props.reload"
-                          class="q-ml-sm"
-                        />
+                      <q-btn
+                        type="button"
+                        :label="$t('filter')"
+                        icon="tune"
+                        color="grey-2"
+                        text-color="dark"
+                        size="13px"
+                        unelevated
+                        no-caps
+                        @click="props.reload"
+                      />
 
-                        <!-- <q-btn
+                      <!-- <q-btn
                           type="button"
                           :label="$t('excelImport')"
                           icon="file_upload"
@@ -313,22 +309,20 @@
                           @click="handlePortfolioManagementImportExcel"
                           class="q-ml-sm"
                         /> -->
-                        <q-btn
-                          icon="file_upload"
-                          color="green-8"
-                          text-color="white"
-                          size="13px"
-                          unelevated
-                          outlined
-                          no-caps
-                          @click="handlePortfolioManagementImportExcel"
-                          class="q-ml-sm"
-                        >
-                          <q-tooltip class="bg-grey-1 text-dark text-subtitle2">
-                            {{ $t('excelImport') }}
-                          </q-tooltip>
-                        </q-btn>
-                      </div>
+                      <q-btn
+                        icon="file_upload"
+                        color="green-8"
+                        text-color="white"
+                        size="13px"
+                        unelevated
+                        outlined
+                        no-caps
+                        @click="handlePortfolioManagementImportExcel"
+                      >
+                        <q-tooltip class="bg-grey-1 text-dark text-subtitle2">
+                          {{ $t('excelImport') }}
+                        </q-tooltip>
+                      </q-btn>
                     </div>
                   </template>
                   <template v-slot:body-cell-actions="{ props }">

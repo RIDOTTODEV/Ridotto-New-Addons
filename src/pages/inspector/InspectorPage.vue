@@ -15,7 +15,6 @@ const {
   currentTab,
   date,
   currentPlayer,
-  currentTableCurrency,
   digitalClock,
   onClickSelectTable,
   onClickPlayerTimePauseOrResume,
@@ -187,7 +186,7 @@ const {
                   <div
                     class="absolute-top-left text-caption text-negative rounded-borders q-mt-xs q-ml-xs"
                   >
-                    <span class="q-pl-xs q-pr-xs"> {{ currentTableCurrency?.name }}</span>
+                    <span class="q-pl-xs q-pr-xs"> {{ table?.currencyName }}</span>
                     <q-tooltip class="app-cart-grey text-dark text-subtitle2">{{
                       $t('tableChipCurrency')
                     }}</q-tooltip>

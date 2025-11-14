@@ -10,7 +10,7 @@
           :filterParams="filterFields"
           :slotNames="['body-cell-actions']"
           ref="playerTransactionsTable"
-          :useCol12="false"
+          :useCol12="true"
           :hideFields="{
             showVisibleColumns: true,
             showReloadButton: true,
@@ -22,84 +22,88 @@
           @switchSummaryCard="showSummaryCard = !showSummaryCard"
         >
           <template v-slot:headerFilterSlots>
-            <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto justify-start q-py-xs">
-              <q-select-box
-                v-model="filterFields.cashdeskId"
-                :options="cashdesks"
-                option-value="id"
-                option-label="name"
-                :label="$t('cashdesk')"
-                :fetchFn="cashdeskStore.fetchCashdesks"
-                class="w-full sm:w-auto fixed-field-width"
-              />
-              <q-select-box
-                v-model="filterFields.marketerId"
-                :options="visitorCategories"
-                option-value="id"
-                option-label="name"
-                :label="$t('marketer')"
-                :fetchFn="guestManagementStore.fetchVisitorCategories"
-                class="w-full sm:w-auto fixed-field-width"
-              />
-              <q-select-box
-                v-model="filterFields.locationId"
-                :options="locations"
-                option-value="id"
-                option-label="name"
-                :label="$t('location')"
-                :fetchFn="definitionStore.fetchLocations"
-                class="w-full sm:w-auto fixed-field-width"
-              />
-              <search-player-input
-                v-model="filterFields.playerId"
-                :optionLabel="'value'"
-                :displayedValue="filterFields.playerName"
-                @onSelectPlayer="
-                  (args) => {
-                    filterFields.playerId = args?.id
-                    filterFields.playerName = args?.value
-                  }
-                "
-                :label="$t('playerName')"
-                class="super-small w-full sm:w-auto fixed-field-width"
-              />
-              <q-select
-                v-model="filterFields.transactionCodeIds"
-                :options="transactionCodes"
-                option-value="id"
-                option-label="name"
-                :label="$t('transactionCode')"
-                class="super-small w-full sm:w-auto fixed-field-width"
-                emit-value
-                map-options
-                behavior="menu"
-                multiple
-                clearable
-                outlined
-                dense
-              />
-              <date-time-picker
-                @selected-date="
-                  (val) => {
-                    filterFields = {
-                      ...filterFields,
-                      ...val,
+            <div class="flex flex-col justify-between w-full gap-2">
+              <div class="flex sm:flex-row justify-start gap-2 w-full">
+                <q-select-box
+                  v-model="filterFields.cashdeskId"
+                  :options="cashdesks"
+                  option-value="id"
+                  option-label="name"
+                  :label="$t('cashdesk')"
+                  :fetchFn="cashdeskStore.fetchCashdesks"
+                  class="w-full sm:w-auto fixed-field-width"
+                />
+                <q-select-box
+                  v-model="filterFields.marketerId"
+                  :options="visitorCategories"
+                  option-value="id"
+                  option-label="name"
+                  :label="$t('marketer')"
+                  :fetchFn="guestManagementStore.fetchVisitorCategories"
+                  class="w-full sm:w-auto fixed-field-width"
+                />
+                <q-select-box
+                  v-model="filterFields.locationId"
+                  :options="locations"
+                  option-value="id"
+                  option-label="name"
+                  :label="$t('location')"
+                  :fetchFn="definitionStore.fetchLocations"
+                  class="w-full sm:w-auto fixed-field-width"
+                />
+                <search-player-input
+                  v-model="filterFields.playerId"
+                  :optionLabel="'value'"
+                  :displayedValue="filterFields.playerName"
+                  @onSelectPlayer="
+                    (args) => {
+                      filterFields.playerId = args?.id
+                      filterFields.playerName = args?.value
                     }
-                  }
-                "
-              />
-              <q-btn
-                type="button"
-                :label="$t('filter')"
-                icon="tune"
-                color="grey-2"
-                text-color="dark"
-                size="13px"
-                unelevated
-                no-caps
-                class="q-ml-sm"
-                @click="playerTransactionsTable.fetchData()"
-              />
+                  "
+                  :label="$t('playerName')"
+                  class="super-small w-full sm:w-auto fixed-field-width"
+                />
+                <q-select
+                  v-model="filterFields.transactionCodeIds"
+                  :options="transactionCodes"
+                  option-value="id"
+                  option-label="name"
+                  :label="$t('transactionCode')"
+                  class="super-small w-full sm:w-auto fixed-field-width"
+                  emit-value
+                  map-options
+                  behavior="menu"
+                  multiple
+                  clearable
+                  outlined
+                  dense
+                />
+              </div>
+              <div class="flex justify-start w-full">
+                <date-time-picker
+                  @selected-date="
+                    (val) => {
+                      filterFields = {
+                        ...filterFields,
+                        ...val,
+                      }
+                    }
+                  "
+                />
+                <q-btn
+                  type="button"
+                  :label="$t('filter')"
+                  icon="tune"
+                  color="grey-2"
+                  text-color="dark"
+                  size="13px"
+                  unelevated
+                  no-caps
+                  class="q-ml-sm"
+                  @click="playerTransactionsTable.fetchData()"
+                />
+              </div>
             </div>
           </template>
           <template v-slot:body-cell-actions="{ props }">
@@ -154,7 +158,7 @@
               'body-cell-locationName',
             ]"
             ref="playerTransactionDetailTable"
-            :useCol12="false"
+            :useCol12="true"
             :hideFields="{
               showVisibleColumns: true,
               showReloadButton: true,

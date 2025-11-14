@@ -21,108 +21,110 @@
     @request="filterMethod"
   >
     <template v-slot:top="" v-if="!hideTopBar">
-      <div class="flex flex-col q-pa-sm justify-between w-full gap-2">
+      <div class="flex flex-row q-pa-sm justify-between w-full gap-2">
         <slot name="headerFilterSlots" v-bind="{ props: { ...props, reload: fetchData } }"></slot>
         <!--        <div :class="['flex row justify-end items-start', props.useCol12 ? 'col-12' : 'col']">
 
         </div> -->
-        <div class="flex sm:flex-row justify-end items-start gap-2">
-          <q-input
-            v-if="hideFields && hideFields.showSearchInput"
-            v-model="tableFilterInput"
-            dense
-            outlined
-            class="super-small search-input"
-            :class="{ 'search-input--focused': isInputFocused }"
-            :placeholder="$t('search')"
-            @focus="handleInputFocus"
-            @focusout="handleInputFocusOut"
-            clearable
-            @clear="filterMethod"
-          >
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-          <q-btn-dropdown
-            v-if="hideFields && hideFields.showVisibleColumns"
-            color="grey-3"
-            text-color="grey-10"
-            unelevated
-            dense
-            size="13px"
-            class=""
-            padding="xs"
-            dropdown-icon="o_visibility"
-            square
-            :content-style="{
-              height: '400px!important',
-            }"
-          >
-            <div class="bg-grey-2 q-pa-xs text-caption text-bold">
-              <span class="q-ml-sm"> {{ $t('visibleColumns') }}</span>
-            </div>
-            <q-list dense separator bordered>
-              <q-item
-                clickable
-                v-for="(column, index) in tableColumns"
-                :key="index"
-                :class="{
-                  'text-grey-6': !visibleColumns.includes(column.name),
-                }"
-                @click="onSelectVisibleColumn(column.name)"
-                :disable="column.required"
-              >
-                <q-item-section class="text-capitalize text-caption">
-                  {{ column.label }}
-                </q-item-section>
-              </q-item>
-              <q-item clickable @click="resetColumns" class="bg-grey-2 text-caption">
-                <q-item-section class="text-negative flex content-center">
-                  <div class="row items-center">
-                    <q-icon name="sync" size="16px" class="q-mr-sm" />
-                    {{ $t('resetColumns') }}
-                  </div>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-btn-dropdown>
-          <q-btn
-            v-if="hideFields && hideFields.showReloadButton"
-            color="grey-3"
-            text-color="grey-10"
-            unelevated
-            dense
-            icon="cached"
-            @click="fetchData"
-            size="13px"
-            class=""
-            padding="xs"
-          />
-          <q-btn
-            v-if="hideFields && hideFields.switchSummaryCard"
-            color="grey-3"
-            text-color="grey-10"
-            unelevated
-            dense
-            icon="o_toc"
-            @click="switchSummaryCard"
-            size="13px"
-            class=""
-            padding="xs"
-          />
-          <q-btn
-            v-if="hideFields && hideFields.showScreenModeButton"
-            color="grey-3"
-            text-color="grey-10"
-            dense
-            :icon="fullScreen ? 'fullscreen_exit' : 'fullscreen'"
-            @click="toggleFullscreen"
-            size="13px"
-            unelevated
-            class=""
-            padding="xs"
-          />
+        <div class="flex justify-end" :class="{ 'w-full': useCol12 }">
+          <div class="flex sm:flex-row justify-end items-start gap-2">
+            <q-input
+              v-if="hideFields && hideFields.showSearchInput"
+              v-model="tableFilterInput"
+              dense
+              outlined
+              class="super-small search-input"
+              :class="{ 'search-input--focused': isInputFocused }"
+              :placeholder="$t('search')"
+              @focus="handleInputFocus"
+              @focusout="handleInputFocusOut"
+              clearable
+              @clear="filterMethod"
+            >
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+            <q-btn-dropdown
+              v-if="hideFields && hideFields.showVisibleColumns"
+              color="grey-3"
+              text-color="grey-10"
+              unelevated
+              dense
+              size="13px"
+              class=""
+              padding="xs"
+              dropdown-icon="o_visibility"
+              square
+              :content-style="{
+                height: '400px!important',
+              }"
+            >
+              <div class="bg-grey-2 q-pa-xs text-caption text-bold">
+                <span class="q-ml-sm"> {{ $t('visibleColumns') }}</span>
+              </div>
+              <q-list dense separator bordered>
+                <q-item
+                  clickable
+                  v-for="(column, index) in tableColumns"
+                  :key="index"
+                  :class="{
+                    'text-grey-6': !visibleColumns.includes(column.name),
+                  }"
+                  @click="onSelectVisibleColumn(column.name)"
+                  :disable="column.required"
+                >
+                  <q-item-section class="text-capitalize text-caption">
+                    {{ column.label }}
+                  </q-item-section>
+                </q-item>
+                <q-item clickable @click="resetColumns" class="bg-grey-2 text-caption">
+                  <q-item-section class="text-negative flex content-center">
+                    <div class="row items-center">
+                      <q-icon name="sync" size="16px" class="q-mr-sm" />
+                      {{ $t('resetColumns') }}
+                    </div>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-btn-dropdown>
+            <q-btn
+              v-if="hideFields && hideFields.showReloadButton"
+              color="grey-3"
+              text-color="grey-10"
+              unelevated
+              dense
+              icon="cached"
+              @click="fetchData"
+              size="13px"
+              class=""
+              padding="xs"
+            />
+            <q-btn
+              v-if="hideFields && hideFields.switchSummaryCard"
+              color="grey-3"
+              text-color="grey-10"
+              unelevated
+              dense
+              icon="o_toc"
+              @click="switchSummaryCard"
+              size="13px"
+              class=""
+              padding="xs"
+            />
+            <q-btn
+              v-if="hideFields && hideFields.showScreenModeButton"
+              color="grey-3"
+              text-color="grey-10"
+              dense
+              :icon="fullScreen ? 'fullscreen_exit' : 'fullscreen'"
+              @click="toggleFullscreen"
+              size="13px"
+              unelevated
+              class=""
+              padding="xs"
+            />
+          </div>
         </div>
       </div>
     </template>
