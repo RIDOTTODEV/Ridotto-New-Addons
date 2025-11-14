@@ -75,7 +75,7 @@ const onClear = () => {
             map-options
             :rules="[(val) => !!val || $t('requiredField')]"
             hide-bottom-space
-            class="super-small w-full sm:w-auto md:min-w-[170px]"
+            class="super-small fixed-field-width"
             data-cy="transactionType"
             behavior="menu"
           />
@@ -92,7 +92,7 @@ const onClear = () => {
             :rules="[(val) => !!val || $t('requiredField')]"
             hide-bottom-space
             clearable
-            class="super-small w-full sm:w-auto md:min-w-[170px]"
+            class="super-small fixed-field-width"
             data-cy="currencyId"
             behavior="menu"
           />
@@ -106,7 +106,7 @@ const onClear = () => {
             data-cy="transactionCodeId"
             behavior="menu"
             hide-bottom-space
-            class="w-full sm:w-auto md:min-w-[170px]"
+            class="w-full fixed-field-width"
           />
           <q-currency-input
             :label="$t('amount')"
@@ -116,7 +116,7 @@ const onClear = () => {
             dense
             :rules="[(val) => !!val || $t('requiredField')]"
             :precision="2"
-            class="super-small w-full sm:w-auto md:min-w-[170px]"
+            class="super-small fixed-field-width"
             data-cy="amount"
           />
           <q-input
@@ -125,7 +125,7 @@ const onClear = () => {
             outlined
             dense
             clearable
-            class="super-small w-full sm:w-auto md:min-w-[170px]"
+            class="super-small fixed-field-width"
             data-cy="note"
           />
           <SearchPlayerInput
@@ -135,7 +135,7 @@ const onClear = () => {
             :optionLabel="'value'"
             :displayedValue="othersTransferTabFormValues.playerName"
             @onClear="onClear"
-            class="w-full sm:w-auto md:min-w-[170px]"
+            class="w-full fixed-field-width"
             :rules="[(val) => !!val || $t('requiredField')]"
           />
           <q-select-box
@@ -147,7 +147,7 @@ const onClear = () => {
             option-label="label"
             :rules="[(val) => !!val || $t('requiredField')]"
             hide-bottom-space
-            class="w-full sm:w-auto md:min-w-[170px]"
+            class="w-full fixed-field-width"
           />
 
           <q-checkbox
@@ -159,7 +159,7 @@ const onClear = () => {
                 ? $t('inOut') + ' ' + $t('yes')
                 : $t('inOut') + ' ' + $t('no')
             "
-            class="super-small w-full sm:w-auto md:min-w-[170px]"
+            class="super-small fixed-field-width"
           />
           <q-input
             v-if="hiddenOthersTransferFields.showAuthorizedBy"
@@ -169,7 +169,7 @@ const onClear = () => {
             outlined
             dense
             v-model="othersTransferTabFormValues.authorizedBy"
-            class="super-small w-full sm:w-auto md:min-w-[170px]"
+            class="super-small fixed-field-width"
             :placeholder="othersTransferTabFormValues.authorizedBy || $t('authorizedBy') + '...'"
             clearable
             :rules="[(val) => (val && val.length > 0) || $t('requiredField')]"
@@ -178,7 +178,7 @@ const onClear = () => {
           <q-input
             v-if="hiddenOthersTransferFields.showDueDate"
             :label="$t('dueDateTime')"
-            class="super-small w-full sm:w-auto md:min-w-[170px]"
+            class="super-small fixed-field-width"
             outlined
             dense
             v-model="othersTransferTabFormValues.dueDate"

@@ -148,7 +148,7 @@ onMounted(async () => {
                   hide-bottom-space
                   data-cy="fromCurrencyId"
                   behavior="menu"
-                  class="super-small w-full sm:w-auto md:min-w-[200px]"
+                  class="super-small fixed-field-width"
                 >
                   <template v-slot:option="scope">
                     <q-item v-bind="scope.itemProps">
@@ -201,7 +201,7 @@ onMounted(async () => {
                   clearable
                   :option-disable="(val) => val.id === exchangeFormValues.fromCurrencyId"
                   @update:model-value="setExchangeConvertedAmount"
-                  class="super-small w-full sm:w-auto md:min-w-[200px]"
+                  class="super-small fixed-field-width"
                   hide-bottom-space
                   data-cy="toCurrencyId"
                   behavior="menu"
@@ -251,7 +251,7 @@ onMounted(async () => {
                 @update:model-value="setExchangeConvertedAmount"
                 :debounce="300"
                 :precision="2"
-                class="super-small w-full sm:w-auto md:min-w-[170px]"
+                class="super-small fixed-field-width"
                 hide-bottom-space
               />
               <q-currency-input
@@ -267,7 +267,7 @@ onMounted(async () => {
                     : ''
                 "
                 :precision="4"
-                class="super-small w-full sm:w-auto md:min-w-[170px]"
+                class="super-small fixed-field-width"
                 hide-bottom-space
               />
               <q-select
@@ -284,7 +284,7 @@ onMounted(async () => {
                 clearable
                 @filter="onFilterTransactionCodesByGroupType"
                 use-input
-                class="super-small w-full sm:w-auto md:min-w-[170px]"
+                class="super-small fixed-field-width"
                 popup-content-class="height-400"
                 data-cy="transactionCodeId"
                 behavior="menu"
@@ -296,7 +296,7 @@ onMounted(async () => {
                 outlined
                 dense
                 clearable
-                class="super-small w-full sm:w-auto md:min-w-[170px]"
+                class="super-small fixed-field-width"
                 data-cy="note"
               />
               <q-btn

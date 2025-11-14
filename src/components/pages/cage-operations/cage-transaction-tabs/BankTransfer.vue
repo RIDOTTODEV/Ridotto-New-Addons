@@ -68,7 +68,7 @@ bankAccountStore.fetchBankAccounts()
               map-options
               :rules="[(val) => !!val || $t('requiredField')]"
               hide-bottom-space
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small fixed-field-width"
               data-cy="transactionType"
               behavior="menu"
             />
@@ -85,7 +85,7 @@ bankAccountStore.fetchBankAccounts()
               :rules="[(val) => !!val || $t('requiredField')]"
               hide-bottom-space
               clearable
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small fixed-field-width"
               @update:model-value="bankTransferTabFormValues.bankId = null"
               data-cy="currencyId"
               behavior="menu"
@@ -103,7 +103,7 @@ bankAccountStore.fetchBankAccounts()
               :rules="[(val) => !!val || $t('requiredField')]"
               hide-bottom-space
               clearable
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small fixed-field-width"
               data-cy="bankId"
               behavior="menu"
             />
@@ -115,7 +115,7 @@ bankAccountStore.fetchBankAccounts()
               option-label="name"
               :rules="[(val) => !!val || $t('requiredField')]"
               hide-bottom-space
-              class="w-full sm:w-auto md:min-w-[170px]"
+              class="w-full fixed-field-width"
             />
             <q-currency-input
               :label="$t('amount')"
@@ -125,7 +125,7 @@ bankAccountStore.fetchBankAccounts()
               dense
               :rules="[(val) => !!val || $t('requiredField')]"
               :precision="2"
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small fixed-field-width"
               data-cy="amount"
             />
             <q-input
@@ -134,7 +134,7 @@ bankAccountStore.fetchBankAccounts()
               outlined
               dense
               clearable
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small fixed-field-width"
               data-cy="note"
             />
 

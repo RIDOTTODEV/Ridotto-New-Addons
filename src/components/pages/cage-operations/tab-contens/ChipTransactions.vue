@@ -140,6 +140,7 @@
                       option-label="name"
                       :label="$t('cashdesk')"
                       :fetchFn="cashDeskStore.fetchCashdesks"
+                      class="fixed-field-width"
                     />
                   </div>
                   <div class="w-full sm:w-auto">
@@ -150,6 +151,7 @@
                       option-label="label"
                       :label="$t('cashdeskTransactionType')"
                       :fetchFn="cashDeskStore.fetchCashdeskTransactionTypes"
+                      class="fixed-field-width"
                     />
                   </div>
                   <div class="w-full sm:w-auto">
@@ -160,6 +162,7 @@
                       option-label="label"
                       :label="$t('transType')"
                       :fetchFn="cashDeskStore.fetchTransTypes"
+                      class="fixed-field-width"
                     />
                   </div>
                   <div class="w-full sm:w-auto">
@@ -174,6 +177,7 @@
                       option-value="id"
                       option-label="name"
                       :label="$t('transactionCode')"
+                      class="fixed-field-width"
                     />
                   </div>
                   <div class="w-full sm:w-auto">
@@ -183,7 +187,7 @@
                       option-value="value"
                       option-label="label"
                       :label="$t('transactionType')"
-                      class="super-small md:min-w-[170px]"
+                      class="super-small fixed-field-width"
                       dense
                       outlined
                       clearable
@@ -208,7 +212,7 @@
                       map-options
                       :rules="[(val) => !!val || $t('requiredField')]"
                       clearable
-                      class="super-small md:min-w-[170px]"
+                      class="super-small fixed-field-width"
                       hide-bottom-space
                       behavior="menu"
                     >
@@ -246,7 +250,7 @@
                     <q-input
                       v-model="filterFields.MinAmount"
                       :label="$t('minAmount')"
-                      class="super-small"
+                      class="super-small fixed-field-width"
                       dense
                       outlined
                       clearable
@@ -256,7 +260,7 @@
                     <q-input
                       v-model="filterFields.MaxAmount"
                       :label="$t('maxAmount')"
-                      class="super-small"
+                      class="super-small fixed-field-width"
                       dense
                       outlined
                       clearable
@@ -266,7 +270,7 @@
                     <q-input
                       v-model="filterFields.CashdeskAccountId"
                       :label="$t('cashdeskAccount')"
-                      class="super-small"
+                      class="super-small fixed-field-width"
                       dense
                       outlined
                       clearable
@@ -284,7 +288,7 @@
                         }
                       "
                       :label="$t('playerName')"
-                      class="super-small"
+                      class="super-small fixed-field-width"
                     />
                     <date-time-picker
                       class="q-ml-sm"

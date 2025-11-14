@@ -42,7 +42,7 @@
               map-options
               :rules="[(val) => !!val || $t('requiredField')]"
               hide-bottom-space
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small fixed-field-width"
               data-cy="transactionType"
               behavior="menu"
               :label="$t('transactionType')"
@@ -60,7 +60,7 @@
               :rules="[(val) => !!val || $t('requiredField')]"
               hide-bottom-space
               clearable
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small w-full fixed-field-width"
               data-cy="currencyId"
               behavior="menu"
               :label="$t('currency')"
@@ -73,7 +73,7 @@
               v-model="formValues.pettyCashCategoryId"
               :label="$t('pettyCashCategory')"
               :rules="[(val) => !!val || $t('requiredField')]"
-              class="w-full sm:w-auto md:min-w-[170px]"
+              class="w-full fixed-field-width"
               hide-bottom-space
             />
 
@@ -87,7 +87,7 @@
               data-cy="amount"
               :label="$t('amount')"
               hide-bottom-space
-              class="w-full sm:w-auto md:min-w-[170px]"
+              class="w-full fixed-field-width"
             />
 
             <q-input
@@ -95,7 +95,7 @@
               outlined
               dense
               clearable
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small w-full fixed-field-width"
               hide-bottom-space
               data-cy="description"
               :label="$t('note')"
@@ -159,6 +159,7 @@
                   option-label="name"
                   :label="$t('cashdesk')"
                   :fetchFn="cashdeskStore.fetchCashdesks"
+                  class="fixed-field-width"
                 />
 
                 <q-select-box
@@ -167,6 +168,7 @@
                   option-value="value"
                   option-label="label"
                   :label="$t('transactionType')"
+                  class="fixed-field-width"
                 />
 
                 <q-select-box
@@ -175,6 +177,7 @@
                   option-label="code"
                   v-model="filterFields.pettyCashCategoryId"
                   :label="$t('pettyCashCategory')"
+                  class="fixed-field-width"
                 />
 
                 <q-select
@@ -188,7 +191,7 @@
                   emit-value
                   map-options
                   clearable
-                  class="super-small md:min-w-[170px]"
+                  class="super-small fixed-field-width"
                   hide-bottom-space
                   behavior="menu"
                 >
@@ -225,7 +228,7 @@
                 <q-input
                   v-model="filterFields.description"
                   :label="$t('description')"
-                  class="super-small"
+                  class="super-small fixed-field-width"
                   dense
                   outlined
                   clearable

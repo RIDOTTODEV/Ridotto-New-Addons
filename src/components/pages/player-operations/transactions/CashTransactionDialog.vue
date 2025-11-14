@@ -282,7 +282,7 @@ watch(
               @filter="filterTransactionCodes"
               use-input
               hide-bottom-space
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small w-full sm:w-auto fixed-field-width"
               popup-content-class="height-400"
               data-cy="transactionCode"
               behavior="menu"
@@ -299,7 +299,7 @@ watch(
               option-label="name"
               option-value="id"
               v-model="formValues.currencyId"
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small w-full sm:w-auto fixed-field-width"
               :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
               :placeholder="formValues.currencyId || $t('currency') + '...'"
               clearable
@@ -317,7 +317,7 @@ watch(
               option-label="label"
               option-value="value"
               v-model="formValues.transactionType"
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small w-full sm:w-auto fixed-field-width"
               :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
               clearable
               data-cy="transactionType"
@@ -333,7 +333,7 @@ watch(
               :hide-bottom-space="true"
               :precision="2"
               data-cy="amount"
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small w-full sm:w-auto fixed-field-width"
             />
 
             <q-select
@@ -348,7 +348,7 @@ watch(
               :option-label="(val) => val.name + ' - ' + val.total"
               option-value="id"
               v-model="formValues.bankId"
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small w-full sm:w-auto fixed-field-width"
               :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
               clearable
               data-cy="bankId"
@@ -362,7 +362,7 @@ watch(
               outlined
               dense
               v-model="formValues.note"
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small w-full sm:w-auto fixed-field-width"
               :placeholder="formValues.note || $t('note') + '...'"
               clearable
               data-cy="note"
@@ -375,7 +375,7 @@ watch(
               outlined
               dense
               clearable
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small w-full sm:w-auto fixed-field-width"
               data-cy="ccPos"
             />
             <q-input
@@ -385,12 +385,12 @@ watch(
               outlined
               dense
               clearable
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small w-full sm:w-auto fixed-field-width"
               data-cy="ccSlipId"
             />
 
             <div
-              class="flex items-center row w-full sm:w-auto md:min-w-[170px]"
+              class="flex items-center row w-full sm:w-auto fixed-field-width"
               v-if="formValues.methodName === '/PlayerAccount/PostCashdeskPlayerInOutTransaction'"
             >
               <q-checkbox v-model="lgGameType" label="Lg" />
@@ -405,7 +405,7 @@ watch(
               outlined
               dense
               v-model="formValues.authorizedBy"
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small w-full sm:w-auto fixed-field-width"
               :placeholder="formValues.authorizedBy || $t('authorizedBy') + '...'"
               clearable
               :rules="[(val) => (val && val.length > 0) || $t('requiredField')]"
@@ -415,7 +415,7 @@ watch(
             <q-input
               v-if="showDueDateInput"
               :label="$t('dueDateTime')"
-              class="super-small w-full sm:w-auto md:min-w-[170px]"
+              class="super-small w-full sm:w-auto fixed-field-width"
               outlined
               dense
               v-model="formValues.dueDate"

@@ -94,7 +94,19 @@ input[type='number'] {
   border-radius: 8px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
+.fixed-field-width {
+  width: 100%;
+  flex: 1 1 auto;
+}
 
+@media (min-width: 640px) {
+  .fixed-field-width {
+    width: 170px;
+    min-width: 170px;
+    max-width: 170px;
+    flex: 0 0 170px;
+  }
+}
 body {
   //font-family: 'Outfit', 'Poppins', sans-serif !important;
 }

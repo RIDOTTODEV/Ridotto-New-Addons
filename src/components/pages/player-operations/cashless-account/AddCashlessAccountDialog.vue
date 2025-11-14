@@ -131,7 +131,7 @@ const showCcPosAndCcSlipId = ref(false)
               :options="getAccountTypesForPlayer"
               option-label="name"
               option-value="name"
-              class="w-full super-small sm:w-auto md:min-w-[170px]"
+              class="w-full super-small sm:w-auto fixed-field-width"
               :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
               :placeholder="formValues.accountType || $t('accountType') + '...'"
               clearable
@@ -149,7 +149,7 @@ const showCcPosAndCcSlipId = ref(false)
               option-label="name"
               option-value="id"
               v-model="formValues.currencyId"
-              class="w-full super-small sm:w-auto md:min-w-[170px]"
+              class="w-full super-small sm:w-auto fixed-field-width"
               :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
               :placeholder="formValues.currencyId || $t('currency') + '...'"
               clearable
@@ -164,7 +164,7 @@ const showCcPosAndCcSlipId = ref(false)
               v-model="formValues.transactionCodeId"
               @update:model-value="onChangeTransactionCode"
               @clear="onClearTransactionCode"
-              class="w-full super-small sm:w-auto md:min-w-[170px]"
+              class="w-full super-small sm:w-auto fixed-field-width"
             />
             <q-currency-input
               :label="$t('amount')"
@@ -176,7 +176,7 @@ const showCcPosAndCcSlipId = ref(false)
               :hide-bottom-space="true"
               :precision="2"
               data-cy="amount"
-              class="w-full super-small sm:w-auto md:min-w-[170px]"
+              class="w-full super-small sm:w-auto fixed-field-width"
             />
             <q-input
               v-if="showCcPosAndCcSlipId"
@@ -185,7 +185,7 @@ const showCcPosAndCcSlipId = ref(false)
               outlined
               dense
               clearable
-              class="super-small"
+              class="super-small fixed-field-width"
               data-cy="ccPos"
               bg-color="white"
             />
@@ -196,7 +196,7 @@ const showCcPosAndCcSlipId = ref(false)
               outlined
               dense
               clearable
-              class="super-small w-full sm:w-auto"
+              class="super-small w-full sm:w-auto fixed-field-width"
               data-cy="ccSlipId"
               bg-color="white"
             />
@@ -208,7 +208,7 @@ const showCcPosAndCcSlipId = ref(false)
               outlined
               dense
               v-model="formValues.note"
-              class="w-full super-small sm:w-auto"
+              class="w-full super-small sm:w-auto fixed-field-width"
               :placeholder="formValues.note || $t('note') + '...'"
               clearable
               data-cy="note"

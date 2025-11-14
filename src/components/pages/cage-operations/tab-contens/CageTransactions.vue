@@ -169,6 +169,7 @@
                       option-label="name"
                       :label="$t('cashdesk')"
                       :fetchFn="cashdeskStore.fetchCashdesks"
+                      class="fixed-field-width"
                     />
                   </div>
                   <div class="w-full sm:w-auto">
@@ -179,6 +180,7 @@
                       option-label="label"
                       :label="$t('cashdeskTransactionType')"
                       :fetchFn="cashdeskStore.fetchCashdeskTransactionTypes"
+                      class="fixed-field-width"
                     />
                   </div>
                   <div class="w-full sm:w-auto">
@@ -189,6 +191,7 @@
                       option-label="label"
                       :label="$t('transType')"
                       :fetchFn="cashdeskStore.fetchTransTypes"
+                      class="fixed-field-width"
                     />
                   </div>
                   <div class="w-full sm:w-auto">
@@ -203,6 +206,7 @@
                       option-value="id"
                       option-label="name"
                       :label="$t('transactionCode')"
+                      class="fixed-field-width"
                     />
                   </div>
                   <div class="w-full sm:w-auto md:min-w-[170px]">
@@ -212,7 +216,7 @@
                       option-value="value"
                       option-label="label"
                       :label="$t('transactionType')"
-                      class="super-small full-width"
+                      class="super-small full-width fixed-field-width"
                       dense
                       outlined
                       clearable
@@ -237,7 +241,7 @@
                       map-options
                       :rules="[(val) => !!val || $t('requiredField')]"
                       clearable
-                      class="super-small"
+                      class="super-small fixed-field-width"
                       hide-bottom-space
                       behavior="menu"
                     >
@@ -275,7 +279,7 @@
                     <q-input
                       v-model="filterFields.MinAmount"
                       :label="$t('minAmount')"
-                      class="super-small"
+                      class="super-small fixed-field-width"
                       dense
                       outlined
                       clearable
@@ -285,7 +289,7 @@
                     <q-input
                       v-model="filterFields.MaxAmount"
                       :label="$t('maxAmount')"
-                      class="super-small"
+                      class="super-small fixed-field-width"
                       dense
                       outlined
                       clearable
@@ -295,7 +299,7 @@
                     <q-input
                       v-model="filterFields.CashdeskAccountId"
                       :label="$t('cashdeskAccount')"
-                      class="super-small"
+                      class="super-small fixed-field-width"
                       dense
                       outlined
                       clearable
@@ -313,6 +317,7 @@
                       option-label="label"
                       :label="$t('main')"
                       :clearable="false"
+                      class="fixed-field-width"
                     />
                   </div>
                   <div class="w-full sm:w-auto flex justify-start">
@@ -327,12 +332,13 @@
                         }
                       "
                       :label="$t('playerName')"
-                      class="super-small"
+                      class="super-small fixed-field-width"
                       :setValueById="true"
                       :playerId="+router.currentRoute.value.query.playerId"
                     />
+                  </div>
+                  <div class="w-full sm:w-auto flex justify-start">
                     <date-time-picker
-                      class="q-ml-sm"
                       @selected-date="
                         (val) => {
                           filterFields = {
@@ -452,6 +458,10 @@ const columns = ref([
   {
     field: 'transType',
     label: 'Trans Type',
+  },
+  {
+    field: 'gameType',
+    label: 'Game Type',
   },
   {
     field: 'amount',

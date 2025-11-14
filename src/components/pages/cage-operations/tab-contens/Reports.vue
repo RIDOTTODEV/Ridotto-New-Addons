@@ -30,7 +30,7 @@
                 option-label="name"
                 :label="$t('cashdesk')"
                 :fetchFn="cashdeskStore.fetchCashdesks"
-                class="w-full sm:w-auto"
+                class="w-full sm:w-auto fixed-field-width"
               />
               <q-select-box
                 v-model="filterFields.marketerId"
@@ -39,7 +39,7 @@
                 option-label="name"
                 :label="$t('marketer')"
                 :fetchFn="guestManagementStore.fetchVisitorCategories"
-                class="w-full sm:w-auto"
+                class="w-full sm:w-auto fixed-field-width"
               />
               <q-select-box
                 v-model="filterFields.locationId"
@@ -48,7 +48,7 @@
                 option-label="name"
                 :label="$t('location')"
                 :fetchFn="definitionStore.fetchLocations"
-                class="w-full sm:w-auto"
+                class="w-full sm:w-auto fixed-field-width"
               />
               <search-player-input
                 v-model="filterFields.playerId"
@@ -61,7 +61,7 @@
                   }
                 "
                 :label="$t('playerName')"
-                class="super-small w-full sm:w-auto"
+                class="super-small w-full sm:w-auto fixed-field-width"
               />
               <q-select
                 v-model="filterFields.transactionCodeIds"
@@ -69,7 +69,7 @@
                 option-value="id"
                 option-label="name"
                 :label="$t('transactionCode')"
-                class="super-small w-full sm:w-auto md:min-w-[200px]"
+                class="super-small w-full sm:w-auto fixed-field-width"
                 emit-value
                 map-options
                 behavior="menu"
@@ -174,7 +174,7 @@
                   option-label="name"
                   :label="$t('cashdesk')"
                   :fetchFn="cashdeskStore.fetchCashdesks"
-                  class="w-full sm:w-auto md:max-w-[200px]"
+                  class="w-full sm:w-auto fixed-field-width"
                 />
                 <q-select-box
                   v-model="playerTransactionDetailFilters.marketerId"
@@ -183,7 +183,7 @@
                   option-label="name"
                   :label="$t('marketer')"
                   :fetchFn="guestManagementStore.fetchVisitorCategories"
-                  class="w-full sm:w-auto"
+                  class="w-full sm:w-auto fixed-field-width"
                 />
                 <q-select-box
                   v-model="playerTransactionDetailFilters.locationId"
@@ -192,7 +192,7 @@
                   option-label="name"
                   :label="$t('location')"
                   :fetchFn="definitionStore.fetchLocations"
-                  class="w-full sm:w-auto"
+                  class="w-full sm:w-auto fixed-field-width"
                 />
                 <search-player-input
                   v-model="playerTransactionDetailFilters.playerId"
@@ -205,7 +205,7 @@
                     }
                   "
                   :label="$t('playerName')"
-                  class="super-small w-full sm:w-auto"
+                  class="super-small w-full sm:w-auto fixed-field-width"
                 />
                 <q-select
                   v-model="playerTransactionDetailFilters.transactionCodeIds"
@@ -213,7 +213,7 @@
                   option-value="id"
                   option-label="name"
                   :label="$t('transactionCode')"
-                  class="super-small w-full sm:w-auto md:min-w-[200px]"
+                  class="super-small w-full sm:w-auto fixed-field-width"
                   emit-value
                   map-options
                   behavior="menu"

@@ -155,7 +155,7 @@ const showCcPosAndCcSlipId = ref(false)
               :options="accountTypes"
               option-label="name"
               option-value="name"
-              class="w-full super-small sm:w-auto md:min-w-[170px]"
+              class="w-full super-small sm:w-auto fixed-field-width"
               :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
               :placeholder="formValues.accountType || $t('accountType') + '...'"
               clearable
@@ -172,7 +172,7 @@ const showCcPosAndCcSlipId = ref(false)
               option-label="name"
               option-value="id"
               v-model="formValues.currencyId"
-              class="w-full super-small sm:w-auto md:min-w-[170px]"
+              class="w-full super-small sm:w-auto fixed-field-width"
               :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
               :placeholder="formValues.currencyId || $t('currency') + '...'"
               clearable
@@ -201,7 +201,7 @@ const showCcPosAndCcSlipId = ref(false)
               :precision="2"
               :all-amount="transactionType === 'Withdrawal' ? allWithdrawalAmount : null"
               data-cy="amount"
-              class="w-full sm:w-auto md:min-w-[170px]"
+              class="w-full sm:w-auto md:max-w-[270px]"
               autofocus
             />
             <q-select-box
@@ -214,11 +214,29 @@ const showCcPosAndCcSlipId = ref(false)
               @clear="onClearTransactionCode"
               behavior="menu"
               :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
-              class="w-full sm:w-auto md:min-w-[170px]"
+              class="w-full sm:w-auto fixed-field-width"
               hide-bottom-space
             />
-          </div>
-          <div class="flex flex-col sm:flex-row gap-2">
+            <q-input
+              :label="$t('ccPos')"
+              v-model="formValues.ccPos"
+              outlined
+              dense
+              clearable
+              class="super-small w-full sm:w-auto fixed-field-width"
+              data-cy="ccPos"
+              bg-color="white"
+            />
+            <q-input
+              :label="$t('ccSlipId')"
+              v-model="formValues.ccSlipId"
+              outlined
+              dense
+              clearable
+              class="super-small w-full sm:w-auto fixed-field-width"
+              data-cy="ccSlipId"
+              bg-color="white"
+            />
             <q-toggle
               v-model="formValues.inOut"
               color="primary"
@@ -235,26 +253,6 @@ const showCcPosAndCcSlipId = ref(false)
               data-cy="isCorrection"
               :label="$t('fixTransaction')"
               class="w-full super-small sm:w-auto"
-            />
-            <q-input
-              :label="$t('ccPos')"
-              v-model="formValues.ccPos"
-              outlined
-              dense
-              clearable
-              class="super-small w-full sm:w-auto"
-              data-cy="ccPos"
-              bg-color="white"
-            />
-            <q-input
-              :label="$t('ccSlipId')"
-              v-model="formValues.ccSlipId"
-              outlined
-              dense
-              clearable
-              class="super-small w-full sm:w-auto"
-              data-cy="ccSlipId"
-              bg-color="white"
             />
           </div>
           <div class="flex flex-col sm:flex-row gap-2">

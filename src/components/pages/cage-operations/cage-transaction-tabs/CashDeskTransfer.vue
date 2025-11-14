@@ -67,7 +67,7 @@ const onSubmitCashDeskTransferTabForm = async () => {
             data-cy="fromCashDeskId"
             behavior="menu"
             :label="$t('fromCashDesk')"
-            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            class="super-small fixed-field-width"
           />
 
           <q-select
@@ -82,7 +82,7 @@ const onSubmitCashDeskTransferTabForm = async () => {
             :rules="[(val) => !!val || $t('requiredField')]"
             hide-bottom-space
             :option-disable="(val) => val.id === cashDeskTransferTabFormValues.fromCashdeskId"
-            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            class="super-small fixed-field-width"
             data-cy="toCashdeskId"
             behavior="menu"
             :label="$t('toCashDesk')"
@@ -100,7 +100,7 @@ const onSubmitCashDeskTransferTabForm = async () => {
             :rules="[(val) => !!val || $t('requiredField')]"
             hide-bottom-space
             clearable
-            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            class="super-small fixed-field-width"
             data-cy="currencyId"
             behavior="menu"
             :label="$t('currency')"
@@ -114,7 +114,7 @@ const onSubmitCashDeskTransferTabForm = async () => {
             :label="$t('transactionCode')"
             :rules="[(val) => !!val || $t('requiredField')]"
             hide-bottom-space
-            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            class="super-small fixed-field-width"
           />
 
           <q-currency-input
@@ -124,7 +124,7 @@ const onSubmitCashDeskTransferTabForm = async () => {
             dense
             :rules="[(val) => !!val || $t('requiredField')]"
             :precision="2"
-            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            class="super-small fixed-field-width"
             data-cy="amount"
             :label="$t('amount')"
           />
@@ -134,7 +134,7 @@ const onSubmitCashDeskTransferTabForm = async () => {
             outlined
             dense
             clearable
-            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            class="super-small fixed-field-width"
             data-cy="note"
             :label="$t('note')"
           />

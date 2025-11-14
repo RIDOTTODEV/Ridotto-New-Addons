@@ -76,7 +76,7 @@ const onSubmitInOutTabForm = async () => {
             :rules="[(val) => !!val || $t('requiredField')]"
             hide-bottom-space
             clearable
-            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            class="super-small fixed-field-width"
             data-cy="currencyId"
             behavior="menu"
             :label="$t('currency')"
@@ -89,7 +89,7 @@ const onSubmitInOutTabForm = async () => {
             :label="$t('transactionCode')"
             :rules="[(val) => !!val || $t('requiredField')]"
             hide-bottom-space
-            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            class="super-small fixed-field-width"
           />
           <q-currency-input
             currency="USD"
@@ -101,14 +101,14 @@ const onSubmitInOutTabForm = async () => {
             data-cy="amount"
             :label="$t('amount')"
             hide-bottom-space
-            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            class="super-small fixed-field-width"
           />
           <q-input
             v-model="inOutTabFormValues.note"
             outlined
             dense
             clearable
-            class="super-small w-full sm:w-auto md:min-w-[200px]"
+            class="super-small fixed-field-width"
             data-cy="note"
             :label="$t('note')"
           />
