@@ -1,7 +1,7 @@
 <template>
   <div class="col-12">
     <q-form @submit="onSubmit" class="row q-mb-lg">
-      <div class="col-3 q-pa-sm flex flex-col justify-evenly">
+      <div class="col-md-3 col-xs-12 q-pa-sm flex flex-col justify-evenly">
         <fieldset name="Player" class="full-width">
           <legend class="flex content-center items-center text-subtitle2 text-grey-9 q-ml-sm">
             <q-icon name="o_person" size="xs" color="grey-9" class="q-mr-sm" />
@@ -148,7 +148,7 @@
           </div>
         </fieldset>
       </div>
-      <div class="col-5 q-pa-sm">
+      <div class="col-md-5 col-xs-12 q-pa-sm">
         <fieldset name="ReservationDetails" class="reservation-details-fieldset full-height">
           <legend class="flex content-center items-center text-subtitle2 text-grey-9 q-ml-md">
             <q-icon name="o_hotel" size="sm" color="grey-9" class="q-mr-sm" />
@@ -530,7 +530,7 @@
           </div>
         </fieldset>
       </div>
-      <div class="col-4 q-pa-sm">
+      <div class="col-md-4 col-xs-12 q-pa-sm">
         <fieldset name="ExpenseParameters" class="expense-parameters-fieldset full-height">
           <legend class="flex content-center items-center text-subtitle2 text-grey-9 q-ml-md">
             <q-icon name="o_receipt" size="sm" color="grey-9" />

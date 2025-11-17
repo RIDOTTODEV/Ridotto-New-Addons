@@ -58,7 +58,7 @@
     </SupaTable>
 
     <q-dialog v-model="dialog" backdrop-filter="brightness(40%)">
-      <q-card class="minWithDialog">
+      <q-card class="sm:minWithDialog w-full">
         <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
           <div class="text-subtitle2">
             {{ $t('edit') }}
@@ -85,7 +85,7 @@
                 data-cy="name"
               />
             </div>
-            <div class="col-6 q-mt-md">
+            <div class="col-md-6 col-xs-12 q-mt-md">
               <q-select
                 :label="$t('transactionGroupType')"
                 v-model="formValues.transactionCodeGroupTypes"
@@ -103,7 +103,7 @@
                 behavior="menu"
               />
             </div>
-            <div class="col-6 q-mt-md">
+            <div class="col-md-6 col-xs-12 q-mt-md">
               <q-select
                 :label="$t('transType')"
                 v-model="formValues.transType"
@@ -119,7 +119,7 @@
                 behavior="menu"
               />
             </div>
-            <div class="col-4 q-mt-md">
+            <div class="col-md-4 col-xs-12 q-mt-md">
               <q-checkbox
                 v-model="formValues.isDaily"
                 color="primary"
@@ -127,7 +127,7 @@
                 data-cy="isDaily"
               />
             </div>
-            <div class="col-4 q-mt-md">
+            <div class="col-md-4 col-xs-12 q-mt-md">
               <q-checkbox
                 v-model="formValues.gamingExpenses"
                 color="primary"
@@ -135,7 +135,7 @@
                 data-cy="isDaily"
               />
             </div>
-            <div class="col-4 q-mt-md">
+            <div class="col-md-4 col-xs-12 q-mt-md">
               <q-checkbox
                 v-model="formValues.toBeCollected"
                 color="primary"
@@ -143,7 +143,7 @@
                 data-cy="isDaily"
               />
             </div>
-            <div class="col-4 q-mt-md">
+            <div class="col-md-4 col-xs-12 q-mt-md">
               <q-checkbox
                 v-model="formValues.authorizeByRequired"
                 color="primary"
@@ -151,7 +151,7 @@
                 data-cy="authorizeByRequired"
               />
             </div>
-            <div class="col-4 q-mt-md">
+            <div class="col-md-4 col-xs-12 q-mt-md">
               <q-checkbox
                 v-model="formValues.dueDateRequired"
                 color="primary"
@@ -159,7 +159,7 @@
                 data-cy="dueDateRequired"
               />
             </div>
-            <div class="col-4 q-mt-md">
+            <div class="col-md-4 col-xs-12 q-mt-md">
               <q-checkbox
                 v-model="formValues.defaultIsInOut"
                 color="primary"
@@ -167,7 +167,7 @@
                 data-cy="defaultIsInOut"
               />
             </div>
-            <div class="col-6 q-mt-md">
+            <div class="col-md-6 col-xs-12 q-mt-md">
               <q-checkbox
                 v-model="formValues.defaultIncludeInBalance"
                 color="primary"
@@ -176,7 +176,7 @@
                 @update:model-value="(val) => (formValues.defaultIncludeInBalance = val)"
               />
             </div>
-            <div class="col-6 q-mt-md" v-if="formValues.defaultIncludeInBalance">
+            <div class="col-md-6 col-xs-12 q-mt-md" v-if="formValues.defaultIncludeInBalance">
               <q-checkbox
                 v-model="formValues.includeCashlessAndChipScope"
                 color="primary"
@@ -184,7 +184,7 @@
                 data-cy="defaultIsInOut"
               />
             </div>
-            <div class="col-12 q-mt-md">
+            <div class="col-md-12 col-xs-12 q-mt-md">
               <div class="text-subtitle2">
                 {{ $t('transactionCodeType') }}
               </div>
@@ -196,7 +196,7 @@
                 data-cy="transactionCodeType"
               />
             </div>
-            <div class="col-12 q-mt-md text-right">
+            <div class="col-md-12 col-xs-12 q-mt-md text-right">
               <q-btn
                 unelevated
                 icon="save"

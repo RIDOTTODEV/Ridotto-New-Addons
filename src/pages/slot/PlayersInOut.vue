@@ -24,62 +24,59 @@
       dataKey="data"
     >
       <template v-slot:headerFilterSlots>
-        <div class="col-9 flex row justify-start">
-          <div class="row full-width flex justify-start">
-            <q-select
-              v-model="filterValues.transactionCode"
-              :placeholder="$t('selectTransactionCode')"
-              :options="transactionCodes"
-              option-value="value"
-              option-label="label"
-              emit-value
-              map-options
-              :rules="[(val) => !!val || $t('requiredField')]"
-              hide-bottom-space
-              class="super-small q-mr-sm"
-              behavior="menu"
-              outlined
-              dense
-            />
-            <q-input
-              v-model="filterValues.floorNo"
-              :placeholder="$t('floorNo')"
-              outlined
-              dense
-              class="super-small q-mr-sm"
-            />
-            <SearchPlayerInput
-              v-model="filterValues.playerId"
-              :placeholder="$t('searchPlayer')"
-              @onSelectPlayer="onSelectPlayer"
-              :optionLabel="'value'"
-              :displayedValue="filterValues.playerName"
-              @onClear="onClearPlayer"
-            />
-            <date-time-picker
-              class="q-ml-sm"
-              @selected-date="
-                (val) => {
-                  filterValues = {
-                    ...filterValues,
-                    ...val,
-                  }
+        <div class="flex sm:flex-row flex-col justify-start gap-2 w-full sm:w-auto">
+          <q-select
+            v-model="filterValues.transactionCode"
+            :placeholder="$t('selectTransactionCode')"
+            :options="transactionCodes"
+            option-value="value"
+            option-label="label"
+            emit-value
+            map-options
+            :rules="[(val) => !!val || $t('requiredField')]"
+            hide-bottom-space
+            class="super-small fixed-field-width"
+            behavior="menu"
+            outlined
+            dense
+          />
+          <q-input
+            v-model="filterValues.floorNo"
+            :placeholder="$t('floorNo')"
+            outlined
+            dense
+            class="super-small w-full sm:w-auto"
+          />
+          <SearchPlayerInput
+            v-model="filterValues.playerId"
+            :placeholder="$t('searchPlayer')"
+            @onSelectPlayer="onSelectPlayer"
+            :optionLabel="'value'"
+            :displayedValue="filterValues.playerName"
+            @onClear="onClearPlayer"
+            class="fixed-field-width"
+          />
+          <date-time-picker
+            @selected-date="
+              (val) => {
+                filterValues = {
+                  ...filterValues,
+                  ...val,
                 }
-              "
-            />
-            <q-btn
-              type="button"
-              :label="$t('filter')"
-              icon="tune"
-              color="grey-2"
-              text-color="dark"
-              size="13px"
-              unelevated
-              no-caps
-              class="q-ml-sm"
-              @click="playersInOutTable.fetchData()"
-            />
-          </div>
+              }
+            "
+          />
+          <q-btn
+            type="button"
+            :label="$t('filter')"
+            icon="tune"
+            color="grey-2"
+            text-color="dark"
+            size="13px"
+            unelevated
+            no-caps
+            @click="playersInOutTable.fetchData()"
+          />
         </div>
       </template>
 

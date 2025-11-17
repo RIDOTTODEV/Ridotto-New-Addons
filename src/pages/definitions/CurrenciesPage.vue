@@ -374,7 +374,7 @@
       </q-card-section>
     </q-card>
     <q-dialog v-model="exchangeRateDialog" backdrop-filter="brightness(40%)">
-      <q-card class=" " style="min-width: 800px">
+      <q-card class="sm:minWithDialog w-full">
         <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
           <div class="text-subtitle2">
             {{ $t('exchangeRates') }}
@@ -384,34 +384,29 @@
             <q-tooltip class="text-subtitle1 bg-blue-grey-8">{{ $t('close') }}</q-tooltip>
           </q-btn>
         </q-bar>
-        <q-card-section class="row">
-          <div class="col-6">
-            <q-select
-              dense
-              style="width: 200px"
-              map-options
-              emit-value
-              outlined
-              v-model="exchangeRateFromCurrency"
-              :options="currencies"
-              option-label="name"
-              option-value="id"
-              :placeholder="$t('selectCurrency')"
-              behavior="menu"
-            />
-          </div>
-          <div class="col-6 text-right">
-            <q-btn
-              unelevated
-              icon="add"
-              color="deep-purple"
-              size="md"
-              :label="$t('addNewRate')"
-              class="col-12"
-              type="submit"
-              @click="exchangeDialog = true"
-            />
-          </div>
+        <q-card-section class="row flex flex-col sm:flex-row gap-2 justify-between">
+          <q-select
+            dense
+            class="fixed-field-width"
+            map-options
+            emit-value
+            outlined
+            v-model="exchangeRateFromCurrency"
+            :options="currencies"
+            option-label="name"
+            option-value="id"
+            :placeholder="$t('selectCurrency')"
+            behavior="menu"
+          />
+          <q-btn
+            unelevated
+            icon="add"
+            color="deep-purple"
+            size="md"
+            :label="$t('addNewRate')"
+            type="submit"
+            @click="exchangeDialog = true"
+          />
         </q-card-section>
         <q-card-section class="q-pt-none">
           <q-table
@@ -455,7 +450,7 @@
       </q-card>
     </q-dialog>
     <q-dialog v-model="exchangeDialog" backdrop-filter="brightness(40%)">
-      <q-card class="minWithDialog">
+      <q-card class="sm:minWithDialog w-full">
         <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
           <div class="text-subtitle2">
             {{ $t('addNewExchange') }}
@@ -467,7 +462,7 @@
         </q-bar>
         <q-card-section>
           <q-form @submit="onSubmitNewCurrencyExchange" ref="form" class="row">
-            <div class="col-12">
+            <div class="col-md-12 col-xs-12">
               <q-select
                 :label="$t('fromCurrency')"
                 dense
@@ -486,7 +481,7 @@
                 behavior="menu"
               />
             </div>
-            <div class="col-12 q-mt-md">
+            <div class="col-md-12 col-xs-12 q-mt-md">
               <q-select
                 :label="$t('toCurrency')"
                 dense
@@ -507,7 +502,7 @@
                 behavior="menu"
               />
             </div>
-            <div class="col-12 q-mt-md">
+            <div class="col-md-12 col-xs-12 q-mt-md">
               <q-currency-input
                 :label="$t('rate')"
                 v-model="exchangeRateFormValues.rate"
@@ -521,7 +516,7 @@
               />
             </div>
 
-            <div class="col-12 q-mt-md text-right">
+            <div class="col-md-12 col-xs-12 q-mt-md text-right">
               <q-btn
                 unelevated
                 icon="save"
@@ -539,7 +534,7 @@
       </q-card>
     </q-dialog>
     <q-dialog v-model="currencyDominationDialog" backdrop-filter="brightness(40%)">
-      <q-card class="minWithDialog">
+      <q-card class="sm:minWithDialog w-full">
         <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
           <div class="text-subtitle2">
             {{ $t('currencyDenominations') }}
@@ -551,15 +546,15 @@
         </q-bar>
         <q-card-section>
           <div class="row">
-            <div class="col-12 q-pa-xs">
+            <div class="col-md-12 col-xs-12 q-pa-xs">
               <div class="row">
-                <div class="col-6">
+                <div class="col-md-6 col-xs-12">
                   <div class="text-subtitle1 text-bold">
                     {{ $t('denominations') }} -
                     {{ selectedCurrency.name }}
                   </div>
                 </div>
-                <div class="col-6 text-right">
+                <div class="col-md-6 col-xs-12 text-right">
                   <q-input
                     dense
                     outlined
@@ -589,7 +584,7 @@
               :rows="getCurrencyDenominations(selectedCurrency.id)"
               :columns="denominationColumns"
               row-key="id"
-              class="no-box-shadow col-12 q-pa-xs"
+              class="no-box-shadow col-md-12 col-xs-12 q-pa-xs"
               :rows-per-page-options="[100]"
               hide-bottom
               dense

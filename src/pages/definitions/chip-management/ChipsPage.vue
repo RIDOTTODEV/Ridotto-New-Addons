@@ -80,7 +80,7 @@
       transition-show="slide-up"
       transition-hide="slide-down"
     >
-      <q-card style="min-width: 800px">
+      <q-card class="sm:minWithDialog w-full">
         <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
           <div class="text-subtitle2">
             {{ $t('edit') }}
@@ -92,7 +92,7 @@
         </q-bar>
         <q-card-section class="q-pa-sm">
           <q-form @submit="onSubmitChipForm" ref="form" class="row">
-            <div class="col-6 q-pa-xs">
+            <div class="col-md-6 col-xs-12 q-pa-xs">
               <q-input
                 :label="$t('name')"
                 dense
@@ -105,7 +105,7 @@
                 :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
               />
             </div>
-            <div class="col-6 q-pa-xs">
+            <div class="col-md-6 col-xs-12 q-pa-xs">
               <q-select
                 :label="$t('chipColor')"
                 dense
@@ -155,7 +155,7 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-6 q-mt-md">
+            <div class="col-md-6 col-xs-12 q-mt-md">
               <div class="text-subtitle2">
                 {{ $t('chipType') }} <span class="text-negative">*</span>
               </div>
@@ -172,7 +172,7 @@
                 :label="$t(type.name)"
               />
             </div>
-            <div class="col-6 q-pa-xs">
+            <div class="col-md-6 col-xs-12 q-pa-xs">
               <q-select
                 :label="$t('currency')"
                 hide-bottom-space
@@ -191,10 +191,10 @@
                 clearable
               />
             </div>
-            <div class="col-12">
+            <div class="col-md-12 col-xs-12">
               <q-separator class="q-mt-sm q-mb-sm" />
               <div class="row">
-                <div class="col-12 row flex justify-between content-end items-end">
+                <div class="col-md-12 col-xs-12 row flex justify-between content-end items-end">
                   <div class="text-subtitle1 text-bold">
                     {{ $t('denominations') }}
                   </div>

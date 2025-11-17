@@ -9,75 +9,67 @@
       :filterParams="filterValues"
     >
       <template v-slot:headerFilterSlots>
-        <div class="col-9 flex row justify-start">
-          <div class="row full-width flex justify-start">
-            <div class="col-12 flex row justify-start content-center items-center">
-              <q-select-box
-                outlined
-                dense
-                v-model="filterValues.groupCodeIds"
-                :options="groupCodes"
-                option-value="id"
-                option-label="code"
-                :label="$t('group code')"
-                class="q-ml-sm super-small"
-                style="min-width: 150px"
-                multiple
-                :disable="!filterValues.byGroupCodeReport"
-              />
-              <q-checkbox
-                v-model="filterValues.byGroupCodeReport"
-                :label="$t('By Group Code Report')"
-                class="q-ml-sm super-small"
-                @update:model-value="
-                  (val) => {
-                    if (!val) {
-                      filterValues.groupCodeIds = []
-                    }
-                  }
-                "
-              />
-            </div>
+        <div
+          class="flex sm:flex-row flex-col justify-start gap-2 w-full sm:w-auto content-center items-center"
+        >
+          <q-select-box
+            outlined
+            dense
+            v-model="filterValues.groupCodeIds"
+            :options="groupCodes"
+            option-value="id"
+            option-label="code"
+            :label="$t('group code')"
+            class="super-small fixed-field-width"
+            multiple
+            :disable="!filterValues.byGroupCodeReport"
+          />
+          <q-checkbox
+            v-model="filterValues.byGroupCodeReport"
+            :label="$t('By Group Code Report')"
+            class="super-small"
+            @update:model-value="
+              (val) => {
+                if (!val) {
+                  filterValues.groupCodeIds = []
+                }
+              }
+            "
+          />
+          <q-select-box
+            outlined
+            dense
+            v-model="filterValues.marketerId"
+            :options="marketers"
+            option-value="id"
+            option-label="name"
+            :label="$t('marketer')"
+            class="super-small fixed-field-width"
+            clearable
+          />
 
-            <div class="col-12 flex row justify-start content-center items-center">
-              <q-select-box
-                outlined
-                dense
-                v-model="filterValues.marketerId"
-                :options="marketers"
-                option-value="id"
-                option-label="name"
-                :label="$t('marketer')"
-                class="q-ml-sm super-small"
-                style="width: 200px"
-                clearable
-              />
-
-              <date-time-picker
-                class="q-ml-sm"
-                @selected-date="
-                  (val) => {
-                    filterValues = {
-                      ...filterValues,
-                      ...val,
-                    }
-                  }
-                "
-              />
-              <q-btn
-                type="button"
-                :label="$t('filter')"
-                icon="tune"
-                color="grey-2"
-                text-color="dark"
-                size="13px"
-                unelevated
-                no-caps
-                class="q-ml-sm"
-                @click="marketerReportsTable.fetchData()"
-              />
-            </div>
-          </div>
+          <date-time-picker
+            @selected-date="
+              (val) => {
+                filterValues = {
+                  ...filterValues,
+                  ...val,
+                }
+              }
+            "
+            class="xs:w-full sm:w-auto"
+          />
+          <q-btn
+            type="button"
+            :label="$t('filter')"
+            icon="tune"
+            color="grey-2"
+            text-color="dark"
+            size="13px"
+            unelevated
+            no-caps
+            @click="marketerReportsTable.fetchData()"
+          />
         </div>
       </template>
       <template v-slot:bottomRow="props">

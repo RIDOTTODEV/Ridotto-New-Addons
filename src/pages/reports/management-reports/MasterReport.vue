@@ -28,7 +28,7 @@ const onSubmitFilter = async () => {
     <q-card class="no-box-shadow col-12 bg-transparent">
       <q-card-section class="q-pa-none">
         <div class="row">
-          <div class="col-6">
+          <div class="col-md-6 col-xs-12">
             <div class="text-h6">
               {{ $t('masterReport') }}
             </div>
@@ -40,62 +40,58 @@ const onSubmitFilter = async () => {
               }})
             </div>
           </div>
-          <div class="col-6">
-            <q-form class="row" @submit="onSubmitFilter">
-              <div class="col-12 row flex content-center items-center">
-                <div class="col q-pa-xs flex justify-end content-end items-end">
-                  <date-time-picker
-                    @selected-date="
-                      (val) => {
-                        dateFilterValue = val
-                        onSubmitFilter()
-                      }
-                    "
-                  />
-                  <q-btn
-                    type="submit"
-                    :label="$t('filter')"
-                    icon="tune"
-                    color="grey-1"
-                    text-color="dark"
-                    size="13px"
-                    unelevated
-                    class="q-ml-sm"
-                  />
-                  <q-btn
-                    type="button"
-                    label="Pdf"
-                    icon="o_file_download"
-                    color="grey-1"
-                    text-color="dark"
-                    size="13px"
-                    unelevated
-                    class="q-ml-sm"
-                    @click="
-                      reportStore.exportMasterReport({
-                        ...dateFilterValue,
-                        ExportFileType: 'Pdf',
-                      })
-                    "
-                  />
-                  <q-btn
-                    type="button"
-                    label="Excel"
-                    icon="o_file_download"
-                    color="grey-1"
-                    text-color="dark"
-                    size="13px"
-                    unelevated
-                    class="q-ml-sm"
-                    @click="
-                      reportStore.exportMasterReport({
-                        ...dateFilterValue,
-                        ExportFileType: 'Excel',
-                      })
-                    "
-                  />
-                </div>
-              </div>
+          <div class="col-md-6 col-xs-12 flex justify-end items-end">
+            <q-form
+              class="flex sm:flex-row flex-col justify-start gap-2 w-full sm:w-auto"
+              @submit="onSubmitFilter"
+            >
+              <date-time-picker
+                @selected-date="
+                  (val) => {
+                    dateFilterValue = val
+                    onSubmitFilter()
+                  }
+                "
+              />
+              <q-btn
+                type="submit"
+                :label="$t('filter')"
+                icon="tune"
+                color="grey-1"
+                text-color="dark"
+                size="13px"
+                unelevated
+              />
+              <q-btn
+                type="button"
+                label="Pdf"
+                icon="o_file_download"
+                color="grey-1"
+                text-color="dark"
+                size="13px"
+                unelevated
+                @click="
+                  reportStore.exportMasterReport({
+                    ...dateFilterValue,
+                    ExportFileType: 'Pdf',
+                  })
+                "
+              />
+              <q-btn
+                type="button"
+                label="Excel"
+                icon="o_file_download"
+                color="grey-1"
+                text-color="dark"
+                size="13px"
+                unelevated
+                @click="
+                  reportStore.exportMasterReport({
+                    ...dateFilterValue,
+                    ExportFileType: 'Excel',
+                  })
+                "
+              />
             </q-form>
           </div>
         </div>

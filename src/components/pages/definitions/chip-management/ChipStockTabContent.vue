@@ -92,7 +92,7 @@ const chipStockChipsDetailDialogData = ref(null)
           <legend class="text-subtitle2 q-pl-md q-pr-md">{{ $t('chipStockForm') }}</legend>
           <q-form @submit="onSubmitChipStockForm" class="col-12 row input-box" ref="form">
             <div class="row col-12 q-pa-xs">
-              <div class="col-3 q-pa-md">
+              <div class="col-md-3 col-xs-12 q-pa-md">
                 <q-select
                   :label="$t('transactionType')"
                   v-model="chipStockFormValues.transactionType"
@@ -110,7 +110,7 @@ const chipStockChipsDetailDialogData = ref(null)
                   behavior="menu"
                 />
               </div>
-              <div class="col-3 q-pa-md">
+              <div class="col-md-3 col-xs-12 q-pa-md">
                 <q-input
                   :label="$t('note')"
                   v-model="chipStockFormValues.note"
@@ -121,7 +121,7 @@ const chipStockChipsDetailDialogData = ref(null)
                   data-cy="note"
                 />
               </div>
-              <div class="col-3 q-pa-md flex content-end justify-start">
+              <div class="col-md-3 col-xs-12 q-pa-md flex content-end justify-start">
                 <q-btn
                   size="13px"
                   color="negative"

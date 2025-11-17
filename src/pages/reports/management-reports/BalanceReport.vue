@@ -232,7 +232,7 @@ onMounted(async () => {
     <q-card class="no-box-shadow col-12 bg-transparent">
       <q-card-section class="q-pa-none">
         <div class="row">
-          <div class="col-4">
+          <div class="col-md-6 col-xs-12">
             <div class="text-h6">
               {{ $t('balanceReport') }}
             </div>
@@ -241,77 +241,62 @@ onMounted(async () => {
               <span class="text-bold">({{ date.formatDate(formValues.date, 'DD.MM.YYYY') }})</span>
             </div>
           </div>
-          <div class="col-8">
-            <q-form class="row" @submit="onSubmitFilter">
-              <div class="col-12 row flex content-center items-center no-wrap">
-                <div class="col q-pa-xs flex justify-end content-end items-end">
-                  <q-select-box
-                    v-model="formValues.cashdeskId"
-                    :options="cashdesks"
-                    option-label="name"
-                    option-value="id"
-                    class="super-small q-mr-sm"
-                    hide-bottom-space
-                    :label="'Select ' + $t('cashDesk')"
-                    style="max-width: 200px"
-                    outlined
-                    dense
-                    bg-color="white"
-                  />
-                  <el-date-picker
-                    v-model="formValues.date"
-                    type="date"
-                    placeholder="Date"
-                    :size="'default'"
-                    value-format="YYYY-MM-DD"
-                  />
-                  <q-btn
-                    type="submit"
-                    :label="$t('filter')"
-                    icon="tune"
-                    color="grey-1"
-                    text-color="dark"
-                    size="13px"
-                    unelevated
-                    class="q-ml-sm"
-                    no-caps
-                  />
-                  <q-btn
-                    type="button"
-                    label="Pdf"
-                    icon="o_file_download"
-                    color="grey-1"
-                    text-color="dark"
-                    size="13px"
-                    unelevated
-                    class="q-ml-sm"
-                    @click="
-                      reportStore.exportBalanceReport({
-                        CashdeskId: formValues.cashdeskId,
-                        Date: date.formatDate(formValues.date, 'YYYY-MM-DD'),
-                        ExportFileType: 'Pdf',
-                      })
-                    "
-                  />
-                  <q-btn
-                    type="button"
-                    label="Excel"
-                    icon="o_file_download"
-                    color="grey-1"
-                    text-color="dark"
-                    size="13px"
-                    unelevated
-                    class="q-ml-sm"
-                    @click="
-                      reportStore.exportBalanceReport({
-                        CashdeskId: formValues.cashdeskId,
-                        Date: date.formatDate(formValues.date, 'YYYY-MM-DD'),
-                        ExportFileType: 'Excel',
-                      })
-                    "
-                  />
-                </div>
-              </div>
+          <div class="col-md-6 col-xs-12 flex justify-end items-end">
+            <q-form
+              class="flex sm:flex-row flex-col justify-start gap-2 w-full sm:w-auto"
+              @submit="onSubmitFilter"
+            >
+              <q-select-box
+                v-model="formValues.cashdeskId"
+                :options="cashdesks"
+                option-label="name"
+                option-value="id"
+                class="fixed-field-width"
+                hide-bottom-space
+                :label="'Select ' + $t('cashDesk')"
+              />
+              <q-btn
+                type="submit"
+                :label="$t('filter')"
+                icon="tune"
+                color="grey-1"
+                text-color="dark"
+                size="13px"
+                unelevated
+                no-caps
+              />
+              <q-btn
+                type="button"
+                label="Pdf"
+                icon="o_file_download"
+                color="grey-1"
+                text-color="dark"
+                size="13px"
+                unelevated
+                @click="
+                  reportStore.exportBalanceReport({
+                    CashdeskId: formValues.cashdeskId,
+                    Date: date.formatDate(formValues.date, 'YYYY-MM-DD'),
+                    ExportFileType: 'Pdf',
+                  })
+                "
+              />
+              <q-btn
+                type="button"
+                label="Excel"
+                icon="o_file_download"
+                color="grey-1"
+                text-color="dark"
+                size="13px"
+                unelevated
+                @click="
+                  reportStore.exportBalanceReport({
+                    CashdeskId: formValues.cashdeskId,
+                    Date: date.formatDate(formValues.date, 'YYYY-MM-DD'),
+                    ExportFileType: 'Excel',
+                  })
+                "
+              />
             </q-form>
           </div>
         </div>

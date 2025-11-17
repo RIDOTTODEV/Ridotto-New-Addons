@@ -3,7 +3,7 @@
     <q-card class="no-box-shadow q-mb-md bg-transparent">
       <q-card-section class="q-pa-none">
         <div class="row">
-          <div class="col-3">
+          <div class="col-md-3 col-xs-12">
             <fieldset class="fieldset">
               <legend class="text-subtitle2">{{ $t('Filters') }}</legend>
               <div class="row flex flex-column q-gutter-y-md">
@@ -85,7 +85,7 @@
               </div>
             </fieldset>
           </div>
-          <div class="col-3">
+          <div class="col-md-3 col-xs-12">
             <fieldset class="fieldset">
               <legend class="text-subtitle2">{{ $t('Calculation') }}</legend>
               <div class="row flex flex-column q-gutter-y-md">
@@ -137,7 +137,7 @@
               </div>
             </fieldset>
           </div>
-          <div class="col-3">
+          <div class="col-md-3 col-xs-12">
             <fieldset class="fieldset row">
               <legend class="text-subtitle2">
                 {{ $t('Player Photo') }}
@@ -225,7 +225,7 @@
         </SupaTable>
       </q-card-section>
       <q-card-section class="q-pa-none row q-mt-md">
-        <div class="col-6 q-pa-xs">
+        <div class="col-md-6 col-xs-12 q-pa-xs">
           <div class="row">
             <div class="col-6 flex content-center items-center">
               <div class="text-subtitle2">{{ $t('Payments') }}</div>
@@ -393,7 +393,7 @@
             </q-form>
           </fieldset>
         </div>
-        <div class="col-6 q-pa-xs" v-if="getGcJunketResult">
+        <div class="col-md-6 col-xs-12 q-pa-xs" v-if="getGcJunketResult">
           <div class="row">
             <div class="text-subtitle2 q-ml-sm">{{ $t('Junket Result') }}</div>
           </div>

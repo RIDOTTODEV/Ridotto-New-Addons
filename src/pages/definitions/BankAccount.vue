@@ -57,7 +57,7 @@
       </template>
     </SupaTable>
     <q-dialog v-model="dialog" backdrop-filter="brightness(40%)">
-      <q-card class="minWithDialog">
+      <q-card class="sm:minWithDialog w-full">
         <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
           <div class="text-subtitle2">
             {{ $t('edit') }}
@@ -69,7 +69,7 @@
         </q-bar>
         <q-card-section>
           <q-form @submit="onSubmitForm" ref="form" class="row">
-            <div class="col-6 q-pa-sm">
+            <div class="col-md-6 col-xs-12 q-pa-sm">
               <q-input
                 :label="$t('name')"
                 autofocus
@@ -83,7 +83,7 @@
               />
             </div>
 
-            <div class="col-6 q-pa-sm">
+            <div class="col-md-6 col-xs-12 q-pa-sm">
               <q-select
                 :label="$t('currency')"
                 v-model="formValues.currencyId"
@@ -98,7 +98,7 @@
                 :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
               />
             </div>
-            <div class="col-12 q-mt-md text-right">
+            <div class="col-md-12 col-xs-12 q-mt-md text-right">
               <q-btn
                 no-wrap
                 no-caps

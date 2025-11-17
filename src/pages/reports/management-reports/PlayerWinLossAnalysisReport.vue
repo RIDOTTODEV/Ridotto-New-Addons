@@ -2,7 +2,7 @@
   <q-page class="q-pa-md" style="background-color: #bac6da">
     <q-card flat bordered>
       <q-card-section>
-        <div class="row full-width flex justify-start">
+        <div class="flex sm:flex-row flex-col justify-start gap-2 w-full sm:w-auto">
           <SearchPlayerInput
             v-model="filterValues.playerId"
             :placeholder="$t('searchPlayer')"
@@ -10,10 +10,10 @@
             :optionLabel="'value'"
             :displayedValue="filterValues.playerName"
             @onClear="onClearPlayer"
+            class="fixed-field-width"
           />
 
           <date-time-picker
-            class="q-ml-sm"
             @selected-date="
               (val) => {
                 filterValues = {
@@ -32,7 +32,6 @@
             size="13px"
             unelevated
             no-caps
-            class="q-ml-sm"
             @click="getPlayerWinLossAnalysisReport"
           />
         </div>
@@ -40,7 +39,7 @@
     </q-card>
     <q-card flat class="bg-transparent q-mt-sm">
       <q-card-section class="row">
-        <div class="col-6">
+        <div class="col-md-6 col-xs-12">
           <fieldset style="border: 1px solid #ffffff !important; padding: 10px">
             <legend class="text-subtitle1">Gaming Details</legend>
             <div class="row q-pa-sm">
@@ -374,7 +373,7 @@
             </div>
           </fieldset>
         </div>
-        <div class="col-6">
+        <div class="col-md-6 col-xs-12">
           <fieldset style="border: 1px solid #ffffff !important; padding: 10px">
             <legend class="text-subtitle1">Expense Details</legend>
             <div class="row q-pa-sm">
@@ -416,7 +415,7 @@
           <fieldset style="border: 1px solid #ffffff !important; padding: 10px">
             <legend class="text-subtitle1">Casino Wins</legend>
             <div class="row q-pa-sm">
-              <div class="col-6">
+              <div class="col-md-6 col-xs-12">
                 <div class="row">
                   <div class="col-4 q-pa-xs">
                     <div class="text-subtitle2">Discount</div>

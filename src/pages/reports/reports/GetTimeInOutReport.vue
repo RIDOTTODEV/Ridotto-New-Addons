@@ -9,58 +9,55 @@
       :filterParams="filterValues"
     >
       <template v-slot:headerFilterSlots>
-        <div class="col-8 flex row justify-start">
-          <div class="row full-width flex justify-start">
-            <q-select-box
-              v-model="filterValues.tableId"
-              :label="$t('table')"
-              :options="tables"
-              option-label="name"
-              option-value="id"
-              class="q-mr-sm"
-            />
-            <SearchPlayerInput
-              v-model="filterValues.playerId"
-              :placeholder="$t('searchPlayer')"
-              @onSelectPlayer="
-                (val) => {
-                  filterValues.playerId = val?.id
-                  filterValues.playerName = val?.value
+        <div class="flex sm:flex-row flex-col justify-start gap-2 w-full sm:w-auto">
+          <q-select-box
+            v-model="filterValues.tableId"
+            :label="$t('table')"
+            :options="tables"
+            option-label="name"
+            option-value="id"
+            class="fixed-field-width"
+          />
+          <SearchPlayerInput
+            v-model="filterValues.playerId"
+            :placeholder="$t('searchPlayer')"
+            @onSelectPlayer="
+              (val) => {
+                filterValues.playerId = val?.id
+                filterValues.playerName = val?.value
+              }
+            "
+            :optionLabel="'value'"
+            :displayedValue="filterValues.playerName"
+            @onClear="
+              () => {
+                filterValues.playerId = null
+                filterValues.playerName = null
+              }
+            "
+            class="fixed-field-width"
+          />
+          <date-time-picker
+            @selected-date="
+              (val) => {
+                filterValues = {
+                  ...filterValues,
+                  ...val,
                 }
-              "
-              :optionLabel="'value'"
-              :displayedValue="filterValues.playerName"
-              @onClear="
-                () => {
-                  filterValues.playerId = null
-                  filterValues.playerName = null
-                }
-              "
-            />
-            <date-time-picker
-              class="q-ml-sm"
-              @selected-date="
-                (val) => {
-                  filterValues = {
-                    ...filterValues,
-                    ...val,
-                  }
-                }
-              "
-            />
-            <q-btn
-              type="button"
-              :label="$t('filter')"
-              icon="tune"
-              color="grey-2"
-              text-color="dark"
-              size="13px"
-              unelevated
-              no-caps
-              class="q-ml-sm"
-              @click="inOutReportTable.fetchData()"
-            />
-          </div>
+              }
+            "
+          />
+          <q-btn
+            type="button"
+            :label="$t('filter')"
+            icon="tune"
+            color="grey-2"
+            text-color="dark"
+            size="13px"
+            unelevated
+            no-caps
+            @click="inOutReportTable.fetchData()"
+          />
         </div>
       </template>
 

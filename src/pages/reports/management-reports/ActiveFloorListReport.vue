@@ -25,7 +25,7 @@ const reloadReport = async () => {
   <q-page class="q-pa-sm">
     <q-card class="no-box-shadow bg-transparent">
       <q-card-section class="q-pa-none row">
-        <div class="col-4 q-pa-sm">
+        <div class="col-md-4 col-xs-12 q-pa-sm">
           <div class="text-subtitle2 text-negative">
             {{ $t('slotMachinePlayers') }}
             ({{ activeFloorListReport?.slotCount }})
@@ -65,7 +65,7 @@ const reloadReport = async () => {
             </tbody>
           </q-markup-table>
         </div>
-        <div class="col-4 q-pa-sm">
+        <div class="col-md-4 col-xs-12 q-pa-sm">
           <div class="text-subtitle2 text-negative">
             {{ $t('liveGamePlayers') }}
             ({{ activeFloorListReport?.liveGameCount }})

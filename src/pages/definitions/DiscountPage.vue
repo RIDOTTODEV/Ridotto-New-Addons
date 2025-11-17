@@ -10,7 +10,7 @@
     <q-card class="no-box-shadow">
       <q-card-section>
         <q-form @submit="onSubmitForm" ref="discountForm" class="row">
-          <div class="col-4 q-pa-sm">
+          <div class="col-md-4 col-xs-12 q-pa-sm">
             <q-select
               :label="$t('currency')"
               v-model="discountSettingFormValues.currencyId"
@@ -57,7 +57,7 @@
               </template>
             </q-select>
           </div>
-          <div class="col-4 q-pa-sm">
+          <div class="col-md-4 col-xs-12 q-pa-sm">
             <q-select
               :label="$t('cashdesk')"
               v-model="discountSettingFormValues.cashdeskId"
@@ -76,7 +76,7 @@
               hide-bottom-space
             />
           </div>
-          <div class="col-4 q-pa-sm">
+          <div class="col-md-4 col-xs-12 q-pa-sm">
             <q-select
               :label="$t('transactionCode')"
               v-model="discountSettingFormValues.transactionCodeId"
@@ -96,7 +96,7 @@
               hide-bottom-space
             />
           </div>
-          <div class="col-4 q-pa-sm">
+          <div class="col-md-4 col-xs-12 q-pa-sm">
             <q-currency-input
               :label="$t('minResult')"
               v-model="discountSettingFormValues.minResult"
@@ -106,7 +106,7 @@
               data-cy="minResult"
             />
           </div>
-          <div class="col-4 q-pa-sm">
+          <div class="col-md-4 col-xs-12 q-pa-sm">
             <q-currency-input
               :label="$t('maxResult')"
               v-model="discountSettingFormValues.maxResult"
@@ -116,7 +116,7 @@
               data-cy="maxResult"
             />
           </div>
-          <div class="col-4 q-pa-sm flex content-center justify-center">
+          <div class="col-md-4 col-xs-12 q-pa-sm flex content-center justify-center">
             <q-toggle
               :label="$t('systemStatus')"
               v-model="discountSettingFormValues.systemStatus"
@@ -126,7 +126,7 @@
               size="lg"
             />
           </div>
-          <div class="col-12 q-pa-sm q-mt-md">
+          <div class="col-md-12 col-xs-12 q-pa-sm q-mt-md">
             <q-table
               :columns="discountLevelsColumns"
               :rows="discountSettingFormValues.discountLevels"

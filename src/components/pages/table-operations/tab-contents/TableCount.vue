@@ -8,11 +8,11 @@
     <q-card-section class="q-pa-none">
       <div class="row">
         <div class="col-12 q-pa-xs">
-          <fieldset class="row">
+          <fieldset class="grid grid-cols-12">
             <legend align="center" class="text-subtitle2">
               {{ $t('tableCounts') }}
             </legend>
-            <div class="col-12 q-pa-md">
+            <div class="col-span-12 q-pa-md">
               <q-markup-table dense separator="cell" square class="no-box-shadow full-width">
                 <thead>
                   <tr>
@@ -247,62 +247,6 @@
             </div>
           </fieldset>
         </div>
-        <!--         <div class="col-5 q-pa-xs" v-if="selectedTableCount?.formattedTableFloats">
-          <fieldset class="row">
-            <legend class="text-subtitle2" align="center">Table Float Sets</legend>
-            <div
-              class="col q-pa-xs"
-              v-for="(item, i) in selectedTableCount?.formattedTableFloats"
-              :key="i"
-            >
-              <div class="row flex justify-between">
-                <div class="text-subtitle2">
-                  {{ item.chipName }}
-                </div>
-                <div class="text-subtitle2 q-mr-sm">
-                  {{ formatPrice(item.total) }}
-                </div>
-              </div>
-              <q-markup-table separator="cell" flat square bordered dense>
-                <thead>
-                  <tr>
-                    <th class="grey-card text-center">
-                      <strong>Denom</strong>
-                    </th>
-                    <th class="grey-card text-center">
-                      <strong class="q-pr-md">Quantity</strong>
-                    </th>
-                    <th class="grey-card text-center">
-                      <strong class="q-pr-md">Amount</strong>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="denom-body">
-                  <tr v-for="(denom, denomIndex) in item?.denominations" :key="denomIndex">
-                    <td
-                      class="text-center text-center cursor-not-allowed"
-                      style="padding: 0 !important"
-                    >
-                      {{ denom.chipDenomName }}
-                    </td>
-                    <td
-                      class="text-center text-grey-8 text-center cursor-not-allowed"
-                      style="padding: 0 !important"
-                    >
-                      {{ denom.quantity }}
-                    </td>
-                    <td
-                      class="text-center text-grey-8 text-center cursor-not-allowed"
-                      style="padding: 0 !important"
-                    >
-                      {{ formatPrice(denom.quantity * denom.chipValue) }}
-                    </td>
-                  </tr>
-                </tbody>
-              </q-markup-table>
-            </div>
-          </fieldset>
-        </div> -->
       </div>
     </q-card-section>
     <q-card-section v-if="selectedTableCount" class="q-mt-md q-pa-xs">
@@ -312,7 +256,7 @@
         </legend>
         <div class="col-12 flex justify-center content-center items-center">
           <Alert
-            style="width: 500px !important"
+            class="flex md:min-w-[500px] w-full"
             message="Bu masa oyuncu ile dolu olduğu için güncellenemez."
             type="error"
             :showDirect="true"
@@ -320,9 +264,9 @@
           />
         </div>
         <div class="col-12 q-pa-xs">
-          <div class="row flex" v-if="selectedTableCount">
+          <div class="row flex flex-col md:flex-row" v-if="selectedTableCount">
             <div
-              class="col q-pa-sm flex justify-start content-start items-start"
+              class="col-span-12 md:col-span-6 q-pa-sm flex justify-start content-start items-start"
               v-for="(item, i) in selectedTableCount?.chipInfoFormatted?.filter(
                 (item) => item.chipType === 'Chip',
               )"
@@ -379,11 +323,11 @@
               </div>
             </div>
             <div
-              class="col q-pa-sm"
+              class="col-span-12 md:col-span-6 q-pa-sm"
               v-for="(item, i) in selectedTableCount?.cashInfoFormatted"
               :key="i"
             >
-              <div class="row flex">
+              <div class="row flex col-span-12">
                 <div class="col-12">
                   <q-markup-table class="row" separator="cell" flat square bordered dense>
                     <thead>
@@ -476,7 +420,7 @@
               </div>
             </div>
             <div
-              class="col q-pa-sm flex justify-start content-start items-start"
+              class="col-span-12 md:col-span-6 q-pa-sm"
               v-for="(item, i) in selectedTableCount?.chipInfoFormatted?.filter(
                 (item) => item.chipType !== 'Chip',
               )"

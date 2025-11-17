@@ -117,7 +117,7 @@ const chipStockChipsDetailDialogData = ref(null)
           <legend class="text-subtitle2 q-pl-md q-pr-md">{{ $t('chipStockForm') }}</legend>
           <q-form @submit="onSubmitChipTransferForm" class="col-12 row input-box" ref="form">
             <div class="row col-12 q-pa-xs">
-              <div class="col-3 q-pa-md">
+              <div class="col-md-3 col-xs-12 q-pa-md">
                 <q-select
                   :label="$t('transactionType')"
                   v-model="chipTransferFormValues.transactionType"
@@ -135,7 +135,7 @@ const chipStockChipsDetailDialogData = ref(null)
                   behavior="menu"
                 />
               </div>
-              <div class="col-3 q-pa-md">
+              <div class="col-md-3 col-xs-12 q-pa-md">
                 <q-select
                   :label="$t('cashdesk')"
                   v-model="chipTransferFormValues.cashdeskId"
@@ -153,7 +153,7 @@ const chipStockChipsDetailDialogData = ref(null)
                   behavior="menu"
                 />
               </div>
-              <div class="col-3 q-pa-md">
+              <div class="col-md-3 col-xs-12 q-pa-md">
                 <q-select
                   :label="$t('transactionCode')"
                   v-model="chipTransferFormValues.transactionCodeId"
@@ -171,7 +171,7 @@ const chipStockChipsDetailDialogData = ref(null)
                   behavior="menu"
                 />
               </div>
-              <div class="col-3 q-pa-md">
+              <div class="col-md-3 col-xs-12 q-pa-md">
                 <q-input
                   :label="$t('note')"
                   v-model="chipTransferFormValues.note"
@@ -182,7 +182,7 @@ const chipStockChipsDetailDialogData = ref(null)
                   data-cy="note"
                 />
               </div>
-              <div class="col-3 q-pa-md flex content-end justify-start">
+              <div class="col-md-3 col-xs-12 q-pa-md flex content-end justify-start">
                 <q-btn
                   size="13px"
                   color="negative"
@@ -223,50 +223,42 @@ const chipStockChipsDetailDialogData = ref(null)
             :slot-names="['body-cell-chips']"
           >
             <template v-slot:headerFilterSlots="{ props }">
-              <div class="col-6 q-pl-sm q-mr-sm flex row justify-start">
-                <div class="q-pa-xs">
-                  <q-select
-                    v-model="chipTransaferFilterFields.transactionType"
-                    :options="chipCageTransactionTypes"
-                    option-value="value"
-                    option-label="label"
-                    :label="$t('transactionType')"
-                    class="super-small"
-                    dense
-                    outlined
-                    clearable
-                    options-dense
-                    emit-value
-                    map-options
-                    behavior="menu"
-                    style="width: 170px"
-                  />
-                </div>
-                <div class="q-pa-xs">
-                  <date-time-picker
-                    class="q-ml-sm"
-                    @selected-date="
-                      (val) =>
-                        (chipTransaferFilterFields = {
-                          ...chipTransaferFilterFields,
-                          ...val,
-                        })
-                    "
-                  />
-                </div>
-                <div class="q-pa-xs">
-                  <q-btn
-                    type="button"
-                    :label="$t('filter')"
-                    icon="tune"
-                    color="grey-2"
-                    text-color="dark"
-                    size="13px"
-                    unelevated
-                    no-caps
-                    @click="props.reload"
-                  />
-                </div>
+              <div class="flex sm:flex-row flex-col justify-start gap-2 w-full sm:w-auto">
+                <q-select
+                  v-model="chipTransaferFilterFields.transactionType"
+                  :options="chipCageTransactionTypes"
+                  option-value="value"
+                  option-label="label"
+                  :label="$t('transactionType')"
+                  class="super-small fixed-field-width"
+                  dense
+                  outlined
+                  clearable
+                  options-dense
+                  emit-value
+                  map-options
+                  behavior="menu"
+                />
+                <date-time-picker
+                  @selected-date="
+                    (val) =>
+                      (chipTransaferFilterFields = {
+                        ...chipTransaferFilterFields,
+                        ...val,
+                      })
+                  "
+                />
+                <q-btn
+                  type="button"
+                  :label="$t('filter')"
+                  icon="tune"
+                  color="grey-2"
+                  text-color="dark"
+                  size="13px"
+                  unelevated
+                  no-caps
+                  @click="props.reload"
+                />
               </div>
             </template>
             <template v-slot:body-cell-chips="{ props }">

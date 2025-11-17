@@ -58,7 +58,7 @@
     </SupaTable>
 
     <q-dialog v-model="roomTypeDialog" backdrop-filter="brightness(40%)">
-      <q-card class="minWithDialog">
+      <q-card class="sm:minWithDialog w-full">
         <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
           <div class="text-subtitle2">
             {{ $t('edit') }}
@@ -70,7 +70,7 @@
         </q-bar>
         <q-card-section>
           <q-form @submit="onSubmitRoomTypeForm" ref="form">
-            <div class="col-12">
+            <div class="col-md-12 col-xs-12">
               <q-input
                 :label="$t('roomType')"
                 autofocus
@@ -84,7 +84,7 @@
                 data-cy="roomTypeName"
               />
             </div>
-            <div class="col-12">
+            <div class="col-md-12 col-xs-12">
               <q-input
                 v-model="roomTypeFormValues.description"
                 :label="$t('description')"
@@ -93,7 +93,7 @@
                 class="super-small"
               />
             </div>
-            <div class="col-12 q-mt-md">
+            <div class="col-md-12 col-xs-12 q-mt-md">
               <q-input
                 v-model="roomTypeFormValues.price"
                 :label="$t('price')"

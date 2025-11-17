@@ -3,12 +3,12 @@
     <q-card-section class="q-pl-sm q-pr-sm q-pt-sm q-pb-none">
       <div class="row full-height flex justify-between">
         <div class="content-center full-height col-12">
-          <div class="full-width flex justify-between col-12 items-center">
+          <div class="flex xs:flex-col md:flex-row gap-2 justify-between w-full items-start">
             <q-tabs
               v-model="currentTableOperationTab"
               @update:model-value="onChangeTab"
               dense
-              class="text-dark"
+              class="w-full sm:w-auto"
               active-color="white"
               indicator-color="blue-grey-8"
               active-bg-color="blue-grey-8"
@@ -16,6 +16,7 @@
               narrow-indicator
               no-caps
               inline-label
+              content-class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto"
             >
               <q-tab
                 v-for="(tab, index) in tableOperationTabs"
@@ -26,25 +27,25 @@
                 :name="tab.name"
                 :label="$t(tab.label)"
                 :icon="tab.icon"
-                :class="
-                  index === 0 ? 'q-card--bordered bg-white' : 'q-card--bordered q-ml-sm bg-white'
-                "
+                :class="index === 0 ? 'q-card--bordered bg-white' : 'q-card--bordered bg-white'"
               />
             </q-tabs>
-            <q-btn
-              v-el-perms="'Addon.TableOperations.Tab.TableCountStableSettings'"
-              icon="o_settings"
-              color="blue-grey-8"
-              text-color="white"
-              unelevated
-              no-caps
-              @click="onClickTableOperationSettings"
-              class="q-card--bordered"
-            >
-              <q-tooltip class="text-subtitle2 bg-blue-grey-8">{{
-                $t('tableCountStableSettings')
-              }}</q-tooltip>
-            </q-btn>
+            <div class="w-full sm:w-auto flex justify-end">
+              <q-btn
+                v-el-perms="'Addon.TableOperations.Tab.TableCountStableSettings'"
+                icon="o_settings"
+                color="blue-grey-8"
+                text-color="white"
+                unelevated
+                no-caps
+                @click="onClickTableOperationSettings"
+                class="q-card--bordered"
+              >
+                <q-tooltip class="text-subtitle2 bg-blue-grey-8">{{
+                  $t('tableCountStableSettings')
+                }}</q-tooltip>
+              </q-btn>
+            </div>
           </div>
         </div>
       </div>

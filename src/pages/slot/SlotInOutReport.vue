@@ -10,43 +10,37 @@
       dataKey="data"
     >
       <template v-slot:headerFilterSlots>
-        <div class="col-8 flex row justify-start">
-          <div class="row full-width flex justify-start">
-            <div class="col-4">
-              <SearchPlayerInput
-                v-model="filterValues.playerId"
-                :placeholder="$t('searchPlayer')"
-                @onSelectPlayer="onSelectPlayer"
-                :optionLabel="'value'"
-                :displayedValue="filterValues.playerName"
-                @onClear="onClearPlayer"
-                class="full-width"
-              />
-            </div>
-            <date-time-picker
-              class="q-ml-sm"
-              @selected-date="
-                (val) => {
-                  filterValues = {
-                    ...filterValues,
-                    ...val,
-                  }
+        <div class="flex sm:flex-row flex-col justify-start gap-2 w-full sm:w-auto">
+          <SearchPlayerInput
+            v-model="filterValues.playerId"
+            :placeholder="$t('searchPlayer')"
+            @onSelectPlayer="onSelectPlayer"
+            :optionLabel="'value'"
+            :displayedValue="filterValues.playerName"
+            @onClear="onClearPlayer"
+            class="fixed-field-width"
+          />
+          <date-time-picker
+            @selected-date="
+              (val) => {
+                filterValues = {
+                  ...filterValues,
+                  ...val,
                 }
-              "
-            />
-            <q-btn
-              type="button"
-              :label="$t('filter')"
-              icon="tune"
-              color="grey-2"
-              text-color="dark"
-              size="13px"
-              unelevated
-              no-caps
-              class="q-ml-sm"
-              @click="slotInOutReportTable.fetchData()"
-            />
-          </div>
+              }
+            "
+          />
+          <q-btn
+            type="button"
+            :label="$t('filter')"
+            icon="tune"
+            color="grey-2"
+            text-color="dark"
+            size="13px"
+            unelevated
+            no-caps
+            @click="slotInOutReportTable.fetchData()"
+          />
         </div>
       </template>
 

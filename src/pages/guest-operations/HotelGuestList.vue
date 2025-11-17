@@ -571,7 +571,7 @@ const onSelection = () => {
     <q-card v-show="!showHotelGuestForm" class="no-box-shadow bg-transparent">
       <q-card-section class="q-pa-none">
         <div class="row flex justify-start items-start nowrap">
-          <div class="col-3">
+          <div class="col-md-3 col-xs-12">
             <fieldset class="fieldset">
               <legend class="text-subtitle2">{{ $t('Totals') }}</legend>
               <q-markup-table dense separator="cell" bordered flat>
@@ -651,7 +651,7 @@ const onSelection = () => {
               </q-markup-table>
             </fieldset>
           </div>
-          <div class="col-4">
+          <div class="col-md-4 col-xs-12">
             <fieldset class="fieldset row">
               <legend class="text-subtitle2">{{ $t('filter') }}</legend>
               <div class="row full-width">
@@ -718,7 +718,7 @@ const onSelection = () => {
               </div>
             </fieldset>
           </div>
-          <div class="col-3">
+          <div class="col-md-3 col-xs-12">
             <fieldset class="fieldset row">
               <legend class="text-subtitle2">
                 <q-checkbox
@@ -805,7 +805,7 @@ const onSelection = () => {
               </div>
             </fieldset>
           </div>
-          <div class="col-2">
+          <div class="col-md-2 col-xs-12">
             <fieldset class="fieldset row">
               <legend class="text-subtitle2">Bulk Update</legend>
               <div class="row">

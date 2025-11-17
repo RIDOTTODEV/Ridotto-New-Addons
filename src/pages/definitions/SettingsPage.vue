@@ -8,7 +8,7 @@
       </q-card-section>
       <q-card-section class="q-pt-none">
         <q-form @submit="authStore.saveAddonGeneralSettings" class="row">
-          <div class="col-3 q-pa-xs">
+          <div class="col-md-3 col-xs-12 q-pa-xs">
             <div class="text-caption">
               {{ $t('defaultCurrency') }}
               <span class="text-negative">*</span>
@@ -58,7 +58,7 @@
               </template>
             </q-select>
           </div>
-          <div class="col-3 q-pa-xs">
+          <div class="col-md-3 col-xs-12 q-pa-xs">
             <div class="text-caption">
               {{ $t('defaultLocale') }}
               <span class="text-negative">*</span>
@@ -106,7 +106,7 @@
               </template>
             </q-select>
           </div>
-          <div class="col-3 q-pa-xs">
+          <div class="col-md-3 col-xs-12 q-pa-xs">
             <div class="text-caption">
               {{ $t('sigaretteReportTags') }}
               <span class="text-negative">*</span>
@@ -129,7 +129,7 @@
               :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
             />
           </div>
-          <div class="col-3 q-pa-xs">
+          <div class="col-md-3 col-xs-12 q-pa-xs">
             <div class="text-caption">
               {{ $t('CashierPassword') }}
               <span class="text-negative"></span>
@@ -150,7 +150,7 @@
               </template>
             </q-input>
           </div>
-          <div class="col-3 q-pa-xs">
+          <div class="col-md-3 col-xs-12 q-pa-xs">
             <div class="text-caption">
               {{ $t('PitbossPassword') }}
               <span class="text-negative"></span>
@@ -171,7 +171,7 @@
               </template>
             </q-input>
           </div>
-          <div class="col-3 q-pa-xs">
+          <div class="col-md-3 col-xs-12 q-pa-xs">
             <div class="text-caption">
               {{ $t('Default Player Transaction Location') }}
               <span class="text-negative">*</span>
@@ -185,7 +185,7 @@
               :rules="[(val) => (val && val.toString().length > 0) || $t('requiredField')]"
             />
           </div>
-          <div class="col-12 q-pa-xs flex justify-start q-mt-lg">
+          <div class="col-md-12 col-xs-12 q-pa-xs flex justify-start q-mt-lg">
             <q-btn
               unelevated
               type="submit"

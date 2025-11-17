@@ -58,7 +58,7 @@
     </SupaTable>
 
     <q-dialog v-model="expenseParameterDialog" backdrop-filter="brightness(40%)">
-      <q-card class="minWithDialog">
+      <q-card class="sm:minWithDialog w-full">
         <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
           <div class="text-subtitle2">
             {{ $t('edit') }}
@@ -70,7 +70,7 @@
         </q-bar>
         <q-card-section>
           <q-form @submit="onSubmitExpenseParameterForm" ref="form" class="row">
-            <div class="col-12">
+            <div class="col-md-12 col-xs-12">
               <q-input
                 :label="$t('expenseParameter')"
                 autofocus
@@ -85,7 +85,7 @@
               />
             </div>
 
-            <div class="col-6 q-pa-xs">
+            <div class="col-md-6 col-xs-12 q-pa-xs">
               <q-select
                 :label="$t('currency')"
                 v-model="expenseParameterFormValues.currencyId"
@@ -133,7 +133,7 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-6 q-pa-xs">
+            <div class="col-md-6 col-xs-12 q-pa-xs">
               <q-input
                 v-model="expenseParameterFormValues.amount"
                 :label="$t('price')"
@@ -144,7 +144,7 @@
               />
             </div>
 
-            <div class="col-4 q-pa-xs">
+            <div class="col-md-4 col-xs-12 q-pa-xs">
               <q-toggle
                 v-model="expenseParameterFormValues.dailyBasedQuantity"
                 :label="$t('dailyBasedQuantity')"
@@ -152,7 +152,7 @@
                 dense
               />
             </div>
-            <div class="col-4 q-pa-xs">
+            <div class="col-md-4 col-xs-12 q-pa-xs">
               <q-toggle
                 v-model="expenseParameterFormValues.isVisible"
                 :label="$t('visible')"
@@ -160,7 +160,7 @@
                 dense
               />
             </div>
-            <div class="col-4 text-right">
+            <div class="col-md-4 col-xs-12 text-right">
               <q-btn
                 no-wrap
                 no-caps

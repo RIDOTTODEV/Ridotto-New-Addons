@@ -6,7 +6,7 @@
     transition-show="slide-up"
     transition-hide="slide-down"
   >
-    <q-card style="min-width: 1200px">
+    <q-card class="sm:min-w-[1200px] w-full">
       <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
         <div class="text-subtitle2">
           <q-icon name="content_copy" class="q-mr-sm" />

@@ -29,48 +29,45 @@
       :slotNames="['body-cell-playerFullName']"
     >
       <template v-slot:headerFilterSlots>
-        <div class="col-8 flex row justify-start">
-          <div class="row full-width flex justify-start">
-            <SearchPlayerInput
-              v-model="filterValues.playerId"
-              :placeholder="$t('searchPlayer')"
-              @onSelectPlayer="onSelectPlayer"
-              :optionLabel="'value'"
-              :displayedValue="filterValues.playerName"
-              @onClear="onClearPlayer"
-            />
-            <q-input
-              v-model="filterValues.CreatedByName"
-              :placeholder="$t('createdByName')"
-              outlined
-              dense
-              clearable
-              class="q-ml-sm super-small"
-            />
-            <date-time-picker
-              class="q-ml-sm"
-              @selected-date="
-                (val) => {
-                  filterValues = {
-                    ...filterValues,
-                    ...val,
-                  }
+        <div class="flex sm:flex-row flex-col justify-start gap-2 w-full sm:w-auto">
+          <SearchPlayerInput
+            v-model="filterValues.playerId"
+            :placeholder="$t('searchPlayer')"
+            @onSelectPlayer="onSelectPlayer"
+            :optionLabel="'value'"
+            :displayedValue="filterValues.playerName"
+            @onClear="onClearPlayer"
+            class="fixed-field-width"
+          />
+          <q-input
+            v-model="filterValues.CreatedByName"
+            :placeholder="$t('createdByName')"
+            outlined
+            dense
+            clearable
+            class="super-small fixed-field-width"
+          />
+          <date-time-picker
+            @selected-date="
+              (val) => {
+                filterValues = {
+                  ...filterValues,
+                  ...val,
                 }
-              "
-            />
-            <q-btn
-              type="button"
-              :label="$t('filter')"
-              icon="tune"
-              color="grey-2"
-              text-color="dark"
-              size="13px"
-              unelevated
-              no-caps
-              class="q-ml-sm"
-              @click="cigaretteReportTable.fetchData()"
-            />
-          </div>
+              }
+            "
+          />
+          <q-btn
+            type="button"
+            :label="$t('filter')"
+            icon="tune"
+            color="grey-2"
+            text-color="dark"
+            size="13px"
+            unelevated
+            no-caps
+            @click="cigaretteReportTable.fetchData()"
+          />
         </div>
       </template>
       <template v-slot:body-cell-playerFullName="{ props }">

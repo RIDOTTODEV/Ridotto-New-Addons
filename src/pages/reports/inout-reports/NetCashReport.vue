@@ -10,32 +10,28 @@
       :frozenColumns="['playerName']"
     >
       <template v-slot:headerFilterSlots>
-        <div class="col-6 flex row justify-start">
-          <div class="row full-width flex justify-start">
-            <date-time-picker
-              class="q-ml-sm"
-              @selected-date="
-                (val) => {
-                  filterValues = {
-                    ...filterValues,
-                    ...val,
-                  }
+        <div class="flex sm:flex-row flex-col justify-start gap-2 w-full sm:w-auto">
+          <date-time-picker
+            @selected-date="
+              (val) => {
+                filterValues = {
+                  ...filterValues,
+                  ...val,
                 }
-              "
-            />
-            <q-btn
-              type="button"
-              :label="$t('filter')"
-              icon="tune"
-              color="grey-2"
-              text-color="dark"
-              size="13px"
-              unelevated
-              no-caps
-              class="q-ml-sm"
-              @click="inOutReportTable.fetchData()"
-            />
-          </div>
+              }
+            "
+          />
+          <q-btn
+            type="button"
+            :label="$t('filter')"
+            icon="tune"
+            color="grey-2"
+            text-color="dark"
+            size="13px"
+            unelevated
+            no-caps
+            @click="inOutReportTable.fetchData()"
+          />
         </div>
       </template>
 

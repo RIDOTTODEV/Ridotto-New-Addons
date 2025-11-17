@@ -44,9 +44,9 @@ const showLiveGameResult = (value) => {
   <q-page class="q-pa-sm" style="background-color: #bac6da">
     <q-card class="no-box-shadow bg-transparent">
       <q-card-section class="q-pa-none row">
-        <div class="col-6">
+        <div class="col-md-6 col-xs-12">
           <div class="row">
-            <div class="col-6 q-pa-xs">
+            <div class="col-md-6 col-xs-12 q-pa-xs">
               <q-expansion-item
                 dense
                 dense-toggle
@@ -397,7 +397,7 @@ const showLiveGameResult = (value) => {
                 </div>
               </div>
             </div>
-            <div class="col-6 q-pa-xs">
+            <div class="col-md-6 col-xs-12 q-pa-xs">
               <div class="table-container">
                 <q-markup-table square flat bordered separator="cell" dense>
                   <thead>
@@ -497,7 +497,7 @@ const showLiveGameResult = (value) => {
             </div>
           </div>
         </div>
-        <div class="col-6 q-pa-sm">
+        <div class="col-md-6 col-xs-12 q-pa-sm">
           <div class="col-12">
             <span class="text-subtitle2"
               >Active Tables
@@ -506,7 +506,7 @@ const showLiveGameResult = (value) => {
           </div>
           <div class="row">
             <div
-              class="col-6 q-pa-sm"
+              class="col-md-6 col-xs-12 q-pa-sm"
               v-for="(item, index) in activeFloorInfo?.activeTables"
               :key="index"
             >
@@ -611,336 +611,6 @@ const showLiveGameResult = (value) => {
       </q-card-section>
     </q-card>
   </q-page>
-  <!--   <q-page class="q-pa-md">
-    <q-card class="no-box-shadow app-cart-grey q-mb-md">
-      <q-card-section class="q-pa-none">
-        <div class="text-h6">
-          {{ $t("menus.activeFloorInfo") }}
-        </div>
-      </q-card-section>
-    </q-card>
-    <q-card flat square>
-      <q-card-section>
-        <div class="text-subtitle1 text-bold">
-          {{ $t("activeFloorInfo.lgResultByGame") }}
-        </div>
-        <Information
-          class="full-width q-mt-sm q-mb-sm"
-          content="Oyun bazlı olarak drop ve result bilgisini verir."
-        />
-        <q-markup-table square flat bordered separator="cell" dense>
-          <thead>
-            <tr class="app-cart-grey">
-              <th class="text-center">Game Name</th>
-              <th
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-orange-7' : 'bg-orange-1',
-                ]"
-              >
-                Total Cash Drop
-              </th>
-              <th
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-green-7' : 'bg-green-1',
-                ]"
-              >
-                Total Chip Drop
-              </th>
-              <th class="text-center">Total Drop</th>
-              <th class="text-center">Total Out</th>
-              <th
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-red-7' : 'bg-red-1',
-                ]"
-              >
-                Total Result
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="(item, index) in reportStore.activeFloorInfo
-                ?.lgResultByGame?.gameResults"
-              :key="index"
-            >
-              <td class="text-center">{{ item.gameName }}</td>
-              <td
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-orange-7' : 'bg-orange-1',
-                ]"
-              >
-                {{ formatPrice(item.totalCashDrop) }}
-              </td>
-              <td
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-green-7' : 'bg-green-1',
-                ]"
-              >
-                {{ formatPrice(item.totalChipDrop) }}
-              </td>
-              <td class="text-center">{{ formatPrice(item.totalDrop) }}</td>
-              <td class="text-center">{{ formatPrice(item.totalOut) }}</td>
-              <td
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-red-7' : 'bg-red-1',
-                ]"
-              >
-                {{ formatPrice(item.totalResult) }}
-              </td>
-            </tr>
-            <tr>
-              <td class="text-center"></td>
-              <td class="text-center text-bold">
-                {{
-                  formatPrice(
-                    reportStore.activeFloorInfo?.lgResultByGame?.cashDrop
-                  )
-                }}
-              </td>
-              <td class="text-center text-bold">
-                {{
-                  formatPrice(
-                    reportStore.activeFloorInfo?.lgResultByGame?.chipDrop
-                  )
-                }}
-              </td>
-              <td class="text-center"></td>
-              <td class="text-center"></td>
-              <td class="text-center text-bold"></td>
-            </tr>
-          </tbody>
-        </q-markup-table>
-      </q-card-section>
-    </q-card>
-    <q-card flat square>
-      <q-card-section>
-        <div class="text-subtitle1 text-bold">
-          {{ $t("activeFloorInfo.lgInfo") }}
-        </div>
-        <Information
-          class="full-width q-mt-sm q-mb-sm"
-          content="Anlık olarak aktif olan masa sayısı , masalarda oturan oyuncu sayısı cash drop , avg bet  ve result bilgisini verir."
-        />
-        <q-markup-table square flat bordered separator="cell" dense>
-          <thead>
-            <tr class="app-cart-grey">
-              <th class="text-center">Table Count</th>
-              <th class="text-center">Player Count</th>
-              <th class="text-center">Avg Bet</th>
-              <th
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-orange-7' : 'bg-orange-1',
-                ]"
-              >
-                Total Cash Drop
-              </th>
-              <th
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-green-7' : 'bg-green-1',
-                ]"
-              >
-                Total Result
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="text-center">
-                {{ reportStore.activeFloorInfo?.lgInfo?.tableCount }}
-              </td>
-              <td class="text-center">
-                {{ reportStore.activeFloorInfo?.lgInfo?.playerCount }}
-              </td>
-              <td class="text-center">
-                {{ formatPrice(reportStore.activeFloorInfo?.lgInfo?.avgBet) }}
-              </td>
-              <td
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-orange-7' : 'bg-orange-1',
-                ]"
-              >
-                {{
-                  formatPrice(
-                    reportStore.activeFloorInfo?.lgInfo?.totalCashDrop
-                  )
-                }}
-              </td>
-              <td
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-green-7' : 'bg-green-1',
-                ]"
-              >
-                {{
-                  formatPrice(reportStore.activeFloorInfo?.lgInfo?.totalResult)
-                }}
-              </td>
-            </tr>
-          </tbody>
-        </q-markup-table>
-      </q-card-section>
-    </q-card>
-    <q-card flat square>
-      <q-card-section>
-        <div class="text-subtitle1 text-bold">
-          {{ $t("activeFloorInfo.sitPlayers") }}
-        </div>
-        <Information
-          class="full-width q-mt-sm q-mb-sm"
-          content="Aktif oyun oynayan oyuncu bilgilerini verir."
-        />
-        <q-markup-table square flat bordered separator="cell" dense>
-          <thead>
-            <tr class="app-cart-grey">
-              <th class="text-center">Player Name</th>
-              <th class="text-center">Table Name</th>
-              <th class="text-center">Cash Drop</th>
-              <th
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-blue-7' : 'bg-blue-1',
-                ]"
-              >
-                Chip Drop
-              </th>
-              <th
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-red-7' : 'bg-red-1',
-                ]"
-              >
-                Avg Bet
-              </th>
-              <th
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-green-7' : 'bg-green-1',
-                ]"
-              >
-                Total Result
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="(item, index) in reportStore.activeFloorInfo?.sitPlayers"
-              :key="index"
-            >
-              <td class="text-center">{{ item.playerName }}</td>
-              <td class="text-center">{{ item.tableName }}</td>
-              <td class="text-center">{{ formatPrice(item.cashDrop) }}</td>
-              <td
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-blue-7' : 'bg-blue-1',
-                ]"
-              >
-                {{ formatPrice(item.chipDrop) }}
-              </td>
-              <td
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-red-7' : 'bg-red-1',
-                ]"
-              >
-                {{ formatPrice(item.avgBet) }}
-              </td>
-              <td
-                :class="[
-                  'text-center',
-                  'text-bold',
-                  $q.dark.isActive ? 'bg-green-7' : 'bg-green-1',
-                ]"
-              >
-                {{ formatPrice(item.result) }}
-              </td>
-            </tr>
-          </tbody>
-        </q-markup-table>
-      </q-card-section>
-    </q-card>
-    <q-card flat square>
-      <q-card-section>
-        <div class="text-subtitle1 text-bold">
-          {{ $t("activeFloorInfo.activeTables") }}
-        </div>
-        <Information
-          class="full-width q-mt-sm q-mb-sm"
-          content="Akitf olan masa ve üzerindeki oyuncu bilgilerini verir."
-        />
-        <q-markup-table square flat bordered separator="cell" dense>
-          <thead>
-            <tr class="app-cart-grey">
-              <th class="text-center">Table Name</th>
-              <th class="text-center">Players</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="(item, index) in reportStore.activeFloorInfo?.activeTables"
-              :key="index"
-            >
-              <td class="text-center">{{ item.tableName }}</td>
-              <td>
-                <q-markup-table square flat bordered separator="cell" dense>
-                  <thead>
-                    <tr class="app-cart-grey">
-                      <th class="text-center">Player Name</th>
-                      <th class="text-center">Cash Drop</th>
-                      <th class="text-center">Chip Drop</th>
-                      <th class="text-center">Avg Bet</th>
-                      <th class="text-center">Result</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(player, i) in item?.players" :key="i">
-                      <td class="text-center">{{ player.playerName }}</td>
-                      <td class="text-center">
-                        {{ formatPrice(player.cashDrop) }}
-                      </td>
-                      <td class="text-center">
-                        {{ formatPrice(player.chipDrop) }}
-                      </td>
-                      <td class="text-center">
-                        {{ formatPrice(player.avgBet) }}
-                      </td>
-                      <td class="text-center">
-                        {{ formatPrice(player.result) }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </q-markup-table>
-              </td>
-            </tr>
-          </tbody>
-        </q-markup-table>
-      </q-card-section>
-    </q-card>
-  </q-page> -->
 </template>
 
 <style lang="scss">

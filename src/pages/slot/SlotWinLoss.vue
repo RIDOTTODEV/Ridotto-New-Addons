@@ -17,58 +17,53 @@
       dataKey="data"
     >
       <template v-slot:headerFilterSlots>
-        <div class="col-8 flex row justify-start">
-          <div class="row full-width flex justify-start">
-            <div class="col-4">
-              <SearchPlayerInput
-                v-model="playerWinnLossFilterValues.playerId"
-                :placeholder="$t('searchPlayer')"
-                @onSelectPlayer="
-                  (val) => {
-                    if (val) {
-                      playerWinnLossFilterValues.playerId = val.id
-                      playerWinnLossFilterValues.playerName = val.value
-                    } else {
-                      playerWinnLossFilterValues.playerId = null
-                      playerWinnLossFilterValues.playerName = null
-                    }
-                  }
-                "
-                :optionLabel="'value'"
-                :displayedValue="playerWinnLossFilterValues.playerName"
-                @onClear="
-                  () => {
-                    playerWinnLossFilterValues.playerId = null
-                    playerWinnLossFilterValues.playerName = null
-                  }
-                "
-                class="full-width"
-              />
-            </div>
-            <date-time-picker
-              class="q-ml-sm"
-              @selected-date="
-                (val) => {
-                  playerWinnLossFilterValues = {
-                    ...playerWinnLossFilterValues,
-                    ...val,
-                  }
+        <div class="flex sm:flex-row flex-col justify-start gap-2 w-full sm:w-auto">
+          <SearchPlayerInput
+            v-model="playerWinnLossFilterValues.playerId"
+            :placeholder="$t('searchPlayer')"
+            @onSelectPlayer="
+              (val) => {
+                if (val) {
+                  playerWinnLossFilterValues.playerId = val.id
+                  playerWinnLossFilterValues.playerName = val.value
+                } else {
+                  playerWinnLossFilterValues.playerId = null
+                  playerWinnLossFilterValues.playerName = null
                 }
-              "
-            />
-            <q-btn
-              type="button"
-              :label="$t('filter')"
-              icon="tune"
-              color="grey-2"
-              text-color="dark"
-              size="13px"
-              unelevated
-              no-caps
-              class="q-ml-sm"
-              @click="playerWinLossTableRef.fetchData()"
-            />
-          </div>
+              }
+            "
+            :optionLabel="'value'"
+            :displayedValue="playerWinnLossFilterValues.playerName"
+            @onClear="
+              () => {
+                playerWinnLossFilterValues.playerId = null
+                playerWinnLossFilterValues.playerName = null
+              }
+            "
+            class="fixed-field-width"
+          />
+          <date-time-picker
+            @selected-date="
+              (val) => {
+                playerWinnLossFilterValues = {
+                  ...playerWinnLossFilterValues,
+                  ...val,
+                }
+              }
+            "
+          />
+          <q-btn
+            type="button"
+            :label="$t('filter')"
+            icon="tune"
+            color="grey-2"
+            text-color="dark"
+            size="13px"
+            unelevated
+            no-caps
+            class="q-ml-sm"
+            @click="playerWinLossTableRef.fetchData()"
+          />
         </div>
       </template>
 
@@ -105,105 +100,93 @@
       dataKey="data"
     >
       <template v-slot:headerFilterSlots>
-        <div class="col-8 flex row justify-start">
-          <div class="row full-width flex justify-start">
-            <div class="col-3 q-pa-xs">
-              <SearchPlayerInput
-                v-model="machineFilterValues.playerId"
-                :placeholder="$t('searchPlayer')"
-                @onSelectPlayer="
-                  (val) => {
-                    if (val) {
-                      machineFilterValues.playerId = val.id
-                      machineFilterValues.playerName = val.value
-                    } else {
-                      machineFilterValues.playerId = null
-                      machineFilterValues.playerName = null
-                    }
-                  }
-                "
-                :optionLabel="'value'"
-                :displayedValue="machineFilterValues.playerName"
-                @onClear="
-                  () => {
-                    machineFilterValues.playerId = null
-                    machineFilterValues.playerName = null
-                  }
-                "
-                class="full-width"
-              />
-            </div>
-            <div class="col-3 q-pa-xs">
-              <q-select-box
-                v-model="machineFilterValues.slotBrand"
-                :options="slotBrands"
-                option-label="value"
-                option-value="id"
-                class="full-width"
-                :label="$t('slotBrand')"
-                :fetchFn="reportStore.getSlotBrands"
-              />
-            </div>
-            <div class="col-3 q-pa-xs">
-              <q-select-box
-                v-model="machineFilterValues.slotModel"
-                :options="slotModels"
-                option-label="value"
-                option-value="id"
-                class="full-width"
-                :label="$t('slotModel')"
-                :fetchFn="reportStore.getSlotModels"
-              />
-            </div>
-            <div class="col-3 q-pa-xs">
-              <SearchMachineInput
-                v-model="machineFilterValues.slotMachineId"
-                :placeholder="$t('searchMachine')"
-                :displayedValue="machineFilterValues.slotMachineValue"
-                @onSelectMachine="
-                  (val) => {
-                    if (val) {
-                      machineFilterValues.slotMachineId = val.id
-                      machineFilterValues.slotMachineValue = val.value
-                    } else {
-                      machineFilterValues.slotMachineId = null
-                      machineFilterValues.slotMachineValue = null
-                    }
-                  }
-                "
-                @onClear="
-                  () => {
-                    machineFilterValues.slotMachineId = null
-                    machineFilterValues.slotMachineValue = null
-                  }
-                "
-                class="full-width"
-              />
-            </div>
-            <date-time-picker
-              class="q-ml-sm"
-              @selected-date="
-                (val) => {
-                  machineFilterValues = {
-                    ...machineFilterValues,
-                    ...val,
-                  }
+        <div class="flex sm:flex-row flex-col justify-start gap-2 w-full sm:w-auto">
+          <SearchPlayerInput
+            v-model="machineFilterValues.playerId"
+            :placeholder="$t('searchPlayer')"
+            @onSelectPlayer="
+              (val) => {
+                if (val) {
+                  machineFilterValues.playerId = val.id
+                  machineFilterValues.playerName = val.value
+                } else {
+                  machineFilterValues.playerId = null
+                  machineFilterValues.playerName = null
                 }
-              "
-            />
-            <q-btn
-              type="button"
-              :label="$t('filter')"
-              icon="tune"
-              color="grey-2"
-              text-color="dark"
-              size="13px"
-              unelevated
-              no-caps
-              class="q-ml-sm"
-              @click="machineTableRef.fetchData()"
-            />
-          </div>
+              }
+            "
+            :optionLabel="'value'"
+            :displayedValue="machineFilterValues.playerName"
+            @onClear="
+              () => {
+                machineFilterValues.playerId = null
+                machineFilterValues.playerName = null
+              }
+            "
+            class="fixed-field-width"
+          />
+          <q-select-box
+            v-model="machineFilterValues.slotBrand"
+            :options="slotBrands"
+            option-label="value"
+            option-value="id"
+            class="fixed-field-width"
+            :label="$t('slotBrand')"
+            :fetchFn="reportStore.getSlotBrands"
+          />
+          <q-select-box
+            v-model="machineFilterValues.slotModel"
+            :options="slotModels"
+            option-label="value"
+            option-value="id"
+            class="fixed-field-width"
+            :label="$t('slotModel')"
+            :fetchFn="reportStore.getSlotModels"
+          />
+          <SearchMachineInput
+            v-model="machineFilterValues.slotMachineId"
+            :placeholder="$t('searchMachine')"
+            :displayedValue="machineFilterValues.slotMachineValue"
+            @onSelectMachine="
+              (val) => {
+                if (val) {
+                  machineFilterValues.slotMachineId = val.id
+                  machineFilterValues.slotMachineValue = val.value
+                } else {
+                  machineFilterValues.slotMachineId = null
+                  machineFilterValues.slotMachineValue = null
+                }
+              }
+            "
+            @onClear="
+              () => {
+                machineFilterValues.slotMachineId = null
+                machineFilterValues.slotMachineValue = null
+              }
+            "
+            class="fixed-field-width"
+          />
+          <date-time-picker
+            @selected-date="
+              (val) => {
+                machineFilterValues = {
+                  ...machineFilterValues,
+                  ...val,
+                }
+              }
+            "
+          />
+          <q-btn
+            type="button"
+            :label="$t('filter')"
+            icon="tune"
+            color="grey-2"
+            text-color="dark"
+            size="13px"
+            unelevated
+            no-caps
+            @click="machineTableRef.fetchData()"
+          />
         </div>
       </template>
 

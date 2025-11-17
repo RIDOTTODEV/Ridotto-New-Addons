@@ -220,8 +220,8 @@
           </tbody>
         </q-markup-table>
       </q-card-section>
-      <q-card-section class="q-pa-none row q-mt-md" style="background-color: #bac6da">
-        <div class="col-5 q-pa-xs">
+      <q-card-section class="q-pa-none bg-[#bac6da] grid grid-cols-12">
+        <div class="col-span-12 md:col-span-5 q-pa-xs">
           <fieldset class="row">
             <legend class="q-pa-sm text-subtitle2">Lg / Sl Result</legend>
             <div class="col-6 q-pa-xs row flex no-wrap justify-end items-center content-center">
@@ -425,7 +425,7 @@
             </div>
           </fieldset>
         </div>
-        <div class="col-7 q-pa-xs">
+        <div class="col-span-12 md:col-span-7 q-pa-xs">
           <fieldset class="row">
             <legend class="q-pa-sm text-subtitle2">Totals</legend>
             <div class="col-6 q-pa-xs row flex justify-end">
@@ -662,9 +662,9 @@
             </div>
           </fieldset>
 
-          <fieldset class="row" v-if="!showPeriodDetails">
+          <fieldset class="grid grid-cols-12" v-if="!showPeriodDetails">
             <legend class="q-pa-sm text-subtitle2">Period Theoretical</legend>
-            <div class="col-6 q-pa-xs">
+            <div class="col-span-12 md:col-span-6 q-pa-xs">
               <q-markup-table
                 dense
                 flat
@@ -690,7 +690,7 @@
                 </tbody>
               </q-markup-table>
             </div>
-            <div class="col-6 q-pa-xs">
+            <div class="col-span-12 md:col-span-6 q-pa-xs">
               <q-markup-table dense flat bordered separator="cell" v-if="response.dailyTheoretical">
                 <thead>
                   <tr class="app-card-grey">
@@ -755,8 +755,8 @@
             </div>
           </fieldset>
 
-          <div class="row">
-            <div class="col-6">
+          <div class="grid grid-cols-12">
+            <div class="col-span-12 md:col-span-6">
               <fieldset class="row">
                 <legend class="q-pa-sm text-subtitle2">Slot Transactions</legend>
                 <div class="col-12 q-pa-none">

@@ -58,7 +58,7 @@
     </SupaTable>
 
     <q-dialog v-model="giftDialog" backdrop-filter="brightness(40%)">
-      <q-card class="minWithDialog">
+      <q-card class="sm:minWithDialog w-full">
         <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
           <div class="text-subtitle2">
             {{ $t('edit') }}
@@ -70,7 +70,7 @@
         </q-bar>
         <q-card-section>
           <q-form @submit="onSubmitGiftForm" ref="form">
-            <div class="col-12">
+            <div class="col-md-12 col-xs-12">
               <q-input
                 :label="$t('gift.name')"
                 autofocus
@@ -85,7 +85,7 @@
                 data-cy="giftName"
               />
             </div>
-            <div class="col-12 q-mt-md text-right">
+            <div class="col-md-12 col-xs-12 q-mt-md text-right">
               <q-btn
                 no-wrap
                 no-caps

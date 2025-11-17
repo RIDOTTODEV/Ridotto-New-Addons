@@ -56,14 +56,14 @@ const downloadPdf = (index) => {
 </script>
 
 <template>
-  <q-card class="no-box-shadow" flat>
-    <q-card-section class="row">
-      <div class="col-6">
+  <q-card class="no-box-shadow" flat square>
+    <q-card-section class="grid grid-cols-12">
+      <div class="col-span-12 md:col-span-6">
         <div class="text-h6">
           {{ $t('tableCountReport') }}
         </div>
       </div>
-      <div class="col-6 flex row justify-end">
+      <div class="col-span-12 md:col-span-6 flex row justify-end">
         <q-select
           v-model="filterValues.tableId"
           :options="tables"
@@ -103,7 +103,7 @@ const downloadPdf = (index) => {
   <q-card flat square class="no-box-shadow">
     <q-card-section class="q-pa-none">
       <div
-        class="full-width q-pa-md zoom-out-90 q-mb-md"
+        class="full-width zoom-out-90 q-mb-md"
         :id="`table-count-report-${index}`"
         v-for="(tableCount, index) in reports"
         :key="index"

@@ -53,13 +53,13 @@ const onSave = async () => {
 
 <template>
   <q-card class="no-box-shadow" flat>
-    <q-card-section class="row">
-      <div class="col-6">
+    <q-card-section class="row flex flex-col md:flex-row">
+      <div class="col-md-6 col-xs-12">
         <div class="text-h6">
           {{ $t('tableTaxResult') }}
         </div>
       </div>
-      <div class="col-6 flex row justify-end">
+      <div class="col-md-6 col-xs-12 flex row justify-end">
         <date-time-picker v-model="filterValues" dateFormat="yy-mm-dd" />
         <q-btn
           type="button"
@@ -80,7 +80,7 @@ const onSave = async () => {
   <q-card flat square class="q-mt-md" v-if="tableTaxPages.length > 0">
     <q-card-section class="q-pa-md">
       <div class="row">
-        <div class="col-3">
+        <div class="col-md-3 col-xs-12">
           <q-scroll-area style="height: 600px">
             <div
               class="q-card--bordered q-ma-xs q-pa-sm cursor-pointer"
@@ -93,7 +93,7 @@ const onSave = async () => {
             </div>
           </q-scroll-area>
         </div>
-        <div class="col-8 q-ma-xs">
+        <div class="col-md-8 col-xs-12 q-ma-xs xs:bg-[#f3f6f9]">
           <div
             class="text-subtitle1 text-bold app-cart-grey q-card--bordered flex content-center items-center justify-center"
             style="height: 36px !important"
@@ -119,7 +119,7 @@ const onSave = async () => {
                   </td>
                   <td class="text-left">
                     <div class="row">
-                      <div class="col-4">
+                      <div class="col-md-4 col-xs-12">
                         <q-currency-input
                           v-model="result.grossResult"
                           :currency="'USD'"
@@ -131,24 +131,24 @@ const onSave = async () => {
                           :key="resultIndex"
                         />
                       </div>
-                      <div class="col-8 flex content-center items-center">
+                      <div class="col-md-8 col-xs-12 flex content-center items-center">
                         <div
                           class="row flex content-center items-center full-width q-pl-md q-pr-md"
                         >
-                          <div class="col-4">
+                          <div class="col-md-4 col-xs-12">
                             <div
                               class="text-subtitle2 flex justify-between content-center items-center"
                             >
                               {{ $priceAbs(result.netResult) }}
-                              <q-icon name="east" size="20px" class="text-grey-6" />
+                              <q-icon name="east" size="20px" class="text-grey-6 block xs:hidden" />
                             </div>
                           </div>
-                          <div class="col-4 text-center">
+                          <div class="col-md-4 col-xs-12 text-center">
                             <div class="text-subtitle2">
                               {{ $priceAbs(result.grossResult) }}
                             </div>
                           </div>
-                          <div class="col-4">
+                          <div class="col-md-4 col-xs-12">
                             <div
                               class="text-subtitle2 q-ml-md flex justify-start content-center items-center"
                               :class="{

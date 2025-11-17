@@ -81,24 +81,24 @@
 
     <q-card class="no-box-shadow bg-transparent q-mb-md q-mt-lg">
       <q-card-section class="q-pa-none row">
-        <div class="col-5 q-pa-xs">
+        <div class="col-md-5 col-xs-12 q-pa-xs">
           <div class="text-subtitle1">
             {{ $t('fillCredit') }}
           </div>
         </div>
-        <div class="col-3 q-pa-xs">
+        <div class="col-md-3 col-xs-12 q-pa-xs">
           <div class="text-subtitle1">
             {{ $t('fillCreditTotals') }}
           </div>
         </div>
-        <div class="col-4 q-pa-xs">
+        <div class="col-md-4 col-xs-12 q-pa-xs">
           <div class="text-subtitle1">
             {{ $t('gameGroups') }}
           </div>
         </div>
       </q-card-section>
       <q-card-section class="q-pa-none row">
-        <div class="col-5 q-pa-xs">
+        <div class="col-md-5 col-xs-12 q-pa-xs">
           <q-markup-table square flat bordered separator="cell" dense>
             <thead>
               <tr>
@@ -128,7 +128,7 @@
             </tbody>
           </q-markup-table>
         </div>
-        <div class="col-3 q-pa-xs">
+        <div class="col-md-3 col-xs-12 q-pa-xs">
           <q-markup-table square flat bordered separator="cell" dense>
             <thead>
               <tr>
@@ -151,7 +151,7 @@
             </tbody>
           </q-markup-table>
         </div>
-        <div class="col-4 q-pa-xs">
+        <div class="col-md-4 col-xs-12 q-pa-xs">
           <q-markup-table square flat bordered separator="cell" dense>
             <thead>
               <tr>

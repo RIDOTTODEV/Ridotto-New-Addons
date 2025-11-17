@@ -57,7 +57,7 @@
       </template>
     </SupaTable>
     <q-dialog v-model="dialog" backdrop-filter="brightness(40%)">
-      <q-card class="minWithDialog">
+      <q-card class="sm:minWithDialog w-full">
         <q-bar style="height: 50px" class="app-cart-grey q-card--bordered">
           <div class="text-subtitle2">
             {{ $t('edit') }}
@@ -69,7 +69,7 @@
         </q-bar>
         <q-card-section>
           <q-form @submit="onSubmitTableGameForm" ref="form" class="row">
-            <div class="col-12">
+            <div class="col-md-12 col-xs-12">
               <q-input
                 :label="$t('name')"
                 autofocus
@@ -82,7 +82,7 @@
               />
             </div>
 
-            <div class="col-12">
+            <div class="col-md-12 col-xs-12">
               <q-input
                 :label="$t('timePerHand')"
                 v-model="gameFormValues.timePerHand"
@@ -93,7 +93,7 @@
                 clearable
               />
             </div>
-            <div class="col-12">
+            <div class="col-md-12 col-xs-12">
               <q-input
                 :label="$t('houseEdge')"
                 v-model="gameFormValues.houseEdge"

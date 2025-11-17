@@ -46,6 +46,10 @@ export const useTransactionCode = () => {
       fieldType: 'boolean',
     },
     {
+      field: 'defaultIncludeInBalance',
+      fieldType: 'boolean',
+    },
+    {
       field: 'includeCashlessAndChipScope',
       fieldType: 'boolean',
     },
