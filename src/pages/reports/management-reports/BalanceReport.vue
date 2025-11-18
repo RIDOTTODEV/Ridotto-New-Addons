@@ -255,6 +255,13 @@ onMounted(async () => {
                 hide-bottom-space
                 :label="'Select ' + $t('cashDesk')"
               />
+              <el-date-picker
+                v-model="formValues.date"
+                type="date"
+                placeholder="Date"
+                :size="'default'"
+                value-format="YYYY-MM-DD"
+              />
               <q-btn
                 type="submit"
                 :label="$t('filter')"
