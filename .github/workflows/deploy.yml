@@ -69,7 +69,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          build-args: casino=development
+          build-args: casino=cengizhan
           platforms: linux/amd64 #,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}-cengizhan
