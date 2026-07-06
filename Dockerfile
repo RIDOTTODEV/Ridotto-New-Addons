@@ -1,5 +1,5 @@
 # develop stage
-FROM node:22-alpine as develop-stage
+FROM node:24-alpine AS develop-stage
 ARG casino
 WORKDIR /app
 COPY package*.json ./
@@ -7,14 +7,14 @@ RUN yarn global add @quasar/cli
 COPY . .
 
 # build stage
-FROM develop-stage as build-stage
+FROM develop-stage AS build-stage
 ARG casino
 RUN yarn
 #RUN quasar build:$casino
 RUN ENVIRONMENT=$casino quasar build
 
 #production stage
-FROM node:lts-alpine as production-stage
+FROM node:24-alpine AS production-stage
 ARG casino
 RUN echo "dist/$casino"
 RUN echo "-----"
@@ -24,7 +24,7 @@ WORKDIR /app
 COPY --from=build-stage /app/dist /app/dist
 EXPOSE 8080
 
-ENV dist /app/dist/$casino
+ENV dist=/app/dist/$casino
 RUN echo $dist
 WORKDIR $dist
 

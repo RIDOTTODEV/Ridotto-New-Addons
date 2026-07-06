@@ -1031,7 +1031,7 @@ defineExpose({
   display: inline-block;
 
   .sort-chip {
-    background: var($blue-grey-8) !important;
+    background: $blue-grey-8 !important;
     color: #fff !important;
 
     .q-chip__icon {

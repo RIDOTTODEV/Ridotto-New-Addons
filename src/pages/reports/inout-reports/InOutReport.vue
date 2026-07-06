@@ -306,23 +306,17 @@
       </q-card-section>
     </q-card>
 
-    <q-card-section v-if="showPivot" class="q-pa-none q-mt-md">
-      <ejs-pivotview :dataSourceSettings="dataSourceSettings" :gridSettings="gridSettings"
-        :isVue3="true"></ejs-pivotview>
-    </q-card-section>
+
   </q-page>
 </template>
 
 <script setup>
-import { ref, defineAsyncComponent, watch } from 'vue'
+import { ref, defineAsyncComponent } from 'vue'
 import GmInPlayerTransaction from 'src/components/pages/reports/inout-reports/GmInPlayerTransaction.vue'
 import { formatPrice } from 'src/helpers/helpers'
 import { useReportStore } from 'src/stores/report-store'
 import { date, useQuasar } from 'quasar'
-import { PivotViewComponent as EjsPivotview } from '@syncfusion/ej2-vue-pivotview'
-import { registerLicense } from '@syncfusion/ej2-base'
 
-registerLicense(process.env.SYNCFUSION_KEY)
 const $q = useQuasar()
 const reportStore = useReportStore()
 const filterValues = ref(null)
@@ -619,131 +613,10 @@ const onClickLgTableResult = async (props) => {
   })
 }
 
-const showPivot = ref(false)
 
-// Net/sonuç measure'ları: hem koşullu format hem kolon vurgusu için
-const NET_MEASURES = ['cashNet', 'creditNet', 'depositNet', 'gameResult']
-const NET_COLUMN_BG = '#e3f2fd'
-
-const dataSourceSettings = ref({
-  dataSource: [],
-
-  // Marketer > Class > Player drill-down
-  rows: [
-    { name: 'marketerName', caption: 'Marketer' },
-    { name: 'playerClass', caption: 'Class' },
-    { name: 'playerName', caption: 'Player' },
-  ],
-
-  // Class'ları yatayda karşılaştırmak istersen:
-  // columns: [{ name: 'playerClass', caption: 'Class' }]
-  columns: [],
-
-  values: [
-    // Net'ler (calculated) en üstte
-    { name: 'cashNet', caption: 'Cash Net' },
-    { name: 'creditNet', caption: 'Credit Net' },
-    { name: 'depositNet', caption: 'Deposit Net' },
-    { name: 'gameResult', caption: 'Game Result' },
-
-    // Ham toplamlar
-    { name: 'lgDrop', caption: 'LG Drop', type: 'Sum' },
-    { name: 'lgResult', caption: 'LG Result', type: 'Sum' },
-    { name: 'slotResult', caption: 'Slot Result', type: 'Sum' },
-    { name: 'cashIn', caption: 'Cash In', type: 'Sum' },
-    { name: 'cashOut', caption: 'Cash Out', type: 'Sum' },
-    { name: 'discountIn', caption: 'Discount In', type: 'Sum' },
-    { name: 'compIn', caption: 'Comp In', type: 'Sum' },
-    { name: 'activeDeposit', caption: 'Active Deposit', type: 'Sum' },
-  ],
-
-  // filters: [{ name: 'playerId', caption: 'Player Id' }],
-
-  // In - Out farkları + oyun sonucu
-  calculatedFieldSettings: [
-    { name: 'cashNet', formula: '"Sum(cashIn)" - "Sum(cashOut)"' },
-    { name: 'creditNet', formula: '"Sum(creditIn)" - "Sum(creditOut)"' },
-    { name: 'depositNet', formula: '"Sum(depositIn)" - "Sum(depositOut)"' },
-    { name: 'gameResult', formula: '"Sum(slotResult)" + "Sum(lgResult)"' },
-  ],
-
-  // Net measure'larda negatif kırmızı / pozitif yeşil
-  conditionalFormatSettings: NET_MEASURES.flatMap((measure) => [
-    {
-      measure,
-      conditions: 'LessThan',
-      value1: 0,
-      style: { backgroundColor: '#ffebee', color: '#c62828', fontWeight: '600' },
-    },
-    {
-      measure,
-      conditions: 'GreaterThan',
-      value1: 0,
-      style: { backgroundColor: '#e8f5e9', color: '#2e7d32', fontWeight: '600' },
-    },
-  ]),
-
-  formatSettings: [
-    { name: 'cashNet', format: 'N2' },
-    { name: 'creditNet', format: 'N2' },
-    { name: 'depositNet', format: 'N2' },
-    { name: 'gameResult', format: 'N2' },
-    { name: 'lgDrop', format: 'N2' },
-    { name: 'lgResult', format: 'N2' },
-    { name: 'slotResult', format: 'N2' },
-    { name: 'cashIn', format: 'N2' },
-    { name: 'cashOut', format: 'N2' },
-    { name: 'discountIn', format: 'N2' },
-    { name: 'compIn', format: 'N2' },
-    { name: 'activeDeposit', format: 'N2' },
-  ],
-
-  expandAll: false,
-  showGrandTotals: true,
-  showSubTotals: true,
-})
-
-// Kolon ekseni boş olduğunda Syncfusion "Total Sum of ..." başlığı üretiyor.
-// headerCellInfo ile sadece tanımlı caption'ı gösteriyoruz.
-const gridSettings = ref({
-  headerCellInfo: (args) => {
-    const headerText = args?.node?.querySelector('.e-headertext')
-    if (headerText && args?.cell?.column?.headerText) {
-      headerText.innerText = args.cell.column.headerText
-    }
-    // Net kolon başlıklarına vurgu arka planı
-    const netCaptions = ['Cash Net', 'Credit Net', 'Deposit Net', 'Game Result']
-    if (args?.node && netCaptions.includes(args?.cell?.column?.headerText)) {
-      args.node.style.backgroundColor = NET_COLUMN_BG
-    }
-  },
-  // Net kolonlarının değer hücrelerine sabit vurgu arka planı.
-  // conditionalFormatSettings (negatif/pozitif renk) bunun üstüne biner.
-  queryCellInfo: (args) => {
-    const cellData = args?.data?.[args?.column?.field]
-    if (cellData && NET_MEASURES.includes(cellData.actualText)) {
-      if (!args.cell.style.backgroundColor) {
-        args.cell.style.backgroundColor = NET_COLUMN_BG
-      }
-    }
-  },
-})
-
-watch(
-  () => inOutReportTable.value?.tableRows,
-  (rows) => {
-    if (rows && rows.length) {
-      dataSourceSettings.value = {
-        ...dataSourceSettings.value,
-        dataSource: rows,
-      }
-      showPivot.value = true
-    } else {
-      showPivot.value = false
-    }
-  },
-  { deep: true },
-)
+ 
+ 
+ 
 </script>
 
 <style scoped>

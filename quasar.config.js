@@ -57,6 +57,10 @@ export default defineConfig((ctx) => {
       distDir: parseEnv().DIST_DIR,
 
       // extendViteConf (viteConf) {},
+      extendViteConf(viteConf) {
+        viteConf.build ??= {}
+        viteConf.build.cssMinify = 'esbuild'
+      },
       // viteVuePluginOptions: {},
 
       vitePlugins: [
