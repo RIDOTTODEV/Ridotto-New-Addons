@@ -183,7 +183,6 @@ export const useReportStore = defineStore('reportStore', {
     },
     async getTimeInOutReportByPlayer(params) {
       const { data } = await playerLgReportService.getTimeInOutReportByPlayer(params)
-
       return data
     },
     async getTimeInOutReportByTable(params) {

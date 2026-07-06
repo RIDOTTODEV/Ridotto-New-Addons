@@ -1,85 +1,70 @@
 <template>
-  <q-table
-    v-draggable-table="{
-      onDrop,
-    }"
-    flat
-    bordered
-    :rows="tableRows"
-    :columns="tableColumns"
-    :row-key="rowKey"
-    dense
-    separator="cell"
-    ref="refTable"
-    :rows-per-page-options="[0]"
-    :visible-columns="visibleColumns"
-    v-model:pagination="pagination"
-    :loading="tableLoading"
-    :filter="tableFilterInput"
-    class="no-box-shadow col-12 supa-table"
-    @row-click="onRowClick"
+  <q-table v-draggable-table="{
+    onDrop,
+  }"   :rows="tableRows" :columns="tableColumns" :row-key="rowKey" dense separator="cell" ref="refTable"
+    :rows-per-page-options="[0]" :visible-columns="visibleColumns" v-model:pagination="pagination"
+    :loading="tableLoading" :filter="tableFilterInput"
+    v-bind="tableAttrs"
+    :style="mergedTableStyle"
+    :class="['no-box-shadow col-12 supa-table', {
+      'supa-table--has-bottom-row': hasBottomRow,
+      'supa-table--scrolled': isScrolled,
+    }, attrs.class]" @row-click="onRowClick"
     @request="filterMethod"
-  >
+   
+    >
     <template v-slot:top="" v-if="!hideTopBar">
-      <div class="flex flex-row q-pa-sm justify-between w-full gap-2">
-        <slot name="headerFilterSlots" v-bind="{ props: { ...props, reload: fetchData } }"></slot>
-        <!--        <div :class="['flex row justify-end items-start', props.useCol12 ? 'col-12' : 'col']">
-
-        </div> -->
-        <div class="flex justify-end" :class="{ 'w-full': useCol12 }">
+      <div class="flex flex-row q-pa-xs justify-between w-full gap-2">
+        <!-- <slot name="headerFilterSlots" v-bind="{ props: { ...props, reload: fetchData } }"></slot> -->
+         
+        <div class="flex justify-between" :class="{ 'w-full': useCol12 }">
+          <div class="text-subtitle1 text-weight-medium q-px-xs flex items-end">
+            <div v-if="sortField !== null" class="sort-chip-wrapper">
+              <q-chip
+                size="md"
+                :icon="sortDirection === 'asc' ? 'fas fa-sort-amount-up-alt' : 'fas fa-sort-amount-down'"
+                class="sort-chip min-w-[200px]"
+                :label="getSortingChipLabel()"
+                color="blue-grey-8"
+                text-color="white"
+              />
+              <q-icon
+                name="close"
+                class="sort-chip__remove"
+                @click="clearSort"
+              >
+              </q-icon>
+            </div>
+          </div>
           <div class="flex sm:flex-row justify-end items-start gap-2">
-            <q-input
-              v-if="hideFields && hideFields.showSearchInput"
-              v-model="tableFilterInput"
-              dense
-              outlined
-              class="super-small search-input"
-              :class="{ 'search-input--focused': isInputFocused }"
-              :placeholder="$t('search')"
-              @focus="handleInputFocus"
-              @focusout="handleInputFocusOut"
-              clearable
-              @clear="filterMethod"
-            >
+            <q-input v-if="hideFields && hideFields.showSearchInput" v-model="tableFilterInput" dense outlined
+              class="super-small search-input" :class="{ 'search-input--focused': isInputFocused }"
+              :placeholder="$t('search')" @focus="handleInputFocus" @focusout="handleInputFocusOut" clearable
+              @clear="filterMethod">
               <template v-slot:append>
                 <q-icon name="search" />
               </template>
             </q-input>
-            <q-btn-dropdown
-              v-if="hideFields && hideFields.showVisibleColumns"
-              color="grey-3"
-              text-color="grey-10"
-              unelevated
-              dense
-              size="13px"
-              class=""
-              padding="xs"
-              dropdown-icon="o_visibility"
-              square
-              :content-style="{
-                height: '400px!important',
-              }"
-            >
-              <div class="bg-grey-2 q-pa-xs text-caption text-bold">
+            <q-btn-dropdown v-if="hideFields && hideFields.showVisibleColumns" color="grey-3" text-color="grey-10"
+              unelevated dense size="13px" class="supa-table__top-btn " padding="xs"
+              dropdown-icon="o_visibility"  content-class="supa-table__visible-columns-menu" :menu-offset="[10, 10]" menu-anchor="bottom end">
+              <div class="supa-table__visible-columns-header q-pa-xs text-caption text-bold">
                 <span class="q-ml-sm"> {{ $t('visibleColumns') }}</span>
               </div>
-              <q-list dense separator bordered>
-                <q-item
-                  clickable
-                  v-for="(column, index) in tableColumns"
-                  :key="index"
-                  :class="{
-                    'text-grey-6': !visibleColumns.includes(column.name),
-                  }"
-                  @click="onSelectVisibleColumn(column.name)"
-                  :disable="column.required"
-                >
-                  <q-item-section class="text-capitalize text-caption">
-                    {{ column.label }}
-                  </q-item-section>
-                </q-item>
-                <q-item clickable @click="resetColumns" class="bg-grey-2 text-caption">
-                  <q-item-section class="text-negative flex content-center">
+              <div class="supa-table__visible-columns-scroll min-w-[200px]">
+                <q-list dense separator bordered>
+                  <q-item clickable v-for="(column, index) in tableColumns" :key="index" :class="{
+                    'supa-table__visible-columns-item--off': !visibleColumns.includes(column.name),
+                  }" @click="onSelectVisibleColumn(column.name)" :disable="column.required">
+                    <q-item-section class="text-capitalize text-caption">
+                      {{ column.label }}
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </div>
+              <q-list dense bordered class="supa-table__visible-columns-footer">
+                <q-item clickable @click="resetColumns" class="supa-table__visible-columns-reset text-caption">
+                  <q-item-section class="flex content-center">
                     <div class="row items-center">
                       <q-icon name="sync" size="16px" class="q-mr-sm" />
                       {{ $t('resetColumns') }}
@@ -88,113 +73,65 @@
                 </q-item>
               </q-list>
             </q-btn-dropdown>
-            <q-btn
-              v-if="hideFields && hideFields.showReloadButton"
-              color="grey-3"
-              text-color="grey-10"
-              unelevated
-              dense
-              icon="cached"
-              @click="fetchData"
-              size="13px"
-              class=""
-              padding="xs"
-            />
-            <q-btn
-              v-if="hideFields && hideFields.switchSummaryCard"
-              color="grey-3"
-              text-color="grey-10"
-              unelevated
-              dense
-              icon="o_toc"
-              @click="switchSummaryCard"
-              size="13px"
-              class=""
-              padding="xs"
-            />
-            <q-btn
-              v-if="hideFields && hideFields.showScreenModeButton"
-              color="grey-3"
-              text-color="grey-10"
-              dense
-              :icon="fullScreen ? 'fullscreen_exit' : 'fullscreen'"
-              @click="toggleFullscreen"
-              size="13px"
-              unelevated
-              class=""
-              padding="xs"
-            />
+            <q-btn v-if="hideFields && hideFields.showReloadButton" color="grey-3" text-color="grey-10" unelevated dense
+              icon="cached" @click="fetchData" size="13px" class="supa-table__top-btn" padding="xs" />
+            <q-btn v-if="hideFields && hideFields.switchSummaryCard" color="grey-3" text-color="grey-10" unelevated
+              dense icon="o_toc" @click="switchSummaryCard" size="13px" class="supa-table__top-btn" padding="xs" />
+            <q-btn v-if="hideFields && hideFields.showScreenModeButton" color="grey-3" text-color="grey-10" dense
+              :icon="fullScreen ? 'fullscreen_exit' : 'fullscreen'" @click="toggleFullscreen" size="13px" unelevated
+              class="supa-table__top-btn" padding="xs" />
           </div>
         </div>
       </div>
     </template>
     <template v-slot:header="props">
       <q-tr :props="props">
-        <q-th
-          auto-width
-          v-for="col in props.cols"
-          :key="col.name"
-          :props="props"
-          class="text-center q-custom-table"
+        <q-th auto-width v-for="col in props.cols" :key="col.name" :props="props" class="text-center q-custom-table  h-[40px]"
           :class="[
             {
               'frozen-column': frozenColumns.includes(col.name),
+              'supa-header-cell--hovered': hoveredColumn === col.name,
+              'supa-th--resizable': resizableColumns,
+              'supa-th--resizing': isResizing && resizingColumn === col.name,
             },
-          ]"
-          :style="
-            frozenColumns.includes(col.name)
+          ]" 
+          :style="{
+            ...(frozenColumns.includes(col.name)
               ? { left: getFrozenColumnPosition(col.name) + 'px' }
-              : {}
-          "
-        >
+              : {}),
+            ...getColumnSizingStyle(col.name),
+          }"
+          @mouseenter="onColumnHeaderEnter($event, col)"
+          @mouseleave="onColumnHeaderLeave">
           <div v-if="!col.headerSlotName || !headerSlotNames.includes(col.headerSlotName)">
             <span>
               {{ col.label }}
-              <q-icon
-                class="q-px-xs sort-icon"
-                @click="setSortField(col.field)"
-                v-if="sortField !== null && sortField === col.field"
-                :name="
-                  sortField === col.field && sortDirection === 'asc'
-                    ? 'fas fa-sort-amount-up-alt'
-                    : 'fas fa-sort-amount-down'
-                "
-              />
-              <q-icon
-                @click="setSortField(col.field)"
-                v-if="col.useSorting && sortField !== col.field"
-                class="q-px-xs sort-icon"
-              >
-                <div v-html="sortIcon()"></div>
-              </q-icon>
             </span>
           </div>
-
           <slot v-else :name="col.headerSlotName" :props="props" v-bind="{ props }"></slot>
+          <span
+            v-if="resizableColumns"
+            class="supa-column-resizer"
+            @mousedown="onColumnResizeStart($event, col.name)"
+            @dblclick="onColumnResizeDblClick(col.name)"
+            @click.stop
+          ></span>
         </q-th>
       </q-tr>
     </template>
     <template v-slot:body-cell="props">
-      <q-td
-        v-if="props.col.name !== 'selection'"
-        :props="props"
-        :class="{ 'frozen-column': frozenColumns.includes(props.col.name) }"
-        :style="
-          frozenColumns.includes(props.col.name)
+      <q-td v-if="props.col.name !== 'selection'" :props="props"
+        :class="{ 'frozen-column': frozenColumns.includes(props.col.name) }" :style="{
+          ...(frozenColumns.includes(props.col.name)
             ? { left: getFrozenColumnPosition(props.col.name) + 'px' }
-            : {}
-        "
-      >
-        <div
-          v-player-detail="
-            playerDirectiveColumns.includes(props.col.name) ? props.row.playerId : null
-          "
-          :class="
-            playerDirectiveColumns.includes(props.col.name)
-              ? 'onHoverPlayerName text-capitalize'
-              : ''
-          "
-        >
+            : {}),
+          ...getColumnSizingStyle(props.col.name),
+        }">
+        <div v-player-detail="playerDirectiveColumns.includes(props.col.name) ? props.row.playerId : null
+          " :class="playerDirectiveColumns.includes(props.col.name)
+            ? 'onHoverPlayerName text-capitalize'
+            : ''
+            ">
           {{ props.value }}
         </div>
       </q-td>
@@ -204,82 +141,86 @@
     </template>
     <template v-slot:body-cell-actions="props">
       <q-td :props="props" class="text-right">
-        <q-btn
-          icon="data_object"
-          dense
-          size="13px"
-          unelevated
-          @click="showTheJsonDetail(props.row.detail)"
-          v-if="props.row?.detail && props.row?.detail !== null"
-          class="q-mr-xs"
-        />
-        <q-btn
-          v-for="(action, index) in tableBodyActions"
-          :key="index"
-          :icon="action.icon"
-          :color="action.color"
-          @click="action.fn(props.row[action.args], filter)"
-          dense
-          size="13px"
-          unelevated
-          flat
-        />
+        <q-btn icon="data_object" dense size="13px" unelevated @click="showTheJsonDetail(props.row.detail)"
+          v-if="props.row?.detail && props.row?.detail !== null" class="q-mr-xs" />
+        <q-btn v-for="(action, index) in tableBodyActions" :key="index" :icon="action.icon" :color="action.color"
+          @click="action.fn(props.row[action.args], filter)" dense size="13px" unelevated flat />
       </q-td>
     </template>
     <template v-slot:bottom-row="props">
       <slot name="bottomRow" v-bind="{ ...props, rows: refTable?.computedRows || [] }"></slot>
     </template>
     <template v-slot:bottom v-if="!hideBottom">
-      <slot
-        name="bottomSlots"
-        v-bind="{
-          rows: refTable?.computedRows || [],
-        }"
-      ></slot>
-      <div
-        class="full-width q-mt-xs q-mb-xs row col-12 flex content-center items-center justify-end"
-      >
-        <div class="text-subtitle2 q-mr-md">
-          Total:
-          <strong class="q-ml-xs q-mr-xs">{{ pagination.totalCount }}</strong>
-          Records
+      <slot name="bottomSlots" v-bind="{
+        rows: refTable?.computedRows || [],
+      }"></slot>
+      <div class="supa-table__pagination full-width q-mt-xs q-mb-xs row col-12 flex content-center items-center justify-between">
+        <div class="supa-table__pagination-info flex items-center">
+          <div class="text-subtitle2 q-mr-md">
+            Total:
+            <strong class="q-ml-xs q-mr-xs">{{ pagination.totalCount }}</strong>
+            Records
+          </div>
+          <q-select v-model="pagination.rowsPerPage" options-dense :options="[10, 20, 50, 100, 500]" borderless dense
+            class="super-small" filled @update:model-value="onChangeRowsPerPage" behavior="menu" />
+          <div class="text-subtitle2 q-ml-sm">Rows Per Page</div>
         </div>
-        <q-select
-          v-model="pagination.rowsPerPage"
-          options-dense
-          :options="[10, 20, 50, 100, 500]"
-          borderless
-          dense
-          class="super-small"
-          filled
-          @update:model-value="onChangeRowsPerPage"
-          behavior="menu"
-        />
-        <div class="text-subtitle2 q-ml-sm">Rows Per Page</div>
 
-        <q-pagination
-          v-if="pagination.totalCount >= pagination.rowsPerPage"
-          v-model="pagination.page"
-          color="grey-8"
-          :max="pagination.totalPages"
-          max-pages="6"
-          size="md"
-          active-color="primary"
-          @update:model-value="fetchData"
-          boundary-links
-          boundary-numbers
-          direction-links
-          class="q-pr-md"
-        />
+        <q-pagination v-if="pagination.totalCount >= pagination.rowsPerPage" v-model="pagination.page" color="grey-8"
+          :max="pagination.totalPages" max-pages="6" size="md" active-color="primary" @update:model-value="fetchData"
+          boundary-links boundary-numbers direction-links class="supa-table__pagination-nav q-pr-md" />
       </div>
     </template>
   </q-table>
+
+  <!-- Hovered column panel -->
+  <Teleport to="body">
+    <Transition name="supa-column-hover">
+      <div
+        v-if="hoveredColumn"
+        class="supa-column-hover-panel"
+        :style="hoverPanelStyle"
+        @mouseenter="onHoverPanelEnter"
+        @mouseleave="onHoverPanelLeave"
+      >
+        <q-btn
+          flat
+          dense
+          size="10px"
+          icon="fa-regular fa-eye-slash"
+          class="supa-column-hover-panel__btn"
+          @click="onSelectVisibleColumn(hoveredColumn)"
+        />
+        <template v-if="hoveredColumnObj?.isSortable">
+          <q-btn
+            flat
+            dense
+            size="10px"
+            icon="fas fa-sort-amount-up-alt"
+            class="supa-column-hover-panel__btn"
+            @click="onSortColumn(hoveredColumn, 'asc')"
+          />
+          <q-btn
+            flat
+            dense
+            size="10px"
+            icon="fas fa-sort-amount-down"
+            class="supa-column-hover-panel__btn"
+            @click="onSortColumn(hoveredColumn, 'desc')"
+          />
+        </template>
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup>
 import ShowJsonDetailDialog from './ShowJsonDetailDialog.vue'
 
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted, nextTick, useSlots, useAttrs, computed } from 'vue'
+
+defineOptions({ inheritAttrs: false })
+import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 
 import { useQuasar } from 'quasar'
@@ -287,6 +228,8 @@ import { generateColumns } from '../../helpers/table'
 
 import { useCashdeskStore } from 'src/stores/cashdesk-store'
 import { useAuthStore } from 'src/stores/auth-store'
+const slots = useSlots()
+const attrs = useAttrs()
 const $q = useQuasar()
 const cashdeskStore = useCashdeskStore()
 const { getSelectedCashDesk } = storeToRefs(cashdeskStore)
@@ -309,7 +252,7 @@ const props = defineProps({
   filterParams: {
     type: Object,
     required: false,
-    default: () => {},
+    default: () => { },
   },
   dataKey: {
     type: String,
@@ -378,7 +321,24 @@ const props = defineProps({
     required: false,
     default: () => false,
   },
+  tableTitle: {
+    type: String,
+    required: false,
+    default: () => '',
+  },
+  resizableColumns: {
+    type: Boolean,
+    required: false,
+    default: () => false,
+  },
+  minColumnWidth: {
+    type: Number,
+    required: false,
+    default: () => 40,
+  },
 })
+
+const hasBottomRow = computed(() => !!slots.bottomRow)
 
 const response = ref({})
 const tableFilterParams = ref({})
@@ -400,6 +360,69 @@ const visibleColumns = ref([])
 const refTable = ref(null)
 const tableFilterInput = ref(null)
 const fullScreen = ref(false)
+const tableBodyHeight = ref(null)
+const PAGE_BOTTOM_PADDING = 16
+const MIN_TABLE_BODY_HEIGHT = 120
+
+const tableHeightStyle = computed(() =>
+  tableBodyHeight.value
+    ? { '--supa-table-body-height': `${tableBodyHeight.value}px` }
+    : {},
+)
+
+const tableAttrs = computed(() => {
+  const result = { ...attrs }
+  delete result.style
+  delete result.class
+  return result
+})
+
+const mergedTableStyle = computed(() => {
+  const styles = [tableHeightStyle.value]
+  if (attrs.style) {
+    styles.push(attrs.style)
+  }
+  return styles
+})
+
+const updateTableBodyHeight = () => {
+  const tableEl = refTable.value?.$el
+  if (!tableEl) return
+
+  const middleEl = tableEl.querySelector('.q-table__middle')
+  if (!middleEl) return
+
+  const middleTop = middleEl.getBoundingClientRect().top
+  const bottomEl = tableEl.querySelector('.q-table__bottom')
+  const bottomHeight = bottomEl?.getBoundingClientRect().height ?? 0
+  const available = window.innerHeight - middleTop - bottomHeight - PAGE_BOTTOM_PADDING
+  const nextHeight = Math.max(MIN_TABLE_BODY_HEIGHT, Math.floor(available))
+
+  if (tableBodyHeight.value !== nextHeight) {
+    tableBodyHeight.value = nextHeight
+  }
+}
+
+let tableHeightRaf = null
+const scheduleTableBodyHeightUpdate = () => {
+  if (tableHeightRaf !== null) return
+  tableHeightRaf = requestAnimationFrame(() => {
+    tableHeightRaf = null
+    updateTableBodyHeight()
+  })
+}
+
+let layoutResizeObserver = null
+
+const bindTableHeightObservers = () => {
+  updateTableBodyHeight()
+
+  const layoutEl =
+    refTable.value?.$el?.closest('.q-page, .q-tab-panel, .q-card') || document.body
+
+  layoutResizeObserver?.stop?.()
+  layoutResizeObserver = useResizeObserver(layoutEl, scheduleTableBodyHeightUpdate)
+}
 
 const onDrop = async (from, to, table, mode) => {
   if (mode === 'column') {
@@ -450,7 +473,43 @@ onMounted(async () => {
   await initColumns()
   initPagination()
   await fetchData()
+  await nextTick()
+  bindTableHeightObservers()
+  bindHoverPanelScrollListener()
 })
+
+onUnmounted(() => {
+  layoutResizeObserver?.stop?.()
+  if (tableHeightRaf !== null) {
+    cancelAnimationFrame(tableHeightRaf)
+    tableHeightRaf = null
+  }
+  if (hoverPanelRaf !== null) {
+    cancelAnimationFrame(hoverPanelRaf)
+    hoverPanelRaf = null
+  }
+  if (hoverCloseTimer) {
+    clearTimeout(hoverCloseTimer)
+    hoverCloseTimer = null
+  }
+})
+
+useEventListener(window, 'resize', scheduleTableBodyHeightUpdate, { passive: true })
+
+watch(tableLoading, async (loading) => {
+  if (!loading) {
+    await nextTick()
+    updateTableBodyHeight()
+  }
+})
+
+watch(
+  () => [props.hideTopBar, props.hideBottom, hasBottomRow.value],
+  async () => {
+    await nextTick()
+    updateTableBodyHeight()
+  },
+)
 const fetchData = async () => {
   tableLoading.value = true
   removeSelectedRowClass()
@@ -490,19 +549,6 @@ const initResponseData = (response) => {
   copiedData.value = data
 }
 
-const sortField = ref(null)
-const sortDirection = ref(null)
-const setSortField = async (field) => {
-  if (sortDirection.value === null) {
-    sortDirection.value = 'asc'
-  } else if (sortDirection.value === 'asc') {
-    sortDirection.value = 'desc'
-  } else {
-    sortDirection.value = null
-  }
-  sortField.value = field
-  await fetchData()
-}
 const getTableFilterParams = () => {
   let sortParams = ''
   if (sortField.value && sortDirection.value) {
@@ -553,6 +599,7 @@ const resetColumns = async () => {
   }
 
   tableLoading.value = true
+  resetColumnWidths()
   await authStore.saveUserTableColumnsFormatted(props.tableName, formattedTable)
   await initColumns()
   await fetchData()
@@ -604,21 +651,11 @@ const onSelectVisibleColumn = async (val) => {
     rowsPerPage: pagination.value.rowsPerPage,
   }
   await authStore.saveUserTableColumnsFormatted(props.tableName, formattedTable)
-  /*   const index = visibleColumns.value.indexOf(val)
-  if (index === -1) {
-    visibleColumns.value.push(val)
-  } else {
-    visibleColumns.value.splice(index, 1)
-  } */
-  /*   const columns = tableColumns.value.map((column, index) => {
-    return [column.colId, index, visibleColumns.value.includes(column.name) ? 1 : 0]
-  })
-  let formattedTable = {
-    columns: columns,
-    rowsPerPage: pagination.value.rowsPerPage,
+
+  // check the sort direction sortField
+  if (sortField.value && sortField.value === val) {
+    await clearSort()
   }
-  console.log('formattedTable', formattedTable) */
-  //await saveUserColumn()
 }
 const saveUserColumn = async () => {
   const tableColumnsSortByVisibleColumns = tableColumns.value.sort((a, b) => {
@@ -693,6 +730,248 @@ const getFrozenColumnPosition = (columnName) => {
   return position
 }
 
+// Hovered column sections
+const hoveredColumn = ref(null)
+const hoveredColumnEl = ref(null)
+const hoveredColumnObj = computed(() =>
+  tableColumns.value.find((c) => c.name === hoveredColumn.value)
+)
+const hoverPanelStyle = ref({})
+let hoverCloseTimer = null
+
+const updateHoverPanelPosition = () => {
+  const el = hoveredColumnEl.value
+  if (!el) return
+
+  const rect = el.getBoundingClientRect()
+  const top = `${rect.bottom + 4}px`
+  const left = `${rect.left + rect.width / 2}px`
+  const current = hoverPanelStyle.value
+
+  if (current.top === top && current.left === left) return
+
+  hoverPanelStyle.value = { top, left }
+}
+
+let hoverPanelRaf = null
+const scheduleHoverPanelPositionUpdate = () => {
+  if (!hoveredColumn.value) return
+  if (hoverPanelRaf !== null) return
+  hoverPanelRaf = requestAnimationFrame(() => {
+    hoverPanelRaf = null
+    updateHoverPanelPosition()
+  })
+}
+
+const onColumnHeaderEnter = (event, col) => {
+  if (hoverCloseTimer) {
+    clearTimeout(hoverCloseTimer)
+    hoverCloseTimer = null
+  }
+
+  hoveredColumn.value = col.name
+  hoveredColumnEl.value = event.currentTarget
+  updateHoverPanelPosition()
+}
+
+const onColumnHeaderLeave = () => {
+  hoverCloseTimer = setTimeout(() => {
+    hoveredColumn.value = null
+    hoveredColumnEl.value = null
+  }, 150)
+}
+
+const onHoverPanelEnter = () => {
+  if (hoverCloseTimer) {
+    clearTimeout(hoverCloseTimer)
+    hoverCloseTimer = null
+  }
+}
+
+const onHoverPanelLeave = () => {
+  hoveredColumn.value = null
+  hoveredColumnEl.value = null
+}
+
+useEventListener(window, 'scroll', scheduleHoverPanelPositionUpdate, { capture: true, passive: true })
+
+useEventListener(window, 'resize', scheduleHoverPanelPositionUpdate, { passive: true })
+
+watch(hoveredColumn, async (columnName) => {
+  if (columnName) {
+    await nextTick()
+    updateHoverPanelPosition()
+  }
+})
+
+/* Sticky header'ın "yapışık" durumunda gölge gösterebilmek için
+ * .q-table__middle scroll pozisyonunu takip ediyoruz. scrollTop > 0
+ * olduğunda tablo üzerine `supa-table--scrolled` class'ı düşer. */
+const isScrolled = ref(false)
+const updateScrolledState = (middleEl) => {
+  if (!middleEl) return
+  isScrolled.value = middleEl.scrollTop > 0
+}
+
+const bindHoverPanelScrollListener = () => {
+  const middleEl = refTable.value?.$el?.querySelector('.q-table__middle')
+  if (middleEl) {
+    updateScrolledState(middleEl)
+    useEventListener(
+      middleEl,
+      'scroll',
+      () => {
+        scheduleHoverPanelPositionUpdate()
+        updateScrolledState(middleEl)
+      },
+      { passive: true },
+    )
+  }
+}
+
+
+/********* Sorting ********/
+const sortField = ref(null)
+const sortDirection = ref(null)
+const onSortColumn = async (columnName, direction = null) => {
+  const column = tableColumns.value.find((col) => col.name === columnName)
+  sortDirection.value = direction || (sortDirection.value === 'asc' ? 'desc' : 'asc')
+  sortField.value = column?.field ?? columnName
+  await fetchData()
+}
+const getSortingChipLabel = () => {
+   const column = tableColumns.value.find((col) => col.name === sortField.value)
+   const label = `${column.label}`
+   return label
+}
+
+const clearSort = async () => {
+  sortField.value = null
+  sortDirection.value = null
+  await fetchData()
+}
+
+
+
+/********* Sizing Widths  ********/
+const columnWidths = ref({})
+const isResizing = ref(false)
+const resizingColumn = ref(null)
+const resizeStartX = ref(0)
+const resizeStartWidth = ref(0)
+
+const getColumnWidthStorageKey = () => `supa-table-widths:${props.tableName}`
+
+const loadColumnWidths = () => {
+  if (!props.tableName) return
+  try {
+    const saved = localStorage.getItem(getColumnWidthStorageKey())
+    columnWidths.value = saved ? JSON.parse(saved) || {} : {}
+  } catch (err) {
+    console.error('Failed to load column widths', err)
+    columnWidths.value = {}
+  }
+}
+
+const saveColumnWidths = () => {
+  if (!props.tableName) return
+  try {
+    localStorage.setItem(
+      getColumnWidthStorageKey(),
+      JSON.stringify(columnWidths.value),
+    )
+  } catch (err) {
+    console.error('Failed to save column widths', err)
+  }
+}
+
+const getColumnWidth = (columnName) => columnWidths.value[columnName] || null
+
+const getColumnSizingStyle = (columnName) => {
+  const width = getColumnWidth(columnName)
+  if (!width) return {}
+  return {
+    width: `${width}px`,
+    minWidth: `${width}px`,
+    maxWidth: `${width}px`,
+  }
+}
+
+const onColumnResizeStart = (event, columnName) => {
+  if (!props.resizableColumns) return
+  event.preventDefault()
+  event.stopPropagation()
+
+  const thEl = event.target.closest('th')
+  const currentWidth = thEl
+    ? thEl.getBoundingClientRect().width
+    : getColumnWidth(columnName) || 100
+
+  isResizing.value = true
+  resizingColumn.value = columnName
+  resizeStartX.value = event.clientX
+  resizeStartWidth.value = currentWidth
+
+  document.body.style.cursor = 'col-resize'
+  document.body.style.userSelect = 'none'
+
+  document.addEventListener('mousemove', onColumnResizeMove)
+  document.addEventListener('mouseup', onColumnResizeEnd)
+}
+
+const onColumnResizeMove = (event) => {
+  if (!isResizing.value || !resizingColumn.value) return
+  const delta = event.clientX - resizeStartX.value
+  const nextWidth = Math.max(
+    props.minColumnWidth,
+    Math.round(resizeStartWidth.value + delta),
+  )
+  columnWidths.value = {
+    ...columnWidths.value,
+    [resizingColumn.value]: nextWidth,
+  }
+}
+
+const onColumnResizeEnd = () => {
+  if (!isResizing.value) return
+  isResizing.value = false
+  resizingColumn.value = null
+  document.body.style.cursor = ''
+  document.body.style.userSelect = ''
+  document.removeEventListener('mousemove', onColumnResizeMove)
+  document.removeEventListener('mouseup', onColumnResizeEnd)
+  saveColumnWidths()
+}
+
+const onColumnResizeDblClick = (columnName) => {
+  if (!props.resizableColumns) return
+  if (!(columnName in columnWidths.value)) return
+  const next = { ...columnWidths.value }
+  delete next[columnName]
+  columnWidths.value = next
+  saveColumnWidths()
+}
+
+const resetColumnWidths = () => {
+  columnWidths.value = {}
+  if (!props.tableName) return
+  try {
+    localStorage.removeItem(getColumnWidthStorageKey())
+  } catch (err) {
+    console.error('Failed to reset column widths', err)
+  }
+}
+
+watch(() => props.tableName, loadColumnWidths, { immediate: true })
+
+onUnmounted(() => {
+  document.removeEventListener('mousemove', onColumnResizeMove)
+  document.removeEventListener('mouseup', onColumnResizeEnd)
+  document.body.style.cursor = ''
+  document.body.style.userSelect = ''
+})
+
+
 // Expose public methods and properties
 defineExpose({
   fetchData,
@@ -707,39 +986,87 @@ defineExpose({
   selectedRowIndex,
   requestServerInteraction: fetchData,
   toggleShowHideColumns,
+  columnWidths,
+  resetColumnWidths,
 })
 
-const sortIcon = () => {
-  return `    <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 14 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M5.64515 3.61291C5.47353 3.61291 5.30192 3.54968 5.16644 3.4142L3.38708 1.63484L1.60773 3.4142C1.34579 3.67613 0.912244 3.67613 0.650309 3.4142C0.388374 3.15226 0.388374 2.71871 0.650309 2.45678L2.90837 0.198712C3.17031 -0.0632236 3.60386 -0.0632236 3.86579 0.198712L6.12386 2.45678C6.38579 2.71871 6.38579 3.15226 6.12386 3.4142C5.98837 3.54968 5.81676 3.61291 5.64515 3.61291Z"
-                    fill="currentColor"
-                  ></path>
-                  <path
-                    d="M3.38714 14C3.01681 14 2.70972 13.6929 2.70972 13.3226V0.677419C2.70972 0.307097 3.01681 0 3.38714 0C3.75746 0 4.06456 0.307097 4.06456 0.677419V13.3226C4.06456 13.6929 3.75746 14 3.38714 14Z"
-                    fill="currentColor"
-                  ></path>
-                  <path
-                    d="M10.6129 14C10.4413 14 10.2697 13.9368 10.1342 13.8013L7.87611 11.5432C7.61418 11.2813 7.61418 10.8477 7.87611 10.5858C8.13805 10.3239 8.5716 10.3239 8.83353 10.5858L10.6129 12.3652L12.3922 10.5858C12.6542 10.3239 13.0877 10.3239 13.3497 10.5858C13.6116 10.8477 13.6116 11.2813 13.3497 11.5432L11.0916 13.8013C10.9561 13.9368 10.7845 14 10.6129 14Z"
-                    fill="currentColor"
-                  ></path>
-                  <path
-                    d="M10.6129 14C10.2426 14 9.93552 13.6929 9.93552 13.3226V0.677419C9.93552 0.307097 10.2426 0 10.6129 0C10.9833 0 11.2904 0.307097 11.2904 0.677419V13.3226C11.2904 13.6929 10.9832 14 10.6129 14Z"
-                    fill="currentColor"
-                  ></path>
-                </svg>
-  `
-}
 </script>
-<style lang="scss">
+<style lang="scss" >
+/* ----------------------------------------------------------------------
+ * SupaTable palette
+ * Sidebar ile (slate-800 / #1e293b) ve primary blue (#3b82f6) ile uyumlu
+ * neutral slate skalası. Tüm yüzeyler, sınırlar ve metinler bu
+ * değişkenler üzerinden tek noktadan kontrol edilir.
+ * -------------------------------------------------------------------- */
+.supa-table {
+  --supa-surface: #ffffff;
+  --supa-surface-alt: #f8fafc;        // slate-50
+  --supa-surface-elevated: #eeeeee;   // slate-100
+  --supa-surface-hover: #eef2f7;
+  --supa-border: #e2e8f0;             // slate-200
+  --supa-border-strong: #cbd5e1;      // slate-300
+  --supa-text: #1e293b;               // slate-800 — sidebar ile aynı ton
+  --supa-text-muted: #475569;         // slate-600
+  --supa-text-soft: #94a3b8;          // slate-400 — sidebar muted ile aynı
+  --supa-primary: #3b82f6;            // sidebar primary
+  --supa-primary-soft: rgba(59, 130, 246, 0.08);
+  --supa-primary-strong: rgba(59, 130, 246, 0.16);
+  /* Opak (saydam OLMAYAN) versiyonlar — frozen column gibi sticky hücrelerde
+   * altındaki içeriği gizlemesi gerektiği yerlerde kullanılır. Önceden mix
+   * edilmiş hex değerleridir: primary @ 8% over base. */
+  --supa-primary-soft-opaque: #eaf1fd;      // primary 8% over white
+  --supa-primary-on-elevated: #dfe8f6;      // primary 10% over slate-100
+  --supa-danger: #ef4444;             // rose-500
+  --supa-shadow-popover:
+    0 10px 25px -10px rgba(15, 23, 42, 0.25),
+    0 4px 12px -6px rgba(15, 23, 42, 0.12);
+}
+
 .supa-table .q-table__top {
   padding: 0px !important;
+}
+
+.sort-chip-wrapper {
+  position: relative;
+  display: inline-block;
+
+  .sort-chip {
+    background: var($blue-grey-8) !important;
+    color: #fff !important;
+
+    .q-chip__icon {
+      font-size: 14px !important;
+      margin-left: 4px !important;
+      margin-right: 6px !important;
+    }
+  }
+
+  .sort-chip__remove {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    font-size: 14px;
+    color: #fff;
+    background: var(--supa-danger);
+    border-radius: 50%;
+    padding: 2px;
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(0.7);
+    transform-origin: center;
+    transition: opacity 0.15s ease, transform 0.15s ease, background 0.15s ease;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.25);
+    z-index: 2;
+
+    &:hover {
+      background: #dc2626; // rose-600
+    }
+  }
+
+  &:hover .sort-chip__remove {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 :deep(.q-virtual-scroll__padding) {
@@ -750,59 +1077,409 @@ const sortIcon = () => {
   padding: 1px 3px !important;
 }
 
-// Add selected row styling
-.supa-table tbody tr.selected-row {
-  background-color: rgba(255, 0, 0, 0.1) !important;
+/* Header cells (q-custom-table used on each <th>) — frozen column ile aynı ton
+ * (slate-100). NOT: border-bottom yerine inset box-shadow kullanıyoruz çünkü
+ * Chrome'da sticky <th> elemanlarında border-bottom scroll sırasında yanlış
+ * render edilebiliyor (kaybolma / iz bırakma). box-shadow sticky-safe çözümdür. */
+.supa-table .q-custom-table {
+  background-color: var(--supa-surface-elevated) !important;
+  color: var(--supa-text) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em;
+  border-bottom: 0 !important;
+  box-shadow: inset 0 -1px 0 var(--supa-border);
+  transition: box-shadow 0.2s ease;
+}
+
+/* Sticky aktifken (içerik scroll edildiğinde) header'ın altına yumuşak gölge */
+.supa-table.supa-table--scrolled .q-custom-table {
+  box-shadow:
+    inset 0 -1px 0 var(--supa-border),
+    0 6px 12px -6px rgba(15, 23, 42, 0.18),
+    0 2px 4px -2px rgba(15, 23, 42, 0.08);
+}
+
+.supa-table .q-custom-table .q-icon,
+.supa-table .q-custom-table .sort-icon {
+  color: var(--supa-text-soft);
+}
+
+.supa-table thead tr th .supa-header-cell--hovered,
+.supa-table thead tr th.supa-header-cell--hovered {
+  background-color: var(--supa-surface-elevated) !important;
+}
+
+/* Top-bar butonları (grey-3 attribute override) */
+.supa-table .q-table__top .q-btn.supa-table__top-btn {
+  background-color: var(--supa-surface-elevated) !important;
+  color: var(--supa-text-muted) !important;
+  border-radius: 6px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+ 
+}
+
+.supa-table .q-table__top .q-btn.supa-table__top-btn:hover {
+  background-color: var(--supa-surface-hover) !important;
+  color: var(--supa-text) !important;
+}
+
+/* Search input — soft slate outline */
+.supa-table .q-table__top .search-input.q-field--outlined .q-field__control {
+  border-radius: 6px;
+  color: var(--supa-text);
+
+  &::before {
+    border-color: var(--supa-border);
+  }
+
+  &:hover::before {
+    border-color: var(--supa-border-strong);
+  }
+}
+
+.supa-table .q-table__top .search-input.q-field--outlined.q-field--focused .q-field__control::after {
+  border-color: var(--supa-primary);
+}
+
+.supa-table .q-table__top .search-input .q-icon {
+  color: var(--supa-text-soft);
+}
+
+/* Seçili satır — kırmızı tint yerine sidebar primary blue.
+ * NOT: Bg'yi <tr>'ye değil her <td>'ye OPAK olarak veriyoruz; aksi halde
+ * sticky frozen column'ın altından scroll edilen yazılar okunur (saydam
+ * rgba arka plan sorunu). Selection indent border'ı da frozen td'ye
+ * yapıştırıyoruz — yatay scroll'da kaybolmasın. */
+.supa-table tbody tr.selected-row td {
+  background-color: var(--supa-primary-soft-opaque) !important;
+}
+
+.supa-table tbody tr.selected-row td:first-child {
+  box-shadow: inset 3px 0 0 0 var(--supa-primary);
 }
 
 .q-table__bottom {
   padding: 0px !important;
 }
 
+/* ----------------------------------------------------------------------
+ * Frozen columns — yatay scroll sırasında sol tarafta sabit kalan sütunlar.
+ * Bg'leri MUTLAKA tam opak olmalı, aksi takdirde altından kayan yazılar
+ * görünür. Tüm state'lerde (default/hover/selected) opak token kullanıyoruz.
+ * -------------------------------------------------------------------- */
 .supa-table {
-  thead {
-    tr:first-child {
-      th {
-        &.frozen-column {
-          background-color: $blue-grey-1;
-          position: sticky;
-          z-index: 1;
-        }
-      }
-    }
+  thead tr:first-child th.frozen-column,
+  td.frozen-column {
+    background-color: var(--supa-surface-elevated) !important;
+    position: sticky;
+    z-index: 1;
   }
 
-  td {
-    &.frozen-column {
-      background-color: $blue-grey-1;
-      position: sticky;
-      z-index: 1;
-    }
+  tbody tr:hover td {
+    background-color: var(--supa-surface-alt);
   }
 
-  tbody tr.selected-row {
-    td.frozen-column {
-      background-color: rgba(255, 0, 0, 0.1);
-    }
+  tbody tr:hover td.frozen-column {
+    background-color: var(--supa-surface-hover) !important;
+  }
+
+  tbody tr.selected-row td.frozen-column {
+    background-color: var(--supa-primary-on-elevated) !important;
   }
 }
 
 .sindu_handle {
   cursor: pointer !important;
-  /*   &:hover {
-    background-color: $grey-2;
-    color: $primary;
-  } */
 }
+
 .sort-icon {
-  /*   cursor: not-allowed !important; */
   &:hover {
-    background-color: $grey-2;
-    color: $primary;
+    background-color: var(--supa-surface-elevated);
+    color: var(--supa-primary);
   }
 }
+
 .sorted-column {
-  background-color: $grey-8 !important;
-  color: $primary !important;
+  background-color: var(--supa-primary-strong) !important;
+  color: var(--supa-primary) !important;
+}
+
+/* ----------------------------------------------------------------------
+ * Sticky thead — header'ı scroll sırasında üstte tutar.
+ * .q-custom-table app.scss'de `position: relative` set ediyor; sticky
+ * kuralının her koşulda kazanmasını garanti etmek için !important + yüksek
+ * specificity kullanıyoruz. border-collapse: separate ek sigorta.
+ * Bg-color hover state'ini bozmamak için burada set edilmez — header
+ * bg'sini `.supa-table .q-custom-table` kuralı yönetir.
+ * -------------------------------------------------------------------- */
+.supa-table {
+  .q-table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  thead tr th,
+  thead tr th.q-custom-table {
+    position: sticky !important;
+    top: 0;
+    z-index: 2;
+    opacity: 1;
+  }
+
+  &.q-table--loading thead tr:last-child th {
+    top: 48px;
+  }
+
+  &.supa-table--has-bottom-row tbody tr:last-child td {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    background-color: var(--supa-surface-alt);
+    box-shadow: 0 -1px 0 0 var(--supa-border);
+    font-weight: 500;
+    color: var(--supa-text);
+  }
+}
+
+/* Frozen header hücreleri hem dikey hem yatay sticky olduğundan üst katman */
+.supa-table thead tr:first-child th.frozen-column {
+  z-index: 3 !important;
+}
+
+/* ----------------------------------------------------------------------
+ * Pagination bottom slot — sol grup info, sağ grup nav butonları
+ * -------------------------------------------------------------------- */
+.supa-table .supa-table__pagination {
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 4px 4px 4px 8px;
+  color: var(--supa-text-muted);
+}
+
+.supa-table .supa-table__pagination-info {
+  gap: 4px;
+  flex-wrap: wrap;
+  color: var(--supa-text-muted);
+
+  .text-subtitle2 {
+    color: var(--supa-text);
+    font-weight: 500;
+  }
+
+  strong {
+    color: var(--supa-text);
+  }
+}
+
+.supa-table .supa-table__pagination-nav {
+  margin-left: auto;
+}
+
+/* ----------------------------------------------------------------------
+ * Hover panel (Teleport to body — global selector)
+ * -------------------------------------------------------------------- */
+.supa-column-hover-panel {
+  position: fixed;
+  z-index: 9999;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 4px;
+  min-width: 128px;
+  max-width: 170px;
+  min-width: 150px;
+  padding: 6px;
+  background: #ffffff;
+  // border: 1px solid #d9dadb;
+  border-radius: 8px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  white-space: nowrap;
+  pointer-events: auto;
+  margin-top: -8px;
+  height: 40px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #ffffff;
+    z-index: 1;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #e2e8f0;
+    z-index: 0;
+  }
+}
+
+.supa-column-hover-panel__btn {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  color: #64748b !important; // slate-500
+  border-radius: 6px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: #f1f5f9 !important;
+    color: #3b82f6 !important;
+  }
+}
+
+.supa-column-hover-panel__btn :deep(.q-btn__content) {
+  width: 100%;
+  justify-content: center;
+}
+
+.supa-column-hover-panel__btn :deep(.q-icon) {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.supa-column-hover-enter-active,
+.supa-column-hover-leave-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.supa-column-hover-enter-from,
+.supa-column-hover-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+/* ----------------------------------------------------------------------
+ * Visible-columns dropdown menüsü (Quasar QMenu içerik teleport edilir,
+ * bu yüzden global selector kullanıyoruz)
+ * -------------------------------------------------------------------- */
+.supa-table__visible-columns-menu {
+  max-height: 400px;
+  border-radius: 0 !important;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e2e8f0;
+  box-shadow:
+    0 10px 25px -10px rgba(15, 23, 42, 0.25),
+    0 4px 12px -6px rgba(15, 23, 42, 0.12) !important;
+  background-color: #ffffff;
+}
+
+.supa-table__visible-columns-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.supa-table__visible-columns-footer {
+  flex-shrink: 0;
+  border: none !important;
+}
+
+.supa-table__visible-columns-menu .q-list {
+  border: none !important;
+}
+
+.supa-table__visible-columns-menu .q-item {
+  color: #334155; // slate-700
+  min-height: 32px;
+  transition: background-color 0.12s ease, color 0.12s ease;
+
+  &:hover {
+    background-color: #f1f5f9; // slate-100
+    color: #1e293b;
+  }
+}
+
+.supa-table__visible-columns-header {
+  background-color: #f8fafc; // slate-50
+  color: #475569; // slate-600
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.supa-table__visible-columns-item--off {
+  color: #94a3b8 !important; // slate-400
+}
+
+.supa-table__visible-columns-reset {
+  background-color: #f8fafc !important;
+  color: #ef4444 !important;
+  border-top: 1px solid #e2e8f0;
+
+  &:hover {
+    background-color: #fef2f2 !important; // rose-50
+    color: #dc2626 !important;
+  }
+}
+
+/* Column resize handle */
+.supa-table th.supa-th--resizable {
+  position: relative;
+}
+
+.supa-table th.supa-th--resizable .supa-column-resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
+  user-select: none;
+  z-index: 3;
+  background: transparent;
+  transition: background-color 0.15s ease;
+}
+
+.supa-table th.supa-th--resizable .supa-column-resizer::after {
+  content: '';
+  position: absolute;
+  top: 25%;
+  right: 2px;
+  width: 2px;
+  height: 50%;
+  background-color: transparent;
+  border-radius: 1px;
+  transition: background-color 0.15s ease;
+}
+
+.supa-table th.supa-th--resizable:hover .supa-column-resizer::after,
+.supa-table th.supa-th--resizing .supa-column-resizer::after {
+  background-color: var(--supa-border-strong);
+}
+
+.supa-table th.supa-th--resizing {
+  background-color: var(--supa-surface-elevated);
+}
+
+/* Dark tema desteği — sidebar/body dark olduğunda paleti otomatik çevir */
+.body--dark .supa-table {
+  --supa-surface: #1e293b;
+  --supa-surface-alt: #1e2a3d;
+  --supa-surface-elevated: #243349;
+  --supa-surface-hover: #2a3b54;
+  --supa-border: rgba(148, 163, 184, 0.18);
+  --supa-border-strong: rgba(148, 163, 184, 0.3);
+  --supa-text: #e2e8f0;
+  --supa-text-muted: #cbd5e1;
+  --supa-text-soft: #94a3b8;
+  /* Dark mode opaque selected variants — primary 8% pre-mixed over dark base */
+  --supa-primary-soft-opaque: #233653;       // primary @ 8% over slate-900
+  --supa-primary-on-elevated: #2a3d5d;       // primary @ 10% over slate-800
 }
 </style>
+<!--  -->

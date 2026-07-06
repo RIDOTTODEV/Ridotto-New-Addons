@@ -1,5 +1,6 @@
 import { defineBoot } from '#q-app/wrappers'
 import { Screen } from 'quasar'
+import { VueQueryPlugin, QueryClient } from '@tanstack/vue-query'
 
 export const getWindowHeight = () => {
   const height = Screen.height
@@ -16,7 +17,8 @@ import createPlayerDetailDirective from 'src/directive/PlayerDetail'
 
 // components
 import SupaTable from '../components/atoms/SupaTable.vue'
-import Sidebar from 'src/components/layout/Sidebar.vue'
+//import Sidebar from 'src/components/layout/Sidebar.vue'
+import NewSideBar from 'src/components/layout/NewSideBar.vue'
 import Header from 'src/components/layout/Header.vue'
 import DateTimePicker from 'src/components/atoms/DateTimePicker.vue'
 import QCurrencyInput from 'src/components/atoms/QCurrencyInput.vue'
@@ -27,8 +29,23 @@ import QSelectBox from 'src/components/atoms/QSelectBox.vue'
 import SearchPlayerInput from 'src/components/atoms/SearchPlayerInput.vue'
 import SearchMachineInput from 'src/components/atoms/SearchMachineInput.vue'
 import Confirm from 'src/components/ui/Confirm.vue'
+
+import SupaTableV2 from 'src/components/atoms/SupaTableV2.vue'
+import SeoDataGrid from 'src/components/atoms/tablev2/SeoDataGrid.vue'
 // this boot file will register component and the directive and other global properties
 export default defineBoot(async ({ app, router }) => {
+  // vue-query
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        retry: 1,
+        staleTime: 1000 * 60,
+      },
+    },
+  })
+  app.use(VueQueryPlugin, { queryClient })
+
   // directives
   app.use(qDraggableTable)
   app.use(VueGridLayout)
@@ -37,7 +54,7 @@ export default defineBoot(async ({ app, router }) => {
 
   // components
   app.component('SupaTable', SupaTable)
-  app.component('Sidebar', Sidebar)
+  app.component('Sidebar', NewSideBar)
   app.component('AppHeader', Header)
   app.component('DateTimePicker', DateTimePicker)
   app.component('QCurrencyInput', QCurrencyInput)
@@ -52,4 +69,7 @@ export default defineBoot(async ({ app, router }) => {
   app.config.globalProperties.$playerPhotoUrl = process.env.PLAYER_PHOTO_URL
   app.config.globalProperties.$getWindowHeight = getWindowHeight()
   app.config.globalProperties.$priceAbs = priceAbsFormatted
+
+  app.component('SupaTableV2', SupaTableV2)
+  app.component('SeoDataGrid', SeoDataGrid)
 })

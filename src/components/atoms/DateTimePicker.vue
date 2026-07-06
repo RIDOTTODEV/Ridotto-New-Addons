@@ -1,7 +1,7 @@
 <script setup>
 import { ref, inject, onMounted, watch } from 'vue'
 import { i18n } from 'boot/i18n'
-import { date, useQuasar } from 'quasar'
+import { date } from 'quasar'
 const bus = inject('bus')
 const getMonday = (d) => {
   d = new Date(d)
@@ -41,6 +41,16 @@ const props = defineProps({
     default: () => false,
   },
   btnClass: {
+    type: String,
+    required: false,
+    default: () => '',
+  },
+  fieldClass: {
+    type: String,
+    required: false,
+    default: () => 'super-small',
+  },
+  label: {
     type: String,
     required: false,
     default: () => '',
@@ -186,7 +196,6 @@ const filterFields = ref({
   },
 })
 const showInput = ref('')
-const $q = useQuasar()
 const onClickShowInput = (inputName) => {
   showInput.value = inputName
   persistent.value = true
@@ -250,22 +259,6 @@ const onSelectCustomDate = (dateParam, queryType, label, dateFormat) => {
   }
   bus.emit('selectedDateFilter', selectedDateParams, false)
   dropDownMenu.value = false
-
-  /*   console.log(dateParam, queryType, label, dateFormat)
-
-  let param = JSON.parse(JSON.stringify(dateParam))
-  if (queryType === 'byGamingDate') {
-    selectedDate.value.StartDate = date.formatDate(param[0], dateFormat) + 'T00:00:00.000Z'
-    selectedDate.value.EndDate = date.formatDate(param[1], dateFormat) + 'T00:00:00.000Z'
-    selectedDate.value.QueryType = queryType
-    selectedDate.value.label = `${date.formatDate(param[0], dateFormat)} - ${date.formatDate(param[1], dateFormat)}`
-  } else {
-    selectedDate.value.StartDate = dateParam[0]
-    selectedDate.value.EndDate = dateParam[1]
-    selectedDate.value.QueryType = queryType
-    selectedDate.value.label = label
-  }
-  dropDownMenu.value = false */
 }
 
 // Watch for modelValue changes from parent
@@ -312,25 +305,37 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="flex flex-col sm:flex-row gap-2">
-    <q-btn
-      class="q-card--bordered"
-      size="13px"
-      unelevated
-      :color="$q.dark.isActive ? 'grey-3' : 'grey-3'"
-      text-color="grey-10"
-      no-caps
-      icon-right="o_date_range"
-      :label="selectedDate.label"
-      :disabled="disabled"
-      :class="btnClass"
+  <div class="flex flex-col sm:flex-row gap-2 date-time-picker">
+    <q-input
+      :model-value="selectedDate.label"
+      :label="label || $t('dateRange')"
+      outlined
+      dense
+      readonly
+      :disable="disabled"
+      :class="[fieldClass, btnClass, { 'date-time-picker__field--open': dropDownMenu }]"
+      class="date-time-picker__field"
       :no-wrap="noWrap"
+      @click="!disabled && (dropDownMenu = !dropDownMenu)"
+      inputClass="cursor-pointer"
     >
+      <template v-slot:prepend>
+        <q-icon name="o_event" size="18px" color="grey-8" />
+      </template>
+      <template v-slot:append>
+        <q-icon
+          name="arrow_drop_down"
+          size="22px"
+          class="date-time-picker__arrow"
+          :class="{ 'date-time-picker__arrow--open': dropDownMenu }"
+        />
+      </template>
       <q-menu
         :persistent="persistent"
-        :offset="[0, 3]"
+        :offset="[0, 4]"
         :auto-close="false"
-        class="no-box-shadow q-card--bordered"
+        no-parent-event
+        class="no-box-shadow q-card--bordered cursor-pointer"
         style="width: 500px"
         square
         v-model="dropDownMenu"
@@ -483,9 +488,40 @@ onMounted(() => {
           </q-card-section>
         </q-card>
       </q-menu>
-    </q-btn>
+    </q-input>
   </div>
 </template>
+
+<style scoped lang="scss">
+.date-time-picker__field {
+  min-width: 170px;
+
+  &:hover :deep(.q-field__control:before) {
+    border-color: rgba(0, 0, 0, 0.42);
+  }
+
+  &--open :deep(.q-field__control:before) {
+    border-color: var(--q-primary);
+    border-width: 2px;
+  }
+
+  :deep(.q-field__control) {
+    cursor: pointer;
+  }
+
+  :deep(input) {
+    cursor: pointer;
+  }
+}
+
+.date-time-picker__arrow {
+  transition: transform 0.2s ease;
+
+  &--open {
+    transform: rotate(180deg);
+  }
+}
+</style>
 
 <style>
 .example-showcase .el-dropdown + .el-dropdown {

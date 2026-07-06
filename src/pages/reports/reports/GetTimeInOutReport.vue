@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <SupaTable
+    <!-- <SupaTable
       :columns="columns"
       :getDataFn="reportStore.getTimeInOutReport"
       :filterValues="filterValues"
@@ -82,16 +82,81 @@
           </q-td>
         </q-tr>
       </template>
-    </SupaTable>
+    </SupaTable> -->
+
+    <q-card>
+      <q-card-section class="q-pb-sm">
+        <div class="flex sm:flex-row flex-col justify-start gap-2 w-full sm:w-auto">
+          <q-select-box
+            v-model="filterValues.tableId"
+            :label="$t('table')"
+            :options="tables"
+            option-label="name"
+            option-value="id"
+            class="fixed-field-width"
+          />
+          <SearchPlayerInput
+            v-model="filterValues.playerId"
+            :placeholder="$t('searchPlayer')"
+            @onSelectPlayer="
+              (val) => {
+                filterValues.playerId = val?.id
+                filterValues.playerName = val?.value
+              }
+            "
+            :optionLabel="'value'"
+            :displayedValue="filterValues.playerName"
+            @onClear="
+              () => {
+                filterValues.playerId = null
+                filterValues.playerName = null
+              }
+            "
+            class="fixed-field-width"
+          />
+          <date-time-picker
+            @selected-date="
+              (val) => {
+                filterValues = {
+                  ...filterValues,
+                  ...val,
+                }
+              }
+            "
+          />
+          <q-btn
+            type="button"
+            :label="$t('filter')"
+            icon="tune"
+            color="grey-2"
+            text-color="dark"
+            size="13px"
+            unelevated
+            no-caps
+            @click="inOutReportTable.fetchData()"
+          />
+        </div>
+      </q-card-section>
+    </q-card>
+    <AppDataTable
+      :columns="columns"
+      queryKey="getTimeInOutReport"
+      :fetchFn="fetchTimeInOutReport"
+      ref="inOutReportTable"
+      tableName="timeInOutReportColumns"
+      :filterParams="filterValues"
+      class="q-mt-md"
+    />
   </q-page>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useReportStore } from 'src/stores/report-store'
+// import { useReportStore } from 'src/stores/report-store'
 import { useTableStore } from 'src/stores/table-store'
+import { playerLgReportService } from 'src/api'
 import { storeToRefs } from 'pinia'
-const reportStore = useReportStore()
+// const reportStore = useReportStore()
 const tableStore = useTableStore()
 const { tables } = storeToRefs(tableStore)
 
@@ -102,62 +167,166 @@ const filterValues = ref({
 })
 const inOutReportTable = ref(null)
 
+// `AppDataTable`/`useAppDataTable` expect the fetch function to resolve to
+// `{ data: Array, total: Number }`. The service returns the raw axios response
+// whose body is shaped `{ data: [...], totalCount: N }`, so we adapt it here.
+async function fetchTimeInOutReport(params) {
+  const response = await playerLgReportService.getTimeInOutReport(params)
+  const body = response?.data ?? {}
+  return {
+    data: Array.isArray(body) ? body : (body.data ?? []),
+    total: body.totalCount ?? body.count ?? 0,
+  }
+}
+
+// const columns = ref([
+//   {
+//     field: 'playerId',
+//     label: 'Player Id',
+//   },
+//   {
+//     field: 'playerFullName',
+//     label: 'Player Name',
+//   },
+//   {
+//     field: 'table',
+//     label: 'Table',
+//   },
+//   {
+//     field: 'inTime',
+//     label: 'In Time',
+//     fieldType: 'date',
+//   },
+//   {
+//     field: 'outTime',
+//     label: 'Out Time',
+//     fieldType: 'date',
+//   },
+//   {
+//     field: 'playTime',
+//     label: 'Play Time',
+//   },
+//   {
+//     field: 'avgBet',
+//     label: 'Avg Bet',
+//     fieldType: 'priceAbs',
+//     showTotal: true,
+//   },
+//   {
+//     field: 'cashDrop',
+//     label: 'Cash Drop',
+//     fieldType: 'priceAbs',
+//     showTotal: true,
+//   },
+//   {
+//     field: 'chipDrop',
+//     label: 'Chip Drop',
+//     fieldType: 'priceAbs',
+//     showTotal: true,
+//   },
+//   {
+//     field: 'out',
+//     label: 'Out',
+//     fieldType: 'priceAbs',
+//     showTotal: true,
+//   },
+//   {
+//     field: 'result',
+//     label: 'Result',
+//     fieldType: 'priceAbs',
+//     showTotal: true,
+//   },
+// ])
+
 const columns = ref([
   {
-    field: 'playerId',
+    name: 'playerId',
     label: 'Player Id',
+    field: 'playerId',
+    align: 'center',
+    colId: 0,
   },
   {
+    name: 'playerFullName',
     field: 'playerFullName',
     label: 'Player Name',
+    align: 'center',
+    colId: 1,
   },
   {
+    name: 'table',
     field: 'table',
     label: 'Table',
+    align: 'center',
+    colId: 2,
   },
   {
+    name: 'inTime',
     field: 'inTime',
     label: 'In Time',
     fieldType: 'date',
+    align: 'center',
+    colId: 3,
   },
   {
+    name: 'outTime',
     field: 'outTime',
     label: 'Out Time',
     fieldType: 'date',
+    align: 'center',
+    colId: 4,
   },
   {
+    name: 'playTime',
     field: 'playTime',
     label: 'Play Time',
+    align: 'center',
+    colId: 5,
   },
   {
+    name: 'avgBet',
     field: 'avgBet',
     label: 'Avg Bet',
     fieldType: 'priceAbs',
     showTotal: true,
+    align: 'center',
+    colId: 6,
   },
   {
+    name: 'cashDrop',
     field: 'cashDrop',
     label: 'Cash Drop',
     fieldType: 'priceAbs',
     showTotal: true,
+    align: 'center',
+    colId: 7,
   },
   {
+    name: 'chipDrop',
     field: 'chipDrop',
     label: 'Chip Drop',
     fieldType: 'priceAbs',
     showTotal: true,
+    align: 'center',
+    colId: 8,
   },
   {
+    name: 'out',
     field: 'out',
     label: 'Out',
     fieldType: 'priceAbs',
     showTotal: true,
+    align: 'center',
+    colId: 9,
   },
   {
+    name: 'result',
     field: 'result',
     label: 'Result',
     fieldType: 'priceAbs',
     showTotal: true,
+    align: 'center',
+    colId: 10,
   },
 ])
 </script>

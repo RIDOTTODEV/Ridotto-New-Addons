@@ -15,6 +15,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon',
           requiresAuth: true,
+          breadcrumb: [{ name: 'index' }],
         },
       },
     ],
@@ -34,6 +35,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.PlayerOperations',
           requiresAuth: true,
+          breadcrumb: [{ name: 'playerOperations' }],
         },
       },
       {
@@ -43,6 +45,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.PlayerOperations.PlayerDetail',
           requiresAuth: true,
+          breadcrumb: [{ name: 'playerOperations' }, { name: 'playerDetail' }],
         },
       },
     ],
@@ -62,6 +65,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.CageOperations',
           requiresAuth: true,
+          breadcrumb: [{ name: 'cageOperations' }],
         },
       },
     ],
@@ -82,6 +86,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.Settings',
           requiresAuth: true,
+          breadcrumb: [{ name: 'definitions' }, { name: 'settings' }],
         },
       },
       {
@@ -91,6 +96,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.TableGame',
           requiresAuth: true,
+          breadcrumb: [{ name: 'definitions' }, { name: 'tableGames' }],
         },
       },
       {
@@ -100,6 +106,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.TransactionCode',
           requiresAuth: true,
+          breadcrumb: [{ name: 'definitions' }, { name: 'transactionCodes' }],
         },
       },
       {
@@ -109,6 +116,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.Cashdesk',
           requiresAuth: true,
+          breadcrumb: [{ name: 'definitions' }, { name: 'cashdesks' }],
         },
       },
       {
@@ -118,6 +126,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.PettyCashCategory',
           requiresAuth: true,
+          breadcrumb: [{ name: 'definitions' }, { name: 'pettyCashCategories' }],
         },
       },
       {
@@ -127,6 +136,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.PlayerClass',
           requiresAuth: true,
+          breadcrumb: [{ name: 'definitions' }, { name: 'playerClasses' }],
         },
       },
       {
@@ -136,6 +146,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.TableGame',
           requiresAuth: true,
+          breadcrumb: [{ name: 'definitions' }, { name: 'tableGames' }],
         },
       },
       {
@@ -145,6 +156,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.BankAccount',
           requiresAuth: true,
+          breadcrumb: [{ name: 'definitions' }, { name: 'bankAccounts' }],
         },
       },
       {
@@ -154,6 +166,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.Discount',
           requiresAuth: true,
+          breadcrumb: [{ name: 'definitions' }, { name: 'discounts' }],
         },
       },
       {
@@ -163,6 +176,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.Location',
           requiresAuth: true,
+          breadcrumb: [{ name: 'definitions' }, { name: 'locations' }],
         },
       },
       {
@@ -172,6 +186,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.Currency',
           requiresAuth: true,
+          breadcrumb: [{ name: 'definitions' }, { name: 'currencies' }],
         },
       },
       {
@@ -181,6 +196,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Definitions.Gift',
           requiresAuth: true,
+          breadcrumb: [{ name: 'definitions' }, { name: 'gifts' }],
         },
       },
       {
@@ -191,6 +207,11 @@ const routes = [
           requiredPermission: 'Addon.Definitions.RoomType',
           requiresAuth: true,
           groupName: 'definitionGuestManagement',
+          breadcrumb: [
+            { name: 'definitions' },
+            { name: 'guestManagement' },
+            { name: 'roomTypes' },
+          ],
         },
       },
       {
@@ -201,6 +222,11 @@ const routes = [
           requiredPermission: 'Addon.Definitions.VisitorCategory',
           requiresAuth: true,
           groupName: 'definitionGuestManagement',
+          breadcrumb: [
+            { name: 'definitions' },
+            { name: 'guestManagement' },
+            { name: 'visitorCategories' },
+          ],
         },
       },
       {
@@ -211,6 +237,11 @@ const routes = [
           requiredPermission: 'Addon.Definitions.ExpenseParameter',
           requiresAuth: true,
           groupName: 'definitionGuestManagement',
+          breadcrumb: [
+            { name: 'definitions' },
+            { name: 'guestManagement' },
+            { name: 'expenseParameters' },
+          ],
         },
       },
       {
@@ -221,6 +252,7 @@ const routes = [
           requiredPermission: 'Addon.Definitions.Chips',
           requiresAuth: true,
           groupName: 'definitionChipManagement',
+          breadcrumb: [{ name: 'definitions' }, { name: 'chipManagement' }, { name: 'chips' }],
         },
       },
       {
@@ -231,6 +263,7 @@ const routes = [
           requiredPermission: 'Addon.Definitions.FloatSets',
           requiresAuth: true,
           groupName: 'definitionChipManagement',
+          breadcrumb: [{ name: 'definitions' }, { name: 'chipManagement' }, { name: 'floatSets' }],
         },
       },
       {
@@ -241,6 +274,11 @@ const routes = [
           requiredPermission: 'Addon.Definitions.ChipOperations',
           requiresAuth: true,
           groupName: 'definitionChipManagement',
+          breadcrumb: [
+            { name: 'definitions' },
+            { name: 'chipManagement' },
+            { name: 'chipOperations' },
+          ],
         },
       },
     ],
@@ -262,6 +300,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.TableOperations',
           requiresAuth: true,
+          breadcrumb: [{ name: 'tableOperations' }],
         },
       },
     ],
@@ -282,6 +321,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.GuestOperations.HotelGuestList',
           requiresAuth: true,
+          breadcrumb: [{ name: 'guestOperations' }, { name: 'hotelGuestList' }],
         },
       },
       {
@@ -291,6 +331,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.GuestOperations.JunketOperation',
           requiresAuth: true,
+          breadcrumb: [{ name: 'guestOperations' }, { name: 'junketOperation' }],
         },
       },
     ],
@@ -311,6 +352,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.SlotOperations.PlayersInOut',
           requiresAuth: true,
+          breadcrumb: [{ name: 'slot' }, { name: 'playersInOut' }],
         },
       },
       {
@@ -320,6 +362,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.SlotOperations.SlotInOutReport',
           requiresAuth: true,
+          breadcrumb: [{ name: 'slot' }, { name: 'slotInOutReport' }],
         },
       },
       {
@@ -329,6 +372,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.SlotOperations.SlotWinLoss',
           requiresAuth: true,
+          breadcrumb: [{ name: 'slot' }, { name: 'slotWinLoss' }],
         },
       },
     ],
@@ -349,6 +393,7 @@ const routes = [
           requiredPermission: 'Addon.InOutReport.GetInOutReportNew',
           requiresAuth: true,
           groupName: 'inOutReport',
+          breadcrumb: [{ name: 'inOutReport' }, { name: 'inOutReportNew' }],
         },
       },
       {
@@ -359,6 +404,7 @@ const routes = [
           requiredPermission: 'Addon.InOutReport.GetFilteredReport',
           requiresAuth: true,
           groupName: 'inOutReport',
+          breadcrumb: [{ name: 'inOutReport' }, { name: 'filteredReport' }],
         },
       },
       {
@@ -369,6 +415,7 @@ const routes = [
           requiredPermission: 'Addon.InOutReport.GetNetCashReport',
           requiresAuth: true,
           groupName: 'inOutReport',
+          breadcrumb: [{ name: 'inOutReport' }, { name: 'netCashReport' }],
         },
       },
       {
@@ -379,6 +426,7 @@ const routes = [
           requiredPermission: 'Addon.InOutReport.GetInOutReportDetail',
           requiresAuth: true,
           groupName: 'inOutReport',
+          breadcrumb: [{ name: 'inOutReport' }, { name: 'inOutReportDetail' }],
         },
       },
       {
@@ -389,6 +437,7 @@ const routes = [
           requiredPermission: 'Addon.InOutReport.GetInOutSelectedNameReport',
           requiresAuth: true,
           groupName: 'inOutReport',
+          breadcrumb: [{ name: 'inOutReport' }, { name: 'inOutSelectedNameReport' }],
         },
       },
       {
@@ -399,6 +448,7 @@ const routes = [
           requiredPermission: 'Addon.InOutReport.GetPlayerResultReport',
           requiresAuth: true,
           groupName: 'reports',
+          breadcrumb: [{ name: 'reports' }, { name: 'playerResultReport' }],
         },
       },
       {
@@ -409,6 +459,7 @@ const routes = [
           requiredPermission: 'Addon.InOutReport.GetTimeInOutReport',
           requiresAuth: true,
           groupName: 'reports',
+          breadcrumb: [{ name: 'reports' }, { name: 'timeInOutReport' }],
         },
       },
       {
@@ -419,6 +470,7 @@ const routes = [
           requiredPermission: 'Addon.InOutReport.GetTimeInOutReportByPlayer',
           requiresAuth: true,
           groupName: 'reports',
+          breadcrumb: [{ name: 'reports' }, { name: 'timeInOutReportByPlayer' }],
         },
       },
       {
@@ -429,6 +481,7 @@ const routes = [
           requiredPermission: 'Addon.InOutReport.GetTimeInOutReportByTable',
           requiresAuth: true,
           groupName: 'reports',
+          breadcrumb: [{ name: 'reports' }, { name: 'timeInOutReportByTable' }],
         },
       },
       {
@@ -439,6 +492,7 @@ const routes = [
           requiredPermission: 'Addon.Definitions.TableFloats.ShowList',
           requiresAuth: true,
           groupName: 'reports',
+          breadcrumb: [{ name: 'reports' }, { name: 'tableFloatsReport' }],
         },
       },
       {
@@ -449,6 +503,7 @@ const routes = [
           requiredPermission: 'Addon.InOutReport.GetActiveFloorListReport',
           requiresAuth: true,
           groupName: 'managementReports',
+          breadcrumb: [{ name: 'managementReports' }, { name: 'activeFloorListReport' }],
         },
       },
       {
@@ -459,6 +514,7 @@ const routes = [
           requiredPermission: 'Addon.InOutReport.GetActiveFloorInfoReport',
           requiresAuth: true,
           groupName: 'managementReports',
+          breadcrumb: [{ name: 'managementReports' }, { name: 'activeFloorInfoReport' }],
         },
       },
       {
@@ -469,6 +525,7 @@ const routes = [
           requiredPermission: 'Addon.Reports.MasterReport',
           requiresAuth: true,
           groupName: 'managementReports',
+          breadcrumb: [{ name: 'managementReports' }, { name: 'masterReport' }],
         },
       },
       {
@@ -479,6 +536,7 @@ const routes = [
           requiredPermission: 'Addon.InOutReport.GetBalanceReport',
           requiresAuth: true,
           groupName: 'managementReports',
+          breadcrumb: [{ name: 'managementReports' }, { name: 'balanceReport' }],
         },
       },
       {
@@ -489,6 +547,7 @@ const routes = [
           requiredPermission: 'Addon.Operations.CallReport',
           requiresAuth: true,
           groupName: 'managementReports',
+          breadcrumb: [{ name: 'managementReports' }, { name: 'callReport' }],
         },
       },
       {
@@ -500,6 +559,7 @@ const routes = [
           requiredPermission: 'Addon.Operations.PlayerWinLossAnalysisReport',
           requiresAuth: true,
           groupName: 'managementReports',
+          breadcrumb: [{ name: 'managementReports' }, { name: 'playerWinLossAnalysisReport' }],
         },
       },
       {
@@ -510,6 +570,7 @@ const routes = [
           requiredPermission: 'Addon.Operations.MarketerReport',
           requiresAuth: true,
           groupName: 'managementReports',
+          breadcrumb: [{ name: 'managementReports' }, { name: 'marketerReport' }],
         },
       },
     ],
@@ -530,6 +591,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Operations.PortfolioManagement',
           requiresAuth: true,
+          breadcrumb: [{ name: 'operations' }, { name: 'portfolioManagement' }],
         },
       },
       {
@@ -539,6 +601,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Operations.CustomerInformation',
           requiresAuth: true,
+          breadcrumb: [{ name: 'operations' }, { name: 'customerInformation' }],
         },
       },
       {
@@ -548,6 +611,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Operations.BlackListReport',
           requiresAuth: true,
+          breadcrumb: [{ name: 'operations' }, { name: 'blackListReport' }],
         },
       },
       {
@@ -557,6 +621,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Operations.CigaretteReport',
           requiresAuth: true,
+          breadcrumb: [{ name: 'operations' }, { name: 'cigaretteReport' }],
         },
       },
       {
@@ -566,6 +631,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Operations.CorrectionInfosReport',
           requiresAuth: true,
+          breadcrumb: [{ name: 'operations' }, { name: 'correctionInfosReport' }],
         },
       },
       {
@@ -575,6 +641,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Operations.PlayerLookupAuditLogsReport',
           requiresAuth: true,
+          breadcrumb: [{ name: 'operations' }, { name: 'playerLookupAuditLogsReport' }],
         },
       },
       {
@@ -584,6 +651,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Operations.PlayerGifts',
           requiresAuth: true,
+          breadcrumb: [{ name: 'operations' }, { name: 'playerGifts' }],
         },
       },
     ],
@@ -604,6 +672,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Inspector',
           requiresAuth: true,
+          breadcrumb: [{ name: 'inspector' }],
         },
       },
     ],
@@ -624,6 +693,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Pit.LiveGameFloorResultReport',
           requiresAuth: true,
+          breadcrumb: [{ name: 'pit' }, { name: 'liveGameFloorResultReport' }],
         },
       },
       {
@@ -633,6 +703,7 @@ const routes = [
         meta: {
           requiredPermission: 'Addon.Pit.MissingChipReport',
           requiresAuth: true,
+          breadcrumb: [{ name: 'pit' }, { name: 'missingChipReport' }],
         },
       },
     ],

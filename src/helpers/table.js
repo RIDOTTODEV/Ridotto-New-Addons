@@ -58,5 +58,7 @@ export const generateColumns = (columnConfigs) => {
     totalField: config.totalField || null, // this is used to pass the total field to the format function
     headerSlotName: config.headerSlotName || null,
     useSorting: config.useSorting || false,
+    filterable: config.filterable || false,
+    isSortable: config.isSortable || false,
   }))
 }
