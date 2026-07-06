@@ -21,7 +21,6 @@
     "@microsoft/signalr": "^8.0.17",
     "@quasar/cli": "^5.0.1",
     "@quasar/extras": "^1.16.4",
-    "@syncfusion/ej2-vue-pivotview": "^33.2.6",
     "@tailwindcss/postcss": "^4.1.16",
     "@tanstack/vue-query": "^5.100.11",
     "@vueuse/core": "^13.7.0",
