@@ -1,5 +1,5 @@
 <template>
-  <q-card flat class="sideBarBg text-white" bordered square>
+  <q-card flat class="app-sidebar__timer text-white" bordered square>
     <q-card-section class="q-pa-none">
       <div class="row q-pa-xs q-pb-none">
         <div class="col-4 flex flex-center">
@@ -26,7 +26,7 @@ setInterval(() => {
 const date = ref(new Date().toDateString())
 </script>
 <style scoped lang="scss">
-.sideBarBg {
-  background-color: #3c5d7a !important;
+.app-sidebar__timer {
+  background: var(--sidebar-bg) !important;
 }
 </style>

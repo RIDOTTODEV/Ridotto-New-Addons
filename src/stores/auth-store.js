@@ -4,6 +4,61 @@ import { LocalStorage } from 'quasar'
 import { applicationSettingService, gamingDateService, enumService } from 'src/api'
 import { useCurrencyStore } from 'src/stores/currency-store'
 
+
+// Compact column tuple layout stored per table: [colId, orderIndex, visibleFlag]
+const COL_ID = 0
+const COL_ORDER = 1
+const COL_VISIBLE = 2
+let persistTimer = null
+
+function buildTableState(stored, defaultColumns, defaultRowsPerPage) {
+  const fallback = () => ({
+    columns: defaultColumns.map((column, index) => ({
+      ...column,
+      visible: column.visible !== false,
+      orderColumn: index,
+    })),
+    visibleColumns: defaultColumns
+      .filter((column) => column.visible !== false)
+      .map((column) => column.name),
+    rowsPerPage: stored?.rowsPerPage ?? defaultRowsPerPage,
+    sort: stored?.sort ?? null,
+    filters: { ...(stored?.filters ?? {}) },
+  })
+
+  if (!stored || !Array.isArray(stored.columns) || stored.columns.length === 0) {
+    return fallback()
+  }
+
+  const savedByColId = new Map(stored.columns.map((entry) => [entry[COL_ID], entry]))
+
+  const merged = defaultColumns
+    .map((column, index) => {
+      const saved = savedByColId.get(column.colId)
+      if (!saved) {
+        // New column added in code after settings were saved: append at the end.
+        return {
+          ...column,
+          visible: column.visible !== false,
+          orderColumn: stored.columns.length + index,
+        }
+      }
+      return {
+        ...column,
+        visible: saved[COL_VISIBLE] === 1,
+        orderColumn: saved[COL_ORDER],
+      }
+    })
+    .sort((a, b) => a.orderColumn - b.orderColumn)
+
+  return {
+    columns: merged,
+    visibleColumns: merged.filter((column) => column.visible).map((column) => column.name),
+    rowsPerPage: stored.rowsPerPage ?? defaultRowsPerPage,
+    sort: stored.sort ?? null,
+    filters: { ...(stored.filters ?? {}) },
+  }
+}
 export const useAuthStore = defineStore('authStore', {
   state: () => ({
     user: {},
@@ -94,6 +149,7 @@ export const useAuthStore = defineStore('authStore', {
           columns: defaultColumns,
           rowsPerPage: defaultRowsPerPage,
           visibleColumns: defaultColumns.map((column) => column.name),
+          sort: null,
         }
         if (!tableName) {
           return formattedTable
@@ -128,6 +184,7 @@ export const useAuthStore = defineStore('authStore', {
               .filter((column) => column.visible)
               .map((column) => column.name),
             rowsPerPage: state.userAddonSettings.tableColumns[tableName].rowsPerPage,
+            sort: state.userAddonSettings.tableColumns[tableName].sort,
           }
         }
         return formattedTable
@@ -141,6 +198,15 @@ export const useAuthStore = defineStore('authStore', {
         }
         const tableSettings = state.userAddonSettings.tableColumns[tableName]
         return tableSettings?.rowsPerPage || defaultRowsPerPage
+      },
+
+
+      /***** datatable settings *****/
+      getTableState:
+      (state) =>
+      (tableName, defaultColumns, defaultRowsPerPage = 10) => {
+        const stored = tableName ? state.userAddonSettings.tableColumns[tableName] : null
+        return buildTableState(stored, defaultColumns, defaultRowsPerPage)
       },
   },
   actions: {
@@ -289,6 +355,35 @@ export const useAuthStore = defineStore('authStore', {
                 responsive: true,
               }
         })
+    },
+
+    saveTableState(tableName, { columns = [], rowsPerPage, sort = null, filters = {} } = {}) {
+      if (!tableName) return
+
+      const serialized = columns.map((col, index) => [col.colId, index, col.visible ? 1 : 0])
+      const existing = this.userAddonSettings.tableColumns[tableName] ?? {}
+
+      this.userAddonSettings.tableColumns[tableName] = {
+        ...existing,
+        columns: serialized,
+        rowsPerPage: rowsPerPage ?? existing.rowsPerPage ?? 10,
+        sort: sort ?? null,
+        filters: { ...filters },
+      }
+
+      this.scheduleAddonSettingsPersist()
+    },
+    scheduleAddonSettingsPersist() {
+      if (persistTimer) clearTimeout(persistTimer)
+      persistTimer = setTimeout(() => {
+        persistTimer = null
+        void this.persistAddonSettings()
+      }, 400)
+    },
+    async persistAddonSettings() {
+      // TODO: wire this to the real backend endpoint that stores
+      // `userAddonSettings` for the authenticated user.
+      // await api.post('/user/addon-settings', this.userAddonSettings)
     },
   },
 })

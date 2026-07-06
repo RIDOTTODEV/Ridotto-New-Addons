@@ -2,8 +2,7 @@
   <div class="atable-container">
     <q-table flat bordered dense square separator="cell" class="atable"
       :class="{ 'atable--grouped': hasActiveGroup, 'atable--resizing': isResizing }" :rows="tableRows"
-      :columns="tableColumns" :row-key="rowKey" :style="height ? { maxHeight: height } : null"
-      v-model:pagination="pagination" v-bind="$attrs">
+      :columns="tableColumns" :row-key="rowKey" :style="height ? { maxHeight: height } : null" v-bind="$attrs">
       <!-- Gizlenen kolonlari geri acma menusu -->
       <!-- HEADER -->
       <template #header="headerProps">
@@ -125,10 +124,11 @@ const props = defineProps({
 
 const demoColumns = [
   { name: 'id', label: 'ID', field: 'id', align: 'center', required: true },
-  { name: 'p1', label: 'P1', field: 'p1', align: 'center', parentField: 'result', onHoverExpand: true },
-  { name: 'p2', label: 'P2', field: 'p2', align: 'center', parentField: 'result', onHoverExpand: true },
-  { name: 'p3', label: 'P3', field: 'p3', align: 'center', parentField: 'result', onHoverExpand: true },
-  { name: 'result', label: 'Result', field: 'result', align: 'center' },
+  { name: 'p1', label: 'P1', field: 'p1', align: 'center', parentField: 'result', onHoverExpand: true, classes: 'bg-orange-1', headerClasses: 'bg-orange-9 text-white' },
+  { name: 'p2', label: 'P2', field: 'p2', align: 'center', parentField: 'result', onHoverExpand: true, classes: 'bg-orange-1', headerClasses: 'bg-orange-9 text-white' },
+  { name: 'p3', label: 'P3', field: 'p3', align: 'center', parentField: 'result', onHoverExpand: true, classes: 'bg-orange-1', headerClasses: 'bg-orange-9 text-white' },
+  { name: 'p4', label: 'P4', field: 'p4', align: 'center', parentField: 'result', onHoverExpand: true, classes: 'bg-orange-1', headerClasses: 'bg-orange-9 text-white' },
+  { name: 'result', label: 'Result', field: 'result', align: 'center', classes: 'bg-orange-2', headerClasses: 'bg-orange-9 text-white' },
   { name: 'status', label: 'Status', field: 'status', align: 'center' },
   { name: 'b1', label: 'Baran 1', field: 'b1', align: 'center', parentField: 'b4', onHoverExpand: true },
   { name: 'b2', label: 'Baran 2', field: 'b2', align: 'center', parentField: 'b4', onHoverExpand: true },
@@ -141,12 +141,14 @@ const demoRows = Array.from({ length: 40 }, (_, i) => {
   const p1 = (i + 1) * 120
   const p2 = (i + 1) * 45
   const p3 = (i + 1) * 15
+  const p4 = (i + 1) * 5
   return {
     id: i + 1,
     p1,
     p2,
     p3,
-    result: p1 + p2 + p3,
+    p4,
+    result: p1 + p2 + p3 + p4,
     status: i % 2 === 0 ? 'Open' : 'Closed',
     b1: `B1-${i + 1}`,
     b2: `B2-${i + 1}`,
@@ -192,32 +194,67 @@ const isCollapsedSub = (col) => isSubColumn(col) && !openSubCols.value[col.name]
 /* ------------------------------------------------------------------ */
 
 const STAGGER_MS = 80
+// .atable-cell width transition suresi (ms) ile ayni olmali
+const COLLAPSE_MS = 400
 
 const subSiblings = (parentField) => tableColumns.value.filter((c) => c.parentField === parentField)
 
 let staggerTimers = []
+// Her toggle yeni bir nesil baslatir; bekleyen RAF/timer callback'leri
+// nesil degisince kendini iptal eder (hizli ac/kapa cakismalarini onler)
+let staggerGen = 0
 
 const clearStaggerTimers = () => {
   staggerTimers.forEach((t) => clearTimeout(t))
   staggerTimers = []
+  staggerGen++
 }
 
 const toggleParent = (col) => {
   const field = colField(col)
   const opening = !expandedParents.value[field]
-  expandedParents.value = { ...expandedParents.value, [field]: opening }
 
   // Onceki yarim kalmis animasyon adimlarini iptal et
   clearStaggerTimers()
+  const gen = staggerGen
 
-  // Acilirken soldan saga, kapanirken sagdan sola sirayla
-  const ordered = opening ? subSiblings(field) : [...subSiblings(field)].reverse()
-  ordered.forEach((sub, i) => {
-    const timer = setTimeout(() => {
-      openSubCols.value = { ...openSubCols.value, [sub.name]: opening }
-    }, i * STAGGER_MS)
-    staggerTimers.push(timer)
-  })
+  // Her alt kolonu kendi adiminda sirayla ac/kapa (soldan saga acilir,
+  // sagdan sola kapanir) -> akici bir dalga olusur
+  const staggerSubs = (subs, open) => {
+    subs.forEach((sub, i) => {
+      const timer = setTimeout(() => {
+        openSubCols.value = { ...openSubCols.value, [sub.name]: open }
+      }, i * STAGGER_MS)
+      staggerTimers.push(timer)
+    })
+  }
+
+  if (opening) {
+    // 1) Once grup satirini olustur; alt kolonlar hala kapali (genislik 0)
+    expandedParents.value = { ...expandedParents.value, [field]: true }
+
+    // 2) Yeni olusan grup-satiri hucrelerinin 0 genislikte bir kez
+    //    boyanmasini bekle. Aksi halde CSS, ilk render degerinden gecis
+    //    yapmaz ve kolonlar animasyonsuz "zipliyarak" acilir.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (gen !== staggerGen) return
+        staggerSubs(subSiblings(field), true)
+      })
+    })
+  } else {
+    // Once alt kolonlari sirayla daralt
+    const reversed = [...subSiblings(field)].reverse()
+    staggerSubs(reversed, false)
+
+    // Tum kolonlar daraldiktan (transition bitene kadar) sonra grup
+    // satirini kaldir; aksi halde satir kolonlar kapanirken aniden kaybolur
+    const closeDelay = reversed.length * STAGGER_MS + COLLAPSE_MS
+    const closeTimer = setTimeout(() => {
+      expandedParents.value = { ...expandedParents.value, [field]: false }
+    }, closeDelay)
+    staggerTimers.push(closeTimer)
+  }
 }
 
 onBeforeUnmount(clearStaggerTimers)
@@ -290,19 +327,6 @@ const hiddenCols = ref({})
 
 const isHidden = (col) => !!hiddenCols.value[col.name]
 const isZeroWidth = (col) => isCollapsedSub(col) || isHidden(col)
-
-
-/* ------------------------------------------------------------------ */
-/* 5) Siralama (q-table pagination uzerinden)                          */
-/* ------------------------------------------------------------------ */
-
-const pagination = ref({
-  page: 1,
-  // 0 = tum satirlar; sticky header tablo ici scroll ile calisir
-  rowsPerPage: 0,
-})
-
-
 
 /* ------------------------------------------------------------------ */
 /* Kolon genislik hesabi                                               */
@@ -581,10 +605,11 @@ $atable-group-row-h: 24px;
   white-space: nowrap;
   overflow: hidden;
   font-size: 11px;
-  font-weight: 600;
-  color: #1565c0;
+  // font-weight: 600;
+  // color: #1565c0;
   pointer-events: none;
   transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 12px !important;
 }
 </style>
 

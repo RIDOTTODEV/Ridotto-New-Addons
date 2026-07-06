@@ -41,14 +41,10 @@ const swapCurrencies = () => {
 </script>
 
 <template>
-  <q-btn
-    unelevated
-    color="grey-2"
-    size="13px"
-    class="q-mr-sm"
-    text-color="dark"
-    icon="currency_exchange"
-  >
+  <button type="button" class="exchange-trigger">
+    <q-icon name="currency_exchange" size="16px" class="exchange-trigger__icon" />
+    <span class="exchange-trigger__label">{{ $t('exchange') }}</span>
+ 
     <q-popup-proxy style="margin-top: 10px !important">
       <q-card style="max-width: 300px">
         <q-card-section class="row">
@@ -198,7 +194,67 @@ const swapCurrencies = () => {
         </q-card-section>
       </q-card>
     </q-popup-proxy>
-  </q-btn>
+  </button>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.exchange-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  margin-right: 8px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4b5563;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: rgba(15, 34, 58, 0.06);
+    color: #1f2937;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(16, 185, 129, 0.45);
+    outline-offset: 1px;
+  }
+
+  &__icon {
+    color: #6b7280;
+    flex-shrink: 0;
+  }
+
+  &__label {
+    text-transform: capitalize;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  &:hover .exchange-trigger__icon {
+    color: #1f2937;
+  }
+}
+
+:global(.body--dark) .exchange-trigger {
+  color: #cbd5e1;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: #f1f5f9;
+  }
+
+  .exchange-trigger__icon {
+    color: #94a3b8;
+  }
+
+  &:hover .exchange-trigger__icon {
+    color: #f1f5f9;
+  }
+}
+</style>

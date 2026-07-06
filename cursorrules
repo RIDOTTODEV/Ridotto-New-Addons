@@ -1,0 +1,317 @@
+# ============================================================
+# .cursorrules — Quasar + Vue 3 + TailwindCSS Frontend Project
+# ============================================================
+# Bu dosya AI'a projenin context'ini ve kurallarını anlatır.
+# Her yeni conversation'da otomatik yüklenir.
+# ============================================================
+
+## 🧠 Proje Genel Tanımı
+Bu proje Quasar Framework (Vue 3 tabanlı) ve TailwindCSS kullanan
+bir casino yönetim (Ridotto) frontend uygulamasıdır.
+
+## 🛠️ Teknoloji Stack
+- **Framework:** Quasar Framework 2.x (`@quasar/app-vite`, Vite tabanlı)
+- **Core:** Vue 3.4 Composition API (`<script setup>` syntax)
+- **Stil:** TailwindCSS 4.x + Quasar SCSS değişkenleri
+- **State Management:** Pinia 3.x (Options API stili)
+- **Router:** Vue Router 4 (Quasar entegreli, history mode)
+- **HTTP:** Axios (`api` ve `posApi` instance'ları — `src/boot/axios.js`)
+- **Data Fetching:** @tanstack/vue-query
+- **Auth:** vue-oidc-client + oidc-client
+- **Realtime:** @microsoft/signalr
+- **i18n:** vue-i18n 11 (en, tr, ru)
+- **UI Kütüphaneleri:** Quasar (birincil) + Element Plus (ikincil) + Syncfusion PivotView
+- **Utilities:** @vueuse/core, vue-currency-input, vue-grid-layout-v3
+- **API Codegen:** swagger-js-codegen (`yarn generate:api`)
+- **Dil:** JavaScript (TypeScript değil)
+- **Paket Yöneticisi:** Yarn
+
+## 📁 Klasör Yapısı
+```
+src/
+├── api/             # API servis dosyaları (entity.service.js formatında)
+├── assets/          # Statik dosyalar (resim, font vb.)
+├── boot/            # Quasar boot dosyaları
+├── components/      # Tekrar kullanılabilir componentler
+│   ├── atoms/       # Temel UI componentleri (Input, Table, Picker vb.)
+│   ├── layout/      # Layout componentleri (Header, Sidebar vb.)
+│   ├── pages/       # Sayfa bazlı componentler (feature modülleri)
+│   └── ui/          # Genel UI componentleri (Timer, Alert, Confirm vb.)
+├── composables/     # useXxx() composable fonksiyonlar (domain alt klasörleri ile)
+├── css/             # Global stiller ve Quasar/Tailwind değişkenleri
+├── directive/       # Vue custom directive'ler
+├── helpers/         # Yardımcı fonksiyonlar (table, signalr, oidc, swagger vb.)
+├── i18n/            # Çoklu dil dosyaları (en, tr, ru)
+├── layouts/         # Quasar layout dosyaları
+├── pages/           # Quasar sayfa componentleri
+├── router/          # Route tanımları
+└── stores/          # Pinia store'ları (Options API)
+```
+
+## 🔌 Boot Dosyaları (Yüklenme Sırası)
+```
+boot/
+├── oidc.js          # OIDC auth başlatma, router guard
+├── i18n.js          # vue-i18n instance, locale ayarları
+├── axios.js         # api + posApi axios instance'ları
+├── event-bus.js     # Quasar EventBus ($bus)
+├── meta.js          # Sayfa başlığı (document.title)
+├── signalr.js       # SignalR hub bağlantıları
+├── registration.js  # Global component, directive, plugin kayıtları
+└── element-plus.js  # Element Plus kaydı
+```
+
+## 🧩 Global Component'ler
+`registration.js` boot dosyasında kayıtlı, her yerde import'suz kullanılabilir:
+`SupaTable`, `SupaTableV2`, `SeoDataGrid`, `Sidebar` (NewSideBar), `AppHeader`,
+`DateTimePicker`, `QCurrencyInput`, `Information`, `ChipGrid`, `ChipDetailTable`,
+`QSelectBox`, `SearchPlayerInput`, `SearchMachineInput`, `Confirm`
+
+## 📌 Custom Directive'ler
+- `v-el-perms` — Kullanıcının izni yoksa DOM elementini kaldırır
+- `v-player-detail` — Tıklanınca player detay sayfasını yeni sekmede açar
+
+## ✅ Kod Yazım Kuralları
+
+### Vue 3 Component Yapısı
+- **ZORUNLU:** Her zaman `<script setup>` kullan, Options API kullanma
+- `defineProps()` ve `defineEmits()` ihtiyaç varsa tanımla
+- Component isimleri: PascalCase (`UserCard.vue`, `AppHeader.vue`)
+- Composable isimleri: `use` prefix ile (`useAuth.js`, `usePlayer.js`)
+
+### Doğru Component Yapısı:
+```vue
+<template>
+  <q-card class="p-4 rounded-xl">
+    <slot />
+  </q-card>
+</template>
+
+<script setup>
+// 1. Import'lar
+import { ref, computed, onMounted } from 'vue'
+import { useQuasar } from 'quasar'
+import { useAuthStore } from 'stores/auth-store'
+
+// 2. Props & Emits
+const props = defineProps({
+  userId: {
+    type: Number,
+    required: true
+  },
+  label: {
+    type: String,
+    default: ''
+  }
+})
+
+const emit = defineEmits(['update', 'close'])
+
+// 3. Store & Composable
+const $q = useQuasar()
+const authStore = useAuthStore()
+
+// 4. Reactive state
+const isLoading = ref(false)
+
+// 5. Computed
+const fullName = computed(() => `${authStore.user?.firstName} ${authStore.user?.lastName}`)
+
+// 6. Methods
+const handleSubmit = async () => {
+  isLoading.value = true
+  try {
+    // işlem
+    emit('update', result)
+  } catch (error) {
+    $q.notify({ type: 'negative', message: error.message })
+  } finally {
+    isLoading.value = false
+  }
+}
+
+// 7. Lifecycle
+onMounted(() => {
+  // init
+})
+</script>
+```
+
+### Quasar Kuralları
+- Quasar UI component'leri `q-` prefix ile kullan (`q-btn`, `q-input`, `q-dialog`)
+- Notification için her zaman `$q.notify()` kullan, alert() kullanma
+- Dialog için `$q.dialog()` ya da `useDialog` composable kullan
+- Loading state için `$q.loading.show()` / `$q.loading.hide()` kullan
+- Icon setleri: Material Icons, Material Icons Outlined, FontAwesome 6
+- `q-form` içinde validation için Quasar'ın `rules` prop'unu kullan
+- Framework plugin'leri: Notify, AppFullscreen, Dark, Dialog, Loading, LoadingBar, Meta
+
+### TailwindCSS Kuralları
+- Tailwind v4 kullanılıyor (CSS-first config, `tailwind.config.js` yok)
+- Tailwind class'ları prefix'siz kullanılır:
+  ```html
+  <div class="flex items-center gap-4">
+  <div class="grid grid-cols-3 w-full">
+  ```
+- Responsive tasarım: Mobile-first yaklaşım (`text-sm md:text-base`)
+- Dark mode: Quasar'ın dark mode sistemi ile entegre çalış
+- Inline style KULLANMA, her zaman class kullan
+
+### State Management (Pinia — Options API)
+```javascript
+// stores/auth-store.js
+import { defineStore } from 'pinia'
+
+export const useAuthStore = defineStore('authStore', {
+  state: () => ({
+    user: null,
+    permissions: []
+  }),
+
+  getters: {
+    isLoggedIn: (state) => !!state.user,
+    hasPermission: (state) => (perm) => state.permissions.includes(perm)
+  },
+
+  actions: {
+    setUser(userData) {
+      this.user = userData
+    },
+    async fetchPermissions() {
+      // API çağrısı
+    }
+  }
+})
+```
+- Store dosya isimleri: **kebab-case + `-store.js`** (`auth-store.js`, `main-store.js`)
+- Store export'ları: `useXxxStore` (`useAuthStore`, `useMainStore`)
+- Her store tek bir sorumluluğa sahip olsun
+
+### API / Servis Katmanı
+```javascript
+// src/api/player.service.js
+import { api } from 'src/boot/axios'
+
+export const playerService = {
+  getAll(data = {}, options = {}) {
+    return api.get('/api/Player/GetAll', { params: data, ...options })
+      .then((response) => response)
+      .catch((error) => error)
+  },
+  getById(id) {
+    return api.get(`/api/Player/GetById/${id}`)
+      .then((response) => response)
+      .catch((error) => error)
+  }
+}
+```
+- API dosyaları `src/api/` altında, `entity.service.js` formatında
+- İki axios instance: `api` (ana API) ve `posApi` (POS API) — `src/boot/axios.js`'den import
+- Endpoint format: `/api/{Controller}/{Action}`
+- Çoğu servis dosyası `swagger-js-codegen` ile otomatik üretilir (`yarn generate:api`)
+- Her endpoint için ayrı servis dosyası oluştur
+
+### Composable Yapısı
+Composable'lar domain alt klasörlerinde organize edilir:
+```
+composables/
+├── cage-operations/useCageOperation.js
+├── definitions/useCashdesk.js, useCurrencies.js, ...
+├── guest-operations/useGuestList.js
+├── inspectors/useInspector.js, ...
+├── layout/useHeader.js, useLayout.js
+├── operations/usePortfolioManagement.js
+└── player-operations/usePlayer.js, usePlayerSearch.js
+```
+
+### Composable Örneği:
+```javascript
+// composables/definitions/useCashdesk.js
+import { ref } from 'vue'
+
+export const useCashdesk = () => {
+  const data = ref(null)
+  const isLoading = ref(false)
+
+  const fetchCashdesks = async () => {
+    isLoading.value = true
+    try {
+      // API çağrısı
+    } catch (err) {
+      throw err
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  return { data, isLoading, fetchCashdesks }
+}
+```
+
+## 🚫 Yasaklar (Asla Yapma)
+- `var` kullanma → `const` / `let` kullan
+- Options API ile component yazma → `<script setup>` kullan
+- `this` kullanma → `<script setup>` içinde gerek yok
+- Direkt `document.querySelector` kullanma → Vue ref kullan
+- `console.log` production'a bırakma → kaldır veya logger kullan
+- `!important` CSS kullanma
+- Hardcoded renk ve boyut kullanma → Tailwind/Quasar değişken kullan
+- `alert()` kullanma → `$q.notify()` kullan
+
+## 📐 Naming Conventions
+| Tür | Format | Örnek |
+|-----|--------|-------|
+| Component | PascalCase | `UserCard.vue` |
+| Composable | camelCase + use prefix | `usePlayer.js` |
+| Store dosyası | kebab-case + -store | `auth-store.js` |
+| Store export | useXxxStore | `useAuthStore` |
+| Servis dosyası | kebab-case + .service | `player.service.js` |
+| Sayfa | PascalCase | `IndexPage.vue` |
+| Klasör | kebab-case | `cage-operations/` |
+| Event | kebab-case | `@update-user` |
+| Prop | camelCase | `:userId="id"` |
+
+## 🔔 Notification Standartları
+```javascript
+// Başarı
+$q.notify({ type: 'positive', message: 'İşlem başarılı' })
+
+// Hata
+$q.notify({ type: 'negative', message: error.message, timeout: 5000 })
+
+// Uyarı
+$q.notify({ type: 'warning', message: 'Dikkat: ...' })
+
+// Bilgi
+$q.notify({ type: 'info', message: 'Bilgilendirme...' })
+```
+
+## 🌐 API Response Yapısı
+Backend'den gelen response formatı:
+```json
+{
+  "success": true,
+  "data": {},
+  "message": "...",
+  "errors": {}
+}
+```
+Response'u her zaman `response.data.data` şeklinde erişerek kullan.
+
+## ♿ Erişilebilirlik
+- `<img>` taglarında her zaman `alt` attribute kullan
+- Form elementlerinde `label` ya da `aria-label` kullan
+- Quasar'ın `aria-` prop'larını gerektiğinde ekle
+- Klavye navigasyonu çalışır halde tut
+
+## 🎯 AI'a Özel Talimatlar
+- Kod yazmadan önce yaklaşımı kısaca açıkla
+- Birden fazla çözüm varsa en iyisini öner ve nedenini belirt
+- Quasar component'lerini öncelikli kullan, custom HTML ikincil
+- Her zaman error handling ekle, try/catch unutma
+- Loading state'leri her async işlemde yönet
+- Türkçe yorum satırı yazabilirsin
+- Security açıkları varsa belirt
+- Global component'leri import'suz kullan (yukarıdaki listeye bak)
+- Store'lar Options API stiliyle yazılır, yeni store eklerken aynı pattern'ı takip et
+- API servis dosyaları `src/api/` altında `entity.service.js` formatında oluştur

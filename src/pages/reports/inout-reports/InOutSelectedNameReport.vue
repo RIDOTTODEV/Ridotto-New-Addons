@@ -2,62 +2,32 @@
   <q-page class="q-pa-md">
     <q-card class="q-mb-md q-card--bordered" flat>
       <q-card-section class="row q-pa-sm">
-        <div
-          class="col-12 flex justify-start content-center items-center"
-          v-if="props.filterParams.playerFullName"
-        >
+        <div class="col-12 flex justify-start content-center items-center" v-if="props.filterParams.playerFullName">
           <div class="text-subtitle2 q-ml-sm q-pb-sm">
             {{ props.filterParams.playerFullName }}
           </div>
         </div>
         <div class="row flex justify-start content-center items-center">
-          <SearchPlayerInput
-            v-model="getInOutPlayerDetailFilter.playerId"
-            :label="$t('player')"
-            @onSelectPlayer="onSelectPlayer"
-            v-if="!props.filterParams.playerId"
-            :optionLabel="'value'"
-            :displayedValue="selectedPlayer.playerName"
-            @onClear="onClearPlayer"
-          />
-          <date-time-picker
-            class="q-ml-sm"
-            v-model="datePickerValue"
-            :setDateByLabel="props.filterParams.label"
-            :key="`${props.filterParams.startDate}-${props.filterParams.endDate}`"
-            @selected-date="
+          <SearchPlayerInput v-model="getInOutPlayerDetailFilter.playerId" :label="$t('player')"
+            @onSelectPlayer="onSelectPlayer" v-if="!props.filterParams.playerId" :optionLabel="'value'"
+            :displayedValue="selectedPlayer.playerName" @onClear="onClearPlayer" />
+          <date-time-picker class="q-ml-sm" v-model="datePickerValue" :setDateByLabel="props.filterParams.label"
+            :key="`${props.filterParams.startDate}-${props.filterParams.endDate}`" @selected-date="
               (val) =>
-                (getInOutPlayerDetailFilter = {
-                  ...getInOutPlayerDetailFilter,
-                  startDate: val.StartDate,
-                  endDate: val.EndDate,
-                  queryType: val.QueryType,
-                  label: val.label,
-                })
-            "
-          />
-          <q-btn
-            icon="o_find_in_page"
-            class="super-small q-card--bordered q-ml-sm"
-            color="blue-grey-8"
-            text-color="white"
-            :label="$t('report')"
-            @click="filter"
-            unelevated
-            no-caps
-            size="13px"
-          />
-          <q-btn
-            class="super-small q-card--bordered q-ml-sm"
-            color="grey-2"
-            text-color="dark"
+              (getInOutPlayerDetailFilter = {
+                ...getInOutPlayerDetailFilter,
+                startDate: val.StartDate,
+                endDate: val.EndDate,
+                queryType: val.QueryType,
+                label: val.label,
+              })
+            " />
+          <q-btn icon="o_find_in_page" class="super-small q-card--bordered q-ml-sm" color="blue-grey-8"
+            text-color="white" :label="$t('report')" @click="filter" unelevated no-caps size="13px" />
+          <q-btn class="super-small q-card--bordered q-ml-sm" color="grey-2" text-color="dark"
             :label="showPeriodDetails ? $t('showPeriodTheoretical') : $t('hidePeriodTheoretical')"
             :icon="showPeriodDetails ? 'o_visibility_off' : 'o_visibility'"
-            @click="showPeriodDetails = !showPeriodDetails"
-            unelevated
-            no-caps
-            size="13px"
-          />
+            @click="showPeriodDetails = !showPeriodDetails" unelevated no-caps size="13px" />
         </div>
       </q-card-section>
     </q-card>
@@ -78,47 +48,35 @@
           </thead>
           <tbody>
             <tr v-for="row in response?.inOutDetail || []" :key="row.id">
-              <td
-                v-for="col in columns"
-                :key="col.name"
-                :class="[
-                  'text-center',
-                  typeof col.classes === 'function' ? col.classes(row) : col.classes,
-                ]"
-              >
+              <td v-for="col in columns" :key="col.name" :class="[
+                'text-center',
+                typeof col.classes === 'function' ? col.classes(row) : col.classes,
+              ]">
                 <div v-if="col.name === 'missingChipTotal'">
                   <div class="row justify-start items-center">
                     <div class="col">
-                      <span
-                        class="text-caption cursor-pointer"
-                        @click="
-                          () => {
-                            if (row.missingChip.length > 0) {
-                              missingChipDialog = true
-                              missingChipDetails = row.missingChip
-                            }
+                      <span class="text-caption cursor-pointer" @click="
+                        () => {
+                          if (row.missingChip.length > 0) {
+                            missingChipDialog = true
+                            missingChipDetails = row.missingChip
                           }
-                        "
-                        >{{ priceAbsFormatted(row[col.name]) }}</span
-                      >
+                        }
+                      ">{{ priceAbsFormatted(row[col.name]) }}</span>
                     </div>
                   </div>
                 </div>
                 <div v-else-if="col.name === 'missingPlaqueTotal'">
                   <div class="row justify-start items-center">
                     <div class="col">
-                      <span
-                        class="text-caption cursor-pointer"
-                        @click="
-                          () => {
-                            if (row.missingPlaque.length > 0) {
-                              missingChipDialog = true
-                              missingChipDetails = row.missingPlaque
-                            }
+                      <span class="text-caption cursor-pointer" @click="
+                        () => {
+                          if (row.missingPlaque.length > 0) {
+                            missingChipDialog = true
+                            missingChipDetails = row.missingPlaque
                           }
-                        "
-                        >{{ priceAbsFormatted(row[col.name]) }}</span
-                      >
+                        }
+                      ">{{ priceAbsFormatted(row[col.name]) }}</span>
                     </div>
                   </div>
                 </div>
@@ -220,118 +178,62 @@
           </tbody>
         </q-markup-table>
       </q-card-section>
+
       <q-card-section class="q-pa-none bg-[#bac6da] grid grid-cols-12">
         <div class="col-span-12 md:col-span-5 q-pa-xs">
           <fieldset class="row">
             <legend class="q-pa-sm text-subtitle2">Lg / Sl Result</legend>
             <div class="col-6 q-pa-xs row flex no-wrap justify-end items-center content-center">
               <div class="text-subtitle2">Lg Drop</div>
-              <q-input
-                dense
-                v-model="response.lgDrop"
-                :label="$t('lgDrop')"
-                class="super-small q-ml-xs"
-                bg-color="green-1"
-                outlined
-                readonly
-                :model-value="priceAbsFormatted(response.lgDrop)"
-              />
+              <q-input dense v-model="response.lgDrop" :label="$t('lgDrop')" class="super-small q-ml-xs"
+                bg-color="green-1" outlined readonly :model-value="priceAbsFormatted(response.lgDrop)" />
             </div>
             <div class="col-6 q-pa-xs row flex no-wrap justify-end items-center content-center">
               <div class="text-subtitle2">Lg Result</div>
-              <q-input
-                dense
-                v-model="response.lgResult"
-                :label="$t('lgResult')"
-                class="super-small q-ml-xs"
-                bg-color="cyan-1"
-                outlined
-                readonly
-                :model-value="priceAbsFormatted(response.lgResult)"
-              />
+              <q-input dense v-model="response.lgResult" :label="$t('lgResult')" class="super-small q-ml-xs"
+                bg-color="cyan-1" outlined readonly :model-value="priceAbsFormatted(response.lgResult)" />
             </div>
             <div class="col-6 q-pa-xs row flex no-wrap justify-end items-center content-center">
               <div class="text-subtitle2">Lg Cashout</div>
-              <q-input
-                dense
-                v-model="response.lgCashout"
-                :label="$t('lgCashout')"
-                class="super-small q-ml-xs"
-                bg-color="red-1"
-                outlined
-                readonly
-                :model-value="priceAbsFormatted(response.lgCashout)"
-              />
+              <q-input dense v-model="response.lgCashout" :label="$t('lgCashout')" class="super-small q-ml-xs"
+                bg-color="red-1" outlined readonly :model-value="priceAbsFormatted(response.lgCashout)" />
             </div>
             <div class="col-6"></div>
             <div class="col-6 q-pa-xs row flex no-wrap justify-end items-center content-center">
               <div class="text-subtitle2">Slot Drop</div>
-              <q-input
-                dense
-                v-model="response.slotDrop"
-                :label="$t('slotDrop')"
-                class="super-small q-ml-xs"
-                bg-color="green-1"
-                outlined
-                readonly
-                :model-value="priceAbsFormatted(response.slotDrop)"
-              />
+              <q-input dense v-model="response.slotDrop" :label="$t('slotDrop')" class="super-small q-ml-xs"
+                bg-color="green-1" outlined readonly :model-value="priceAbsFormatted(response.slotDrop)" />
             </div>
             <div class="col-6 q-pa-xs row flex no-wrap justify-end items-center content-center">
               <div class="text-subtitle2">SL Result</div>
-              <q-input
-                dense
-                v-model="response.slotResult"
-                :label="$t('slotResult')"
-                class="super-small q-ml-xs"
-                bg-color="cyan-1"
-                outlined
-                readonly
-                :model-value="priceAbsFormatted(response.slotResult)"
-              />
+              <q-input dense v-model="response.slotResult" :label="$t('slotResult')" class="super-small q-ml-xs"
+                bg-color="cyan-1" outlined readonly :model-value="priceAbsFormatted(response.slotResult)" />
             </div>
           </fieldset>
           <fieldset class="q-mt-md row">
             <legend class="q-pa-sm text-subtitle2">Totals</legend>
             <div class="col-5 flex justify-center items-center">
-              <q-img
-                class="player-photo q-ma-sm"
-                width="150px"
-                :src="$playerPhotoUrl + getInOutPlayerDetailFilter.playerId"
-                :error-src="'/assets/no-photo.png'"
+              <q-img class="player-photo q-ma-sm" width="150px"
+                :src="$playerPhotoUrl + getInOutPlayerDetailFilter.playerId" :error-src="'/assets/no-photo.png'"
                 :img-style="{
                   borderRadius: '4px',
-                }"
-              />
+                }" />
             </div>
             <div class="col-7 text-center">
               <div class="text-subtitle2 text-indigo">Count: {{ response.count }}</div>
               <div class="text-subtitle2 text-indigo">Played Days: {{ response.count }}</div>
               <div class="row q-gutter-xs">
                 <div class="col-12">
-                  <div
-                    class="text-subtitle2 cursor-pointer"
-                    @mouseenter="showMissingChipTooltip = true"
+                  <div class="text-subtitle2 cursor-pointer" @mouseenter="showMissingChipTooltip = true"
                     @mouseleave="showMissingChipTooltip = false"
-                    :class="response.missingChipTotal >= 0 ? '' : 'text-negative '"
-                  >
+                    :class="response.missingChipTotal >= 0 ? '' : 'text-negative '">
                     Missing Chip:
                     {{ priceAbsFormatted(response.missingChipTotal) }}
-                    <q-tooltip
-                      v-model="showMissingChipTooltip"
-                      anchor="top middle"
-                      self="bottom middle"
-                      class="text-subtitle2 bg-blue-grey-8"
-                    >
-                      <div
-                        v-if="response.missingChipDetail && response.missingChipDetail.length > 0"
-                      >
+                    <q-tooltip v-model="showMissingChipTooltip" anchor="top middle" self="bottom middle"
+                      class="text-subtitle2 bg-blue-grey-8">
+                      <div v-if="response.missingChipDetail && response.missingChipDetail.length > 0">
                         <div class="text-weight-bold q-mb-xs">Missing Chip Details:</div>
-                        <div
-                          v-for="(chip, index) in response.missingChipDetail"
-                          :key="index"
-                          class="q-mb-xs"
-                        >
+                        <div v-for="(chip, index) in response.missingChipDetail" :key="index" class="q-mb-xs">
                           {{ chip.chipDenomName }} ({{ chip.chipType }}): {{ chip.quantity }} x
                           {{ priceAbsFormatted(chip.chipDenom) }} =
                           {{ priceAbsFormatted(chip.quantity * chip.chipDenom) }}
@@ -345,35 +247,19 @@
                   </div>
                 </div>
                 <div class="col-12">
-                  <div
-                    class="text-subtitle2 cursor-pointer"
-                    :class="
-                      response.missingPlaqueTotal >= 0
-                        ? 'text-subtitle2'
-                        : 'text-negative text-subtitle2 '
-                    "
-                    @mouseenter="showMissingPlaqueTooltip = true"
-                    @mouseleave="showMissingPlaqueTooltip = false"
-                  >
+                  <div class="text-subtitle2 cursor-pointer" :class="response.missingPlaqueTotal >= 0
+                    ? 'text-subtitle2'
+                    : 'text-negative text-subtitle2 '
+                    " @mouseenter="showMissingPlaqueTooltip = true" @mouseleave="showMissingPlaqueTooltip = false">
                     Missing Plaque:
                     {{ priceAbsFormatted(response.missingPlaqueTotal) }}
-                    <q-tooltip
-                      v-model="showMissingPlaqueTooltip"
-                      anchor="top middle"
-                      self="bottom middle"
-                      class="text-subtitle2 bg-blue-grey-8"
-                    >
-                      <div
-                        v-if="
-                          response.missingPlaqueDetail && response.missingPlaqueDetail.length > 0
-                        "
-                      >
+                    <q-tooltip v-model="showMissingPlaqueTooltip" anchor="top middle" self="bottom middle"
+                      class="text-subtitle2 bg-blue-grey-8">
+                      <div v-if="
+                        response.missingPlaqueDetail && response.missingPlaqueDetail.length > 0
+                      ">
                         <div class="text-weight-bold q-mb-xs">Missing Plaque Details:</div>
-                        <div
-                          v-for="(plaque, index) in response.missingPlaqueDetail"
-                          :key="index"
-                          class="q-mb-xs"
-                        >
+                        <div v-for="(plaque, index) in response.missingPlaqueDetail" :key="index" class="q-mb-xs">
                           {{ plaque.chipDenomName }} ({{ plaque.chipType }}):
                           {{ plaque.quantity }} x {{ priceAbsFormatted(plaque.chipDenom) }} =
                           {{ priceAbsFormatted(plaque.quantity * plaque.chipDenom) }}
@@ -387,16 +273,10 @@
                   </div>
                 </div>
                 <div class="col-12">
-                  <div
-                    class="text-subtitle2 text-weight-bold cursor-pointer"
-                    :class="
-                      response.missingChipTotal + response.missingPlaqueTotal >= 0
-                        ? ''
-                        : 'text-negative'
-                    "
-                    @mouseenter="showTotalMissingTooltip = true"
-                    @mouseleave="showTotalMissingTooltip = false"
-                  >
+                  <div class="text-subtitle2 text-weight-bold cursor-pointer" :class="response.missingChipTotal + response.missingPlaqueTotal >= 0
+                    ? ''
+                    : 'text-negative'
+                    " @mouseenter="showTotalMissingTooltip = true" @mouseleave="showTotalMissingTooltip = false">
                     Total Missing:
                     {{
                       priceAbsFormatted(response?.missingChipTotal + response?.missingPlaqueTotal)
@@ -431,124 +311,65 @@
             <div class="col-6 q-pa-xs row flex justify-end">
               <div class="row col-12 flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">T Drop</div>
-                <q-input
-                  dense
-                  v-model="response.totalDrop"
-                  :model-value="priceAbsFormatted(response.totalDrop)"
-                  class="super-small q-ml-xs"
-                  :bg-color="response.totalDrop > 0 ? 'green-1' : 'red-1'"
-                  outlined
-                  input-class="text-dark text-subtitle2 "
-                  readonly
-                />
+                <q-input dense v-model="response.totalDrop" :model-value="priceAbsFormatted(response.totalDrop)"
+                  class="super-small q-ml-xs" :bg-color="response.totalDrop > 0 ? 'green-1' : 'red-1'" outlined
+                  input-class="text-dark text-subtitle2 " readonly />
               </div>
               <div class="row col-12 q-mt-xs flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">Comp</div>
-                <q-input
-                  dense
-                  v-model="response.comResult"
-                  :model-value="priceAbsFormatted(response.comResult)"
-                  class="super-small q-ml-xs"
-                  bg-color="brown-1"
-                  outlined
-                  input-class="text-dark text-subtitle2"
-                  readonly
-                />
+                <q-input dense v-model="response.comResult" :model-value="priceAbsFormatted(response.comResult)"
+                  class="super-small q-ml-xs" bg-color="brown-1" outlined input-class="text-dark text-subtitle2"
+                  readonly />
               </div>
               <div class="row col-12 q-mt-xs flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">Discount</div>
-                <q-input
-                  dense
-                  v-model="response.discountResult"
-                  :model-value="priceAbsFormatted(response.discountResult)"
-                  class="super-small q-ml-xs"
-                  bg-color="yellow-5"
-                  outlined
-                  input-class="text-dark text-subtitle2 cursor-pointer"
-                  readonly
-                  :disable="!getInOutPlayerDetailFilter.playerId"
-                  @click="openDiscountTransactionHistoryDialog"
-                />
+                <q-input dense v-model="response.discountResult"
+                  :model-value="priceAbsFormatted(response.discountResult)" class="super-small q-ml-xs"
+                  bg-color="yellow-5" outlined input-class="text-dark text-subtitle2 cursor-pointer" readonly
+                  :disable="!getInOutPlayerDetailFilter.playerId" @click="openDiscountTransactionHistoryDialog" />
               </div>
               <div class="row col-12 q-mt-xs flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">Credit</div>
-                <q-input
-                  dense
-                  v-model="response.creditResult"
-                  :model-value="priceAbsFormatted(response.creditResult)"
-                  class="super-small q-ml-xs"
-                  bg-color="yellow-5"
-                  outlined
-                  input-class="text-dark text-subtitle2 "
-                  readonly
-                />
+                <q-input dense v-model="response.creditResult" :model-value="priceAbsFormatted(response.creditResult)"
+                  class="super-small q-ml-xs" bg-color="yellow-5" outlined input-class="text-dark text-subtitle2 "
+                  readonly />
               </div>
             </div>
             <div class="col-6 q-pa-xs row flex justify-end">
               <div class="row col-12 flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">T Result</div>
-                <q-input
-                  dense
-                  v-model="response.totalResult"
-                  :model-value="priceAbsFormatted(response.totalResult)"
-                  class="super-small q-ml-xs"
-                  :bg-color="response.totalResult > 0 ? 'green-10' : 'red-10'"
-                  outlined
-                  input-class="text-white text-subtitle2 text-bold"
-                  readonly
-                />
+                <q-input dense v-model="response.totalResult" :model-value="priceAbsFormatted(response.totalResult)"
+                  class="super-small q-ml-xs" :bg-color="response.totalResult > 0 ? 'green-10' : 'red-10'" outlined
+                  input-class="text-white text-subtitle2 text-bold" readonly />
               </div>
               <div class="row col-12 q-mt-xs flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">A Comp</div>
-                <q-input
-                  dense
-                  v-model="response.aComp"
-                  :model-value="priceAbsFormatted(response.aComp)"
-                  class="super-small q-ml-xs"
-                  :bg-color="response.aComp > 0 ? 'green-10' : 'red-10'"
-                  outlined
-                  readonly
-                  input-class="text-white text-subtitle2 text-bold"
-                />
+                <q-input dense v-model="response.aComp" :model-value="priceAbsFormatted(response.aComp)"
+                  class="super-small q-ml-xs" :bg-color="response.aComp > 0 ? 'green-10' : 'red-10'" outlined readonly
+                  input-class="text-white text-subtitle2 text-bold" />
               </div>
               <div class="row col-12 q-mt-xs flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">A Discount</div>
-                <q-input
-                  dense
-                  v-model="response.aDiscount"
-                  :model-value="priceAbsFormatted(response.aDiscount)"
-                  class="super-small q-ml-xs"
-                  :bg-color="response.aDiscount > 0 ? 'green-10' : 'red-10'"
-                  outlined
-                  input-class="text-white text-subtitle2 text-bold"
-                  readonly
-                />
+                <q-input dense v-model="response.aDiscount" :model-value="priceAbsFormatted(response.aDiscount)"
+                  class="super-small q-ml-xs" :bg-color="response.aDiscount > 0 ? 'green-10' : 'red-10'" outlined
+                  input-class="text-white text-subtitle2 text-bold" readonly />
               </div>
               <div class="row col-12 q-mt-xs flex no-wrap justify-end items-center content-center">
                 <div class="text-subtitle2">NET CASH</div>
-                <q-input
-                  dense
-                  v-model="response.netCash"
-                  :model-value="priceAbsFormatted(response.netCash)"
-                  class="super-small q-ml-xs"
-                  input-class="text-subtitle2 text-bold"
-                  :bg-color="response.netCash > 0 ? 'green-10' : 'yellow-5'"
-                  outlined
-                  :input-style="
-                    response.netCash < 0
-                      ? {
-                          color: 'red',
-                          fontWeight: 'bold',
-                          fontSize: '14px',
-                        }
-                      : {
-                          color: 'white',
-                          fontWeight: 'bold',
-                          fontSize: '14px',
-                        }
-                  "
-                  readonly
-                />
+                <q-input dense v-model="response.netCash" :model-value="priceAbsFormatted(response.netCash)"
+                  class="super-small q-ml-xs" input-class="text-subtitle2 text-bold"
+                  :bg-color="response.netCash > 0 ? 'green-10' : 'yellow-5'" outlined :input-style="response.netCash < 0
+                    ? {
+                      color: 'red',
+                      fontWeight: 'bold',
+                      fontSize: '14px',
+                    }
+                    : {
+                      color: 'white',
+                      fontWeight: 'bold',
+                      fontSize: '14px',
+                    }
+                    " readonly />
               </div>
             </div>
             <div class="col-6 q-pa-xs row flex justify-end">
@@ -665,13 +486,7 @@
           <fieldset class="grid grid-cols-12" v-if="!showPeriodDetails">
             <legend class="q-pa-sm text-subtitle2">Period Theoretical</legend>
             <div class="col-span-12 md:col-span-6 q-pa-xs">
-              <q-markup-table
-                dense
-                flat
-                bordered
-                separator="cell"
-                v-if="response.periodTheoretical"
-              >
+              <q-markup-table dense flat bordered separator="cell" v-if="response.periodTheoretical">
                 <thead>
                   <tr class="app-card-grey">
                     <th class="text-center">Game Name</th>
@@ -714,44 +529,27 @@
           <fieldset class="row" v-if="!props.filterParams.playerId">
             <legend class="q-pa-sm text-subtitle2">Player Notes / Friends</legend>
             <div class="col-6 q-pa-sm">
-              <PlayerFriends
-                v-if="getInOutPlayerDetailFilter.playerId"
-                :player="selectedPlayer"
+              <PlayerFriends v-if="getInOutPlayerDetailFilter.playerId" :player="selectedPlayer"
                 :player-id="getInOutPlayerDetailFilter.playerId"
                 :show-friends-permission="'Addon.Operations.CustomerInformation.ShowFriends'"
-                :reload-friends-permission="'Addon.Operations.CustomerInformation.ReloadFriends'"
-              />
-              <PlayerLinkedPlayers
-                v-if="getInOutPlayerDetailFilter.playerId"
-                :player="selectedPlayer"
+                :reload-friends-permission="'Addon.Operations.CustomerInformation.ReloadFriends'" />
+              <PlayerLinkedPlayers v-if="getInOutPlayerDetailFilter.playerId" :player="selectedPlayer"
                 :player-id="getInOutPlayerDetailFilter.playerId"
                 :show-linked-players-permission="'Addon.Operations.CustomerInformation.ShowLinkedPlayers'"
                 :reload-linked-players-permission="'Addon.Operations.CustomerInformation.ReloadLinkedPlayers'"
-                class="q-mt-sm"
-              />
+                class="q-mt-sm" />
             </div>
             <div class="col-6 q-pa-sm">
-              <PlayerNote
-                v-if="selectedPlayer.playerId"
-                :player-id="getInOutPlayerDetailFilter.playerId"
-                :note-source="'General'"
-                :show-note-permission="'Addon.CashlessOperations.MetaDetail.ShowNotes'"
+              <PlayerNote v-if="selectedPlayer.playerId" :player-id="getInOutPlayerDetailFilter.playerId"
+                :note-source="'General'" :show-note-permission="'Addon.CashlessOperations.MetaDetail.ShowNotes'"
                 :create-note-permission="'Addon.CashlessOperations.MetaDetail.CreateNote'"
-                :reload-notes-permission="'Addon.CashlessOperations.MetaDetail.ReloadNotes'"
-                :min-height="100"
-                :title="$t('generalNotes')"
-              />
-              <PlayerNote
-                v-if="selectedPlayer.playerId"
-                :player-id="getInOutPlayerDetailFilter.playerId"
-                :note-source="'PublicRelations'"
-                :show-note-permission="'Addon.CashlessOperations.MetaDetail.ShowNotes'"
+                :reload-notes-permission="'Addon.CashlessOperations.MetaDetail.ReloadNotes'" :min-height="100"
+                :title="$t('generalNotes')" />
+              <PlayerNote v-if="selectedPlayer.playerId" :player-id="getInOutPlayerDetailFilter.playerId"
+                :note-source="'PublicRelations'" :show-note-permission="'Addon.CashlessOperations.MetaDetail.ShowNotes'"
                 :create-note-permission="'Addon.CashlessOperations.MetaDetail.CreateNote'"
-                :reload-notes-permission="'Addon.CashlessOperations.MetaDetail.ReloadNotes'"
-                :min-height="60"
-                :title="$t('publicRelationsNotes')"
-                class="q-mt-sm"
-              />
+                :reload-notes-permission="'Addon.CashlessOperations.MetaDetail.ReloadNotes'" :min-height="60"
+                :title="$t('publicRelationsNotes')" class="q-mt-sm" />
             </div>
           </fieldset>
 
@@ -772,16 +570,12 @@
                     <tbody>
                       <tr v-for="(item, index) in response.slotPlayerTransactions" :key="index">
                         <td class="text-center">{{ item.transactionCode }}</td>
-                        <td
-                          class="text-center cursor-pointer text-underline"
-                          @click="showSlotTransactionDetail(item, 'Deposit')"
-                        >
+                        <td class="text-center cursor-pointer text-underline"
+                          @click="showSlotTransactionDetail(item, 'Deposit')">
                           {{ priceAbsFormatted(item.deposit) }}
                         </td>
-                        <td
-                          class="text-center cursor-pointer text-underline"
-                          @click="showSlotTransactionDetail(item, 'Withdrawal')"
-                        >
+                        <td class="text-center cursor-pointer text-underline"
+                          @click="showSlotTransactionDetail(item, 'Withdrawal')">
                           {{ priceAbsFormatted(item.withdrawal) }}
                         </td>
                         <td class="text-center">{{ priceAbsFormatted(item.amount) }}</td>
@@ -795,18 +589,9 @@
         </div>
       </q-card-section>
     </q-card>
-    <q-dialog
-      maximized
-      v-model="missingChipDialog"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-      :class="maximized ? '' : 'historyModal'"
-      backdrop-filter="brightness(40%)"
-    >
-      <q-card
-        class="app-content-bg"
-        :style="maximized ? '' : `height: ${$getWindowHeight}px!important;`"
-      >
+    <q-dialog maximized v-model="missingChipDialog" transition-show="slide-up" transition-hide="slide-down"
+      :class="maximized ? '' : 'historyModal'" backdrop-filter="brightness(40%)">
+      <q-card class="app-content-bg" :style="maximized ? '' : `height: ${$getWindowHeight}px!important;`">
         <q-bar>
           <q-space />
           <q-btn dense flat icon="minimize" v-close-popup>
@@ -855,6 +640,7 @@
 </template>
 
 <script setup>
+
 import SearchPlayerInput from 'components/atoms/SearchPlayerInput.vue'
 import PlayerNote from 'src/components/pages/player-operations/meta-detail/PlayerNote.vue'
 import PlayerFriends from 'src/components/pages/player-operations/meta-detail/PlayerFriends.vue'
@@ -1276,6 +1062,9 @@ const columns = ref([
     format: (val) => formatPrice(val),
   },
 ])
+
+
+
 const filter = async () => {
   if (!getInOutPlayerDetailFilter.value.playerId) {
     $q.notify({
@@ -1287,6 +1076,7 @@ const filter = async () => {
   const res = await reportStore.getInOutPlayerDetail(getInOutPlayerDetailFilter.value)
 
   response.value = res.data || {}
+
 }
 
 onMounted(async () => {
@@ -1377,6 +1167,9 @@ const openDiscountTransactionHistoryDialog = () => {
     },
   })
 }
+
+
+
 </script>
 <style lang="scss">
 .cashDeskTransactionTable {

@@ -3,116 +3,165 @@
     <q-card-section class="q-pa-none q-mb-xs">
       <div class="row">
         <div class="col-md-8 col-sm-12 col-xs-12 flex content-center">
-          <div class="text-subtitle1">
-            {{ $t('cageTransactions') }}
-          </div>
         </div>
         <div class="col-md-4 col-sm-12 col-xs-12 text-right flex content-center justify-end">
-          <q-btn
-            :label="$t('create')"
-            class="q-mr-sm"
-            color="blue-grey-8"
-            text-color="white"
-            unelevated
-            no-caps
-            @click="createNewTransaction = true"
-            :disable="createNewTransaction"
-          />
+          <q-btn :label="$t('create')" class="q-mr-sm" color="blue-grey-8" text-color="white" unelevated no-caps
+            @click="createNewTransaction = true" :disable="createNewTransaction" />
         </div>
       </div>
     </q-card-section>
     <transition name="slide-fade" mode="out-in">
+
+
       <q-card-section class="q-pa-none" v-if="createNewTransaction">
         <div class="row">
-          <q-tabs
-            v-model="currentCageTransactionTab"
-            @update:model-value="onChangeCageTransactionTab"
-            dense
-            active-color="blue-grey-8"
-            indicator-color="blue-grey-8"
-            active-bg-color="white"
-            align="justify"
-            narrow-indicator
-            no-caps
-            inline-label
-            content-class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto"
-            class="w-full sm:w-auto"
-          >
-            <q-tab
-              v-for="(tab, index) in cageTransactionTabs"
-              :key="index"
-              :v-el-perms="tab.elPermission"
-              no-caps
-              :name="tab.name"
-              :label="$t(tab.label)"
-              :icon="tab.icon"
-              class="bg-white q-card--bordered"
-            />
+          <q-tabs v-model="currentCageTransactionTab" @update:model-value="onChangeCageTransactionTab"
+            active-color="blue-grey-8" indicator-color="blue-grey-8" active-bg-color="white" align="justify"
+            narrow-indicator no-caps inline-label content-class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto"
+            class="cage-transaction-tabs w-full sm:w-auto">
+            <q-tab v-for="(tab, index) in cageTransactionTabs" :key="index" :v-el-perms="tab.elPermission" no-caps
+              :name="tab.name" :label="$t(tab.label)" :icon="tab.icon"
+              class="cage-transaction-tabs__tab bg-white q-card--bordered" />
           </q-tabs>
         </div>
         <q-tab-panels v-model="currentCageTransactionTab" class="q-mt-sm full-height" swipeable>
-          <q-tab-panel
-            v-el-perms="'Addon.CageTransactions.Tab.InOut'"
-            name="inOutTransfer"
-            class="q-card no-box-shadow q-pa-none"
-          >
-            <in-out-transfer
-              @savedCageTransaction="onSavedCageTransaction"
-              @cancel="createNewTransaction = false"
-            />
+          <q-tab-panel v-el-perms="'Addon.CageTransactions.Tab.InOut'" name="inOutTransfer"
+            class="q-card no-box-shadow q-pa-none">
+            <in-out-transfer @savedCageTransaction="onSavedCageTransaction" @cancel="createNewTransaction = false" />
           </q-tab-panel>
-          <q-tab-panel
-            v-el-perms="'Addon.CageTransactions.Tab.CashDeskTransfer'"
-            name="cashDeskTransfer"
-            class="q-card no-box-shadow q-pa-none"
-          >
-            <cash-desk-transfer
-              @savedCageTransaction="onSavedCageTransaction"
-              @cancel="createNewTransaction = false"
-            />
+          <q-tab-panel v-el-perms="'Addon.CageTransactions.Tab.CashDeskTransfer'" name="cashDeskTransfer"
+            class="q-card no-box-shadow q-pa-none">
+            <cash-desk-transfer @savedCageTransaction="onSavedCageTransaction" @cancel="createNewTransaction = false" />
           </q-tab-panel>
-          <q-tab-panel
-            v-el-perms="'Addon.CageTransactions.Tab.Exchange'"
-            name="exchange"
-            class="q-card q-pa-none no-box-shadow"
-          >
-            <exchange-transfer
-              @savedCageTransaction="onSavedCageTransaction"
-              @cancel="createNewTransaction = false"
-            />
+          <q-tab-panel v-el-perms="'Addon.CageTransactions.Tab.Exchange'" name="exchange"
+            class="q-card q-pa-none no-box-shadow">
+            <exchange-transfer @savedCageTransaction="onSavedCageTransaction" @cancel="createNewTransaction = false" />
           </q-tab-panel>
-          <q-tab-panel
-            v-el-perms="'Addon.CageTransactions.Tab.OtherTransfer'"
-            name="otherTransfer"
-            class="q-card no-box-shadow q-pa-none"
-          >
-            <others-transfer
-              @savedCageTransaction="onSavedCageTransaction"
-              @cancel="createNewTransaction = false"
-            />
+          <q-tab-panel v-el-perms="'Addon.CageTransactions.Tab.OtherTransfer'" name="otherTransfer"
+            class="q-card no-box-shadow q-pa-none">
+            <others-transfer @savedCageTransaction="onSavedCageTransaction" @cancel="createNewTransaction = false" />
           </q-tab-panel>
-          <q-tab-panel
-            v-el-perms="'Addon.CageTransactions.Tab.BankTransfer'"
-            name="bankTransfer"
-            class="q-card q-pa-none no-box-shadow"
-          >
-            <bank-transfer
-              @savedCageTransaction="onSavedCageTransaction"
-              @cancel="createNewTransaction = false"
-            />
+          <q-tab-panel v-el-perms="'Addon.CageTransactions.Tab.BankTransfer'" name="bankTransfer"
+            class="q-card q-pa-none no-box-shadow">
+            <bank-transfer @savedCageTransaction="onSavedCageTransaction" @cancel="createNewTransaction = false" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
-      <q-card-section class="q-pa-none" v-else>
-        <div>
-          <CurrencyResultCard
-            :currencyTotals="cageTransactionsTable?.response?.totals"
-            :showSummaryCard="showSummaryCard"
-          />
-          <q-card
-            class="no-box-shadow q-mb-md"
-            v-if="cageTransactionsTable?.response?.totals?.length > 0 && showSummaryCard === false"
-          >
+
+
+      <q-card-section class="q-pa-none flex gap-3" v-else>
+        <div class="q-ma-xs app-cart-grey q-pa-sm q-card--bordered w-full">
+          <div class="text-subtitle1 text-weight-medium q-px-xs">
+            {{ $t('filters') }}
+          </div>
+          <q-separator class="q-my-sm" />
+          <div class="flex flex-col sm:flex-row w-full justify-start q-pa-sm">
+            <div class="flex sm:flex-row flex-col justify-start gap-4 flex-wrap">
+              <div class="w-full sm:w-auto">
+                <q-select-box v-model="filterFields.CashdeskId" :options="cashdesks" option-value="id"
+                  option-label="name" :label="$t('cashdesk')" :fetchFn="cashdeskStore.fetchCashdesks"
+                  class="fixed-field-width" />
+              </div>
+              <div class="w-full sm:w-auto">
+                <q-select-box v-model="filterFields.CashdeskTransactionType" :options="cashdeskTransactionTypes"
+                  option-value="value" option-label="label" :label="$t('cashdeskTransactionType')"
+                  :fetchFn="cashdeskStore.fetchCashdeskTransactionTypes" class="fixed-field-width" />
+              </div>
+              <div class="w-full sm:w-auto">
+                <q-select-box v-model="filterFields.TransType" :options="transTypes" option-value="value"
+                  option-label="label" :label="$t('transType')" :fetchFn="cashdeskStore.fetchTransTypes"
+                  class="fixed-field-width" />
+              </div>
+              <div class="w-full sm:w-auto">
+                <q-select-box v-model="filterFields.TransactionCodeId" :options="getTransactionCodeTransactionCodeTypeAndGroupTypes(
+                  filterFields.TransType,
+                  filterFields.CashdeskTransactionType,
+                )
+                  " option-value="id" option-label="name" :label="$t('transactionCode')"
+                  class="fixed-field-width" />
+              </div>
+              <div class="w-full sm:w-auto md:min-w-[170px]">
+                <q-select v-model="filterFields.TransactionType" :options="cageTransactionTypes" option-value="value"
+                  option-label="label" :label="$t('transactionType')" class="super-small full-width fixed-field-width"
+                  dense outlined clearable options-dense emit-value map-options behavior="menu" />
+              </div>
+              <div class="w-full sm:w-auto md:min-w-[170px]">
+                <q-select :label="$t('currency')" v-model="filterFields.CurrencyId" outlined dense
+                  :options="getCurrenciesWithFlags" option-value="id" :option-label="(val) => val.fullName + ' ' + val.name + ' ' + ' - ' + val.symbol
+                    " emit-value map-options :rules="[(val) => !!val || $t('requiredField')]" clearable
+                  class="super-small fixed-field-width" hide-bottom-space behavior="menu">
+                  <template v-slot:option="scope">
+                    <q-item v-bind="scope.itemProps">
+                      <q-item-section>
+                        <q-item-label>
+                          <q-img :src="scope.opt.flag" fit="contain" width="20px" height="20px" class="q-mr-sm" />
+                          {{ scope.opt.fullName }} - {{ scope.opt.symbol }}
+                        </q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                  <template v-slot:selected-item="scope">
+                    <div class="text-subtitle2 q-mt-xs">
+                      <q-img :src="scope.opt.flag" fit="contain" width="20px" height="20px" class="q-mr-sm" />
+                      {{ scope.opt.fullName }} - {{ scope.opt.symbol }}
+                    </div>
+                  </template>
+                </q-select>
+              </div>
+              <div class="w-full sm:w-auto">
+                <q-input v-model="filterFields.MinAmount" :label="$t('minAmount')" class="super-small fixed-field-width"
+                  dense outlined clearable />
+              </div>
+              <div class="w-full sm:w-auto">
+                <q-input v-model="filterFields.MaxAmount" :label="$t('maxAmount')" class="super-small fixed-field-width"
+                  dense outlined clearable />
+              </div>
+ 
+              <div class="w-full sm:w-auto">
+                <q-input v-model="filterFields.CashdeskAccountId" :label="$t('cashdeskAccount')"
+                  class="super-small fixed-field-width" dense outlined clearable />
+              </div>
+              <div class="w-full sm:w-auto">
+                <q-select-box v-model="filterFields.IsMain" :options="[
+                  { label: $t('yes'), value: true },
+                  { label: $t('no'), value: false },
+                  { label: $t('all'), value: null },
+                ]" option-value="value" option-label="label" :label="$t('main')" :clearable="false"
+                  class="fixed-field-width" />
+              </div>
+              <div class="w-full sm:w-auto flex justify-start">
+                <search-player-input v-model="filterFields.PlayerId" :optionLabel="'value'"
+                  :displayedValue="filterFields.PlayerName" @onSelectPlayer="
+                    (args) => {
+                      filterFields.PlayerId = args?.id
+                      filterFields.PlayerName = args?.value
+                    }
+                  " :label="$t('playerName')" class="super-small fixed-field-width" :setValueById="true"
+                  :playerId="+router.currentRoute.value.query.playerId" />
+              </div>
+              <div class="w-full sm:w-auto flex justify-start items-end gap-2">
+                <date-time-picker
+                  field-class="super-small fixed-field-width"
+                  @selected-date="
+                    (val) => {
+                      filterFields = {
+                        ...filterFields,
+                        ...val,
+                      }
+                    }
+                  "
+                />
+                <q-btn type="button" :label="$t('filter')" icon="tune" color="blue-grey-8" text-color="white"
+                  size="13px" unelevated no-caps @click="cageTransactionsTable.fetchData()" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-full">
+          <CurrencyResultCard :currencyTotals="cageTransactionsTable?.response?.totals"
+            :showSummaryCard="showSummaryCard" />
+          <q-card class="no-box-shadow q-mb-md"
+            v-if="cageTransactionsTable?.response?.totals?.length > 0 && showSummaryCard === false">
             <q-card-section class="q-pa-none">
               <q-markup-table dense separator="cell" bordered class="no-box-shadow" square>
                 <thead>
@@ -124,10 +173,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    v-for="(total, index) in cageTransactionsTable?.response?.totals"
-                    :key="index"
-                  >
+                  <tr v-for="(total, index) in cageTransactionsTable?.response?.totals" :key="index">
                     <td class="text-center">{{ total.currencyName }}</td>
                     <td class="text-center">{{ $priceAbs(total.deposit) }}</td>
                     <td class="text-center">{{ $priceAbs(total.withdrawal) }}</td>
@@ -138,27 +184,20 @@
             </q-card-section>
           </q-card>
         </div>
-        <div class="q-pa-xs">
-          <SupaTable
-            :columns="columns"
-            :getDataFn="cashdeskStore.fetchCashdeskTransactions"
-            :rowsPerPage="10"
-            tableName="cageTransactionsColumns"
-            :filterParams="filterFields"
-            :slotNames="['body-cell-actions']"
-            ref="cageTransactionsTable"
-            :useCol12="true"
-            :hideFields="{
-              showVisibleColumns: true,
-              showReloadButton: true,
-              showScreenModeButton: true,
-              showSearchInput: true,
-              useCol12: false,
-              switchSummaryCard: true,
-            }"
-            @switchSummaryCard="showSummaryCard = !showSummaryCard"
-          >
-            <template v-slot:headerFilterSlots>
+        <q-card class="w-full" bordered>
+          <q-card-section class="q-pa-md">
+            <SupaTable :columns="columns" :getDataFn="cashdeskStore.fetchCashdeskTransactions" :rowsPerPage="10"
+              tableName="cageTransactionsColumns" :filterParams="filterFields" :slotNames="['body-cell-actions']"
+              ref="cageTransactionsTable" :useCol12="true" :hideFields="{
+                showVisibleColumns: true,
+                showReloadButton: true,
+                showScreenModeButton: true,
+                showSearchInput: true,
+                useCol12: false,
+                switchSummaryCard: true,
+              }" @switchSummaryCard="showSummaryCard = !showSummaryCard" :tableTitle="$t('cageTransactions')"
+              :style="{ height: '850px' }" :resizableColumns="true" :minColumnWidth="60">
+              <!-- <template v-slot:headerFilterSlots>
               <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto justify-start q-py-xs">
                 <div class="flex sm:flex-row flex-col justify-start gap-2">
                   <div class="w-full sm:w-auto">
@@ -363,23 +402,16 @@
                   </div>
                 </div>
               </div>
-            </template>
-            <template v-slot:body-cell-actions="{ props }">
-              <q-td key="actions" align="center">
-                <q-btn
-                  unelevated
-                  dense
-                  color="grey-2"
-                  text-color="negative"
-                  size="12px"
-                  icon="fa-regular fa-trash-can"
-                  class="q-mr-sm"
-                  @click="deleteCageTransaction(props.row)"
-                />
-              </q-td>
-            </template>
-          </SupaTable>
-        </div>
+            </template> -->
+              <template v-slot:body-cell-actions="{ props }">
+                <q-td key="actions" align="center">
+                  <q-btn unelevated dense color="grey-2" text-color="negative" size="12px"
+                    icon="fa-regular fa-trash-can" class="q-mr-sm" @click="deleteCageTransaction(props.row)" />
+                </q-td>
+              </template>
+            </SupaTable>
+          </q-card-section>
+        </q-card>
       </q-card-section>
     </transition>
   </q-card>
@@ -422,6 +454,7 @@ const columns = ref([
     field: 'createdAt',
     label: 'Created At',
     fieldType: 'date',
+    isSortable: true,
   },
   {
     field: 'cashdeskAccountName',
@@ -576,7 +609,27 @@ const deleteCageTransaction = (row) => {
 .b-t-1 {
   border-top: 1px solid #e0e0e0;
 }
+
 .border-right-1 {
   border-right: 2px solid #e0e0e0;
 }
+
+.cage-transaction-tabs__tab {
+  :deep(.q-tab__content) {
+    min-height: 44px;
+    padding: 8px 16px;
+    gap: 8px;
+  }
+
+  :deep(.q-tab__icon) {
+    font-size: 22px;
+  }
+
+  :deep(.q-tab__label) {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+}
+
 </style>

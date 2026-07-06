@@ -20,7 +20,7 @@ export const useMainStore = defineStore('main', {
     menus: [
       {
         title: 'cageOperations',
-        icon: 'fa-solid fa-arrow-right',
+        icon: 'account_balance',
         routeName: 'cageOperations',
         type: 'menu',
         permission: 'Addon.CageOperations',
@@ -28,13 +28,13 @@ export const useMainStore = defineStore('main', {
       {
         title: 'playerOperations',
         type: 'menu',
-        icon: 'fa-solid fa-arrow-right',
+        icon: 'person_search',
         routeName: 'playerOperations',
         permission: 'Addon.PlayerOperations',
       },
       {
         title: 'tableOperations',
-        icon: 'fa-solid fa-arrow-right',
+        icon: 'border_clear',
         routeName: 'tableOperations',
         type: 'menu',
         permission: 'Addon.TableOperations',
@@ -50,47 +50,48 @@ export const useMainStore = defineStore('main', {
         title: 'operations',
         type: 'dropdown',
         name: 'operations',
+        icon: 'manage_accounts',
         permission: 'Addon.Operations',
         subMenus: [
           {
             title: 'customerInformation',
-            icon: 'remove',
+            
             routeName: 'customerInformation',
             permission: 'Addon.Operations.CustomerInformation',
           },
           {
             title: 'portfolioManagement',
-            icon: 'remove',
+            
             routeName: 'portfolioManagement',
             permission: 'Addon.Operations.PortfolioManagement',
           },
           /*           {
             title: 'playerGifts',
-            icon: 'remove',
+            
             routeName: 'playerGifts',
             permission: 'Addon.Definitions.Gift.ShowList',
           }, */
           {
             title: 'blackListReport',
-            icon: 'remove',
+            
             routeName: 'blackListReport',
             permission: 'Addon.Operations.BlackListReport',
           },
           {
             title: 'cigaretteReport',
-            icon: 'remove',
+            
             routeName: 'cigaretteReport',
             permission: 'Addon.Operations.CigaretteReport',
           },
           {
             title: 'correctionInfosReport',
-            icon: 'remove',
+            
             routeName: 'correctionInfosReport',
             permission: 'Addon.Operations.CorrectionInfosReport',
           },
           {
             title: 'playerLookupAuditLogsReport',
-            icon: 'remove',
+            
             routeName: 'playerLookupAuditLogsReport',
             permission: 'Addon.Operations.PlayerLookupAuditLogsReport',
           },
@@ -100,17 +101,18 @@ export const useMainStore = defineStore('main', {
         title: 'guestOperations',
         type: 'dropdown',
         name: 'guestOperations',
+        icon: 'hotel',
         permission: 'Addon.GuestList',
         subMenus: [
           {
             title: 'hotelGuestList',
-            icon: 'remove',
+            
             routeName: 'hotelGuestList',
             permission: 'Addon.GuestList.ShowHotelList',
           },
           {
             title: 'junketOperation',
-            icon: 'remove',
+            
             routeName: 'junketOperation',
             permission: 'Addon.GuestOperations.JunketOperation',
           },
@@ -120,23 +122,24 @@ export const useMainStore = defineStore('main', {
         title: 'slot',
         type: 'dropdown',
         name: 'slotOperations',
+        icon: 'casino',
         permission: 'Addon.SlotOperations',
         subMenus: [
           {
             title: 'playersInOut',
-            icon: 'remove',
+            
             routeName: 'playersInOut',
             permission: 'Addon.SlotOperations.PlayersInOut',
           },
           {
             title: 'slotInOutReport',
-            icon: 'remove',
+            
             routeName: 'slotInOutReport',
             permission: 'Addon.SlotOperations.SlotInOutReport',
           },
           {
             title: 'slotWinLoss',
-            icon: 'remove',
+            
             routeName: 'slotWinLoss',
             permission: 'Addon.SlotOperations.SlotWinLoss',
           },
@@ -146,47 +149,48 @@ export const useMainStore = defineStore('main', {
         title: 'managementReports',
         type: 'dropdown',
         name: 'managementReports',
+        icon: 'analytics',
         permission: 'Addon.LiveGameReports',
         subMenus: [
           {
             title: 'activeFloorList',
-            icon: 'remove',
+            
             routeName: 'activeFloorListReport',
             permission: 'Addon.InOutReport.GetActiveFloorListReport',
           },
           {
             title: 'activeFloorInfo',
-            icon: 'remove',
+            
             routeName: 'activeFloorInfoReport',
             permission: 'Addon.InOutReport.ActiveFloorListReport',
           },
           {
             title: 'masterReport',
-            icon: 'remove',
+            
             routeName: 'masterReport',
             permission: 'Addon.Reports.MasterReport',
           },
           {
             title: 'balanceReport',
-            icon: 'remove',
+            
             routeName: 'balanceReport',
             permission: 'Addon.Reports.BalanceReport',
           },
           {
             title: 'callReport',
-            icon: 'remove',
+            
             routeName: 'callReport',
             permission: 'Addon.Operations.CallReport',
           },
           {
             title: 'playerWinLossAnalysis',
-            icon: 'remove',
+            
             routeName: 'playerWinLossAnalysisReport',
             permission: 'Addon.Operations.PlayerWinLossAnalysisReport',
           },
           {
             title: 'marketerReport',
-            icon: 'remove',
+            
             routeName: 'marketerReport',
             permission: 'Addon.Operations.MarketerReports',
           },
@@ -196,17 +200,18 @@ export const useMainStore = defineStore('main', {
         title: 'pit',
         type: 'dropdown',
         name: 'pit',
+        icon: 'grid_view',
         permission: 'Addon.PitOperations',
         subMenus: [
           {
             title: 'floorResult',
-            icon: 'remove',
+            
             routeName: 'liveGameFloorResultReport',
             permission: 'Addon.PitOperations.LiveGameFloorResultReport',
           },
           {
             title: 'missingChipReport',
-            icon: 'remove',
+            
             routeName: 'missingChipReport',
             permission: 'Addon.PitOperations.GetMissingChipReport',
           },
@@ -216,35 +221,36 @@ export const useMainStore = defineStore('main', {
         title: 'reports',
         type: 'dropdown',
         name: 'reports',
+        icon: 'summarize',
         permission: 'Addon.Reports',
         subMenus: [
           {
             title: 'playerResult',
-            icon: 'remove',
+            
             routeName: 'playerResultReport',
             permission: 'Addon.LiveGameReports.GetPlayerResultReport',
           },
           {
             title: 'timeInOut',
-            icon: 'remove',
+            
             routeName: 'timeInOutReport',
             permission: 'Addon.InOutReport.GetTimeInOutReport',
           },
           {
             title: 'timeInOutByPlayer',
-            icon: 'remove',
+            
             routeName: 'timeInOutReportByPlayer',
             permission: 'Addon.LiveGameReports.GetTimeInOutReportByPlayer',
           },
           {
             title: 'timeInOutByTable',
-            icon: 'remove',
+            
             routeName: 'timeInOutReportByTable',
             permission: 'Addon.LiveGameReports.GetTimeInOutReportByTable',
           },
           {
             title: 'tableFloats',
-            icon: 'remove',
+            
             routeName: 'tableFloatsReport',
             permission: 'Addon.Definitions.TableFloats.ShowList',
           },
@@ -254,35 +260,36 @@ export const useMainStore = defineStore('main', {
         title: 'inOutReport',
         type: 'dropdown',
         name: 'inOutReport',
+        icon: 'swap_horiz',
         permission: 'Addon.InOutReport',
         subMenus: [
           {
             title: 'inOutReport',
-            icon: 'remove',
+            
             routeName: 'inOutReportNew',
             permission: 'Addon.InOutReport.GetInOutReportNew',
           },
           {
             title: 'inOutSelectedName',
-            icon: 'remove',
+            
             routeName: 'inOutSelectedNameReport',
             permission: 'Addon.InOutReport.GetInOutSelectedNameReport',
           },
           {
             title: 'filteredReport',
-            icon: 'remove',
+            
             routeName: 'filteredReport',
             permission: 'Addon.InOutReport.GetFilteredReport',
           },
           {
             title: 'netCashReport',
-            icon: 'remove',
+            
             routeName: 'netCashReport',
             permission: 'Addon.InOutReport.GetNetCashReport',
           },
           {
             title: 'inOutReportDetail',
-            icon: 'remove',
+            
             routeName: 'inOutReportDetail',
             permission: 'Addon.InOutReport.GetInoutAndNetCashReportDetail',
           },
@@ -292,6 +299,7 @@ export const useMainStore = defineStore('main', {
         title: 'definitions',
         type: 'dropdown',
         name: 'definition',
+        icon: 'settings',
         permission: 'Addon.Definitions',
         subMenus: [
           {
@@ -302,19 +310,19 @@ export const useMainStore = defineStore('main', {
             subMenus: [
               {
                 title: 'chips',
-                icon: 'remove',
+                
                 routeName: 'chips',
                 permission: 'Addon.Definitions.Chips',
               },
               {
                 title: 'chipOperations',
-                icon: 'remove',
+                
                 routeName: 'chipOperations',
                 permission: 'Addon.ChipOperations',
               },
               {
                 title: 'floatSets',
-                icon: 'remove',
+                
                 routeName: 'floatSets',
                 permission: 'Addon.Definitions.FloatSets.ShowList',
               },
@@ -328,19 +336,19 @@ export const useMainStore = defineStore('main', {
             subMenus: [
               {
                 title: 'roomTypes',
-                icon: 'remove',
+                
                 routeName: 'roomTypes',
                 permission: 'Addon.GuestList.RoomTypes',
               },
               {
                 title: 'visitorCategories',
-                icon: 'remove',
+                
                 routeName: 'visitorCategories',
                 permission: 'Addon.GuestList.VisitorCategories',
               },
               {
                 title: 'expenseParameters',
-                icon: 'remove',
+                
                 routeName: 'expenseParameters',
                 permission: 'Addon.GuestList.ExpenseParameters',
               },
@@ -348,67 +356,67 @@ export const useMainStore = defineStore('main', {
           },
           {
             title: 'locations',
-            icon: 'remove',
+            
             routeName: 'locations',
             permission: 'Addon.Definitions.Location.ShowList',
           },
           {
             title: 'discounts',
-            icon: 'remove',
+            
             routeName: 'discounts',
             permission: 'Addon.Definitions.Discount.ShowList',
           },
           {
             title: 'transactionCodes',
-            icon: 'remove',
+            
             routeName: 'transactionCodes',
             permission: 'Addon.Definitions.TransactionCode',
           },
           {
             title: 'cashdesk',
-            icon: 'remove',
+            
             routeName: 'cashdesks',
             permission: 'Addon.Definitions.Cashdesk',
           },
           {
             title: 'pettyCashCategories',
-            icon: 'remove',
+            
             routeName: 'pettyCashCategories',
             permission: 'Addon.Definitions.PettyCashCategory',
           },
           {
             title: 'playerClasses',
-            icon: 'remove',
+            
             routeName: 'playerClasses',
             permission: 'Addon.Definitions.PlayerClass',
           },
           {
             title: 'currencies',
-            icon: 'remove',
+            
             routeName: 'currencies',
             permission: 'Addon.Definitions.Currency',
           },
           {
             title: 'bankAccounts',
-            icon: 'remove',
+            
             routeName: 'bankAccounts',
             permission: 'Addon.Definitions.BankAccount.ShowList',
           },
           {
             title: 'tableGames',
-            icon: 'remove',
+            
             routeName: 'tableGames',
             permission: 'Addon.Definitions.TableGame.ShowList',
           },
           {
             title: 'gifts',
-            icon: 'remove',
+            
             routeName: 'gifts',
             permission: 'Addon.Definitions.Gift.ShowList',
           },
           {
             title: 'settings',
-            icon: 'remove',
+            
             routeName: 'settings',
             permission: 'Addon.Definitions.Settings',
           },

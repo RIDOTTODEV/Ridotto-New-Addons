@@ -157,7 +157,6 @@ const { inputRef, formattedValue, numberValue, setValue, setOptions } = useCurre
   currency: props.currency,
   hideCurrencySymbolOnFocus: true,
   currencyDisplay: 'hidden',
-
   precision: props.usePrecision
     ? {
         min: 0,
@@ -169,6 +168,9 @@ const { inputRef, formattedValue, numberValue, setValue, setOptions } = useCurre
   autoDecimalDigits: false,
   useGrouping: true,
   accountingSign: false,
+  valueRange: {
+    min: 0,
+  },
 })
 
 watch(

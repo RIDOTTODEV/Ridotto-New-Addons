@@ -1,5 +1,19 @@
 @import 'tailwindcss';
 
+
+@import '../../node_modules/@syncfusion/ej2-base/styles/tailwind3.css';
+@import '../../node_modules/@syncfusion/ej2-buttons/styles/tailwind3.css';
+@import '../../node_modules/@syncfusion/ej2-dropdowns/styles/tailwind3.css';
+@import '../../node_modules/@syncfusion/ej2-grids/styles/tailwind3.css';
+@import '../../node_modules/@syncfusion/ej2-inputs/styles/tailwind3.css';
+@import '../../node_modules/@syncfusion/ej2-lists/styles/tailwind3.css';
+@import '../../node_modules/@syncfusion/ej2-navigations/styles/tailwind3.css';
+@import '../../node_modules/@syncfusion/ej2-popups/styles/tailwind3.css';
+@import '../../node_modules/@syncfusion/ej2-splitbuttons/styles/tailwind3.css';
+@import '../../node_modules/@syncfusion/ej2-calendars/styles/tailwind3.css';
+@import '../../node_modules/@syncfusion/ej2-vue-pivotview/styles/tailwind3.css';
+
+
 :root {
   --p-form-field-padding-x: 0.4rem !important;
   --p-form-field-padding-y: 0.1rem !important;
@@ -36,13 +50,10 @@ input[type='number'] {
   background-color: #3c5d7a !important;
 }
 .super-small.q-field--dense {
-  .q-field__control-container,
-  .q-field__native {
-    padding-top: 3px !important;
-  }
   .q-field__control {
     height: 32px !important;
     min-height: 32px !important;
+    align-items: center !important;
   }
   .q-field__marginal {
     height: 32px !important;
@@ -50,14 +61,39 @@ input[type='number'] {
   .q-field__label {
     top: 6px !important;
   }
+
+  // placeholder + icon: padding kaldır, line-height ile dikey hizala
+  &:not(.q-field--labeled) {
+    .q-field__control-container {
+      padding-top: 0 !important;
+    }
+    .q-field__native,
+    .q-field__input {
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      line-height: 30px !important;
+    }
+  }
+
+  // label'lı alanlar
+  &.q-field--labeled {
+    .q-field__control-container,
+    .q-field__native {
+      padding-top: 3px !important;
+    }
+  }
+
+  &.q-field--labeled.q-field--float {
+    .q-field__native,
+    .q-field__input {
+      padding-top: 6px !important;
+      line-height: normal !important;
+    }
+  }
 }
 .q-field--auto-height.q-field--dense .q-field__control,
 .q-field--auto-height.q-field--dense .q-field__native {
   min-height: 32px;
-}
-
-.super-small.q-field--dense .q-field__native {
-  padding-top: 6px !important;
 }
 .my-expansion-item .q-item {
   min-height: 32px !important;
@@ -136,11 +172,21 @@ body {
   z-index: 99;
 }
 .q-custom-table {
-  font-size: 12px !important;
-  padding: 4px !important;
+  // font-size: 12px !important;
+  // padding: 4px !important;
+  // position: relative;
+
+  position: relative;
+  padding: .75rem .6rem;
+  border-bottom-width: 1px;
+  // background-color:#f3f6f9;
+  background-color: #eeeeee;
+  font-size: 12px!important;
+  font-weight: 400!important;
+
 }
 .q-table__middle {
-  margin-top: 5px !important;
+  margin-top: 8px !important;
 }
 
 .user-exist-popup-content {
@@ -257,8 +303,9 @@ body {
   }
 
   .app-content-bg {
-    background-color: #bac6da !important;
+   //background-color: #bac6da !important;
     // background-color: # ccd5de !important;
+   background-color: #f3f3f3;
   }
 
   .headerMenuBar {
@@ -268,9 +315,16 @@ body {
     background-color: #fff;
   }
   .app-cart-grey {
-    //background-color: #b9c8d6;
-    background-color: #f3f6f9;
-    //background-color: transparent !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 1px 2px rgba(56, 65, 74, 0.15)!important;
+    background-clip: border-box;
+    border-radius: 4px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    will-change: transform;
+  }
+  .app-cart-grey:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(56, 65, 74, 0.18) !important;
   }
   .menuBottomShadow {
     box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
@@ -293,7 +347,9 @@ body {
     background-color: rgba(165, 171, 188, 0.43) !important;
   }
   .q-custom-table {
-    background-color: #e9ebec !important;
+    // background-color: #e9ebec !important;
+    // background-color: #f3f6f9;
+    background-color: #eeeeee;
   }
   .bg-grey-2 {
     background-color: rgba(42, 54, 80, 0.1) !important;
@@ -515,6 +571,78 @@ fieldset {
 .slide-fade-leave-to {
   //transform: translateX(100px);
   opacity: 0;
+}
+
+.app-page-transition {
+  position: relative;
+  overflow: clip;
+  min-height: 100%;
+  isolation: isolate;
+}
+
+.app-page-transition__view {
+  width: 100%;
+  min-height: 100%;
+}
+
+.fade-in-out-right-enter-active,
+.fade-in-out-right-leave-active,
+.fade-in-left-enter-active,
+.fade-in-left-leave-active {
+  transition:
+    opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.fade-in-out-right-enter-active,
+.fade-in-left-enter-active {
+  z-index: 2;
+}
+
+.fade-in-out-right-leave-active,
+.fade-in-left-leave-active {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.fade-in-out-right-enter-from {
+  opacity: 0;
+  transform: translateX(32px);
+}
+
+.fade-in-out-right-leave-to {
+  opacity: 0;
+  transform: translateX(-32px);
+}
+
+.fade-in-left-enter-from {
+  opacity: 0;
+  transform: translateX(-32px);
+}
+
+.fade-in-left-leave-to {
+  opacity: 0;
+  transform: translateX(32px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-out-right-enter-active,
+  .fade-in-out-right-leave-active,
+  .fade-in-left-enter-active,
+  .fade-in-left-leave-active {
+    transition: none;
+  }
+
+  .fade-in-out-right-enter-from,
+  .fade-in-out-right-leave-to,
+  .fade-in-left-enter-from,
+  .fade-in-left-leave-to {
+    transform: none;
+  }
 }
 .onHoverPlayerName {
   cursor: pointer;

@@ -1,8 +1,97 @@
-{
-  "editor.bracketPairColorization.enabled": true,
-  "editor.guides.bracketPairs": true,
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.codeActionsOnSave": ["source.fixAll.eslint"],
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"]
-}
+// {
+//   "typescript.tsdk": "node_modules/typescript/lib",
+//   "typescript.enablePromptUseWorkspaceTsdk": true,
+//   "editor.gotoLocation.multipleDefinitions": "goto",
+//   "javascript.suggest.autoImports": true,
+//   "typescript.suggest.autoImports": true,
+//   "typescript.preferences.includePackageJsonAutoImports": "auto",
+//   "vue.server.includeLanguages": ["vue"],
+//   // =========================
+//   // Editor
+//   // =========================
+//   "editor.fontSize": 12,
+//   "editor.fontLigatures": true,
+//   "editor.minimap.enabled": false,
+//   "editor.formatOnSave": true,
+//   "editor.codeActionsOnSave": {
+//     "source.fixAll.eslint": "explicit"
+//   },
+//   "editor.inlineSuggest.enabled": true,
+//   "editor.tabSize": 2,
+//   "editor.wordWrap": "on",
+//   "editor.guides.bracketPairs": true,
+
+//   // =========================
+//   // Cursor / AI
+//   // =========================
+//   "cursor.cpp.disabledLanguages": ["plaintext"],
+
+//   // =========================
+//   // Files
+//   // =========================
+//   "files.autoSave": "afterDelay",
+//   "files.autoSaveDelay": 1000,
+//   "files.trimTrailingWhitespace": true,
+//   "files.insertFinalNewline": true,
+
+//   // =========================
+//   // Prettier
+//   // =========================
+//   "prettier.singleQuote": true,
+//   "prettier.semi": false,
+//   "prettier.trailingComma": "es5",
+//   "prettier.printWidth": 100,
+
+//   // =========================
+//   // ESLint
+//   // =========================
+//   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
+
+//   // =========================
+//   // Vue / Volar
+//   // =========================
+//   "vue.server.hybridMode": true,
+//   "vue.complete.casing.tags": "kebab",
+//   "vue.complete.casing.props": "camel",
+
+//   // =========================
+//   // TypeScript
+//   // =========================
+//   "typescript.preferences.importModuleSpecifier": "relative",
+//   "typescript.updateImportsOnFileMove.enabled": "always",
+
+//   // =========================
+//   // Tailwind
+//   // =========================
+//   "tailwindCSS.includeLanguages": {
+//     "vue": "html"
+//   },
+//   "editor.quickSuggestions": {
+//     "strings": true
+//   },
+
+//   // =========================
+//   // Terminal
+//   // =========================
+//   "terminal.integrated.fontSize": 14,
+//   "terminal.integrated.defaultProfile.windows": "PowerShell",
+
+//   // =========================
+//   // Workbench
+//   // =========================
+//   "workbench.iconTheme": "material-icon-theme",
+//   "workbench.colorTheme": "One Dark Pro Night Flat",
+
+//   // =========================
+//   // Git
+//   // =========================
+//   "git.autofetch": true,
+
+//   // =========================
+//   // Emmet
+//   // =========================
+//   "emmet.includeLanguages": {
+//     "vue-html": "html",
+//     "vue": "html"
+//   }
+// }
