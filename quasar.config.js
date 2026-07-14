@@ -4,7 +4,8 @@
 import { defineConfig } from '#q-app/wrappers'
 import { fileURLToPath } from 'node:url'
 import parseEnv from './src/helpers/envparser.js'
-
+import Components from 'unplugin-vue-components/vite';
+import {PrimeVueResolver} from '@primevue/auto-import-resolver';
 export default defineConfig((ctx) => {
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
@@ -13,7 +14,7 @@ export default defineConfig((ctx) => {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['oidc', 'i18n', 'axios', 'event-bus', 'meta', 'signalr', 'registration', 'element-plus'],
+    boot: ['oidc', 'i18n', 'axios', 'event-bus', 'meta', 'signalr', 'registration', 'element-plus', 'prime-vue'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css
     css: ['app.scss'],
@@ -60,10 +61,30 @@ export default defineConfig((ctx) => {
       extendViteConf(viteConf) {
         viteConf.build ??= {}
         viteConf.build.cssMinify = 'esbuild'
+
+        // @primeicons/vue@8.0.0-alpha.1 exports "./core" but file lives at
+        // dist/esm/core/index.mjs (broken `exports` field). Alias resolves it.
+        viteConf.resolve ??= {}
+        const existingAlias = viteConf.resolve.alias || {}
+        const aliasArray = Array.isArray(existingAlias)
+          ? existingAlias
+          : Object.entries(existingAlias).map(([find, replacement]) => ({ find, replacement }))
+        viteConf.resolve.alias = [
+          ...aliasArray,
+          {
+            find: /^@primeicons\/vue\/core$/,
+            replacement: fileURLToPath(
+              new URL('./node_modules/@primeicons/vue/dist/esm/core/index.mjs', import.meta.url),
+            ),
+          },
+        ]
       },
       // viteVuePluginOptions: {},
 
       vitePlugins: [
+        Components({
+          resolvers: [PrimeVueResolver()],
+        }),
         [
           '@intlify/unplugin-vue-i18n/vite',
           {

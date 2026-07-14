@@ -1,11 +1,11 @@
 <template>
   <q-page>
-    <Tabs />
+    <TableTabs />
   </q-page>
 </template>
 
 <script setup>
-import Tabs from 'src/components/pages/table-operations/Tabs.vue'
+import TableTabs from 'src/components/pages/table-operations/TableTabs.vue'
 </script>
 
 <style scoped></style>

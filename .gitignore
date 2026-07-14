@@ -31,3 +31,7 @@ yarn-error.log*
 
 # local .env files
 #.env.local*
+.agents/*
+.cursor/*
+cursorrules
+skills-lock.json

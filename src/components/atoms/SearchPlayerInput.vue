@@ -162,4 +162,6 @@ const setValueById = async () => {
   </q-select>
 </template>
 
-<style scoped lang="scss"></style>
+<style lang="scss">
+ @import '../../css/assets/_super-small.scss';
+</style>

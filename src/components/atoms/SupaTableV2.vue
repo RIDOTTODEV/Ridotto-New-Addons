@@ -911,6 +911,15 @@ defineExpose({
 // }
 </script>
 <style lang="scss">
+.supa-table .search-input {
+  width: 110px;
+  transition: width 0.3s ease;
+
+  &.search-input--focused {
+    width: 200px;
+  }
+}
+
 .supa-table .q-table__top {
   padding: 0px !important;
 }

@@ -63,7 +63,7 @@ boot/
 
 ## 🧩 Global Component'ler
 `registration.js` boot dosyasında kayıtlı, her yerde import'suz kullanılabilir:
-`SupaTable`, `SupaTableV2`, `SeoDataGrid`, `Sidebar` (NewSideBar), `AppHeader`,
+`SupaTable`, `SupaTableV2`,  `Sidebar` (NewSideBar), `AppHeader`,
 `DateTimePicker`, `QCurrencyInput`, `Information`, `ChipGrid`, `ChipDetailTable`,
 `QSelectBox`, `SearchPlayerInput`, `SearchMachineInput`, `Confirm`
 

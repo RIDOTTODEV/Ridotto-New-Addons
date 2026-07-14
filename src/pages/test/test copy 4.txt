@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Pipeline Form - SaaS Layout</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts (Inter) & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Yumuşak collapse animasyonu */
+        .collapse-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s ease-out, padding 0.25s ease-out;
+        }
+        .expanded .collapse-content {
+            max-height: 500px;
+            overflow: visible;
+        }
+    </style>
+</head>
+<body class="bg-[#f2f3f6] min-h-screen p-6 flex justify-center items-start antialiased text-slate-800">
+
+    <!-- İki Kolonlu SaaS Düzeni -->
+    <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-12 gap-6">
+        
+        <!-- ================= SOL SEÇİM PANELİ ================= -->
+        <aside class="md:col-span-4 bg-[#1e293b] text-white p-5 rounded-2xl shadow-md space-y-4 max-h-[calc(100vh-3rem)] sticky top-6">
+            <div>
+                <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Add Linked Transaction</h2>
+                <p class="text-[11px] text-slate-400">Click any type below to immediately append a new configurable form node to the right pipeline.</p>
+            </div>
+
+            <!-- İşlem Tipi Ekleme Butonları (Selectable Liste) -->
+            <div class="space-y-2">
+                <button type="button" onclick="createTransactionBlock('cage')" class="w-full flex items-center justify-between p-3 rounded-xl border border-slate-700/60 hover:bg-slate-700/40 hover:border-slate-600 text-left text-xs font-medium text-slate-200 transition cursor-pointer group">
+                    <span><i class="fa-solid fa-vault mr-2 text-slate-400 group-hover:text-blue-400"></i> Cage Transaction</span>
+                    <i class="fa-solid fa-plus text-[10px] text-slate-500 group-hover:text-white"></i>
+                </button>
+
+                <button type="button" onclick="createTransactionBlock('chip')" class="w-full flex items-center justify-between p-3 rounded-xl border border-slate-700/60 hover:bg-slate-700/40 hover:border-slate-600 text-left text-xs font-medium text-slate-200 transition cursor-pointer group">
+                    <span><i class="fa-solid fa-coins mr-2 text-slate-400 group-hover:text-blue-400"></i> Chip Transaction</span>
+                    <i class="fa-solid fa-plus text-[10px] text-slate-500 group-hover:text-white"></i>
+                </button>
+
+                <button type="button" onclick="createTransactionBlock('petty')" class="w-full flex items-center justify-between p-3 rounded-xl border border-slate-700/60 hover:bg-slate-700/40 hover:border-slate-600 text-left text-xs font-medium text-slate-200 transition cursor-pointer group">
+                    <span><i class="fa-solid fa-wallet mr-2 text-slate-400 group-hover:text-blue-400"></i> Petty Cash</span>
+                    <i class="fa-solid fa-plus text-[10px] text-slate-500 group-hover:text-white"></i>
+                </button>
+
+                <button type="button" onclick="createTransactionBlock('player')" class="w-full flex items-center justify-between p-3 rounded-xl border border-slate-700/60 hover:bg-slate-700/40 hover:border-slate-600 text-left text-xs font-medium text-slate-200 transition cursor-pointer group">
+                    <span><i class="fa-solid fa-user-tie mr-2 text-slate-400 group-hover:text-blue-400"></i> Player Transaction</span>
+                    <i class="fa-solid fa-plus text-[10px] text-slate-500 group-hover:text-white"></i>
+                </button>
+            </div>
+
+            <!-- Bilgilendirme / İstatistik Kutusu -->
+            <div class="pt-4 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400">
+                <span>Active Nodes In Queue:</span>
+                <span id="sub-tx-counter" class="bg-slate-700 px-2 py-0.5 rounded font-mono text-white">0</span>
+            </div>
+        </aside>
+
+        <!-- ================= SAĞ ANA FORM ALANI ================= -->
+        <main class="md:col-span-8 bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
+            <form id="pipelineForm" onsubmit="submitForm(event)">
+                
+                <!-- ÜST BAŞLIK ALANI -->
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+                    <h1 class="text-lg font-bold text-slate-900 tracking-tight">Global Transaction Entry</h1>
+                    <p class="text-xs text-slate-400 mt-0.5">Fill standard credentials or append specialized transaction nodes via left sidebar.</p>
+                </div>
+
+                <!-- ANA MASTER ALANLAR -->
+                <div class="p-6 space-y-6">
+                    <div>
+                        <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Master Specifications</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Master Reference No</label>
+                                <input type="text" id="master-ref" required placeholder="e.g., MSTR-2026-001" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-slate-400 text-slate-900">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Global Date / Time</label>
+                                <input type="datetime-local" id="master-date" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-slate-400 text-slate-900">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DİNAMİK SIRALANAN TRANSACTION LISTESI -->
+                    <div class="space-y-3" id="transaction-pipeline-list">
+                        <!-- Eklenen her node buraya liste halinde akar -->
+                    </div>
+                </div>
+
+                <!-- ALT ACTION BAR -->
+                <div class="px-6 py-4 bg-slate-50/70 border-t border-slate-100 flex justify-end">
+                    <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-medium text-xs rounded-xl hover:bg-blue-500 transition cursor-pointer tracking-wider uppercase font-semibold shadow-sm">
+                        Commit All Transactions
+                    </button>
+                </div>
+
+            </form>
+        </main>
+
+    </div>
+
+    <script>
+        // Tarihi varsayılan olarak bugüne ayarla
+        document.getElementById('master-date').value = new Date().toISOString().slice(0, 16);
+
+        let blockCounter = 0;
+
+        // Her alt işlem için form şablonları
+        const subFormTemplates = {
+            cage: {
+                label: "Cage Transaction",
+                fields: `
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Amount</label><input type="number" step="0.01" required placeholder="0.00" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Currency</label><select class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs bg-white"><option>TRY (₺)</option><option>USD ($)</option></select></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Cage Code</label><input type="text" required placeholder="MAIN-CAGE" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Officer</label><input type="text" required placeholder="Ahmet Y." class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>
+                `
+            },
+            chip: {
+                label: "Chip Transaction",
+                fields: `
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Amount</label><input type="number" step="0.01" required placeholder="0.00" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Currency</label><select class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs bg-white"><option>TRY (₺)</option><option>USD ($)</option></select></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Inventory Type</label><input type="text" required placeholder="Cash Chip" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Table No</label><input type="text" required placeholder="Table 04" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>
+                `
+            },
+            petty: {
+                label: "Petty Cash",
+                fields: `
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Amount</label><input type="number" step="0.01" required placeholder="0.00" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Currency</label><select class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs bg-white"><option>TRY (₺)</option><option>USD ($)</option></select></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Category</label><input type="text" required placeholder="Office Supplies" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Invoice Ref</label><input type="text" required placeholder="INV-990" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>
+                `
+            },
+            player: {
+                label: "Player Transaction",
+                fields: `
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Amount</label><input type="number" step="0.01" required placeholder="0.00" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Currency</label><select class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs bg-white"><option>TRY (₺)</option><option>USD ($)</option></select></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Player ID</label><input type="text" required placeholder="PLY-1002" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1">Player Name</label><input type="text" required placeholder="John Doe" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>
+                `
+            }
+        };
+
+        // YENİ BLOK EKLEME FONKSİYONU (Soldaki listeden tetiklenir)
+        function createTransactionBlock(type) {
+            blockCounter++;
+            const listContainer = document.getElementById('transaction-pipeline-list');
+            const data = subFormTemplates[type];
+
+            const block = document.createElement('div');
+            block.id = `tx-block-${blockCounter}`;
+            block.className = "expanded border border-slate-200 rounded-xl overflow-hidden transition-all bg-slate-50/50";
+
+            block.innerHTML = `
+                <!-- Node Header (Collapse ve Silme Çubuğu) -->
+                <div class="flex items-center justify-between px-4 py-2.5 bg-slate-100/70 border-b border-slate-200 select-none">
+                    <div class="flex items-center gap-3 cursor-pointer flex-1" onclick="toggleCollapse(${blockCounter})">
+                        <i class="fa-solid fa-chevron-right text-[10px] text-slate-400 transform transition-transform duration-200 rotate-90" id="arrow-${blockCounter}"></i>
+                        <span class="text-xs font-semibold text-slate-700 tracking-wide">${data.label}</span>
+                        <span class="text-[9px] uppercase tracking-wider font-mono bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded">Node #${blockCounter}</span>
+                    </div>
+                    <button type="button" onclick="removeTransactionBlock(${blockCounter})" class="text-slate-400 hover:text-red-500 p-1 rounded transition cursor-pointer">
+                        <i class="fa-solid fa-trash-can text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Collapse İçerik Kısmı -->
+                <div class="collapse-content" id="content-${blockCounter}">
+                    <div class="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 bg-white">
+                        ${data.fields}
+                    </div>
+                </div>
+            `;
+
+            listContainer.appendChild(block);
+            updateCounter();
+
+            // Giriş esnasında max-height'ı pürüzsüz büyüt
+            setTimeout(() => {
+                const content = document.getElementById(`content-${blockCounter}`);
+                content.style.maxHeight = content.scrollHeight + "px";
+            }, 10);
+        }
+
+        // KART SİLME
+        function removeTransactionBlock(id) {
+            const block = document.getElementById(`tx-block-${id}`);
+            if (block) {
+                block.remove();
+                updateCounter();
+            }
+        }
+
+        // COLLAPSE TETİKLEME
+        function toggleCollapse(id) {
+            const block = document.getElementById(`tx-block-${id}`);
+            const content = document.getElementById(`content-${id}`);
+            const arrow = document.getElementById(`arrow-${id}`);
+
+            if (block.classList.contains('expanded')) {
+                block.classList.remove('expanded');
+                content.style.maxHeight = "0px";
+                arrow.classList.remove('rotate-90');
+            } else {
+                block.classList.add('expanded');
+                content.style.maxHeight = content.scrollHeight + "px";
+                arrow.classList.add('rotate-90');
+            }
+        }
+
+        // SAYAÇ GÜNCELLEME
+        function updateCounter() {
+            const count = document.getElementById('transaction-pipeline-list').children.length;
+            document.getElementById('sub-tx-counter').textContent = count;
+        }
+
+        // ANA GÖNDERİM
+        function submitForm(e) {
+            e.preventDefault();
+            const masterRef = document.getElementById('master-ref').value;
+            const subCount = document.getElementById('transaction-pipeline-list').children.length;
+
+            alert(`SaaS Commit Pipeline Successful!\nMaster Ref: ${masterRef}\nTotal Linked Nodes: ${subCount}`);
+        }
+    </script>
+</body>
+</html>

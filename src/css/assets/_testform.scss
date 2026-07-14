@@ -1,0 +1,502 @@
+@use './variables' as *;
+
+// ---------------------------------------------------------------------------
+// Sayfa ve kart
+// ---------------------------------------------------------------------------
+.test-form-page {
+  background: $tf-page-bg;
+  padding: 32px 16px 48px;
+}
+
+.test-form-container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.tf-card {
+  background: $tf-card-bg;
+  border-radius: $tf-card-radius;
+  box-shadow: $tf-card-shadow;
+  padding: 28px 32px 32px;
+  animation: tf-card-in 0.4s $tf-ease both;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid $tf-border;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: $tf-text;
+  }
+
+  &__subtitle {
+    margin: 4px 0 0;
+    font-size: 0.85rem;
+    color: $tf-text-muted;
+  }
+
+  &__header-icon {
+    color: $tf-accent;
+    background: $tf-accent-soft;
+    border-radius: 10px;
+    padding: 8px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Son işlem özet bandı
+// ---------------------------------------------------------------------------
+.tf-summary {
+  border: 1px solid $tf-border;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  overflow: hidden;
+
+  &__main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    transition: background $tf-transition;
+
+    &:hover {
+      background: rgba(15, 34, 58, 0.03);
+    }
+  }
+
+  &__badges {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    animation: tf-pulse 0.6s $tf-ease;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--tf-type-color);
+    background: color-mix(in srgb, var(--tf-type-color) 12%, white);
+    white-space: nowrap;
+  }
+
+  &__text {
+    flex: 1;
+    font-size: 0.85rem;
+    color: $tf-text-muted;
+
+    strong {
+      color: $tf-text;
+    }
+  }
+
+  &__time {
+    margin-left: 4px;
+  }
+
+  &__chevron {
+    color: $tf-text-muted;
+    transition: transform $tf-transition;
+
+    &.is-open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__history {
+    list-style: none;
+    margin: 0;
+    padding: 4px 14px 10px;
+    border-top: 1px dashed $tf-border;
+  }
+
+  &__history-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    font-size: 0.8rem;
+    color: $tf-text-muted;
+
+    & + & {
+      border-top: 1px solid rgba(15, 34, 58, 0.04);
+    }
+  }
+
+  &__dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--tf-type-color);
+    flex-shrink: 0;
+  }
+
+  &__history-type {
+    font-weight: 600;
+    color: $tf-text;
+    white-space: nowrap;
+  }
+
+  &__history-detail {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__history-amount {
+    font-weight: 600;
+    color: $tf-text;
+    white-space: nowrap;
+  }
+
+  &__history-time {
+    white-space: nowrap;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Ortak alanlar grid'i
+// ---------------------------------------------------------------------------
+.tf-form {
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 16px;
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__full {
+    grid-column: 1 / -1;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// "+" alanı — idle durumu
+// ---------------------------------------------------------------------------
+.tf-slot-area {
+  margin: 8px 0 24px;
+}
+
+.tf-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  &:not(:empty) {
+    margin-bottom: 14px;
+  }
+}
+
+.tf-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 18px;
+  background: none;
+  border: 2px dashed $tf-dashed-border;
+  border-radius: 12px;
+  color: $tf-text-muted;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color $tf-transition,
+    color $tf-transition,
+    background $tf-transition;
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    border-color: $tf-accent;
+    color: $tf-accent;
+    background: $tf-accent-soft;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Tip seçim ızgarası — picking durumu
+// ---------------------------------------------------------------------------
+.tf-picker {
+  border: 1px solid $tf-border;
+  border-radius: 12px;
+  padding: 14px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    .q-btn {
+      color: $tf-text-muted;
+    }
+  }
+
+  &__header-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $tf-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 10px;
+    background: $tf-card-bg;
+    border: 1px solid $tf-border;
+    border-radius: 10px;
+    font: inherit;
+    cursor: pointer;
+    animation: tf-field-in 0.3s $tf-ease both;
+    transition:
+      border-color $tf-transition,
+      box-shadow $tf-transition,
+      transform $tf-transition;
+
+    &:hover:not(:disabled),
+    &:focus-visible:not(:disabled) {
+      border-color: var(--tf-type-color);
+      box-shadow: 0 4px 14px -4px color-mix(in srgb, var(--tf-type-color) 45%, transparent);
+      transform: translateY(-2px);
+    }
+
+    &.is-added {
+      opacity: 0.55;
+      cursor: not-allowed;
+      background: rgba(15, 34, 58, 0.02);
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    color: var(--tf-type-color);
+    background: color-mix(in srgb, var(--tf-type-color) 12%, white);
+  }
+
+  &__label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $tf-text;
+    text-align: center;
+  }
+
+  &__added {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: $tf-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Dinamik alt-kart — filled durumu
+// ---------------------------------------------------------------------------
+.tf-subcard {
+  border: 1px solid color-mix(in srgb, var(--tf-type-color) 30%, $tf-border);
+  border-left: 4px solid var(--tf-type-color);
+  border-radius: 12px;
+  overflow: hidden;
+
+  &__strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    color: var(--tf-type-color);
+    background: color-mix(in srgb, var(--tf-type-color) 9%, white);
+    border-bottom: 1px solid color-mix(in srgb, var(--tf-type-color) 18%, transparent);
+  }
+
+  &__strip-title {
+    flex: 1;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  &__remove {
+    color: $tf-text-muted;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 16px;
+    row-gap: 4px;
+    padding: 18px 16px 10px;
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__field {
+    animation: tf-field-in 0.35s $tf-ease both;
+  }
+
+  &__toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-bottom: 20px;
+  }
+
+  &__toggle-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: $tf-text-muted;
+  }
+
+  &__toggle .q-btn-group {
+    border: 1px solid $tf-border;
+    border-radius: 8px;
+    align-self: flex-start;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Kaydet butonu
+// ---------------------------------------------------------------------------
+.tf-save {
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: $tf-accent;
+  transition:
+    opacity $tf-transition,
+    box-shadow $tf-transition;
+
+  &:not(.disabled):hover {
+    box-shadow: 0 6px 18px -6px color-mix(in srgb, $tf-accent 60%, transparent);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Geçişler ve keyframe'ler
+// ---------------------------------------------------------------------------
+.tf-slot-enter-active,
+.tf-slot-leave-active {
+  transition:
+    opacity $tf-transition,
+    transform $tf-transition;
+}
+
+.tf-slot-enter-from {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.tf-slot-leave-to {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.tf-slot-move {
+  transition: transform $tf-transition;
+}
+
+.tf-slot-leave-active.tf-subcard {
+  position: absolute;
+  width: 100%;
+}
+
+.tf-sections {
+  position: relative;
+}
+
+@keyframes tf-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tf-field-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tf-pulse {
+  0% {
+    transform: scale(0.85);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--tf-type-color) 40%, transparent);
+  }
+
+  60% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 8px transparent;
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

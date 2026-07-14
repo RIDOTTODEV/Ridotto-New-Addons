@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Transaction Ledger - Inline Cards</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#f2f3f6] min-h-screen p-6 flex justify-center items-start antialiased text-slate-800">
+
+    <main class="max-w-4xl w-full bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
+        <form id="masterPipelineForm" onsubmit="submitMasterForm(event)">
+            
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900 tracking-tight">Global Transaction Ledger</h1>
+                    <p class="text-xs text-slate-400 mt-0.5">Define master records and stack dynamic nested transaction nodes.</p>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <div>
+                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Master Specifications</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Master Reference No</label>
+                            <input type="text" id="master-ref" required placeholder="e.g., MSTR-2026-HQ" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-slate-400 text-slate-900">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Global Date / Time</label>
+                            <input type="datetime-local" id="master-date" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-slate-400 text-slate-900">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Linked Transaction Stream</h3>
+                    <div id="sub-forms-container" class="space-y-4">
+                        <div id="empty-state-msg" class="text-center py-8 border border-dashed border-slate-200 rounded-xl text-xs text-slate-400">
+                            No active transaction forms attached. Safe to commit as a standalone master entry or append sub-forms below.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-slate-100 flex flex-col items-start gap-3">
+                    <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Append New Form Component</span>
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" onclick="appendSubForm('cage')" class="px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium rounded-xl transition cursor-pointer flex items-center gap-1.5 shadow-xs">
+                            <i class="fa-solid fa-vault text-slate-400"></i> + Cage Transaction
+                        </button>
+                        <button type="button" onclick="appendSubForm('chip')" class="px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium rounded-xl transition cursor-pointer flex items-center gap-1.5 shadow-xs">
+                            <i class="fa-solid fa-coins text-slate-400"></i> + Chip Transaction
+                        </button>
+                        <button type="button" onclick="appendSubForm('petty')" class="px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium rounded-xl transition cursor-pointer flex items-center gap-1.5 shadow-xs">
+                            <i class="fa-solid fa-wallet text-slate-400"></i> + Petty Cash
+                        </button>
+                        <button type="button" onclick="appendSubForm('player')" class="px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium rounded-xl transition cursor-pointer flex items-center gap-1.5 shadow-xs">
+                            <i class="fa-solid fa-user-tie text-slate-400"></i> + Player Transaction
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6 py-4 bg-slate-50/70 border-t border-slate-100 flex justify-end">
+                <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-slate-900 text-white font-medium text-xs rounded-xl hover:bg-slate-800 transition cursor-pointer tracking-wider uppercase font-semibold shadow-sm">
+                    Commit All Transactions
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        // Bugünün tarihini master form için default yap
+        document.getElementById('master-date').value = new Date().toISOString().slice(0, 16);
+
+        let formCounter = 0;
+
+        // Her alt işlem kartının şablonu (Kendi içlerinde hem ortak hem özel alanları barındırır)
+        const subFormTemplates = {
+            cage: {
+                title: "Cage Transaction Component",
+                bgClass: "border-slate-200 bg-slate-50/40",
+                fields: `
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Amount</label><input type="number" step="0.01" required placeholder="0.00" class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Currency</label><select class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"><option>TRY</option><option>USD</option></select></div>
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Cage Code</label><input type="text" required placeholder="MAIN-CAGE" class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Officer</label><input type="text" required placeholder="Ahmet Y." class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"></div>
+                `
+            },
+            chip: {
+                title: "Chip Transaction Component",
+                bgClass: "border-slate-200 bg-slate-50/40",
+                fields: `
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Amount</label><input type="number" step="0.01" required placeholder="0.00" class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Currency</label><select class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"><option>TRY</option><option>USD</option></select></div>
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Inventory Type</label><input type="text" required placeholder="Cash Chip" class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Table No</label><input type="text" required placeholder="Table 05" class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"></div>
+                `
+            },
+            petty: {
+                title: "Petty Cash Component",
+                bgClass: "border-slate-200 bg-slate-50/40",
+                fields: `
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Amount</label><input type="number" step="0.01" required placeholder="0.00" class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Currency</label><select class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"><option>TRY</option><option>USD</option></select></div>
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Category</label><input type="text" required placeholder="Office Supplies" class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Receipt No</label><input type="text" required placeholder="INV-9901" class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"></div>
+                `
+            },
+            player: {
+                title: "Player Transaction Component",
+                bgClass: "border-slate-200 bg-slate-50/40",
+                fields: `
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Amount</label><input type="number" step="0.01" required placeholder="0.00" class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Currency</label><select class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"><option>TRY</option><option>USD</option></select></div>
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Player ID</label><input type="text" required placeholder="PLY-7712" class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"></div>
+                    <div><label class="block text-[11px] font-medium text-slate-600 mb-1">Full Name</label><input type="text" required placeholder="John Doe" class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs bg-white"></div>
+                `
+            }
+        };
+
+        // YENİ ALT FORM KARTI EKLEME
+        function appendSubForm(type) {
+            formCounter++;
+            const container = document.getElementById('sub-forms-container');
+            const template = subFormTemplates[type];
+
+            // Boş durum mesajını kaldır (varsa)
+            const emptyMsg = document.getElementById('empty-state-msg');
+            if (emptyMsg) emptyMsg.style.display = 'none';
+
+            // Yeni Form Kartı Oluşturma
+            const card = document.createElement('div');
+            card.id = `sub-form-node-${formCounter}`;
+            card.className = `border ${template.bgClass} rounded-2xl p-4 relative space-y-3 shadow-xs transition-all duration-200`;
+            
+            card.innerHTML = `
+                <button type="button" onclick="removeSubForm(${formCounter})" class="absolute top-4 right-4 text-slate-400 hover:text-red-500 transition cursor-pointer p-1 rounded-lg hover:bg-slate-200/50">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-slate-800 tracking-tight">${template.title}</span>
+                    <span class="text-[9px] font-mono bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded uppercase">Node #${formCounter}</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                    ${template.fields}
+                </div>
+            `;
+
+            container.appendChild(card);
+        }
+
+        // KART SİLME / CLEAR ETME FONKSİYONU
+        function removeSubForm(id) {
+            const card = document.getElementById(`sub-form-node-${id}`);
+            if (card) {
+                card.remove();
+            }
+
+            // Eğer hiç kart kalmadıysa boş durum mesajını geri getir
+            const container = document.getElementById('sub-forms-container');
+            if (container.children.length === 1 && container.firstElementChild.id === 'empty-state-msg') {
+                document.getElementById('empty-state-msg').style.display = 'block';
+            } else if (container.children.length === 0) {
+                // Eğer DOM tamamen temizlendiyse şablonu baştan enjekte et
+                container.innerHTML = `<div id="empty-state-msg" class="text-center py-8 border border-dashed border-slate-200 rounded-xl text-xs text-slate-400">No active transaction forms attached. Safe to commit as a standalone master entry or append sub-forms below.</div>`;
+            }
+        }
+
+        // TÜM FORMLARI SUBMIT ETME
+        function submitMasterForm(e) {
+            e.preventDefault();
+            const masterRef = document.getElementById('master-ref').value;
+            const totalForms = document.getElementById('sub-forms-container').querySelectorAll('[id^="sub-form-node-"]').length;
+
+            alert(`SaaS Commit Pipeline Successful!\nMaster Reference: ${masterRef}\nTotal Attached Forms Captured: ${totalForms}`);
+        }
+    </script>
+</body>
+</html>

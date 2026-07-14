@@ -1,0 +1,697 @@
+@use './variables' as *;
+
+// ---------------------------------------------------------------------------
+// DateTimePicker — tetikleyici buton
+// ---------------------------------------------------------------------------
+.dtp-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 170px;
+  height: 40px;
+  padding: 0 8px 0 10px;
+  background: $dtp-bg;
+  border: 1px solid $dtp-border;
+  border-radius: $dtp-radius;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition:
+    border-color $dtp-transition,
+    box-shadow $dtp-transition;
+
+  &:hover:not(:disabled) {
+    border-color: $dtp-accent-hover-border;
+  }
+
+  &--open {
+    border-color: $dtp-accent;
+    box-shadow: 0 0 0 3px $dtp-accent-ring;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.dtp-trigger__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  background: $dtp-accent-soft;
+  color: $dtp-accent;
+}
+
+.dtp-trigger__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.dtp-trigger__label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: $dtp-text-muted;
+}
+
+.dtp-trigger__value {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: $dtp-text;
+
+  .dtp-trigger--nowrap & {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 240px;
+  }
+}
+
+.dtp-trigger__arrow {
+  color: $dtp-text-muted;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+
+  &--open {
+    transform: rotate(180deg);
+  }
+}
+
+.body--dark .dtp-trigger {
+  background: $dtp-bg-dark;
+  border-color: $dtp-border-dark;
+
+  &:hover:not(:disabled) {
+    border-color: $dtp-accent-dark;
+  }
+
+  &--open {
+    border-color: $dtp-accent-dark;
+    box-shadow: 0 0 0 3px $dtp-accent-ring-dark;
+  }
+
+  .dtp-trigger__icon {
+    background: $dtp-accent-soft-dark;
+    color: $dtp-accent-dark;
+  }
+
+  .dtp-trigger__label,
+  .dtp-trigger__arrow {
+    color: $dtp-text-muted-dark;
+  }
+
+  .dtp-trigger__value {
+    color: $dtp-text-dark;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// DateTimePicker — popover kabuğu (body'ye teleport edilir)
+// ---------------------------------------------------------------------------
+.p-popover.dtp-popover {
+  border-radius: $dtp-panel-radius;
+  border: 1px solid $dtp-border;
+  background: $dtp-bg;
+  color: $dtp-text;
+  box-shadow: $dtp-shadow;
+
+  .p-popover-content {
+    padding: 0;
+  }
+}
+
+.body--dark .p-popover.dtp-popover {
+  background: $dtp-bg-dark;
+  border-color: $dtp-border-dark;
+  color: $dtp-text-dark;
+  box-shadow: $dtp-shadow-dark;
+}
+
+// ---------------------------------------------------------------------------
+// DateTimePicker — panel başlığı
+// ---------------------------------------------------------------------------
+.dtp-panel {
+  width: 560px;
+  max-width: min(560px, 92vw);
+}
+
+.dtp-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  border-bottom: 1px solid $dtp-border;
+  background: linear-gradient(135deg, $dtp-header-grad-start, $dtp-header-grad-end);
+  border-radius: $dtp-panel-radius $dtp-panel-radius 0 0;
+}
+
+.dtp-panel__header-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  background: $dtp-accent-soft-strong;
+  color: $dtp-accent;
+}
+
+.dtp-panel__header-texts {
+  min-width: 0;
+}
+
+.dtp-panel__title {
+  font-size: 13px;
+  font-weight: 700;
+  color: $dtp-text;
+}
+
+.dtp-panel__subtitle {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: $dtp-text-muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.body--dark {
+  .dtp-panel__header {
+    border-bottom-color: $dtp-border-dark;
+    background: linear-gradient(135deg, $dtp-header-grad-start-dark, $dtp-header-grad-end-dark);
+  }
+
+  .dtp-panel__header-icon {
+    background: $dtp-accent-soft-strong-dark;
+    color: $dtp-accent-dark;
+  }
+
+  .dtp-panel__title {
+    color: $dtp-text-dark;
+  }
+
+  .dtp-panel__subtitle {
+    color: $dtp-text-muted-dark;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// DateTimePicker — hazır aralık listeleri
+// ---------------------------------------------------------------------------
+.dtp-presets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px 12px;
+  padding: 12px 14px 4px;
+}
+
+.dtp-presets__col {
+  min-width: 0;
+}
+
+.dtp-presets__head {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px 7px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  color: $dtp-text-muted;
+}
+
+.dtp-presets__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  width: 100%;
+  padding: 6px 9px;
+  margin-bottom: 2px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 12.5px;
+  color: $dtp-text;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background $dtp-transition,
+    color $dtp-transition;
+
+  &:hover {
+    background: $dtp-accent-soft;
+  }
+
+  &--active {
+    background: $dtp-accent-soft-strong;
+    color: $dtp-accent;
+    font-weight: 600;
+  }
+}
+
+.dtp-presets__item-label {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.body--dark {
+  .dtp-presets__head {
+    color: $dtp-text-muted-dark;
+  }
+
+  .dtp-presets__item {
+    color: $dtp-text-dark;
+
+    &:hover {
+      background: $dtp-accent-soft-dark;
+    }
+
+    &--active {
+      background: $dtp-accent-soft-strong-dark;
+      color: $dtp-accent-dark;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// DateTimePicker — özel aralık kısayol kartları
+// ---------------------------------------------------------------------------
+.dtp-customlinks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 12px 14px 14px;
+  border-top: 1px dashed $dtp-border;
+}
+
+.dtp-customlinks__btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border: 1px solid $dtp-border;
+  border-radius: $dtp-radius;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color $dtp-transition,
+    background $dtp-transition;
+
+  &:hover {
+    border-color: $dtp-accent-hover-border;
+    background: $dtp-accent-soft;
+
+    .dtp-customlinks__chevron {
+      transform: translateX(2px);
+      color: $dtp-accent;
+    }
+  }
+}
+
+.dtp-customlinks__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  flex-shrink: 0;
+  background: $dtp-accent-soft;
+  color: $dtp-accent;
+}
+
+.dtp-customlinks__texts {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.dtp-customlinks__title {
+  font-size: 12px;
+  font-weight: 600;
+  color: $dtp-text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dtp-customlinks__hint {
+  font-size: 10.5px;
+  color: $dtp-text-muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dtp-customlinks__chevron {
+  color: $dtp-text-muted;
+  flex-shrink: 0;
+  transition:
+    transform $dtp-transition,
+    color $dtp-transition;
+}
+
+.body--dark {
+  .dtp-customlinks {
+    border-top-color: $dtp-border-dark;
+  }
+
+  .dtp-customlinks__btn {
+    border-color: $dtp-border-dark;
+
+    &:hover {
+      border-color: $dtp-accent-dark;
+      background: $dtp-accent-soft-dark;
+
+      .dtp-customlinks__chevron {
+        color: $dtp-accent-dark;
+      }
+    }
+  }
+
+  .dtp-customlinks__icon {
+    background: $dtp-accent-soft-dark;
+    color: $dtp-accent-dark;
+  }
+
+  .dtp-customlinks__title {
+    color: $dtp-text-dark;
+  }
+
+  .dtp-customlinks__hint,
+  .dtp-customlinks__chevron {
+    color: $dtp-text-muted-dark;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// DateTimePicker — özel aralık görünümleri (takvim + saat)
+// ---------------------------------------------------------------------------
+.dtp-view__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px 8px;
+}
+
+.dtp-view__back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: $dtp-accent-soft;
+  color: $dtp-accent;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background $dtp-transition;
+
+  &:hover {
+    background: $dtp-accent-soft-strong;
+  }
+}
+
+.dtp-view__bar-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: $dtp-text;
+}
+
+.dtp-view__bar-hint {
+  font-size: 11px;
+  color: $dtp-text-muted;
+}
+
+.dtp-calendar-wrap {
+  padding: 0 14px;
+}
+
+.dtp-calendar {
+  width: 100%;
+  border: 1px solid $dtp-border;
+  border-radius: 12px;
+
+  // --p-datepicker-panel-padding: 0.375rem;
+  // --p-datepicker-header-padding: 0 0 0.25rem 0;
+  // --p-datepicker-day-view-margin: 0.25rem 0 0 0;
+  // --p-datepicker-date-width: 1.5rem;
+  // --p-datepicker-date-height: 1.5rem;
+  // --p-datepicker-date-padding: 0.125rem;
+  // --p-datepicker-week-day-padding: 0.125rem;
+  // --p-datepicker-title-gap: 0.375rem;
+  // --p-datepicker-dropdown-width: 1.75rem;
+  // --p-datepicker-select-month-padding: 0.125rem 0.4rem;
+  // --p-datepicker-select-year-padding: 0.125rem 0.4rem;
+  // --p-datepicker-date-font-size: 11.5px;
+  // --p-datepicker-week-day-font-size: 10.5px;
+  // --p-datepicker-title-font-size: 12px;
+  // --p-datepicker-select-month-font-size: 12px;
+  // --p-datepicker-select-year-font-size: 12px;
+
+  .p-datepicker-day {
+    font-size: 11.5px;
+  }
+
+  .p-datepicker-weekday {
+    font-size: 10.5px;
+  }
+}
+
+.dtp-times {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 8px 14px 0;
+}
+
+.dtp-times__field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 4px 8px;
+  border: 1px solid $dtp-border;
+  border-radius: $dtp-radius;
+}
+
+.dtp-times__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: $dtp-text-muted;
+}
+
+.dtp-timepicker {
+  border: none;
+  width: auto;
+
+  .p-datepicker-panel {
+    padding: 0 4px;
+  }
+
+  .p-datepicker-time-picker {
+    padding: 0;
+
+    > div {
+      gap: 0;
+    }
+
+    span {
+      font-size: 12.5px;
+      line-height: 1.2;
+    }
+
+    .p-datepicker-increment-button,
+    .p-datepicker-decrement-button {
+      width: 20px;
+      height: 20px;
+
+      .p-icon {
+        width: 13px;
+        height: 13px;
+      }
+    }
+  }
+}
+
+.dtp-view__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 12px 12px;
+}
+
+.dtp-action-btn {
+  &.p-button {
+    height: 28px;
+    padding: 0 10px;
+    font-size: 11.5px;
+    font-weight: 600;
+    border-radius: $dtp-radius;
+    gap: 5px;
+
+    .p-button-icon {
+      font-size: 11px;
+    }
+  }
+
+  &.p-button-outlined {
+    color: $dtp-accent;
+    border-color: $dtp-accent;
+
+    &:not(:disabled):hover {
+      background: $dtp-accent-soft;
+      color: $dtp-accent;
+      border-color: $dtp-accent;
+    }
+  }
+
+  &.p-button:not(.p-button-outlined) {
+    background: $dtp-accent;
+    border-color: $dtp-accent;
+    color: #ffffff;
+
+    &:not(:disabled):hover {
+      background: $dtp-accent-hover-border;
+      border-color: $dtp-accent-hover-border;
+      color: #ffffff;
+    }
+  }
+}
+
+.body--dark .dtp-action-btn {
+  &.p-button-outlined {
+    color: $dtp-accent-dark;
+    border-color: $dtp-accent-dark;
+
+    &:not(:disabled):hover {
+      background: $dtp-accent-soft-dark;
+      color: $dtp-accent-dark;
+      border-color: $dtp-accent-dark;
+    }
+  }
+
+  &.p-button:not(.p-button-outlined) {
+    background: $dtp-accent-dark;
+    border-color: $dtp-accent-dark;
+    color: #0f172a;
+
+    &:not(:disabled):hover {
+      background: $dtp-accent-dark;
+      border-color: $dtp-accent-dark;
+      opacity: 0.9;
+      color: #0f172a;
+    }
+  }
+}
+
+.body--dark {
+  .dtp-view__back {
+    background: $dtp-accent-soft-dark;
+    color: $dtp-accent-dark;
+
+    &:hover {
+      background: $dtp-accent-soft-strong-dark;
+    }
+  }
+
+  .dtp-view__bar-title {
+    color: $dtp-text-dark;
+  }
+
+  .dtp-view__bar-hint {
+    color: $dtp-text-muted-dark;
+  }
+
+  .dtp-calendar,
+  .dtp-times__field {
+    border-color: $dtp-border-dark;
+  }
+
+  .dtp-times__label {
+    color: $dtp-text-muted-dark;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// DateTimePicker — inline PrimeVue takvimini uygulama paletine bağla
+// (yalnızca bu bileşenin takvimleri; global DatePicker'lara dokunmaz)
+// ---------------------------------------------------------------------------
+.dtp-calendar,
+.dtp-timepicker {
+  --p-datepicker-panel-background: transparent;
+  --p-datepicker-panel-border-color: transparent;
+  --p-datepicker-header-background: transparent;
+  --p-datepicker-date-selected-background: #{$dtp-accent};
+  --p-datepicker-date-selected-color: #ffffff;
+  --p-datepicker-date-range-selected-background: #{$dtp-accent-soft-strong};
+  --p-datepicker-date-range-selected-color: #{$dtp-accent};
+  --p-datepicker-date-hover-background: #{$dtp-accent-soft};
+}
+
+.body--dark {
+  .dtp-calendar,
+  .dtp-timepicker {
+    --p-datepicker-date-selected-background: #{$dtp-accent-dark};
+    --p-datepicker-date-selected-color: #1e293b;
+    --p-datepicker-date-range-selected-background: #{$dtp-accent-soft-strong-dark};
+    --p-datepicker-date-range-selected-color: #{$dtp-accent-dark};
+    --p-datepicker-date-hover-background: #{$dtp-accent-soft-dark};
+  }
+}
+
+// ---------------------------------------------------------------------------
+// DateTimePicker — görünüm geçişi
+// ---------------------------------------------------------------------------
+.dtp-view-enter-active,
+.dtp-view-leave-active {
+  transition:
+    opacity 0.14s ease,
+    transform 0.14s ease;
+}
+
+.dtp-view-enter-from {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.dtp-view-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+// ---------------------------------------------------------------------------
+// Overlay (inline olmayan) DatePicker panelleri Quasar dialoglarının üstünde
+// kalmalı — uygulama genelinde kullanılan kural
+// ---------------------------------------------------------------------------
+.p-datepicker-panel {
+  z-index: 6001 !important;
+}

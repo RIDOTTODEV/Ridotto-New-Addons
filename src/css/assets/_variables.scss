@@ -1,0 +1,194 @@
+// ---------------------------------------------------------------------------
+// Header — yüzey ve tema
+// ---------------------------------------------------------------------------
+$header-bg: #ffffff;
+$header-bg-dark: #2a2f34;
+
+$header-menu-bar-bg: #ffffff;
+$header-menu-bar-bg-dark: #25292d;
+$header-menu-bar-text-dark: #afafaf;
+
+// ---------------------------------------------------------------------------
+// Header — gölge ve ayırıcılar
+// ---------------------------------------------------------------------------
+$header-shadow-light:
+  0 4px 14px -2px rgba(15, 34, 58, 0.14),
+  0 2px 6px -1px rgba(15, 34, 58, 0.1);
+$header-shadow-dark:
+  0 4px 14px -2px rgba(0, 0, 0, 0.35),
+  0 2px 6px -1px rgba(0, 0, 0, 0.22);
+$header-tabs-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
+$header-tabs-border-top: #e8e8e8;
+
+// ---------------------------------------------------------------------------
+// Header — kullanıcı profili (tetikleyici)
+// ---------------------------------------------------------------------------
+$header-user-menu-offset: 5px;
+
+// ---------------------------------------------------------------------------
+// Header — ops status (kasa / masa göstergeleri)
+// ---------------------------------------------------------------------------
+$header-ops-font-size: 13px;
+$header-ops-gap: 10px;
+$header-ops-item-gap: 6px;
+$header-ops-item-padding: 4px 6px;
+$header-ops-item-radius: 6px;
+$header-ops-color: #4b5563;
+$header-ops-color-dark: #cbd5e1;
+$header-ops-name-color: #1f2937;
+$header-ops-name-color-dark: #f1f5f9;
+$header-ops-muted-color: #6b7280;
+$header-ops-muted-color-dark: #94a3b8;
+$header-ops-divider-color: rgba(15, 34, 58, 0.12);
+$header-ops-divider-color-dark: rgba(255, 255, 255, 0.12);
+$header-ops-hover-bg: rgba(15, 34, 58, 0.06);
+$header-ops-hover-bg-dark: rgba(255, 255, 255, 0.06);
+$header-ops-metric-muted: #9ca3af;
+$header-ops-metric-muted-dark: #64748b;
+
+$header-status-dot-size: 8px;
+$header-status-success: #10b981;
+$header-status-success-glow: rgba(16, 185, 129, 0.18);
+$header-status-success-text: #059669;
+$header-status-success-text-dark: #34d399;
+
+$header-status-error: #ef4444;
+$header-status-error-glow: rgba(239, 68, 68, 0.18);
+$header-status-error-text: #dc2626;
+$header-status-error-text-dark: #f87171;
+
+$header-status-warn-text: #d97706;
+$header-status-warn-text-dark: #fbbf24;
+
+// ---------------------------------------------------------------------------
+// Geçişler
+// ---------------------------------------------------------------------------
+$header-transition: 0.3s ease;
+$header-transition-fast: 0.15s ease;
+
+// ---------------------------------------------------------------------------
+// Sidebar — yüzey, ağaç menü
+// ---------------------------------------------------------------------------
+$sidebar-bg: #1e293b;
+$sidebar-text: #ffffff;
+$sidebar-text-muted: #94a3b8;
+$sidebar-text-active: #f8fafc;
+$sidebar-border: rgba(148, 163, 184, 0.1);
+$sidebar-primary-solid: #3b82f6;
+$sidebar-hover: rgba(255, 255, 255, 0.04);
+$sidebar-active-bg: rgba(59, 130, 246, 0.1);
+$sidebar-accent-width: 3px;
+$sidebar-tree-line: rgba(148, 163, 184, 0.3);
+$sidebar-tree-indent: 1.35rem;
+$sidebar-tree-branch-width: 0.75rem;
+$sidebar-tree-dot-size: 5px;
+$sidebar-accent: #38bdf8;
+$sidebar-accent-glow: rgba(56, 189, 248, 0.22);
+$sidebar-font-level-1: 0.875rem;
+$sidebar-font-level-2: 0.85rem;
+$sidebar-font-level-3: 0.825rem;
+$sidebar-transition: 0.15s ease;
+
+// ---------------------------------------------------------------------------
+// Visited tabs — ziyaret edilen sayfa sekmeleri (tarayıcı sekmesi stili)
+// ---------------------------------------------------------------------------
+$vtabs-height: 40px;
+$vtabs-item-height: 34px;
+$vtabs-radius: 10px;
+
+$vtabs-bg: #ffffff;
+$vtabs-bg-dark: #2a3038;
+$vtabs-border: #e5e7eb;
+$vtabs-border-dark: rgba(255, 255, 255, 0.1);
+
+$vtabs-text: #374151;
+$vtabs-text-dark: #cbd5e1;
+$vtabs-muted: #6b7280;
+$vtabs-muted-dark: #94a3b8;
+
+$vtabs-hover-bg: #f3f4f6;
+$vtabs-hover-bg-dark: rgba(255, 255, 255, 0.06);
+$vtabs-hover-color: #42627f;
+$vtabs-hover-color-dark: #b8d4e8;
+
+// $vtabs-active-bg: #e8f1fc;
+// $vtabs-active-color: #1867c0;
+$vtabs-active-bg: rgba(29, 54, 94, 0.1);
+$vtabs-active-color: #3c5275;
+$vtabs-active-bg-dark: #31435c;
+$vtabs-active-color-dark: #8ec2f5;
+
+$vtabs-separator: #dfe3e8;
+$vtabs-separator-dark: rgba(255, 255, 255, 0.14);
+
+$vtabs-close-hover-bg: rgba(15, 34, 58, 0.08);
+$vtabs-close-hover-bg-dark: rgba(255, 255, 255, 0.1);
+$vtabs-close-hover-bg-active: rgba(24, 103, 192, 0.14);
+$vtabs-close-hover-bg-active-dark: rgba(142, 194, 245, 0.2);
+
+$vtabs-transition-fast: 0.15s ease;
+
+// ---------------------------------------------------------------------------
+// Sayfa geçişleri — AnimatedRouterView (Chrome sekmesi tarzı yumuşak fade)
+// ---------------------------------------------------------------------------
+$page-transition-duration: 0.25s;
+$page-transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+$page-transition-shift: 14px;
+
+// ---------------------------------------------------------------------------
+// Test form — dinamik transaction formu
+// ---------------------------------------------------------------------------
+$tf-page-bg: #f2f3f6;
+$tf-card-bg: #ffffff;
+$tf-card-radius: 16px;
+$tf-card-shadow:
+  0 8px 24px -6px rgba(15, 34, 58, 0.12),
+  0 2px 8px -2px rgba(15, 34, 58, 0.08);
+$tf-border: #e5e7eb;
+$tf-text: #1f2937;
+$tf-text-muted: #6b7280;
+$tf-accent: #3b82f6;
+$tf-accent-soft: rgba(59, 130, 246, 0.08);
+$tf-dashed-border: #cbd5e1;
+$tf-ease: cubic-bezier(0.4, 0, 0.2, 1);
+$tf-transition: 0.25s $tf-ease;
+$tf-field-stagger: 50ms;
+
+// ---------------------------------------------------------------------------
+// DateTimePicker — tarih/saat aralığı seçici (tetikleyici + popover panel)
+// ---------------------------------------------------------------------------
+$dtp-bg: #ffffff;
+$dtp-bg-dark: #2a3038;
+$dtp-border: #e5e7eb;
+$dtp-border-dark: rgba(255, 255, 255, 0.1);
+$dtp-radius: 10px;
+$dtp-panel-radius: 14px;
+
+$dtp-text: #1f2937;
+$dtp-text-dark: #f1f5f9;
+$dtp-text-muted: #6b7280;
+$dtp-text-muted-dark: #94a3b8;
+
+$dtp-accent: #3c5275;
+$dtp-accent-dark: #60a5fa;
+$dtp-accent-hover-border: #93c5fd;
+$dtp-accent-soft: rgba(59, 130, 246, 0.08);
+$dtp-accent-soft-strong: rgba(59, 130, 246, 0.14);
+$dtp-accent-soft-dark: rgba(96, 165, 250, 0.12);
+$dtp-accent-soft-strong-dark: rgba(96, 165, 250, 0.2);
+$dtp-accent-ring: rgba(59, 130, 246, 0.18);
+$dtp-accent-ring-dark: rgba(96, 165, 250, 0.25);
+
+$dtp-header-grad-start: rgba(59, 130, 246, 0.1);
+$dtp-header-grad-end: rgba(59, 130, 246, 0.02);
+$dtp-header-grad-start-dark: rgba(96, 165, 250, 0.12);
+$dtp-header-grad-end-dark: rgba(96, 165, 250, 0.03);
+
+$dtp-shadow:
+  0 14px 44px -10px rgba(15, 34, 58, 0.22),
+  0 4px 12px -4px rgba(15, 34, 58, 0.1);
+$dtp-shadow-dark:
+  0 14px 44px -10px rgba(0, 0, 0, 0.5),
+  0 4px 12px -4px rgba(0, 0, 0, 0.3);
+
+$dtp-transition: 0.15s ease;

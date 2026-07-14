@@ -1,10 +1,10 @@
 <template>
   <q-layout view="lHh Lpr lff">
     <AppHeader :drawer="drawer" @update:drawer="onToggleDrawer" />
-    <q-page-container class="app-content-bg">
+    <q-page-container>
       <AnimatedRouterView />
     </q-page-container>
-    <Sidebar :drawer="drawer" @update:drawer="drawer = $event" />
+    <AppSidebar :drawer="drawer" @update:drawer="drawer = $event" />
     <SetCashDesk />
   </q-layout>
 </template>

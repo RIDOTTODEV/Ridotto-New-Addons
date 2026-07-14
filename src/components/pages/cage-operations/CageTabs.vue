@@ -28,10 +28,8 @@
           class="cage-tabs__tab"
         />
       </q-tabs>
-
       <balance class="cage-tabs__balance" />
     </div>
-
     <q-tab-panels
       v-model="currentCageTab"
       animated

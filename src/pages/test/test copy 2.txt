@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Pipeline - Sliding Drawer Alternative</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts (Inter) & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Drawer animasyon altyapısı */
+        .drawer-overlay {
+            transition: opacity 0.25s ease-in-out;
+            pointer-events: none;
+            opacity: 0;
+        }
+        .drawer-overlay.active {
+            pointer-events: auto;
+            opacity: 1;
+        }
+        .drawer-content {
+            transition: transform 0.25s ease-in-out;
+            transform: translateX(100%);
+        }
+        .drawer-overlay.active .drawer-content {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="bg-[#f2f3f6] min-h-screen p-6 flex justify-center items-start antialiased text-slate-800">
+
+    <!-- ANA FORM KARTI -->
+    <main class="max-w-4xl w-full bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden relative">
+        <form id="masterPipelineForm" onsubmit="submitMasterForm(event)">
+            
+            <!-- ÜST BAŞLIK -->
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900 tracking-tight">Transaction Ledger Entry</h1>
+                    <p class="text-xs text-slate-400 mt-0.5">Manage master entries and link independent business nodes.</p>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- MASTER ALANLAR -->
+                <div>
+                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Master Specifications</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Master Reference No</label>
+                            <input type="text" id="master-ref" required placeholder="e.g., TXN-2026-HQ" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-slate-400 text-slate-900">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Global Date / Time</label>
+                            <input type="datetime-local" id="master-date" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-slate-400 text-slate-900">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EKLENEN TRANSACTİONLARIN ÖZET LİSTESİ (Kompakt ve Temiz Görünüm) -->
+                <div class="space-y-2">
+                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Linked Nodes Pipeline</h3>
+                    <div id="inline-pipeline-list" class="space-y-2">
+                        <!-- Boş Durum Bilgisi -->
+                        <div id="empty-state-msg" class="text-center py-6 border border-dashed border-slate-200 rounded-xl text-xs text-slate-400">
+                            No linked nodes attached yet. Safe to commit empty or attach nodes below.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOLA HİZALANMIŞ EKLEME BUTONLARI -->
+                <div class="pt-4 border-t border-slate-100 flex flex-col items-start gap-3">
+                    <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Attach Transaction Segment</span>
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" onclick="openDrawer('cage')" class="px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-slate-700 text-xs font-medium rounded-xl transition cursor-pointer flex items-center gap-1.5">
+                            <i class="fa-solid fa-vault text-slate-400"></i> + Cage
+                        </button>
+                        <button type="button" onclick="openDrawer('chip')" class="px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-slate-700 text-xs font-medium rounded-xl transition cursor-pointer flex items-center gap-1.5">
+                            <i class="fa-solid fa-coins text-slate-400"></i> + Chip
+                        </button>
+                        <button type="button" onclick="openDrawer('petty')" class="px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-slate-700 text-xs font-medium rounded-xl transition cursor-pointer flex items-center gap-1.5">
+                            <i class="fa-solid fa-wallet text-slate-400"></i> + Petty Cash
+                        </button>
+                        <button type="button" onclick="openDrawer('player')" class="px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-slate-700 text-xs font-medium rounded-xl transition cursor-pointer flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-tie text-slate-400"></i> + Player
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANA KAYDET BUTONU -->
+            <div class="px-6 py-4 bg-slate-50/70 border-t border-slate-100 flex justify-end">
+                <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-slate-900 text-white font-medium text-xs rounded-xl hover:bg-slate-800 transition cursor-pointer tracking-wider uppercase font-semibold shadow-sm">
+                    Commit All Transactions
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <!-- ================= MODERN SAĞ DRAWER PANELİ ================= -->
+    <div id="drawerOverlay" class="drawer-overlay fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex justify-end">
+        <div class="drawer-content w-full max-w-md bg-white h-full shadow-2xl flex flex-col justify-between">
+            
+            <!-- Drawer Form Başlangıcı -->
+            <form id="drawerForm" onsubmit="saveNode(event)" class="h-full flex flex-col justify-between">
+                <div>
+                    <!-- Drawer Header -->
+                    <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                        <div>
+                            <h2 id="drawer-title" class="text-sm font-bold text-slate-900">Configure Node</h2>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Specify transaction context fields.</p>
+                        </div>
+                        <button type="button" onclick="closeDrawer()" class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer">
+                            <i class="fa-solid fa-xmark text-sm"></i>
+                        </button>
+                    </div>
+
+                    <!-- Drawer Dinamik Input Alanları -->
+                    <div class="p-5 space-y-4">
+                        <!-- Sabit Ortak Alanlar (Drawer İçinde) -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] font-medium text-slate-600 mb-1">Amount</label>
+                                <input type="number" id="node-amount" step="0.01" required placeholder="0.00" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-medium text-slate-600 mb-1">Currency</label>
+                                <select id="node-currency" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs bg-white focus:outline-none">
+                                    <option>TRY</option>
+                                    <option>USD</option>
+                                    <option>EUR</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Dinamik Alanların Enjekte Olacağı Yer -->
+                        <div id="drawer-dynamic-fields" class="space-y-4 pt-2 border-t border-slate-100">
+                            <!-- JS ile dolacak -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Drawer Footer Butonları -->
+                <div class="p-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-2">
+                    <button type="button" onclick="closeDrawer()" class="px-4 py-2 text-slate-600 hover:bg-slate-200/60 rounded-lg text-xs font-medium transition cursor-pointer">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium hover:bg-blue-500 transition cursor-pointer">Link Segment</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('master-date').value = new Date().toISOString().slice(0, 16);
+
+        let pipelineNodes = [];
+        let currentType = '';
+
+        // Çekmece İçi Dinamik Spesifikasyon Şablonları
+        const templates = {
+            cage: { title: "Cage Specifications", fields: `<div><label class="block text-[11px] font-medium text-slate-600 mb-1">Cage Code</label><input type="text" id="node-spec1" required placeholder="MAIN-CAGE-01" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div><div><label class="block text-[11px] font-medium text-slate-600 mb-1">Officer In Charge</label><input type="text" id="node-spec2" required placeholder="Ahmet Yilmaz" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>` },
+            chip: { title: "Chip Specifications", fields: `<div><label class="block text-[11px] font-medium text-slate-600 mb-1">Chip Set Type</label><input type="text" id="node-spec1" required placeholder="Premium Fiş" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div><div><label class="block text-[11px] font-medium text-slate-600 mb-1">Table Number</label><input type="text" id="node-spec2" required placeholder="Table VIP B" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>` },
+            petty: { title: "Petty Cash Specifications", fields: `<div><label class="block text-[11px] font-medium text-slate-600 mb-1">Expense Category</label><input type="text" id="node-spec1" required placeholder="Kurye Lojistik" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div><div><label class="block text-[11px] font-medium text-slate-600 mb-1">Invoice Reference</label><input type="text" id="node-spec2" required placeholder="INV-2026-X" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>` },
+            player: { title: "Player Specifications", fields: `<div><label class="block text-[11px] font-medium text-slate-600 mb-1">Player Account ID</label><input type="text" id="node-spec1" required placeholder="PLY-9821" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div><div><label class="block text-[11px] font-medium text-slate-600 mb-1">Full Name</label><input type="text" id="node-spec2" required placeholder="Jane Doe" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs"></div>` }
+        };
+
+        // DRAWER'I AÇMA
+        function openDrawer(type) {
+            currentType = type;
+            const config = templates[type];
+            document.getElementById('drawer-title').textContent = config.title;
+            document.getElementById('drawer-dynamic-fields').innerHTML = config.fields;
+            
+            // Drawer Formunu Sıfırla
+            document.getElementById('node-amount').value = '';
+            document.getElementById('drawerOverlay').classList.add('active');
+        }
+
+        // DRAWER'I KAPATMA
+        function closeDrawer() {
+            document.getElementById('drawerOverlay').classList.remove('active');
+        }
+
+        // DRAWER İÇİNDEKİ SEGMENETİ ANA LİSTEYE KAYDETME
+        function saveNode(e) {
+            e.preventDefault();
+            
+            const nodeData = {
+                id: Date.now(),
+                type: currentType,
+                amount: parseFloat(document.getElementById('node-amount').value),
+                currency: document.getElementById('node-currency').value,
+                spec1: document.getElementById('node-spec1').value,
+                spec2: document.getElementById('node-spec2').value
+            };
+
+            pipelineNodes.push(nodeData);
+            renderPipelineList();
+            closeDrawer();
+        }
+
+        // SEGMENETİ SİLME
+        function removeNode(id) {
+            pipelineNodes = pipelineNodes.filter(node => node.id !== id);
+            renderPipelineList();
+        }
+
+        // ANA EKRANDAKİ ÖZET SATIRLARINI BASMA
+        function renderPipelineList() {
+            const listContainer = document.getElementById('inline-pipeline-list');
+            const emptyMsg = document.getElementById('empty-state-msg');
+            
+            listContainer.innerHTML = '';
+
+            if (pipelineNodes.length === 0) {
+                listContainer.appendChild(emptyMsg);
+                return;
+            }
+
+            pipelineNodes.forEach(node => {
+                const card = document.createElement('div');
+                card.className = "flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200/60 hover:bg-slate-100/50 transition";
+                card.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <!-- Küçük Sol İndikatör -->
+                        <div class="w-1.5 h-8 bg-slate-700 rounded-full"></div>
+                        <div class="flex flex-col">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-bold uppercase font-mono tracking-wider px-1.5 py-0.5 bg-slate-200 text-slate-700 rounded">${node.type}</span>
+                                <span class="text-xs font-semibold text-slate-900">${node.amount.toLocaleString('tr-TR', {minimumFractionDigits:2})} ${node.currency}</span>
+                            </div>
+                            <span class="text-[11px] text-slate-400 mt-0.5">${node.spec1} • ${node.spec2}</span>
+                        </div>
+                    </div>
+                    <!-- Silme Butonu -->
+                    <button type="button" onclick="removeNode(${node.id})" class="text-slate-400 hover:text-red-500 p-2 rounded-lg transition cursor-pointer">
+                        <i class="fa-solid fa-trash-can text-xs"></i>
+                    </button>
+                `;
+                listContainer.appendChild(card);
+            });
+        }
+
+        // ANA FORMU COMMIT ETME
+        function submitMasterForm(e) {
+            e.preventDefault();
+            const masterRef = document.getElementById('master-ref').value;
+            alert(`SaaS Multi-Step Commit Success!\nMaster Reference: ${masterRef}\nAttached Segments Total: ${pipelineNodes.length}`);
+            console.log("Full Payload Map: ", pipelineNodes);
+        }
+    </script>
+</body>
+</html>

@@ -22,7 +22,7 @@ const routes = [
   },
   {
     path: '/player-operations',
-    component: () => import('layouts/PlayerOperationLayout.vue'),
+    component: () => import('layouts/MainLayout.vue'),
     meta: {
       authName: mainOidc.authName,
       requiresAuth: true,
@@ -52,7 +52,7 @@ const routes = [
   },
   {
     path: '/cage-operations',
-    component: () => import('layouts/CageOperationLayout.vue'),
+    component: () => import('layouts/MainLayout.vue'),
     meta: {
       authName: mainOidc.authName,
       requiresAuth: true,
@@ -71,8 +71,28 @@ const routes = [
     ],
   },
   {
+    path: '/test-form',
+    component: () => import('layouts/MainLayout.vue'),
+    meta: {
+      authName: mainOidc.authName,
+      requiresAuth: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'testForm',
+        component: () => import('pages/test/TestForm.vue'),
+        meta: {
+          requiredPermission: 'Addon.CageOperations',
+          requiresAuth: true,
+          breadcrumb: [{ name: 'testForm' }],
+        },
+      },
+    ],
+  },
+  {
     path: '/definitions',
-    component: () => import('layouts/DefinitionLayout.vue'),
+    component: () => import('layouts/MainLayout.vue'),
     meta: {
       authName: mainOidc.authName,
       requiresAuth: true,

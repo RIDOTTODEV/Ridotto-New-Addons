@@ -1281,6 +1281,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@noble/ed25519@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@noble/ed25519@npm:2.3.0"
+  checksum: 10c0/5ecbb66bdf4f1376002711e6ee4acb0db1d5dc62bd1543d45135b772e5296d72db0d03228d3b1da5c662240520369d5d8d4846e128a50bc789b316d0a228a6c1
+  languageName: node
+  linkType: hard
+
 "@noble/hashes@npm:1.4.0":
   version: 1.4.0
   resolution: "@noble/hashes@npm:1.4.0"
@@ -1675,6 +1682,154 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@primeicons/core@npm:8.0.0-alpha.1":
+  version: 8.0.0-alpha.1
+  resolution: "@primeicons/core@npm:8.0.0-alpha.1"
+  dependencies:
+    "@primeuix/utils": "npm:^0.6.4"
+  checksum: 10c0/9cb6f0ffe3629360644b25d1109c936f14a6c615d221a5a0e0a2d46538997a16c8810386276a9d6a98644e533ade8db52df53f28a0b6ad1489a8e8249febf0fb
+  languageName: node
+  linkType: hard
+
+"@primeicons/core@npm:8.0.0-rc.1":
+  version: 8.0.0-rc.1
+  resolution: "@primeicons/core@npm:8.0.0-rc.1"
+  dependencies:
+    "@primeuix/utils": "npm:^0.6.4"
+  checksum: 10c0/ddbccf892f38eb38f08e9d89a021e99a187e0297f33560b23d6746238d19a3c30b0614874d1ff32c9d585b5623db89f561416e2b1c282997028cbaf5c3b75361
+  languageName: node
+  linkType: hard
+
+"@primeicons/vue@npm:8.0.0-alpha.1":
+  version: 8.0.0-alpha.1
+  resolution: "@primeicons/vue@npm:8.0.0-alpha.1"
+  dependencies:
+    "@primeicons/core": "npm:8.0.0-alpha.1"
+    "@primeuix/utils": "npm:^0.6.4"
+  peerDependencies:
+    vue: ^3
+  checksum: 10c0/c157daf3c634d52070cec9452759ac55ed2e6b099e51e2a77d3743efecd4c5c67d9243856835d2e190fb773c8266c9196c86b7d45d375db414671e7e392cba92
+  languageName: node
+  linkType: hard
+
+"@primeicons/vue@npm:^8.0.0-rc.1":
+  version: 8.0.0-rc.1
+  resolution: "@primeicons/vue@npm:8.0.0-rc.1"
+  dependencies:
+    "@primeicons/core": "npm:8.0.0-rc.1"
+    "@primeuix/utils": "npm:^0.6.4"
+  peerDependencies:
+    vue: ^3
+  checksum: 10c0/727a6c8eba1951b8b40a5b692416091d17b90f7b0d33a2769f4287f280552ae7d835337386127accf794f8c3b52efdef51c06c9dc61aea7c429ee0576f8e68d7
+  languageName: node
+  linkType: hard
+
+"@primeui/license-manager@npm:^1.0.0-rc.1, @primeui/license-manager@npm:^1.0.0-rc.2":
+  version: 1.0.0-rc.2
+  resolution: "@primeui/license-manager@npm:1.0.0-rc.2"
+  dependencies:
+    "@noble/ed25519": "npm:^2.3.0"
+  checksum: 10c0/4e39287b1e47abf789345d3e34220fbc5f339dd29cdd0cc90e116cb2a6345fe4184401a17fc7d0e2854ed733312ca40d4b97db0f9c218f1b0636779d7d5c7047
+  languageName: node
+  linkType: hard
+
+"@primeuix/motion@npm:^1.0.0-rc.1":
+  version: 1.0.0-rc.2
+  resolution: "@primeuix/motion@npm:1.0.0-rc.2"
+  dependencies:
+    "@primeuix/utils": "npm:^0.8.0-rc.1"
+  checksum: 10c0/faf632ce49602183307609bc43f97f56521cea9452f4c7e9617d2839e2002c39ecfc198a784bfeadea524437e698b67ee4b8be4f686e22f462d98f687c958126
+  languageName: node
+  linkType: hard
+
+"@primeuix/styled@npm:^1.0.0-rc.1":
+  version: 1.0.0-rc.3
+  resolution: "@primeuix/styled@npm:1.0.0-rc.3"
+  dependencies:
+    "@primeui/license-manager": "npm:^1.0.0-rc.2"
+    "@primeuix/utils": "npm:^0.8.0-rc.2"
+  checksum: 10c0/d971e651a0812efc7be14bca913f771eff23ed2c0b7b94a40f124693c7daa158d279f4799c0c62415da73b2c494290756387533489a13e5cc68e70f822046dc5
+  languageName: node
+  linkType: hard
+
+"@primeuix/styles@npm:^3.0.0-rc.1":
+  version: 3.0.0-rc.1
+  resolution: "@primeuix/styles@npm:3.0.0-rc.1"
+  dependencies:
+    "@primeuix/styled": "npm:^1.0.0-rc.1"
+  checksum: 10c0/40c2dd16f6be706065099f964a974a6e71e5cfec1e6e401138900e51b65783eca49fae6024984b368408713c58703ee5bdd2ec0d78dd2244557534777daec16f
+  languageName: node
+  linkType: hard
+
+"@primeuix/themes@npm:3.0.0-rc.1":
+  version: 3.0.0-rc.1
+  resolution: "@primeuix/themes@npm:3.0.0-rc.1"
+  dependencies:
+    "@primeuix/styled": "npm:^1.0.0-rc.1"
+  checksum: 10c0/7d357534bdda995eb5ba8692a4f3e1932aca527df069ab9926bf4a6c3c16949d30d8637c6e69055736e405543abe02b29b514ca3c09d72173ed44c9d090ac743
+  languageName: node
+  linkType: hard
+
+"@primeuix/utils@npm:^0.6.4":
+  version: 0.6.4
+  resolution: "@primeuix/utils@npm:0.6.4"
+  checksum: 10c0/ee5f284c1cd3a5070c5eed6c45d803313574e0db95c45b6fc822ddb76416bbeb86986105ec4912a9d9964cb9bf7736e4b5f316c5406ec3fc16ba8012ba91a9fe
+  languageName: node
+  linkType: hard
+
+"@primeuix/utils@npm:^0.7.2":
+  version: 0.7.2
+  resolution: "@primeuix/utils@npm:0.7.2"
+  checksum: 10c0/75a96ad2b22b655d0cd4f6186a26e6715d8938bee8cd395d407f645483e921e5bd0a2b5ffcbefd67271e6edbc29c7cf25503885a11155897243f93c1ec67d81d
+  languageName: node
+  linkType: hard
+
+"@primeuix/utils@npm:^0.8.0-rc.1, @primeuix/utils@npm:^0.8.0-rc.2":
+  version: 0.8.0-rc.2
+  resolution: "@primeuix/utils@npm:0.8.0-rc.2"
+  checksum: 10c0/16688ba98e2699e34f0dddb8a78505bc83f52ea32a853fb09da346f0a8465afbafafd68c859f215180e234cc19bf3649a13ebc525f33b07addcdaec2dc4e9bca
+  languageName: node
+  linkType: hard
+
+"@primevue/auto-import-resolver@npm:^4.5.5":
+  version: 4.5.5
+  resolution: "@primevue/auto-import-resolver@npm:4.5.5"
+  dependencies:
+    "@primevue/metadata": "npm:4.5.5"
+  checksum: 10c0/68e042e07e49966bddb04b8c0fe2a5e37d74f8f417907a6b68fc1bd5a8e0ba1f5148510a55d00773a3bdd2dbd0601db1f89dfafa46e649a2256aedf1d4e4772e
+  languageName: node
+  linkType: hard
+
+"@primevue/core@npm:5.0.0-rc.1":
+  version: 5.0.0-rc.1
+  resolution: "@primevue/core@npm:5.0.0-rc.1"
+  dependencies:
+    "@primeui/license-manager": "npm:^1.0.0-rc.1"
+    "@primeuix/styled": "npm:^1.0.0-rc.1"
+    "@primeuix/utils": "npm:^0.7.2"
+  peerDependencies:
+    vue: ^3.5.0
+  checksum: 10c0/63e5bfa4a991dcf4b9f51987d8789c13ccbbaab85f24e44701e11e1b35b54c174060b08382db1566a2b7ebdbea163a231f3db12510cc7a6f522f4ec4469e76fa
+  languageName: node
+  linkType: hard
+
+"@primevue/icons@npm:5.0.0-rc.1":
+  version: 5.0.0-rc.1
+  resolution: "@primevue/icons@npm:5.0.0-rc.1"
+  dependencies:
+    "@primeuix/utils": "npm:^0.7.2"
+    "@primevue/core": "npm:5.0.0-rc.1"
+  checksum: 10c0/28b56f7607299df19810d1c07ed5e935e111a01188849c2fb454c5dd8635d821345081b7994f6892486a7df594a42b7e92bc905807a778ff21586f14b4dfdfe6
+  languageName: node
+  linkType: hard
+
+"@primevue/metadata@npm:4.5.5":
+  version: 4.5.5
+  resolution: "@primevue/metadata@npm:4.5.5"
+  checksum: 10c0/218743a6e82e85a97af6fe999ca7725419ff3fa2f2ad29b909be1ff9525cfa5aa9be9c04570a47641c41a8af3a639e1fc3fb1856d2443d9795a12fe7beffa628
+  languageName: node
+  linkType: hard
+
 "@quasar/app-vite@npm:^2.1.0":
   version: 2.6.2
   resolution: "@quasar/app-vite@npm:2.6.2"
@@ -1942,266 +2097,6 @@ __metadata:
     rollup:
       optional: true
   checksum: 10c0/ccc2cbd3a05df642df60ab05ffb81b2e564bd945e2a118bb8a474ea75b941033c8f44273133d4865643cca1492d0c80b14de1281f74779a64285a80fc3a194d8
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-base@npm:^34.1.29, @syncfusion/ej2-base@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-base@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-icons": "npm:~34.1.29"
-  bin:
-    syncfusion-license: bin/syncfusion-license.js
-  checksum: 10c0/b2257f1d29ce93f2d7b6d257b8ba261c85da4696f0a48108d17c838e68374ccc0b5b7336b168e34640ca14ec2eaec78ec416c7116ba6a973e9681570904219aa
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-buttons@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-buttons@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-  checksum: 10c0/ffa5827148985b885d779a912fe2336cf65e9728f91abac722437078bd2d2f5b80fe6baf9ad839a0a4bea85abe50a10c2b6f96a718f898e554a1d5c77f6d2cba
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-calendars@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-calendars@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-    "@syncfusion/ej2-buttons": "npm:~34.1.29"
-    "@syncfusion/ej2-inputs": "npm:~34.1.29"
-    "@syncfusion/ej2-lists": "npm:~34.1.29"
-    "@syncfusion/ej2-popups": "npm:~34.1.29"
-  checksum: 10c0/a1830bd8e57aa35dc706823be0736102c841295b436dceb17a595a207e341d173dedddb744989b87ed3e0e6b8a67100e38bccdfcbf8c4810d3e70f6f9a473e21
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-charts@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-charts@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-    "@syncfusion/ej2-calendars": "npm:~34.1.29"
-    "@syncfusion/ej2-data": "npm:~34.1.29"
-    "@syncfusion/ej2-excel-export": "npm:~34.1.29"
-    "@syncfusion/ej2-navigations": "npm:~34.1.29"
-    "@syncfusion/ej2-pdf-export": "npm:~34.1.29"
-    "@syncfusion/ej2-svg-base": "npm:~34.1.29"
-  checksum: 10c0/8cfaf598c9988da6d61e89c4cd78748c69c47d4c4d5a8f7f626f97f05604429a9b00346c14da800b0baa19ea386da2d76d73b4598d6ecca4009911c929dcb467
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-compression@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-compression@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-file-utils": "npm:~34.1.29"
-  checksum: 10c0/4334dcc01f705ccee5d0b1cd8c914fc995c213dd66ffdf32f4c6d22be3888da4030cbaa55694a59d7d27588bd2f456dfa08dcbeb64011d70f531b9d699c7a394
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-data@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-data@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-  checksum: 10c0/c597c83cf9271fcb1ba14d3fb2afa6fe3ebd90115cd7ff2a93432697785f0310c504fd179509977dc42efa4a5c95deba95b9b60fffdc004f7df0c2fcda6bfbf1
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-dropdowns@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-dropdowns@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-    "@syncfusion/ej2-data": "npm:~34.1.29"
-    "@syncfusion/ej2-inputs": "npm:~34.1.29"
-    "@syncfusion/ej2-lists": "npm:~34.1.29"
-    "@syncfusion/ej2-navigations": "npm:~34.1.29"
-    "@syncfusion/ej2-notifications": "npm:~34.1.29"
-    "@syncfusion/ej2-popups": "npm:~34.1.29"
-  checksum: 10c0/1ad7a54b89081cf4ff9d5709558eec71ebdb369745c403f7c160f2e4bd77174101a1af0fe2d6413682ba5a90ce671ba01123d55528b613250a9e671c7a159ad2
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-excel-export@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-excel-export@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-    "@syncfusion/ej2-compression": "npm:~34.1.29"
-  checksum: 10c0/049a4446a92d85f4c5591a5f85c252a945efaf0ba08123dfcfc26d0ac1adecc2e6b35fc81a998f8e05ae4266b6998656e1caa97fc4c10be3c3ff8459776c9a7f
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-file-utils@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-file-utils@npm:34.1.29"
-  checksum: 10c0/53831feeec7a400a15ce10b5c2e608a3fe72c0e34e224bc0286046058aba9771d338548577dca3f2d7bfcc542d8622844b422ba42be28c0dae0319ae85d2df2e
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-grids@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-grids@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-    "@syncfusion/ej2-buttons": "npm:~34.1.29"
-    "@syncfusion/ej2-calendars": "npm:~34.1.29"
-    "@syncfusion/ej2-compression": "npm:~34.1.29"
-    "@syncfusion/ej2-data": "npm:~34.1.29"
-    "@syncfusion/ej2-dropdowns": "npm:~34.1.29"
-    "@syncfusion/ej2-excel-export": "npm:~34.1.29"
-    "@syncfusion/ej2-file-utils": "npm:~34.1.29"
-    "@syncfusion/ej2-inputs": "npm:~34.1.29"
-    "@syncfusion/ej2-lists": "npm:~34.1.29"
-    "@syncfusion/ej2-navigations": "npm:~34.1.29"
-    "@syncfusion/ej2-notifications": "npm:~34.1.29"
-    "@syncfusion/ej2-pdf-export": "npm:~34.1.29"
-    "@syncfusion/ej2-popups": "npm:~34.1.29"
-    "@syncfusion/ej2-splitbuttons": "npm:~34.1.29"
-  checksum: 10c0/d3f4cd41d1e7851285c984e18d1cae705896b6d768ffa17bb60d132d9733570f93f1875ba19ee602ccb4432a3b8b3fd49b5166ebe29b5ddd48275e93a06fdff1
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-icons@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-icons@npm:34.1.29"
-  checksum: 10c0/7e7ea9f853e660a5940aba2edc7f75619acb463b092151ca0fb68cbee8cabee7f0af0d522d7e2a3ebc3d9d9245b9a549c4c1dea12b01166c2452536d20f2ee9d
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-inputs@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-inputs@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-    "@syncfusion/ej2-buttons": "npm:~34.1.29"
-    "@syncfusion/ej2-popups": "npm:~34.1.29"
-    "@syncfusion/ej2-splitbuttons": "npm:~34.1.29"
-  checksum: 10c0/0b1e997fede7c203dd2ebe5d9b1c7bb50b95962d3ac1f0a0fddca8a8476c65aadd133e7eed063893bddd6acc6aaac4a84638b9ff3464757d7208f2b435ad38c3
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-lists@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-lists@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-    "@syncfusion/ej2-buttons": "npm:~34.1.29"
-    "@syncfusion/ej2-data": "npm:~34.1.29"
-    "@syncfusion/ej2-popups": "npm:~34.1.29"
-  checksum: 10c0/ade5baa556908a5933d9273d7ab40ddf930633ff068a73b5e5d5843771ef2b87230215121c3555ac598cde3b96ca937d6e8bae3e2c47525cc6b5817d87981111
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-navigations@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-navigations@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-    "@syncfusion/ej2-buttons": "npm:~34.1.29"
-    "@syncfusion/ej2-data": "npm:~34.1.29"
-    "@syncfusion/ej2-inputs": "npm:~34.1.29"
-    "@syncfusion/ej2-lists": "npm:~34.1.29"
-    "@syncfusion/ej2-popups": "npm:~34.1.29"
-  checksum: 10c0/f71787e459405c3d29bbd85e6e4acfbdf774f0fb41e0f212a8fce166b5dce467423c8961f3a265bf6c8c9dce162c92793dcc13fb3ec18ec6b6b4af8bec232a40
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-notifications@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-notifications@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-    "@syncfusion/ej2-buttons": "npm:~34.1.29"
-    "@syncfusion/ej2-popups": "npm:~34.1.29"
-  checksum: 10c0/95b7c1f118a60810b301855505d53f66aba7510c580bdc96b9f5ed6c4549145c7761db49be01a29c19a41362b426d7a7b9a247cc5a0a017c2a153a2d60280f1e
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-pdf-export@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-pdf-export@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-compression": "npm:~34.1.29"
-  checksum: 10c0/5082477e28c8c34aecee8cf23b07e5fb6c3a8317ca4477b9a5d17d70aacbb252472f6b205040120485dd4c68c6ffada24c1002b4e23dfbc2ae76bf7b4acb13ca
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-pivotview@npm:34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-pivotview@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-    "@syncfusion/ej2-buttons": "npm:~34.1.29"
-    "@syncfusion/ej2-calendars": "npm:~34.1.29"
-    "@syncfusion/ej2-charts": "npm:~34.1.29"
-    "@syncfusion/ej2-compression": "npm:~34.1.29"
-    "@syncfusion/ej2-data": "npm:~34.1.29"
-    "@syncfusion/ej2-dropdowns": "npm:~34.1.29"
-    "@syncfusion/ej2-excel-export": "npm:~34.1.29"
-    "@syncfusion/ej2-file-utils": "npm:~34.1.29"
-    "@syncfusion/ej2-grids": "npm:~34.1.29"
-    "@syncfusion/ej2-inputs": "npm:~34.1.29"
-    "@syncfusion/ej2-lists": "npm:~34.1.29"
-    "@syncfusion/ej2-navigations": "npm:~34.1.29"
-    "@syncfusion/ej2-pdf-export": "npm:~34.1.29"
-    "@syncfusion/ej2-popups": "npm:~34.1.29"
-    "@syncfusion/ej2-splitbuttons": "npm:~34.1.29"
-    "@syncfusion/ej2-svg-base": "npm:~34.1.29"
-  checksum: 10c0/d353148bfa3f87cc44c200215553df5576dd75affd3c509d0d3049b13b532ebcf864eb3e701d788058a1ec6dcc21eb81117370f67c932a4bfb17a486c2670e57
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-popups@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-popups@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-    "@syncfusion/ej2-buttons": "npm:~34.1.29"
-  checksum: 10c0/793d4a9af6830e645ee60149e8e25f57a679e41df4e384e29c94584ee68551851455e7447fe5e4756092007cc475aee8e11c533ec695fffbb131310d5ee5f010
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-splitbuttons@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-splitbuttons@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-    "@syncfusion/ej2-popups": "npm:~34.1.29"
-  checksum: 10c0/a06f61abff61433a1395373e284aff4c8cefdd4e357a3785677b5713f4d27dc8c9a060b6f0737abc5c1254588f8ed294fbb0e2fd6e56784562b881126844453e
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-svg-base@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-svg-base@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-  checksum: 10c0/3bd5440e8682bcb09237b048505b65c146fdd2abc90e9689f9379bb23bb550a3908486f50f35072721dfeca98f001359c291df93e8be7c318314db6cdbf5c002
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-vue-base@npm:~34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-vue-base@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-  checksum: 10c0/8ffd903dbb337034ba6e0890b3844f79cc63708fd0cb9da9801fe23fecf06fe43de395f77a5197da030db8e7be559a95416fb98d57954fb658d32d6c3a79681a
-  languageName: node
-  linkType: hard
-
-"@syncfusion/ej2-vue-pivotview@npm:^34.1.29":
-  version: 34.1.29
-  resolution: "@syncfusion/ej2-vue-pivotview@npm:34.1.29"
-  dependencies:
-    "@syncfusion/ej2-base": "npm:~34.1.29"
-    "@syncfusion/ej2-pivotview": "npm:34.1.29"
-    "@syncfusion/ej2-vue-base": "npm:~34.1.29"
-  checksum: 10c0/5fe158b4c08167fc7e1bb66ba57b16f781c11fc48c52b231aca4c28273910df942c6510ca82c359f9f5e46bdde25c9d610cf0e632e670c2e3839d13699f5d232
   languageName: node
   linkType: hard
 
@@ -2939,11 +2834,12 @@ __metadata:
     "@eslint/js": "npm:^9.14.0"
     "@intlify/unplugin-vue-i18n": "npm:^4.0.0"
     "@microsoft/signalr": "npm:^8.0.17"
+    "@primeicons/vue": "npm:8.0.0-alpha.1"
+    "@primeuix/themes": "npm:3.0.0-rc.1"
+    "@primevue/auto-import-resolver": "npm:^4.5.5"
     "@quasar/app-vite": "npm:^2.1.0"
     "@quasar/cli": "npm:^5.0.1"
     "@quasar/extras": "npm:^1.16.4"
-    "@syncfusion/ej2-base": "npm:^34.1.29"
-    "@syncfusion/ej2-vue-pivotview": "npm:^34.1.29"
     "@tailwindcss/postcss": "npm:^4.1.16"
     "@tanstack/vue-query": "npm:^5.100.11"
     "@vue/eslint-config-prettier": "npm:^10.1.0"
@@ -2961,12 +2857,14 @@ __metadata:
     pinia: "npm:^3.0.1"
     postcss: "npm:^8.4.14"
     prettier: "npm:^3.3.3"
+    primevue: "npm:5.0.0-rc.1"
     quasar: "npm:2.20.1"
     quasar-ui-q-draggable-table: "npm:^1.0.3"
     simple-keyboard: "npm:^3.8.21"
     simple-keyboard-layouts: "npm:^3.4.46"
     swagger-js-codegen: "npm:^1.13.0"
     tailwindcss: "npm:^4.1.16"
+    unplugin-vue-components: "npm:^32.1.0"
     vite-plugin-checker: "npm:^0.9.0"
     vue: "npm:^3.4.18"
     vue-currency-input: "npm:^3.2.1"
@@ -5149,6 +5047,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"exsolve@npm:^1.0.8":
+  version: 1.1.0
+  resolution: "exsolve@npm:1.1.0"
+  checksum: 10c0/38ecec58d6e4ddfe31b5e6773a0193057fcb8462e1c0959aee3c9441729b4db901f3b23af68963cb871fb3f83b46c49ed2f69e0ef6d5254951f483c68cc934e9
+  languageName: node
+  linkType: hard
+
 "extend@npm:~3.0.2":
   version: 3.0.2
   resolution: "extend@npm:3.0.2"
@@ -6605,6 +6510,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"local-pkg@npm:^1.2.0":
+  version: 1.2.1
+  resolution: "local-pkg@npm:1.2.1"
+  dependencies:
+    mlly: "npm:^1.7.4"
+    pkg-types: "npm:^2.3.0"
+    quansync: "npm:^0.2.11"
+  checksum: 10c0/d21ccfc2595b2eddf7369f19797533573feb06820d8b5766467902a7a54e36b3a1f2b8cc2aa4481a2ad432c8e798576eabfac2f1ec0646a8e11a68694c2ef9d4
+  languageName: node
+  linkType: hard
+
 "locate-path@npm:^6.0.0":
   version: 6.0.0
   resolution: "locate-path@npm:6.0.0"
@@ -7071,6 +6987,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"obug@npm:^2.1.1":
+  version: 2.1.3
+  resolution: "obug@npm:2.1.3"
+  checksum: 10c0/cb8187fed0a5fc8445507c950e89f3c1bd43895658c398b5803f6b7804dfa0c562975ecce1e67f3d9247d521452a5bfade9e0e951cc0326b7444272f7c24d25f
+  languageName: node
+  linkType: hard
+
 "oidc-client@npm:^1.11.5":
   version: 1.11.5
   resolution: "oidc-client@npm:1.11.5"
@@ -7398,6 +7321,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pkg-types@npm:^2.3.0":
+  version: 2.3.1
+  resolution: "pkg-types@npm:2.3.1"
+  dependencies:
+    confbox: "npm:^0.2.4"
+    exsolve: "npm:^1.0.8"
+    pathe: "npm:^2.0.3"
+  checksum: 10c0/dd9b20682426abaddcac9dc786aa22542e12df15a03dea2afa7bf54da0933358c6c7f545c0c3c1c7b24a2904ab4a451bf4e34a50c6837e458359eea30c257ed4
+  languageName: node
+  linkType: hard
+
 "pkijs@npm:^3.3.3":
   version: 3.4.0
   resolution: "pkijs@npm:3.4.0"
@@ -7483,6 +7417,22 @@ __metadata:
   bin:
     prettier: bin/prettier.cjs
   checksum: 10c0/dc6ec13d692745c6b7e7bf39beda9eb1b3b76c619118319bce393928c392264b1273337c75f80499695e165affefc7b3a9d2ebb18983af0a8f4dfbb2f45f6ff3
+  languageName: node
+  linkType: hard
+
+"primevue@npm:5.0.0-rc.1":
+  version: 5.0.0-rc.1
+  resolution: "primevue@npm:5.0.0-rc.1"
+  dependencies:
+    "@primeicons/vue": "npm:^8.0.0-rc.1"
+    "@primeui/license-manager": "npm:^1.0.0-rc.1"
+    "@primeuix/motion": "npm:^1.0.0-rc.1"
+    "@primeuix/styled": "npm:^1.0.0-rc.1"
+    "@primeuix/styles": "npm:^3.0.0-rc.1"
+    "@primeuix/utils": "npm:^0.7.2"
+    "@primevue/core": "npm:5.0.0-rc.1"
+    "@primevue/icons": "npm:5.0.0-rc.1"
+  checksum: 10c0/d74c2cfdd2398401220b1052a4a1e511a6d04ce159d6981ee96dcef4aaa1de45b33089d679ed2f3f86b9d02c1024f919fb265597d51bc68db5ad7b5dd52dc155
   languageName: node
   linkType: hard
 
@@ -7600,6 +7550,13 @@ __metadata:
   version: 6.5.5
   resolution: "qs@npm:6.5.5"
   checksum: 10c0/6a5728b92378776d194c19d2bcf8e8847fa96ecfa6eb64f64e7ac73a394043cacaf257be014fa1a86201077a1e0c5ef5760ee0e0d6b6a4fe9f5ae8afcf5b9254
+  languageName: node
+  linkType: hard
+
+"quansync@npm:^0.2.11":
+  version: 0.2.11
+  resolution: "quansync@npm:0.2.11"
+  checksum: 10c0/cb9a1f8ebce074069f2f6a78578873ffedd9de9f6aa212039b44c0870955c04a71c3b1311b5d97f8ac2f2ec476de202d0a5c01160cb12bc0a11b7ef36d22ef56
   languageName: node
   linkType: hard
 
@@ -8907,7 +8864,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinyglobby@npm:^0.2.10, tinyglobby@npm:^0.2.12, tinyglobby@npm:^0.2.13, tinyglobby@npm:^0.2.17":
+"tinyglobby@npm:^0.2.10, tinyglobby@npm:^0.2.12, tinyglobby@npm:^0.2.13, tinyglobby@npm:^0.2.16, tinyglobby@npm:^0.2.17":
   version: 0.2.17
   resolution: "tinyglobby@npm:0.2.17"
   dependencies:
@@ -9136,6 +9093,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"unplugin-utils@npm:^0.3.1":
+  version: 0.3.2
+  resolution: "unplugin-utils@npm:0.3.2"
+  dependencies:
+    pathe: "npm:^2.0.3"
+    picomatch: "npm:^4.0.4"
+  checksum: 10c0/f7ed40da59ae2ce9959775c5573abfb2533815e4acd986a5f55d1d8e25791e5e6ff3df6eaf8a8828456a6abfc26477b3f3d62327752c7665a23db55537ff0276
+  languageName: node
+  linkType: hard
+
+"unplugin-vue-components@npm:^32.1.0":
+  version: 32.1.0
+  resolution: "unplugin-vue-components@npm:32.1.0"
+  dependencies:
+    chokidar: "npm:^5.0.0"
+    local-pkg: "npm:^1.2.0"
+    magic-string: "npm:^0.30.21"
+    mlly: "npm:^1.8.2"
+    obug: "npm:^2.1.1"
+    picomatch: "npm:^4.0.4"
+    tinyglobby: "npm:^0.2.16"
+    unplugin: "npm:^3.0.0"
+    unplugin-utils: "npm:^0.3.1"
+  peerDependencies:
+    "@nuxt/kit": ^3.2.2 || ^4.0.0
+    vue: ^3.0.0
+  peerDependenciesMeta:
+    "@nuxt/kit":
+      optional: true
+  checksum: 10c0/8f2a1757c44f44a119191b5ada3b7b06a8d4c6490863ef8524bc1b16540b2f2437117cc551c1df97d83e8af9e71e9637fe5cbdcdd04e3d5aab096e89e26099ed
+  languageName: node
+  linkType: hard
+
 "unplugin@npm:^1.1.0":
   version: 1.16.1
   resolution: "unplugin@npm:1.16.1"
@@ -9143,6 +9133,46 @@ __metadata:
     acorn: "npm:^8.14.0"
     webpack-virtual-modules: "npm:^0.6.2"
   checksum: 10c0/dd5f8c5727d0135847da73cf03fb199107f1acf458167034886fda3405737dab871ad3926431b4f70e1e82cdac482ac1383cea4019d782a68515c8e3e611b6cc
+  languageName: node
+  linkType: hard
+
+"unplugin@npm:^3.0.0":
+  version: 3.3.0
+  resolution: "unplugin@npm:3.3.0"
+  dependencies:
+    "@jridgewell/remapping": "npm:^2.3.5"
+    picomatch: "npm:^4.0.4"
+    webpack-virtual-modules: "npm:^0.6.2"
+  peerDependencies:
+    "@farmfe/core": "*"
+    "@rspack/core": "*"
+    bun-types-no-globals: "*"
+    esbuild: "*"
+    rolldown: "*"
+    rollup: "*"
+    unloader: "*"
+    vite: "*"
+    webpack: "*"
+  peerDependenciesMeta:
+    "@farmfe/core":
+      optional: true
+    "@rspack/core":
+      optional: true
+    bun-types-no-globals:
+      optional: true
+    esbuild:
+      optional: true
+    rolldown:
+      optional: true
+    rollup:
+      optional: true
+    unloader:
+      optional: true
+    vite:
+      optional: true
+    webpack:
+      optional: true
+  checksum: 10c0/86ee7c7fde40ffa8260ddeba5da51800e35c6cdd41ee8a556ec3827357b5d2ee13dcbe4ea6820451bc6c2b05b35165f96c7bf20662114af5ed52183a74886404
   languageName: node
   linkType: hard
 

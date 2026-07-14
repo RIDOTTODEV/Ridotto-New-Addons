@@ -1,6 +1,6 @@
 <template>
   <router-view v-slot="{ Component, route: activeRoute }">
-    <div class="app-page-transition">
+    <div class="app-page-transition app-content-bg">
       <transition :name="transitionName" @after-enter="onTransitionDone">
         <div
           v-if="Component"
@@ -51,3 +51,7 @@ onUnmounted(() => {
   removeGuard?.()
 })
 </script>
+
+<style lang="scss">
+@import 'src/css/assets/_animatedrouterview.scss';
+</style>

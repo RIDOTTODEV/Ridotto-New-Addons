@@ -1,0 +1,298 @@
+@use './variables' as *;
+
+// Bileşene özel boyutlar
+$header-search-width-collapsed: 110px;
+$header-search-width-expanded: 200px;
+
+// ---------------------------------------------------------------------------
+// Tema arka planları (app.scss — .body--light / .body--dark)
+// ---------------------------------------------------------------------------
+.body--light .app-header {
+  background-color: $header-bg;
+}
+
+.body--dark .app-header {
+  background-color: $header-bg-dark;
+}
+
+// Legacy: headerMenuBar
+.body--light .app-header-menu-bar {
+  background-color: $header-menu-bar-bg;
+}
+
+.body--dark .app-header-menu-bar {
+  background-color: $header-menu-bar-bg-dark;
+  color: $header-menu-bar-text-dark;
+}
+
+// Legacy: menuTopBorder + menuBottomShadow (sekme alanı)
+.app-header-tabs-bar {
+  border-top: 1px solid $header-tabs-border-top;
+  box-shadow: $header-tabs-shadow;
+}
+
+// ---------------------------------------------------------------------------
+// Header kabuğu
+// ---------------------------------------------------------------------------
+.app-header-shell {
+  box-shadow: $header-shadow-light;
+}
+
+.body--dark .app-header-shell {
+  box-shadow: $header-shadow-dark;
+}
+
+.app-header-content {
+  min-height: 100%;
+}
+
+// ---------------------------------------------------------------------------
+// Arama alanı
+// ---------------------------------------------------------------------------
+.search-input {
+  width: $header-search-width-collapsed;
+  transition: width $header-transition;
+
+  &.search-input--focused {
+    width: $header-search-width-expanded;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Kullanıcı profili — ops-status ile aynı satır ve ölçü
+// ---------------------------------------------------------------------------
+.header-user-profile {
+  flex-shrink: 0;
+  min-height: unset;
+  line-height: 1;
+  background: transparent !important;
+
+  &::before {
+    display: none;
+  }
+
+  .q-focus-helper {
+    display: none !important;
+  }
+
+  .q-btn__content {
+    display: inline-flex;
+    align-items: center;
+    gap: $header-ops-item-gap;
+    padding: 0;
+  }
+
+  &.ops-status__item--clickable:hover {
+    background-color: $header-ops-hover-bg !important;
+  }
+
+  &__menu {
+    margin-top: $header-user-menu-offset !important;
+  }
+}
+
+.body--dark .header-user-profile.ops-status__item--clickable:hover {
+  background-color: $header-ops-hover-bg-dark !important;
+}
+
+.app-header-actions-wrap {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.app-header-actions {
+  flex-wrap: nowrap;
+  min-width: 0;
+  width: 100%;
+}
+
+.body--dark .app-header-actions {
+  .ops-status__name {
+    color: $header-ops-name-color-dark;
+  }
+
+  .ops-status__icon {
+    color: $header-ops-muted-color-dark;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Ops status (kasa + gaming date + masa göstergeleri)
+// ---------------------------------------------------------------------------
+.ops-status {
+  display: inline-flex;
+  align-items: center;
+  gap: $header-ops-gap;
+  font-size: $header-ops-font-size;
+  line-height: 1;
+  color: $header-ops-color;
+  user-select: none;
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: $header-ops-item-gap;
+    padding: $header-ops-item-padding;
+    border-radius: $header-ops-item-radius;
+    transition: background-color $header-transition-fast ease;
+
+    &--clickable {
+      cursor: pointer;
+
+      &:hover {
+        background-color: $header-ops-hover-bg;
+      }
+    }
+  }
+
+  &__dot {
+    width: $header-status-dot-size;
+    height: $header-status-dot-size;
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+
+    &--ok {
+      background-color: $header-status-success;
+      box-shadow: 0 0 0 3px $header-status-success-glow;
+    }
+
+    &--error {
+      background-color: $header-status-error;
+      box-shadow: 0 0 0 3px $header-status-error-glow;
+    }
+  }
+
+  &__name {
+    font-weight: 600;
+    color: $header-ops-name-color;
+    white-space: nowrap;
+  }
+
+  &__date {
+    font-weight: 400;
+    color: $header-ops-muted-color;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  &__divider {
+    display: inline-block;
+    width: 1px;
+    height: 16px;
+    background-color: $header-ops-divider-color;
+    flex-shrink: 0;
+  }
+
+  &__icon {
+    color: $header-ops-muted-color;
+    flex-shrink: 0;
+  }
+
+  &__label {
+    font-size: 12px;
+    color: $header-ops-muted-color;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  &__metric {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    font-size: $header-ops-font-size;
+
+    &-sep {
+      color: $header-ops-metric-muted;
+      font-weight: 400;
+      margin: 0 1px;
+    }
+
+    &-total {
+      color: $header-ops-metric-muted;
+      font-weight: 500;
+    }
+
+    &--ok .ops-status__metric-current,
+    &--ok {
+      color: $header-status-success-text;
+    }
+
+    &--warn .ops-status__metric-current,
+    &--warn {
+      color: $header-status-warn-text;
+    }
+
+    &--error .ops-status__metric-current,
+    &--error {
+      color: $header-status-error-text;
+    }
+  }
+
+  &__action {
+    margin-left: 2px;
+    color: $header-ops-muted-color;
+
+    .q-icon {
+      font-size: 16px;
+    }
+
+    &:hover {
+      color: $header-ops-name-color;
+    }
+  }
+}
+
+.body--dark .ops-status {
+  color: $header-ops-color-dark;
+
+  .ops-status__item--clickable:hover {
+    background-color: $header-ops-hover-bg-dark;
+  }
+
+  .ops-status__name {
+    color: $header-ops-name-color-dark;
+  }
+
+  .ops-status__date {
+    color: $header-ops-muted-color-dark;
+  }
+
+  .ops-status__divider {
+    background-color: $header-ops-divider-color-dark;
+  }
+
+  .ops-status__icon,
+  .ops-status__label {
+    color: $header-ops-muted-color-dark;
+  }
+
+  .ops-status__metric-sep,
+  .ops-status__metric-total {
+    color: $header-ops-metric-muted-dark;
+  }
+
+  .ops-status__metric--ok .ops-status__metric-current,
+  .ops-status__metric--ok {
+    color: $header-status-success-text-dark;
+  }
+
+  .ops-status__metric--warn .ops-status__metric-current,
+  .ops-status__metric--warn {
+    color: $header-status-warn-text-dark;
+  }
+
+  .ops-status__metric--error .ops-status__metric-current,
+  .ops-status__metric--error {
+    color: $header-status-error-text-dark;
+  }
+
+  .ops-status__action {
+    color: $header-ops-muted-color-dark;
+
+    &:hover {
+      color: $header-ops-name-color-dark;
+    }
+  }
+}

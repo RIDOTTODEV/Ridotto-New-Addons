@@ -1,0 +1,86 @@
+@use './variables' as *;
+
+// ---------------------------------------------------------------------------
+// AnimatedRouterView — sayfa geçişleri
+//
+// Chrome sekmesi hissi: büyük/sert hareket yok. Eski sayfa 150ms'de yumuşakça
+// sönerken (fade-out) yeni sayfa aynı anda parlayarak belirir (fade-in).
+// Yön algısını korumak için göz yormayan 4px'lik mikro kayma eklenir.
+// ---------------------------------------------------------------------------
+
+.app-page-transition {
+  position: relative;
+  overflow: clip;
+  min-height: 100%;
+  isolation: isolate;
+}
+
+.app-page-transition__view {
+  width: 100%;
+  min-height: 100%;
+}
+
+// Eski ve yeni sayfa aynı anda, senkronize solar (cross-fade)
+.fade-in-out-right-enter-active,
+.fade-in-out-right-leave-active,
+.fade-in-left-enter-active,
+.fade-in-left-leave-active {
+  transition:
+    opacity $page-transition-duration $page-transition-ease,
+    transform $page-transition-duration $page-transition-ease;
+  will-change: opacity, transform;
+}
+
+// Yeni sayfa üstte belirir
+.fade-in-out-right-enter-active,
+.fade-in-left-enter-active {
+  z-index: 2;
+}
+
+// Eski sayfa akıştan çıkar; layout zıplaması olmadan altta söner
+.fade-in-out-right-leave-active,
+.fade-in-left-leave-active {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+// İleri yön: yeni sayfa sağdan çok hafif kayarak belirir
+.fade-in-out-right-enter-from {
+  opacity: 0;
+  transform: translateX($page-transition-shift);
+}
+
+.fade-in-out-right-leave-to {
+  opacity: 0;
+  transform: translateX(-$page-transition-shift);
+}
+
+// Geri yön: ayna hareketi
+.fade-in-left-enter-from {
+  opacity: 0;
+  transform: translateX(-$page-transition-shift);
+}
+
+.fade-in-left-leave-to {
+  opacity: 0;
+  transform: translateX($page-transition-shift);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-out-right-enter-active,
+  .fade-in-out-right-leave-active,
+  .fade-in-left-enter-active,
+  .fade-in-left-leave-active {
+    transition: opacity $page-transition-duration $page-transition-ease;
+  }
+
+  .fade-in-out-right-enter-from,
+  .fade-in-out-right-leave-to,
+  .fade-in-left-enter-from,
+  .fade-in-left-leave-to {
+    transform: none;
+  }
+}

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Transaction Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#f2f3f6] min-h-screen p-6 flex justify-center items-start antialiased text-slate-800">
+
+    <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-12 gap-6">
+        
+        <aside class="md:col-span-4 flex flex-col gap-4 max-h-[calc(100vh-3rem)] sticky top-6 bg-[#1e293b] p-5 rounded-2xl shadow-md text-white">
+            
+            <div class="flex flex-col max-h-[40vh] overflow-hidden">
+                <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Transaction Type</h2>
+                <div class="space-y-1.5 overflow-y-auto pr-1 flex-1 custom-scrollbar">
+                    
+                    <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-700/50 hover:bg-slate-700/30 cursor-pointer transition group has-[:checked]:border-blue-500 has-[:checked]:bg-slate-700/50">
+                        <input type="radio" name="tx_type" value="cage" checked class="w-4 h-4 text-blue-500 focus:ring-0 border-slate-600 bg-transparent">
+                        <span class="text-sm font-medium text-slate-300 group-has-[:checked]:text-white">Cage Transaction</span>
+                    </label>
+
+                    <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-700/50 hover:bg-slate-700/30 cursor-pointer transition group has-[:checked]:border-blue-500 has-[:checked]:bg-slate-700/50">
+                        <input type="radio" name="tx_type" value="chip" class="w-4 h-4 text-blue-500 focus:ring-0 border-slate-600 bg-transparent">
+                        <span class="text-sm font-medium text-slate-300 group-has-[:checked]:text-white">Chip Transaction</span>
+                    </label>
+
+                    <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-700/50 hover:bg-slate-700/30 cursor-pointer transition group has-[:checked]:border-blue-500 has-[:checked]:bg-slate-700/50">
+                        <input type="radio" name="tx_type" value="petty" class="w-4 h-4 text-blue-500 focus:ring-0 border-slate-600 bg-transparent">
+                        <span class="text-sm font-medium text-slate-300 group-has-[:checked]:text-white">Petty Cash</span>
+                    </label>
+
+                    <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-700/50 hover:bg-slate-700/30 cursor-pointer transition group has-[:checked]:border-blue-500 has-[:checked]:bg-slate-700/50">
+                        <input type="radio" name="tx_type" value="player" class="w-4 h-4 text-blue-500 focus:ring-0 border-slate-600 bg-transparent">
+                        <span class="text-sm font-medium text-slate-300 group-has-[:checked]:text-white">Player Transaction</span>
+                    </label>
+
+                </div>
+            </div>
+
+            <div class="border-t border-slate-700/60 my-1"></div>
+
+            <div class="flex flex-col flex-1 overflow-hidden min-h-[250px]">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Queue List</h3>
+                    <span id="basket-count" class="bg-slate-700 text-[11px] text-slate-300 px-2 py-0.5 rounded-md font-medium">0 Items</span>
+                </div>
+                
+                <div id="basket-list" class="space-y-2 overflow-y-auto pr-1 flex-1 text-sm">
+                    <div id="empty-basket-msg" class="text-slate-500 text-xs text-center py-12">
+                        <i class="fa-solid fa-layer-group text-xl mb-2 block text-slate-600"></i>
+                        No transactions added yet.
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-700/60 pt-4 mt-3 space-y-3">
+                    <div class="flex justify-between text-xs text-slate-400">
+                        <span>Total Amount (TRY Equivalent):</span>
+                        <span id="basket-total" class="font-semibold text-white text-sm">0.00 ₺</span>
+                    </div>
+                    <button id="btn-submit-all" disabled onclick="submitAllTransactions()" class="w-full py-2.5 bg-blue-600 disabled:bg-slate-700/40 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-medium text-xs rounded-xl hover:bg-blue-500 transition cursor-pointer tracking-wide shadow-sm">
+                        COMMIT ALL TRANSACTIONS
+                    </button>
+                </div>
+            </div>
+
+        </aside>
+
+        <main class="md:col-span-8 bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden flex flex-col justify-between">
+            <form id="transactionForm" onsubmit="addTransactionToBasket(event)" class="h-full flex flex-col justify-between">
+                
+                <div class="p-6 space-y-6">
+                    <div>
+                        <h1 class="text-lg font-bold text-slate-900 tracking-tight">Create Transaction Record</h1>
+                        <p class="text-xs text-slate-400 mt-0.5">Fill in the required standard fields and dynamic specifications.</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Standard Fields</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Amount</label>
+                                <div class="relative">
+                                    <input type="number" id="input-amount" step="0.01" placeholder="0.00" required class="w-full pl-3 pr-10 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-slate-400 text-slate-900">
+                                    <span class="absolute right-3 top-2.5 text-slate-400 text-xs font-medium" id="currency-symbol">₺</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Currency</label>
+                                <select id="input-currency" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:border-slate-400 text-slate-900">
+                                    <option value="TRY">TRY (₺)</option>
+                                    <option value="USD">USD ($)</option>
+                                    <option value="EUR">EUR (€)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Date / Time</label>
+                                <input type="datetime-local" id="input-date" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-slate-400 text-slate-900">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Payment Method</label>
+                                <select id="input-payment" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:border-slate-400 text-slate-900">
+                                    <option value="Cash">Cash</option>
+                                    <option value="Credit Card">Credit Card</option>
+                                    <option value="Bank Transfer">Bank Transfer</option>
+                                </select>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Reference No</label>
+                                <input type="text" id="input-ref" required placeholder="e.g., TXN-98234" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-slate-400 text-slate-900">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dynamic-container" class="border-l-4 border-slate-700 bg-slate-50 rounded-r-xl overflow-hidden">
+                        <div class="px-4 pt-3 text-xs font-semibold uppercase tracking-wider text-slate-500" id="dynamic-header">
+                            Loading Specifications...
+                        </div>
+                        <div id="dynamic-fields" class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            </div>
+                    </div>
+                </div>
+
+                <div class="px-6 py-4 bg-slate-50/70 border-t border-slate-100 flex justify-end">
+                    <button type="submit" class="w-full sm:w-auto px-5 py-2 bg-slate-800 text-white font-medium text-xs rounded-xl hover:bg-slate-900 transition cursor-pointer tracking-wide uppercase shadow-sm">
+                        <i class="fa-solid fa-plus mr-1.5 text-[10px]"></i> Queue Transaction
+                    </button>
+                </div>
+
+            </form>
+        </main>
+
+    </div>
+
+    <script>
+        // Kurumsal Dinamik Alan Tanımlamaları
+        const templates = {
+            cage: { title: "Cage Specifications", fields: `<div><label class="block text-xs font-medium text-slate-600 mb-1">Cage Code</label><input type="text" id="spec-1" placeholder="MAIN-CAGE-01" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm bg-white"></div><div><label class="block text-xs font-medium text-slate-600 mb-1">Responsible Officer</label><input type="text" id="spec-2" placeholder="Ahmet Yılmaz" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm bg-white"></div>` },
+            chip: { title: "Chip Specifications", fields: `<div><label class="block text-xs font-medium text-slate-600 mb-1">Chip Inventory Type</label><input type="text" id="spec-1" placeholder="Cash Chip" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm bg-white"></div><div><label class="block text-xs font-medium text-slate-600 mb-1">Table / VIP Lounge No</label><input type="text" id="spec-2" placeholder="Table 5" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm bg-white"></div>` },
+            petty: { title: "Petty Cash Specifications", fields: `<div><label class="block text-xs font-medium text-slate-600 mb-1">Expense Category</label><input type="text" id="spec-1" placeholder="Office Supplies" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm bg-white"></div><div><label class="block text-xs font-medium text-slate-600 mb-1">Invoice / Receipt No</label><input type="text" id="spec-2" placeholder="INV-87123" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm bg-white"></div>` },
+            player: { title: "Player Account Specifications", fields: `<div><label class="block text-xs font-medium text-slate-600 mb-1">Player Unique ID</label><input type="text" id="spec-1" placeholder="PLY-7712" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm bg-white"></div><div><label class="block text-xs font-medium text-slate-600 mb-1">Full Name</label><input type="text" id="spec-2" placeholder="John Doe" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm bg-white"></div>` }
+        };
+
+        let basket = [];
+        const symbols = { TRY: '₺', USD: '$', EUR: '€' };
+
+        function updateDynamicSection(type) {
+            const data = templates[type];
+            document.getElementById('dynamic-header').textContent = data.title;
+            document.getElementById('dynamic-fields').innerHTML = data.fields;
+        }
+
+        document.querySelectorAll('input[name="tx_type"]').forEach(r => r.addEventListener('change', (e) => updateDynamicSection(e.target.value)));
+        document.getElementById('input-currency').addEventListener('change', (e) => document.getElementById('currency-symbol').textContent = symbols[e.target.value]);
+
+        // Tarih varsayılanı
+        document.getElementById('input-date').value = new Date().toISOString().slice(0, 16);
+
+        function addTransactionToBasket(e) {
+            e.preventDefault();
+            const selectedType = document.querySelector('input[name="tx_type"]:checked').value;
+            
+            const newItem = {
+                id: Date.now(),
+                type: selectedType,
+                amount: parseFloat(document.getElementById('input-amount').value),
+                currency: document.getElementById('input-currency').value,
+                date: document.getElementById('input-date').value,
+                payment: document.getElementById('input-payment').value,
+                ref: document.getElementById('input-ref').value,
+                spec1: document.getElementById('spec-1').value,
+                spec2: document.getElementById('spec-2').value
+            };
+
+            basket.push(newItem);
+            renderBasket();
+            
+            document.getElementById('input-amount').value = '';
+            document.getElementById('input-ref').value = '';
+            document.getElementById('spec-1').value = '';
+            document.getElementById('spec-2').value = '';
+        }
+
+        function removeFromBasket(id) {
+            basket = basket.filter(item => item.id !== id);
+            renderBasket();
+        }
+
+        function renderBasket() {
+            const listContainer = document.getElementById('basket-list');
+            const emptyMsg = document.getElementById('empty-basket-msg');
+            const countBadge = document.getElementById('basket-count');
+            const totalLabel = document.getElementById('basket-total');
+            const submitBtn = document.getElementById('btn-submit-all');
+
+            listContainer.innerHTML = '';
+
+            if (basket.length === 0) {
+                listContainer.appendChild(emptyMsg);
+                countBadge.textContent = "0 Items";
+                totalLabel.textContent = "0.00 ₺";
+                submitBtn.disabled = true;
+                return;
+            }
+
+            submitBtn.disabled = false;
+            countBadge.textContent = `${basket.length} ${basket.length > 1 ? 'Items' : 'Item'}`;
+
+            let totalTRY = 0;
+
+            basket.forEach(item => {
+                totalTRY += item.amount; 
+
+                const row = document.createElement('div');
+                row.className = "flex items-center justify-between p-3 bg-slate-800/40 rounded-xl border border-slate-700/40 hover:bg-slate-800/80 transition group";
+                row.innerHTML = `
+                    <div class="flex flex-col gap-0.5">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[9px] uppercase font-semibold px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 font-mono tracking-wide">${item.type}</span>
+                            <span class="font-medium text-slate-100 text-xs">${item.amount.toLocaleString('tr-TR', {minimumFractionDigits:2})} ${symbols[item.currency]}</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-mono">Ref: ${item.ref}</span>
+                    </div>
+                    <button onclick="removeFromBasket(${item.id})" type="button" class="text-slate-500 hover:text-red-400 p-1.5 rounded-lg hover:bg-slate-700/50 transition cursor-pointer">
+                        <i class="fa-solid fa-trash-can text-xs"></i>
+                    </button>
+                `;
+                listContainer.appendChild(row);
+            });
+
+            totalLabel.textContent = `${totalTRY.toLocaleString('tr-TR', {minimumFractionDigits:2})} ₺`;
+        }
+
+        function submitAllTransactions() {
+            alert(`SaaS Pipeline: ${basket.length} adet işlem kuyruktan API'ye gönderildi.`);
+            basket = [];
+            renderBasket();
+        }
+
+        // Başlangıç
+        updateDynamicSection('cage');
+    </script>
+</body>
+</html>

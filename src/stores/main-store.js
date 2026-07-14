@@ -26,6 +26,13 @@ export const useMainStore = defineStore('main', {
         permission: 'Addon.CageOperations',
       },
       {
+        title: 'testForm',
+        icon: 'settings',
+        routeName: 'testForm',
+        type: 'menu',
+        permission: 'Addon.TestForm',
+      },
+      {
         title: 'playerOperations',
         type: 'menu',
         icon: 'person_search',

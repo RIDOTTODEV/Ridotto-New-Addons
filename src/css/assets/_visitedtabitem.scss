@@ -1,0 +1,194 @@
+@use './variables' as *;
+
+// Bileşene özel sabitler
+$vtab-separator-height: 16px;
+
+// ---------------------------------------------------------------------------
+// VisitedTabItem — tarayıcı (Chrome) tarzı sekme
+// Üst köşeler yuvarlatılmış; aktif sekmenin alt köşeleri ters (inverted)
+// radius kavisiyle taban çizgisine bağlanır.
+// ---------------------------------------------------------------------------
+.visited-tab-item {
+  --vtab-active-bg: #{$vtabs-active-bg};
+  --vtab-active-color: #{$vtabs-active-color};
+  --vtab-separator-color: #{$vtabs-separator};
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: $vtabs-item-height;
+  padding: 0 10px 0 14px;
+  background-color: transparent;
+  color: $vtabs-text;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  border-radius: $vtabs-radius $vtabs-radius 0 0;
+  transition:
+    background-color $vtabs-transition-fast,
+    color $vtabs-transition-fast;
+
+  // Pasif sekmeler arasındaki ince dikey ayırıcı (sol kenarda)
+  &:not(:first-child) {
+    background-image: linear-gradient(
+      var(--vtab-separator-color),
+      var(--vtab-separator-color)
+    );
+    background-repeat: no-repeat;
+    background-size: 1px $vtab-separator-height;
+    background-position: left center;
+  }
+
+  &:hover {
+    background-image: none;
+  }
+
+  &:hover:not(.visited-tab-item--active) {
+    background-color: $vtabs-hover-bg;
+  }
+
+  // Aktif / hover sekmenin sağ komşusunda da ayırıcı gizlenir;
+  // böylece öne çıkan sekmenin iki yanı temiz kalır
+  &.visited-tab-item--active,
+  &--active + .visited-tab-item,
+  &:hover + .visited-tab-item {
+    background-image: none;
+  }
+
+  &--active {
+    color: var(--vtab-active-color);
+    background-color: var(--vtab-active-bg);
+  }
+
+  // Ters (inverted) alt köşe kavisleri — sekme taban çizgisiyle bütünleşir
+  &--active::before,
+  &--active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: $vtabs-radius;
+    height: $vtabs-radius;
+    pointer-events: none;
+  }
+
+  &--active::before {
+    left: -$vtabs-radius;
+    background: radial-gradient(
+      circle at 0 0,
+      transparent calc(#{$vtabs-radius} - 0.5px),
+      var(--vtab-active-bg) $vtabs-radius
+    );
+  }
+
+  &--active::after {
+    right: -$vtabs-radius;
+    background: radial-gradient(
+      circle at 100% 0,
+      transparent calc(#{$vtabs-radius} - 0.5px),
+      var(--vtab-active-bg) $vtabs-radius
+    );
+  }
+}
+
+.body--dark .visited-tab-item {
+  --vtab-active-bg: #{$vtabs-active-bg-dark};
+  --vtab-active-color: #{$vtabs-active-color-dark};
+  --vtab-separator-color: #{$vtabs-separator-dark};
+
+  color: $vtabs-text-dark;
+
+  &:hover:not(.visited-tab-item--active) {
+    background-color: $vtabs-hover-bg-dark;
+  }
+}
+
+.visited-tab-item__inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.visited-tab-item__icon {
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.visited-tab-item--active .visited-tab-item__icon {
+  color: var(--vtab-active-color);
+}
+
+.visited-tab-item__label {
+  font-size: 13px;
+  line-height: 1;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.visited-tab-item__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-left: 4px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  opacity: 0.55;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    opacity $vtabs-transition-fast,
+    background-color $vtabs-transition-fast,
+    color $vtabs-transition-fast;
+
+  &:hover {
+    opacity: 1;
+    background-color: $vtabs-close-hover-bg;
+  }
+}
+
+.visited-tab-item--active .visited-tab-item__close {
+  opacity: 0.75;
+  color: var(--vtab-active-color);
+
+  &:hover {
+    opacity: 1;
+    background-color: $vtabs-close-hover-bg-active;
+  }
+}
+
+.body--dark .visited-tab-item__close:hover {
+  background-color: $vtabs-close-hover-bg-dark;
+}
+
+.body--dark .visited-tab-item--active .visited-tab-item__close:hover {
+  background-color: $vtabs-close-hover-bg-active-dark;
+}
+
+// ---------------------------------------------------------------------------
+// Sağ tık / aksiyon menüsü
+// ---------------------------------------------------------------------------
+.visited-tab-item__menu-list {
+  min-width: 180px;
+
+  .q-item {
+    min-height: 36px;
+    font-size: 13px;
+  }
+
+  .q-item__section--avatar {
+    min-width: 32px;
+    padding-right: 4px;
+    color: $vtabs-muted;
+  }
+}
+
+.body--dark .visited-tab-item__menu-list .q-item__section--avatar {
+  color: $vtabs-muted-dark;
+}

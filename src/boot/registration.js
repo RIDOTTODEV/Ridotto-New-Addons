@@ -17,9 +17,8 @@ import createPlayerDetailDirective from 'src/directive/PlayerDetail'
 
 // components
 import SupaTable from '../components/atoms/SupaTable.vue'
-//import Sidebar from 'src/components/layout/Sidebar.vue'
-import NewSideBar from 'src/components/layout/NewSideBar.vue'
-import Header from 'src/components/layout/Header.vue'
+import AppSidebar from 'src/components/layout/AppSidebar.vue'
+import AppHeader from 'src/components/layout/AppHeader.vue'
 import DateTimePicker from 'src/components/atoms/DateTimePicker.vue'
 import QCurrencyInput from 'src/components/atoms/QCurrencyInput.vue'
 import Information from 'src/components/ui/Information.vue'
@@ -30,8 +29,6 @@ import SearchPlayerInput from 'src/components/atoms/SearchPlayerInput.vue'
 import SearchMachineInput from 'src/components/atoms/SearchMachineInput.vue'
 import Confirm from 'src/components/ui/Confirm.vue'
 
-import SupaTableV2 from 'src/components/atoms/SupaTableV2.vue'
-import SeoDataGrid from 'src/components/atoms/tablev2/SeoDataGrid.vue'
 // this boot file will register component and the directive and other global properties
 export default defineBoot(async ({ app, router }) => {
   // vue-query
@@ -54,8 +51,8 @@ export default defineBoot(async ({ app, router }) => {
 
   // components
   app.component('SupaTable', SupaTable)
-  app.component('Sidebar', NewSideBar)
-  app.component('AppHeader', Header)
+  app.component('AppSidebar', AppSidebar)
+  app.component('AppHeader', AppHeader)
   app.component('DateTimePicker', DateTimePicker)
   app.component('QCurrencyInput', QCurrencyInput)
   app.component('Information', Information)
@@ -70,6 +67,4 @@ export default defineBoot(async ({ app, router }) => {
   app.config.globalProperties.$getWindowHeight = getWindowHeight()
   app.config.globalProperties.$priceAbs = priceAbsFormatted
 
-  app.component('SupaTableV2', SupaTableV2)
-  app.component('SeoDataGrid', SeoDataGrid)
 })

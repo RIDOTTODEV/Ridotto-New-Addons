@@ -1,0 +1,206 @@
+@use './variables' as *;
+
+// ---------------------------------------------------------------------------
+// VisitedPagesTabs — sekme çubuğu (bar)
+// ---------------------------------------------------------------------------
+.visited-tabs {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgba(15, 34, 58, 0.06);
+  border-bottom: 1px solid $vtabs-border;
+  background: $vtabs-bg;
+  height: $vtabs-height;
+  padding: 0 8px;
+  overflow: visible;
+}
+
+.body--dark .visited-tabs {
+  background: $vtabs-bg-dark;
+  border-top-color: rgba(255, 255, 255, 0.06);
+  border-bottom-color: $vtabs-border-dark;
+}
+
+.visited-tabs__pinned {
+  display: flex;
+  flex-shrink: 0;
+  align-self: stretch;
+  align-items: flex-end;
+}
+
+.visited-tabs__divider {
+  width: 1px;
+  align-self: stretch;
+  margin: 8px 4px;
+  background: $vtabs-separator;
+  flex-shrink: 0;
+}
+
+.body--dark .visited-tabs__divider {
+  background: $vtabs-separator-dark;
+}
+
+.visited-tabs__scroll-area {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-self: stretch;
+  align-items: center;
+  gap: 2px;
+}
+
+.visited-tabs__scroll-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: $vtabs-muted;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background-color $vtabs-transition-fast,
+    color $vtabs-transition-fast,
+    opacity $vtabs-transition-fast;
+
+  &:hover:not(:disabled) {
+    background-color: $vtabs-hover-bg;
+    color: $vtabs-hover-color;
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+}
+
+.body--dark .visited-tabs__scroll-btn {
+  color: $vtabs-muted-dark;
+
+  &:hover:not(:disabled) {
+    background-color: $vtabs-hover-bg-dark;
+    color: $vtabs-hover-color-dark;
+  }
+}
+
+.visited-tabs__scroll {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.visited-tabs__track {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  position: relative;
+  gap: 2px;
+}
+
+.visited-tabs__actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 2px;
+  margin-left: 4px;
+  padding-left: 4px;
+  border-left: 1px solid $vtabs-separator;
+}
+
+.body--dark .visited-tabs__actions {
+  border-left-color: $vtabs-separator-dark;
+}
+
+.visited-tabs__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: $vtabs-muted;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background-color $vtabs-transition-fast,
+    color $vtabs-transition-fast,
+    opacity $vtabs-transition-fast;
+
+  &:hover:not(:disabled) {
+    background-color: $vtabs-hover-bg;
+    color: $vtabs-hover-color;
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .q-btn__content {
+    padding: 0;
+  }
+}
+
+.body--dark .visited-tabs__action {
+  color: $vtabs-muted-dark;
+
+  &:hover:not(:disabled) {
+    background-color: $vtabs-hover-bg-dark;
+    color: $vtabs-hover-color-dark;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Sekme giriş / çıkış animasyonları (TransitionGroup)
+// ---------------------------------------------------------------------------
+.visited-tab-enter-active {
+  transition:
+    opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.visited-tab-leave-active {
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+  position: absolute;
+  bottom: 0;
+}
+
+.visited-tab-enter-from {
+  opacity: 0;
+  transform: translateX(16px) scale(0.96);
+}
+
+.visited-tab-leave-to {
+  opacity: 0;
+  transform: translateX(-8px) scale(0.96);
+}
+
+.visited-tab-move {
+  transition: transform 0.22s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .visited-tab-enter-active,
+  .visited-tab-leave-active,
+  .visited-tab-move {
+    transition: none;
+  }
+}
